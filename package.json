@@ -2,13 +2,50 @@
   "name": "react-geo-baseclient",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terrestris/react-geo-baseclient.git"
+  },
+  "keywords": [
+    "geo",
+    "react-geo",
+    "gis",
+    "webgis",
+    "mapping",
+    "cartography",
+    "openlayers"
+  ],
+  "author": "terrestris GmbH & Co. KG <info@terrestris.de>",
+  "contributors": [
+    {
+      "name": "Johannes Weskamm",
+      "email": "weskamm@terrestris.de",
+      "url": "https://github.com/weskamm"
+    },
+    {
+      "name": "Anna Rieger",
+      "email": "rieger@terrestris.de",
+      "url": "https://github.com/annarieger"
+    },
+    {
+      "name": "Daniel Koch",
+      "email": "koch@terrestris.de",
+      "url": "https://github.com/dnlkoch"
+    }
+  ],
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/terrestris/react-geo-baseclient/issues"
+  },
+  "homepage": ".",
   "dependencies": {
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
+    "react": "16.5.2",
+    "react-dom": "16.5.2",
     "react-scripts-ts": "3.1.0"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
+    "start-static": "react-scripts-ts start",
+    "start-shogun2": "webpack-dev-server --config webpack.shogun2.config.js --hot",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "lint": "tslint --project tsconfig.json --config tslint.json && tsc --noEmit --project tsconfig.json",
@@ -16,10 +53,15 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.3",
-    "@types/node": "^10.11.4",
-    "@types/react": "^16.4.16",
-    "@types/react-dom": "^16.0.8",
-    "typescript": "^3.1.1"
+    "@types/jest": "23.3.3",
+    "@types/node": "10.11.4",
+    "@types/react": "16.4.16",
+    "@types/react-dom": "16.0.8",
+    "cheerio": "1.0.0-rc.2",
+    "fetch": "1.1.0",
+    "node-fetch": "2.2.0",
+    "typescript": "3.1.1",
+    "url-search-params": "1.1.0",
+    "winston": "3.1.0"
   }
 }

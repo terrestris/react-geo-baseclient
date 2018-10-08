@@ -1,3 +1,16 @@
+### react-geo-baseclient ###
+## Setup ##
+  * When using shogun2 as backend
+    * Set the credentials in webpack.shogun2.config.js
+    * Start the app with `npm run start-shogun2`
+  * When using no backend / a static appContext
+    * Start the app with `npm run start-static`
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
