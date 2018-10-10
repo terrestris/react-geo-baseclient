@@ -1,4 +1,7 @@
 ### react-geo-baseclient ###
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/terrestris/react-geo-baseclient.svg)](https://greenkeeper.io/)
+
 ## Setup ##
   * When using shogun2 as backend
     * Set the credentials in webpack.shogun2.config.js
