@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
+    <% if (htmlWebpackPlugin.options.files && htmlWebpackPlugin.options.files.csrfToken) { %>
+      <meta name="_csrf" content="<%= htmlWebpackPlugin.options.files.csrfToken %>" />
+      <meta name="_csrf_header" content="<%= htmlWebpackPlugin.options.files.csrfHeader %>" />
+      <meta name="_csrf_parameter_name" content="<%= htmlWebpackPlugin.options.files.csrfParameterName %>" />
+      <% } %>
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
@@ -19,13 +24,19 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <!-- <title>React App</title> -->
+    <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <div id="root"></div>
+    <div id="app" class="app" style="height:100%;width:100%"></div>
+    <% if (htmlWebpackPlugin.options.files && htmlWebpackPlugin.options.files.js) { %>
+      <% for (key in htmlWebpackPlugin.options.files.js) { %>
+        <script src="<%= htmlWebpackPlugin.options.files.js[key] %>" rel="stylesheet"></script>
+      <% } %>
+    <% } %>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
