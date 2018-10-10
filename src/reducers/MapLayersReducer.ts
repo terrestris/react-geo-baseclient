@@ -6,9 +6,10 @@ import {
   UPDATE_LAYER_ORDERING
 } from '../actions/MapLayerChangeAction';
 
-import { remove } from 'lodash';
+const remove = require('lodash/remove');
+import OlLayer from 'ol/layer/base';
 
-const initialState = [];
+const initialState: any[] = [];
 
 /**
  * Handles the mapLayerChangeActions.
@@ -18,7 +19,7 @@ const initialState = [];
  * @param {Object} action Containts the action information.
  * @return {Object} The mapLayers as they should be in the state afterwards.
  */
-function handleMapLayerChange(mapLayers = initialState, action) {
+function handleMapLayerChange(mapLayers = initialState, action: any) {
   switch (action.type) {
     case SET_LAYERS: {
       return action.layerObjects;
@@ -35,21 +36,20 @@ function handleMapLayerChange(mapLayers = initialState, action) {
       });
     }
     case UPDATE_LAYER_ORDERING: {
-      const orderedLayers = [];
-      action.mapLayers.forEach((layer) => {
-        mapLayers.forEach((ml) => {
-          if (ml.id === layer.get('shogunId')) {
+      const orderedLayers: OlLayer[] = [];
+      action.mapLayers.forEach((layer: OlLayer) => {
+        mapLayers.forEach((ml: OlLayer) => {
+          if (ml.get('id') === layer.get('shogunId')) {
             orderedLayers.push(ml);
-            return false;
           }
         });
       });
       return orderedLayers.reverse();
     }
     case REMOVE_LAYERS: {
-      const idsToRemove = action.layers.map((olLayer) => olLayer.get('shogunId'));
-      return remove(mapLayers, (layer) => {
-        return !idsToRemove.includes(layer.id);
+      const idsToRemove = action.layers.map((olLayer: OlLayer) => olLayer.get('shogunId'));
+      return remove(mapLayers, (layer: OlLayer) => {
+        return !idsToRemove.includes(layer.get('id'));
       });
     }
     default:

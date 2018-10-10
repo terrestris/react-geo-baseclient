@@ -1,4 +1,5 @@
-import { union, without } from 'lodash';
+const union = require('lodash/union');
+const without = require('lodash/without');
 
 import {
   ENABLE_LOADING,
@@ -20,7 +21,7 @@ const initialState = {
  *
  * @return {Object} updated loading queue
  */
-function loadingChange(loadingQueue = initialState, action) {
+function loadingChange(loadingQueue = initialState, action: any) {
   switch (action.type) {
     case ENABLE_LOADING: {
       return Object.assign({}, loadingQueue, {

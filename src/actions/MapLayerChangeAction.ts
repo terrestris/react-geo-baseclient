@@ -1,3 +1,4 @@
+import OlCollection from 'ol/collection';
 /**
  * Action types
  */
@@ -14,7 +15,7 @@ export const UPDATE_LAYER_ORDERING = 'UPDATE_LAYER_ORDERING';
  *
  * @return {type} Description
  */
-export function setLayers(layerObjects) {
+export function setLayers(layerObjects: object[]) {
   return {
     type: SET_LAYERS,
     layerObjects
@@ -28,7 +29,7 @@ export function setLayers(layerObjects) {
  *
  * @return {type} Description
  */
-export function addLayers(layerObjects) {
+export function addLayers(layerObjects: object[]) {
   return {
     type: ADD_LAYERS,
     layerObjects
@@ -42,7 +43,7 @@ export function addLayers(layerObjects) {
  *
  * @return {type} Description
  */
-export function removeLayers(layers) {
+export function removeLayers(layers: OlCollection<[]>) {
   return {
     type: REMOVE_LAYERS,
     layers
@@ -57,7 +58,7 @@ export function removeLayers(layers) {
  *
  * @return {Object} The changeLayerVisibility action object.
  */
-export function changeLayerVisibility(shogunLayerId, visibility) {
+export function changeLayerVisibility(shogunLayerId: number, visibility: boolean) {
   return {
     type: CHANGE_LAYER_VISIBILITY,
     shogunLayerId,
@@ -72,7 +73,7 @@ export function changeLayerVisibility(shogunLayerId, visibility) {
  *
  * @return {Object} The updateLayerOrdering action object.
  */
-export function updateLayerOrdering(mapLayers) {
+export function updateLayerOrdering(mapLayers: object[]) {
   return {
     type: UPDATE_LAYER_ORDERING,
     mapLayers

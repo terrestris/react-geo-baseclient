@@ -43,10 +43,10 @@ describe('MapLayerChangeAction', () => {
   });
 
   it ('dispatches an action on updating the ordering of layers in the tree / map to the current map layers state object', () => {
-    const mapLayers = {
+    const mapLayers = [{
       id: '1909',
       name: 'Yarmolenko'
-    };
+    }];
     const expectedAction = {
       type: actions.UPDATE_LAYER_ORDERING,
       mapLayers

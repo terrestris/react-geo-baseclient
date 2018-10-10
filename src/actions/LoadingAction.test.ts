@@ -1,5 +1,5 @@
 /*eslint-env jest*/
-import * as actions from '../../src/actions/LoadingAction';
+import * as actions from './LoadingAction';
 
 describe('LoadingAction', () => {
 

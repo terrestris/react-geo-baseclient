@@ -1,7 +1,7 @@
-import { isString } from 'lodash/isString';
-import { isNumber } from 'lodash/isNumber';
-import { isObject } from 'lodash/isObject';
-import Logger from '@terrestris/base-util';
+const isString = require('lodash/isString');
+const isNumber = require('lodash/isNumber');
+const isObject = require('lodash/isObject');
+import { Logger } from '@terrestris/base-util';
 
 /**
  * Action types
@@ -20,7 +20,7 @@ export const SET_INITIALLY_ACTIVE_MODULE = 'SET_INITIALLY_ACTIVE_MODULE';
  *                              modules state.
  * @return {Object} The ADD_ACTIVEMODULE action.
  */
-function addUniqueActiveModule(activeModule) {
+function addUniqueActiveModule(activeModule: any) {
   return {
     type: ADD_ACTIVEMODULE,
     activeModule
@@ -36,7 +36,7 @@ function addUniqueActiveModule(activeModule) {
  * @param {Number} activeModuleIdx The index of the active module to delete.
  * @return {Object} The REMOVE_ACTIVEMODULE action.
  */
-function removeActiveModuleByIndex(activeModuleIdx) {
+function removeActiveModuleByIndex(activeModuleIdx: number) {
   return {
     type: REMOVE_ACTIVEMODULE,
     activeModuleIdx
@@ -49,10 +49,10 @@ function removeActiveModuleByIndex(activeModuleIdx) {
  *
  * @param {Object} activeModule The module to add to the active modules state.
  */
-export function addActiveModule(activeModule) {
-  return function(dispatch, getState) {
+export function addActiveModule(activeModule: any) {
+  return function(dispatch: any, getState: any) {
     const activeModules = getState().activeModules;
-    let containsModule = activeModules.some(module => module.name === activeModule.name);
+    let containsModule = activeModules.some((module: any) => module.name === activeModule.name);
 
     if (containsModule) {
       Logger.debug('Active module already exists in state.');
@@ -72,13 +72,13 @@ export function addActiveModule(activeModule) {
  *                                            name, index or full object of the
  *                                            module to remove.
  */
-export function removeActiveModule(activeModule) {
-  return function(dispatch, getState) {
+export function removeActiveModule(activeModule: any) {
+  return function(dispatch: any, getState: any) {
     const activeModules = getState().activeModules;
     let activeModuleIdx;
 
     if (isString(activeModule)) {
-      activeModuleIdx = activeModules.findIndex(module => module.name === activeModule);
+      activeModuleIdx = activeModules.findIndex((module: any) => module.name === activeModule);
     } else if (isNumber(activeModule)) {
       activeModuleIdx = activeModule;
     } else if (isObject(activeModule)) {
@@ -103,7 +103,7 @@ export function removeActiveModule(activeModule) {
  * @param {Number} initiallyActiveModuleIdx The index of the active module to set active initially
  * @return {Object} The REMOVE_ACTIVEMODULE action.
  */
-export function setInitiallyActiveModule(initiallyActiveModuleIdx) {
+export function setInitiallyActiveModule(initiallyActiveModuleIdx: number) {
   return {
     type: SET_INITIALLY_ACTIVE_MODULE,
     initiallyActiveModuleIdx

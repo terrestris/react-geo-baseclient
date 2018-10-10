@@ -17,11 +17,11 @@ class AppContextUtil {
    * @param {Object} appContext The appContext.
    * @return {Object} The initialState used by the store.
    */
-  static appContextToState(appContext) {
-    var state = initialState;
+  static appContextToState(appContext: any) {
+    var state: any = initialState;
     var mapConfig = ObjectUtil.getValue('mapConfig', appContext);
     var mapLayers = ObjectUtil.getValue('mapLayers', appContext);
-    var activeModules = ObjectUtil.getValue('activeModules', appContext);
+    var activeModules = ObjectUtil.getValue('activeTools', appContext);
 
     // AppInfo
     state.appInfo.name = appContext.name || state.appInfo.name;

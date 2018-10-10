@@ -3,7 +3,9 @@ import reducer from './MapLayersReducer';
 import * as actions from '../../src/actions/MapLayerChangeAction';
 import MapUtils from '../../src/util/MapUtils';
 import appContext from '../resources/appContext.json';
-import { get, head, tail } from 'lodash';
+const get = require('lodash/get');
+const head = require('lodash/head');
+const tail = require('lodash/tail');
 const initialState = [];
 
 describe('MapViewReducer', () => {

@@ -17,7 +17,7 @@ export const SET_SCALE = 'SET_SCALE';
  *
  * @return {Object} setMapView action object
  */
-export function setMapView(mapView) {
+export function setMapView(mapView: any) {
   return {
     type: SET_MAPVIEW,
     mapView
@@ -31,7 +31,7 @@ export function setMapView(mapView) {
  *
  * @return {Object} setCenter action object
  */
-export function setCenter(center) {
+export function setCenter(center: number[]) {
   return {
     type: SET_CENTER,
     center: center
@@ -45,7 +45,7 @@ export function setCenter(center) {
  *
  * @return {Object} setZoom action object
  */
-export function setZoom(zoom) {
+export function setZoom(zoom: number) {
   return {
     type: SET_ZOOM,
     zoom: zoom
@@ -59,7 +59,7 @@ export function setZoom(zoom) {
  *
  * @return {Object} setScale action object
  */
-export function setScale(scale) {
+export function setScale(scale: number) {
   return {
     type: SET_SCALE,
     scale: scale

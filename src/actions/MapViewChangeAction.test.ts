@@ -1,5 +1,5 @@
 /*eslint-env jest*/
-import * as actions from '../../src/actions/MapViewChangeAction';
+import * as actions from './MapViewChangeAction';
 
 const mapView = {
   center: [370000, 5546750],

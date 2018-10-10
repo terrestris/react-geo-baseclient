@@ -4,7 +4,7 @@ import 'ol/ol.css';
 import { connect } from 'react-redux';
 import i18next from './i18n';
 import { translate } from 'react-i18next';
-import OlMap from 'ol/Map';
+import OlMap from 'ol/map';
 import {
   MapComponent
 //   ToggleButton,

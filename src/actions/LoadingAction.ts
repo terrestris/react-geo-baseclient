@@ -15,7 +15,7 @@ export const DISABLE_LOADING = 'DISABLE_LOADING';
  *
  * @return {Object} disableLoading - action object
  */
-export function disableLoading(key) {
+export function disableLoading(key: string) {
   return {
     type: DISABLE_LOADING,
     key
@@ -30,7 +30,7 @@ export function disableLoading(key) {
  *
  * @return {Object} enableLoading - action object
  */
-export function enableLoading(key) {
+export function enableLoading(key: string) {
   return {
     type: ENABLE_LOADING,
     key

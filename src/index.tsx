@@ -10,8 +10,6 @@ import store from './store/store';
 import Main from './Main';
 import MapUtils from './util/MapUtils';
 
-// import './style/main.less';
-
 import {
   MapProvider,
   mappify

@@ -1,8 +1,8 @@
 /*eslint-env jest*/
-import reducer from '../../src/reducers/ActiveModulesReducer';
-import * as actions from '../../src/actions/ActiveModulesAction';
+import reducer from './ActiveModulesReducer';
+import * as actions from '../actions/ActiveModulesAction';
 
-const initialState = [];
+const initialState: any[] = [];
 
 describe('ActiveModulesReducer', () => {
 
@@ -25,14 +25,14 @@ describe('ActiveModulesReducer', () => {
 
   it('handles REMOVE_ACTIVEMODULE', () => {
     const activeModuleIdx = 0;
-    const activeModules = [{
+    const activeModules: object[] = [{
       name: 'shinjiKagawaModule'
     }];
     const action = {
       type: actions.REMOVE_ACTIVEMODULE,
       activeModuleIdx
     };
-    const expectedState = [];
+    const expectedState: any[] = [];
 
     expect(reducer(activeModules, action)).toEqual(expectedState);
   });

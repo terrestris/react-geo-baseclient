@@ -11,7 +11,7 @@ export const ADD_APPINFO = 'ADD_APPINFO';
  *
  * @return {Object} addAppInfo - action object
  */
-export function addAppInfo(appInfoObj) {
+export function addAppInfo(appInfoObj: any) {
   return {
     type: ADD_APPINFO,
     appInfoObj

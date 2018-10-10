@@ -1,9 +1,8 @@
 import {
   defaults as OlDefaultControls
 } from 'ol/control';
-import OlLayerGroup from 'ol/layer/Group';
+// import OlLayerGroup from 'ol/layer/Group';
 import OlMap from 'ol/Map';
-import { transform } from 'ol/proj';
 import {
   get as OlGetProjection
 } from 'ol/proj';
@@ -13,12 +12,15 @@ import OlImageWMS from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
 import OlTileGrid from 'ol/tilegrid/TileGrid';
 import OlView from 'ol/View';
+import OlFeature from 'ol/feature';
+import OlLayerGroup from 'ol/layer/Group';
+import OlInteraction from 'ol/interaction/interaction';
 import OlScaleLine from 'ol/control/ScaleLine';
-import OlGeomLineString from 'ol/geom/LineString';
+import OlLayer from 'ol/layer/base';
 import ObjectUtil from '@terrestris/base-util/src/ObjectUtil/ObjectUtil';
 import FeatureUtil from '@terrestris/ol-util/src/FeatureUtil/FeatureUtil';
 import ProjectionUtil from '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
-import MeasureUtil from '@terrestris/ol-util/src/MeasureUtil/MeasureUtil';
+// import MeasureUtil from '@terrestris/ol-util/src/MeasureUtil/MeasureUtil';
 import { reverse, unionWith, isEqual, find, isEmpty } from 'lodash';
 
 import config from '../config/config';
@@ -50,7 +52,7 @@ export class MapUtils {
    * @method setupMap
    * @return {OlMap} The openlayers map.
    */
-  static setupMap = (state) => {
+  static setupMap = (state: any) => {
     // TODO, fix nex syntax of util methods
     // ProjectionUtil.initProj4Definitions();
     // ProjectionUtil.initProj4DefinitionMappings();
@@ -103,8 +105,8 @@ export class MapUtils {
    * @param {String} name The name of the interaction to look for.
    * @return {ol.interaction[]} The list of result interactions.
    */
-  static getInteractionsByName(map, name) {
-    let interactionCandidates = [];
+  static getInteractionsByName(map: OlMap, name: string) {
+    let interactionCandidates: any[] = [];
 
     if (!(map instanceof OlMap)) {
       Logger.debug('Input parameter map must be from type `ol.Map`.');
@@ -113,7 +115,7 @@ export class MapUtils {
 
     let interactions = map.getInteractions();
 
-    interactions.forEach(function(interaction) {
+    interactions.forEach(function(interaction: OlInteraction) {
       if (interaction.get('name') === name) {
         interactionCandidates.push(interaction);
       }
@@ -129,8 +131,8 @@ export class MapUtils {
    * @param {ol.interaction} clazz The class of the interaction to look for.
    * @return {ol.interaction[]} The list of result interactions.
    */
-  static getInteractionsByClass(map, clazz) {
-    let interactionCandidates = [];
+  static getInteractionsByClass(map: OlMap, clazz: any) {
+    let interactionCandidates: OlInteraction[] = [];
 
     if (!(map instanceof OlMap)) {
       Logger.debug('Input parameter map must be from type `ol.Map`.');
@@ -139,7 +141,7 @@ export class MapUtils {
 
     let interactions = map.getInteractions();
 
-    interactions.forEach(function(interaction) {
+    interactions.forEach(function(interaction: OlInteraction) {
       if (interaction instanceof clazz) {
         interactionCandidates.push(interaction);
       }
@@ -157,19 +159,18 @@ export class MapUtils {
    *                                 from the backend.
    * @return {Array} An array of ol.layer.Layer.
    */
-  static parseLayers(mapLayerObjArray) {
-    let layers = [];
-    let tileGrids = [];
+  static parseLayers(mapLayerObjArray: object[]) {
+    let layers: OlLayer[] = [];
+    let tileGrids: any[] = [];
 
     if (isEmpty(mapLayerObjArray)) {
       return layers;
     }
 
-    mapLayerObjArray.forEach(function(layerObj) {
+    mapLayerObjArray.forEach(function(layerObj: any) {
       if (layerObj.source.type !== 'TileWMS' &&
           layerObj.source.type !==  'WMSTime') {
         Logger.warn('Currently only TileWMS layers are supported.');
-        return false;
       }
       let tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);
       let tileGrid = find(tileGrids,function(o) {
@@ -211,8 +212,7 @@ export class MapUtils {
    * Parse and create a tile layer.
    * @return {ol.layer.Tile} the new layer
    */
-  static parseTileLayer(layerObj, tileGrid) {
-    console.log(layerObj);
+  static parseTileLayer(layerObj: any, tileGrid: any) {
     const layerSource = new OlTileWMS({
       url: layerObj.source.url,
       attributions: layerObj.appearance.attribution,
@@ -238,7 +238,7 @@ export class MapUtils {
    * Parse and create a single tile WMS layer.
    * @return {ol.layer.Image} the new layer
    */
-  static parseImageLayer(layerObj) {
+  static parseImageLayer(layerObj: any) {
     const layerSource = new OlImageWMS({
       url: layerObj.source.url,
       attributions: layerObj.appearance.attribution,
@@ -266,16 +266,16 @@ export class MapUtils {
    *                                           or and ol.Map.
    * @return {Array} An array of all Layers.
    */
-  static getAllLayers(collection) {
+  static getAllLayers(collection: any) {
     if (!(collection instanceof OlMap) && !(collection instanceof OlLayerGroup)) {
       Logger.error('Input parameter collection must be from type `ol.Map`' +
         'or `ol.layer.Group`.');
     }
 
     var layers = collection.getLayers().getArray();
-    var allLayers = [];
+    var allLayers: any[] = [];
 
-    layers.forEach(function(layer) {
+    layers.forEach(function(layer: any) {
       if (layer instanceof OlLayerGroup) {
         MapUtils.getAllLayers(layer).forEach((layeri) => {
           allLayers.push(layeri);
@@ -291,13 +291,13 @@ export class MapUtils {
    *
    * @async
    * @static
-   * @param {Object} layerset A bismaptreefolder object containg further
+   * @param {Object} layerset A treefolder object
    * @returns {Promise} A promise containg an array of layerObjects.
    */
-  static layersFromLayerset(layerset) {
+  static layersFromLayerset(layerset: any) {
     const layers = layerset.children;
     let requestPath = config.layerPath + '/filter?';
-    const params = layers.map((layer) => {
+    const params = layers.map((layer: any) => {
       return `id=${layer.layer}`;
     }).join('&');
     return fetch(requestPath + params)
@@ -311,7 +311,7 @@ export class MapUtils {
    * @param {String} ol_uid The ol_uid of a layer.
    * @return {ol.layer.Layer} The layer.
    */
-  static getLayerByOlUid = (map, ol_uid) => {
+  static getLayerByOlUid = (map: OlMap, ol_uid: string) => {
     const layers = MapUtils.getAllLayers(map);
     const layer = layers.find((l) => {
       return ol_uid === l.ol_uid.toString();
@@ -328,7 +328,7 @@ export class MapUtils {
    * @return {ol.Layer} The result layer or undefined if the layer could not
    *                    be found.
    */
-  static getLayerByName(map, name) {
+  static getLayerByName(map: OlMap, name: string) {
     let layers = MapUtils.getMapLayers(map);
     let layerCandidate;
 
@@ -353,7 +353,7 @@ export class MapUtils {
    * @return {ol.Layer} The result layer or undefined if the layer could not
    *                    be found.
    */
-  static getLayerByFeature(map, feature) {
+  static getLayerByFeature(map: OlMap, feature: OlFeature) {
     let featureTypeName = FeatureUtil.getFeatureTypeName(feature);
     let namespaces = MapUtils.getSupportedNamespaces();
     let layerCandidate;
@@ -377,10 +377,10 @@ export class MapUtils {
    * @param {ol.Layer.Group} layerGroup The group to flatten.
    * @return {Array} The (flattened) layers from the group
    */
-  static getLayersByGroup(map, layerGroup) {
-    let layerCandidates = [];
+  static getLayersByGroup(map: OlMap, layerGroup: any) {
+    let layerCandidates: any[] = [];
 
-    layerGroup.getLayers().forEach((layer) => {
+    layerGroup.getLayers().forEach((layer: any) => {
       if (layer instanceof OlLayerGroup) {
         layerCandidates.push(...MapUtils.getLayersByGroup(map, layer));
       } else {
@@ -397,7 +397,7 @@ export class MapUtils {
    * @param {ol.Map} map The map to use for lookup.
    * @return {Array} An array of all map layers.
    */
-  static getMapLayers(map) {
+  static getMapLayers(map: OlMap) {
     return MapUtils.getLayersByGroup(map, map.getLayerGroup());
   }
 }

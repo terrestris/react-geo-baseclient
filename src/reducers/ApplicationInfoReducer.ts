@@ -17,7 +17,7 @@ const initialState = {
  *
  * @return {Object} updated loading queue
  */
-function handleApplicationInfo(appInfo = initialState, action) {
+function handleApplicationInfo(appInfo = initialState, action: any) {
   switch (action.type) {
     case ADD_APPINFO: {
       return Object.assign({}, appInfo, {

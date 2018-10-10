@@ -10,7 +10,7 @@ import {
  * @param {Object} action The action object.
  * @return {Object} The new state.
  */
-function handleActiveModules(activeModules = [], action) {
+function handleActiveModules(activeModules: object[] = [], action: any) {
   switch (action.type) {
     case ADD_ACTIVEMODULE: {
       // Create a copy of the existing array of activeTools.
