@@ -42,10 +42,14 @@ const loadAppContextStore = () => {
 
 const store = createStore(
   baseclientMainReducer,
-  compose(
-    applyMiddleware(middleware(loadAppContextStore))
-  ),
-  applyMiddleware(thunkMiddleware, loggerMiddleware)
+  {},
+  applyMiddleware(loggerMiddleware, thunkMiddleware, middleware(loadAppContextStore))
 );
+
+// An initial dispatch to trigger the execution of all middlewares. This is
+// needed to fetch the application context via loadAppContextStore().
+store.dispatch({
+  type: 'INIT_APPLICATION'
+});
 
 export default store;
