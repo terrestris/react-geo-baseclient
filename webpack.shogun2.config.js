@@ -21,11 +21,33 @@ const createReactAppConf = require('react-scripts-ts/config/webpack.config.dev.j
 const commonWebpackConfig = {};
 commonWebpackConfig.entry = createReactAppConf.entry;
 commonWebpackConfig.module = createReactAppConf.module;
+commonWebpackConfig.module.rules = [
+  ...createReactAppConf.module.rules || [],
+  // {
+  //   test: /\.less$/,
+  //   loaders: [
+  //     'style-loader',
+  //     'css-loader',
+  //     {
+  //       loader: 'less-loader',
+  //       options: {
+  //         //modifyVars: CustomAntThemeModifyVars(), // TODO do we need it?
+  //         javascriptEnabled: true
+  //       }
+  //     }
+  //   ]
+  // }, 
+  {
+    test: /\.jsx?$/,
+    exclude: /node_modules\/(?!@terrestris)/,
+    loader: 'babel-loader'
+  }
+];
 
 // The (absolute) URL to the backend, typically either
 const backendUrl = 'https://localhost/shogun2-webapp';
 
-// The credentials to be used in the login
+// The credentials to be used in the login, TODO: move to package.json
 const userName = 'admin';
 const password = 'ChangeMe!';
 
@@ -107,8 +129,7 @@ const delayedConf =
               files: {
                 csrfHeader: csrfHeader,
                 csrfParameterName: csrfParameterName,
-                csrfToken: csrfToken,
-                css: []
+                csrfToken: csrfToken
               },
               hash: true,
               minify: {
@@ -129,13 +150,6 @@ const delayedConf =
             inline: true,
             port: 9090,
             proxy: [{
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'X-CSRF-TOKEN': csrfToken,
-                cookie: cookie,
-              },
-              secure: false
-            }, {
               context: [
                 '/rest/**',
                 '/locale/**',
@@ -160,7 +174,7 @@ const delayedConf =
     });
   });
 
-// commonWebpackConfig.devtool = 'inline-source-map';
+commonWebpackConfig.devtool = 'inline-source-map';
 
 commonWebpackConfig.resolve = {
   ...createReactAppConf.resolve || {},
