@@ -15,7 +15,7 @@ import {
 } from 'ol/proj';
 import OlView from 'ol/View';
 import OlScaleLine from 'ol/control/ScaleLine';
-// import ProjectionUtil from '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
+import ProjectionUtil from '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
 import store from './store/store';
 import Main from './Main';
 
@@ -46,9 +46,8 @@ const mapPromise = new Promise((resolve) => {
    * @return {OlMap} The openlayers map.
    */
   const setupMap = (state: any) => {
-    // TODO, fix nex syntax of util methods
-    // ProjectionUtil.initProj4Definitions();
-    // ProjectionUtil.initProj4DefinitionMappings();
+    ProjectionUtil.initProj4Definitions();
+    ProjectionUtil.initProj4DefinitionMappings();
     const mapViewConfig = state.mapView.present;
     const mapLayers = state.mapLayers;
     const {
