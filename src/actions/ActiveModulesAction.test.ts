@@ -1,5 +1,5 @@
 /*eslint-env jest*/
-import * as actions from '../../src/actions/ActiveModulesAction';
+import * as actions from './ActiveModulesAction';
 
 describe('ActiveModulesAction', () => {
 

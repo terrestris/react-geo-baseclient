@@ -12,6 +12,7 @@ declare module 'ol/proj/Units';
 declare module 'ol/source/TileWMS';
 declare module 'ol/layer/Group';
 declare module 'ol/Map';
+declare module 'ol/layer/Base';
 declare module 'ol/layer/Tile';
 declare module 'ol/source/ImageWMS';
 declare module 'ol/layer/Image';

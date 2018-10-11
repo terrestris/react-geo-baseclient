@@ -1,6 +1,6 @@
 /*eslint-env jest*/
-import reducer from '../../src/reducers/LoadingReducer';
-import * as actions from '../../src/actions/LoadingAction';
+import reducer from './LoadingReducer';
+import * as actions from '../actions/LoadingAction';
 
 const initialState = {
   queue: [],

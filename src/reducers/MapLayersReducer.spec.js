@@ -1,7 +1,7 @@
 /*eslint-env jest*/
 import reducer from './MapLayersReducer';
-import * as actions from '../../src/actions/MapLayerChangeAction';
-import MapUtils from '../../src/util/MapUtils';
+import * as actions from '../actions/MapLayerChangeAction';
+import AppContextUtil from '../util/AppContextUtil';
 import appContext from '../resources/appContext.json';
 const get = require('lodash/get');
 const head = require('lodash/head');
@@ -11,7 +11,7 @@ const initialState = [];
 describe('MapViewReducer', () => {
   const testLayers = tail(get(appContext, 'viewport.subModules[0].mapLayers'));
   const firstLayer = head(get(appContext, 'viewport.subModules[0].mapLayers'));
-  // const testLayersAsOlLayers = MapUtils.parseLayers(testLayers).reverse();
+  // const testLayersAsOlLayers = AppContextUtil.parseLayers(testLayers).reverse();
 
   it('returns the initial state if an empty action is supplied', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
@@ -46,7 +46,6 @@ describe('MapViewReducer', () => {
       type: actions.ADD_LAYERS,
       layerObjects: [firstLayer]
     };
-    // console.log(testLayers);
     const layersToBeAfter = [firstLayer, ...testLayers];
     expect(reducer(testLayers, addLayersAction)).toEqual(layersToBeAfter);
   });
@@ -74,7 +73,7 @@ describe('MapViewReducer', () => {
   it('handles REMOVE_LAYERS for empty map layers array', () => {
     const updateLayerOrderingAction = {
       type: actions.REMOVE_LAYERS,
-      layers: MapUtils.parseLayers([firstLayer])
+      layers: AppContextUtil.parseLayers([firstLayer])
     };
     const mapLayersAfter = [];
     expect(reducer([], updateLayerOrderingAction)).toEqual(mapLayersAfter);
@@ -83,7 +82,7 @@ describe('MapViewReducer', () => {
   // it('handles REMOVE_LAYERS for filled map layers array', () => {
   //   const updateLayerOrderingAction = {
   //     type: actions.REMOVE_LAYERS,
-  //     layers: MapUtils.parseLayers([firstLayer])
+  //     layers: AppContextUtil.parseLayers([firstLayer])
   //   };
   //   const mapLayersToBefore = [firstLayer, ...testLayers];
   //   expect(reducer(mapLayersToBefore, updateLayerOrderingAction)).toEqual(testLayers);

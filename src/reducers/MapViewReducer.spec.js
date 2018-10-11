@@ -1,6 +1,6 @@
 /*eslint-env jest*/
-import { mapViewChange } from '../../src/reducers/MapViewReducer';
-import * as actions from '../../src/actions/MapViewChangeAction';
+import { mapViewChange } from './MapViewReducer';
+import * as actions from '../actions/MapViewChangeAction';
 
 describe('MapViewReducer', () => {
 
