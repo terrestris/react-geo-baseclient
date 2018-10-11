@@ -18,18 +18,25 @@ const loggerMiddleware = createLogger({
  * @return {Promise} A promise
  */
 const loadAppContextStore = () => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const appId = window.location.href.split('applicationId=')[1] || '';
-    fetch(config.appContextPath + '/' + appId, {
+    const appContextPath = config.appContextPath.endsWith('/') ?
+      config.appContextPath :
+      `${config.appContextPath}/`;
+
+    fetch(`${appContextPath}${appId}`, {
       credentials: 'same-origin'
-    }).then(response => response.json())
-      .then((appContext) => {
+    })
+      .then(response => response.json())
+      .then(appContext => {
         appContext = appContext instanceof Array ? appContext[0] : appContext;
         let state = appContextUtil.appContextToState(appContext);
         resolve(state);
+      })
+      .catch(err => {
+        Logger.error(err.stack);
+        reject(err);
       });
-  }).catch((err) => {
-    Logger.error(err.stack);
   });
 };
 
