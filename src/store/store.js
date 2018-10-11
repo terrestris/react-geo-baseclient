@@ -6,7 +6,7 @@ import { middleware } from 'redux-async-initial-state';
 import baseclientMainReducer from '../reducers/Reducer';
 import appContextUtil from '../util/AppContextUtil';
 import config from '../config/config';
-import Logger from '@terrestris/base-util';
+import { Logger } from '@terrestris/base-util';
 
 const loggerMiddleware = createLogger({
   collapsed: true
@@ -18,27 +18,38 @@ const loggerMiddleware = createLogger({
  * @return {Promise} A promise
  */
 const loadAppContextStore = () => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const appId = window.location.href.split('applicationId=')[1] || '';
-    fetch(config.appContextPath + '/' + appId, {
+    const appContextPath = config.appContextPath.endsWith('/') ?
+      config.appContextPath :
+      `${config.appContextPath}/`;
+
+    fetch(`${appContextPath}${appId}`, {
       credentials: 'same-origin'
-    }).then(response => response.json())
-      .then((appContext) => {
+    })
+      .then(response => response.json())
+      .then(appContext => {
         appContext = appContext instanceof Array ? appContext[0] : appContext;
         let state = appContextUtil.appContextToState(appContext);
         resolve(state);
+      })
+      .catch(err => {
+        Logger.error(err.stack);
+        reject(err);
       });
-  }).catch((err) => {
-    Logger.error(err.stack);
   });
 };
 
 const store = createStore(
   baseclientMainReducer,
-  compose(
-    applyMiddleware(middleware(loadAppContextStore))
-  ),
-  applyMiddleware(thunkMiddleware, loggerMiddleware)
+  {},
+  applyMiddleware(loggerMiddleware, thunkMiddleware, middleware(loadAppContextStore))
 );
+
+// An initial dispatch to trigger the execution of all middlewares. This is
+// needed to fetch the application context via loadAppContextStore().
+store.dispatch({
+  type: 'INIT_APPLICATION'
+});
 
 export default store;
