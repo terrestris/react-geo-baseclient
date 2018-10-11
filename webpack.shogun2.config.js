@@ -14,6 +14,7 @@ const Logger = winston.createLogger({
     })
   ]
 });
+const shogunConfig = require('./shogunconfig.json');
 // We will borrow some properties from the create-react-app webpack config
 // in order to get a more harmonized configuration
 process.env.NODE_ENV = 'development';
@@ -36,7 +37,7 @@ commonWebpackConfig.module.rules = [
   //       }
   //     }
   //   ]
-  // }, 
+  // },
   {
     test: /\.jsx?$/,
     exclude: /node_modules\/(?!@terrestris)/,
@@ -44,12 +45,24 @@ commonWebpackConfig.module.rules = [
   }
 ];
 
-// The (absolute) URL to the backend, typically either
-const backendUrl = 'https://localhost/shogun2-webapp';
+const backendUrl = shogunConfig.baseUrl;
+const userName = shogunConfig.user;
+const password = shogunConfig.password;
 
-// The credentials to be used in the login, TODO: move to package.json
-const userName = 'admin';
-const password = 'ChangeMe!';
+if (!backendUrl) {
+  Logger.error(`No SHOGun base URL set in .shogunrc.`);
+  return;
+}
+
+if (!userName) {
+  Logger.error(`No SHOGun user set in .shogunrc.`);
+  return;
+}
+
+if (!password) {
+  Logger.error(`No SHOGun password set in .shogunrc.`);
+  return;
+}
 
 const searchParams = new URLSearchParams();
 searchParams.set('username', userName);
