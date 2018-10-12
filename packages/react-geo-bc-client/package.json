@@ -55,6 +55,7 @@
     "ol": "5.2.0",
     "react": "16.5.2",
     "react-dom": "16.5.2",
+    "react-geo-bc-state": "^1.0.0",
     "react-i18next": "8.0.7",
     "react-redux": "5.0.7",
     "react-scripts-ts": "3.1.0",
