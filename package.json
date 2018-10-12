@@ -48,7 +48,7 @@
     "@types/react-dom": "16.0.8",
     "@types/react-i18next": "7.8.2",
     "@types/react-redux": "6.0.9",
-    "antd": "3.10.0",
+    "antd": "3.10.1",
     "i18next": "11.9.0",
     "i18next-browser-languagedetector": "2.2.3",
     "i18next-xhr-backend": "1.5.1",
