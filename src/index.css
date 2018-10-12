@@ -1,0 +1,39 @@
+/* fade out the loadmask after react starts rendering */
+.loadmask {
+  left: calc(50% - 99px);
+  top: calc(50% - 62px);
+	position: absolute;
+	z-index: 999;
+  
+  opacity: 0;
+	animation-name: fadeOutOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-out;
+	animation-duration: 1s;
+}
+
+@keyframes fadeOutOpacity {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+/* fade in app div */
+.app {
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}

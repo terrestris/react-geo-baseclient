@@ -1,3 +1,4 @@
+import './index.css';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -18,6 +19,7 @@ import OlScaleLine from 'ol/control/ScaleLine';
 import ProjectionUtil from '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
 import store from './store/store';
 import Main from './Main';
+import SomethingWentWrong from './SomethingWentWrong';
 
 import {
   MapProvider,
@@ -27,14 +29,25 @@ import {
 /**
  * Get the map asynchronoulsy.
  */
-const mapPromise = new Promise((resolve) => {
+const mapPromise = new Promise((resolve, reject) => {
   const subScription = store.subscribe(() => {
+    const errorOnAppContext = store.getState().asyncInitialState.error;
+    if (errorOnAppContext !== null) {
+      reject(errorOnAppContext);
+    }
     if (store.getState().asyncInitialState.loaded) {
       const map = setupMap(store.getState());
       resolve(map);
       subScription(); // unsubscribe
     }
   });
+}).catch(err => {
+  render(
+    <SomethingWentWrong
+      error={err.message}
+    />,
+    document.getElementById('app')
+  );
 });
 
 /**
@@ -98,8 +111,8 @@ render(
           <MappifiedMain />
         </MapProvider>
       </Provider>
-     </LocaleProvider>
-   </I18nextProvider>,
+    </LocaleProvider>
+  </I18nextProvider>,
   document.getElementById('app')
 );
 registerServiceWorker();

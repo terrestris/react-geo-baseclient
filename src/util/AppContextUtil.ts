@@ -79,8 +79,8 @@ class AppContextUtil {
     }
 
     mapLayerObjArray.forEach(function(layerObj: any) {
-      if (['ImageWMS', 'WMSTime'].indexOf(layerObj.source.type) < 0) {
-        Logger.warn('Currently only TileWMS and WMSTime layers are supported.');
+      if (['ImageWMS', 'TileWMS', 'WMSTime'].indexOf(layerObj.source.type) < 0) {
+        Logger.warn('Currently only TileWMS and ImageWMS / WMSTime layers are supported.');
       }
       let tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);
       let tileGrid = find(tileGrids,function(o: any) {

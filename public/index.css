@@ -1,0 +1,21 @@
+/* fade in loadmask, will fade out when react starts rendering */
+.loadmask {
+  left: calc(50% - 99px);
+  top: calc(50% - 62px);
+  position: absolute;
+
+  opacity: 0;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
