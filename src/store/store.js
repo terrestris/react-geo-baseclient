@@ -41,8 +41,8 @@ const loadAppContextStore = () => {
         let state = appContextUtil.appContextToState(appContext);
         resolve(state);
       })
-      .catch((err) => {
-        Logger.error(err);
+      .catch(err => {
+        Logger.error(err.stack);
         reject(err);
       });
   });
