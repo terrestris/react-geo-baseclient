@@ -14,6 +14,7 @@ const Logger = winston.createLogger({
     })
   ]
 });
+const shogunConfig = require('./shogunconfig.json');
 // We will borrow some properties from the create-react-app webpack config
 // in order to get a more harmonized configuration
 process.env.NODE_ENV = 'development';
@@ -36,7 +37,7 @@ commonWebpackConfig.module.rules = [
   //       }
   //     }
   //   ]
-  // }, 
+  // },
   {
     test: /\.jsx?$/,
     exclude: /node_modules\/(?!@terrestris)/,
@@ -44,12 +45,26 @@ commonWebpackConfig.module.rules = [
   }
 ];
 
-// The (absolute) URL to the backend, typically either
-const backendUrl = 'https://localhost/shogun2-webapp';
+const backendUrl = shogunConfig.baseUrl;
+const userName = shogunConfig.user;
+const password = shogunConfig.password;
 
-// The credentials to be used in the login, TODO: move to package.json
-const userName = 'admin';
-const password = 'ChangeMe!';
+if (!backendUrl) {
+  Logger.error(`No SHOGun base URL set in .shogunrc.`);
+  return;
+}
+
+if (!userName) {
+  Logger.error(`No SHOGun user set in .shogunrc.`);
+  return;
+}
+
+if (!password) {
+  Logger.error(`No SHOGun password set in .shogunrc.`);
+  return;
+}
+
+const isHttpsBackendUrl = backendUrl.startsWith('https://');
 
 const searchParams = new URLSearchParams();
 searchParams.set('username', userName);
@@ -62,13 +77,13 @@ const agent = new https.Agent({
 
 const delayedConf =
   fetch(`${backendUrl}/login`, {
-    agent: agent
+    agent: isHttpsBackendUrl ? agent : null
   }).then((response) => {
     let status = response.status;
     let statusText = response.statusText;
 
     if (status !== 200) {
-      Logger.log('error', `Received an unexpected status code: ${status}  (${statusText})`);
+      Logger.error(`Received an unexpected status code: ${status} (${statusText})`);
     }
     return response.text().then((responseText) => {
       const $ = cheerio.load(responseText);
@@ -86,7 +101,7 @@ const delayedConf =
       searchParams.set(csrfParameterName, csrfToken);
 
       return fetch(`${backendUrl}/doLogin`, {
-        agent: agent,
+        agent: isHttpsBackendUrl ? agent : null,
         body: searchParams,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -95,82 +110,85 @@ const delayedConf =
         },
         method: 'POST',
         redirect: 'manual'
-      }).then((loginResponse) => {
-        let success = loginResponse.status === 302 ? true : false;
-        cookie = loginResponse.headers.get('set-cookie');
+      })
+        .then(loginResponse => {
+          let success = loginResponse.status === 302 ? true : false;
+          cookie = loginResponse.headers.get('set-cookie');
 
-        // ATTENTION:
-        // since we have a new session, we get a new csrf token embedded in the client, so we have to fetch this as well
-        return fetch(`${backendUrl}/client/`, { // TODO: should reference to the react-geo-baseclient instance when ready...
-          agent: agent,
-          headers: {
-            'Cookie': cookie,
-            'X-CSRF-TOKEN': csrfToken
-          },
-          method: 'GET',
-          redirect: 'manual'
-        }).then(resp => resp.text()).then((html) => {
-          const $2 = cheerio.load(html);
-          csrfToken = $2('meta[name="_csrf"]').prop('content');
+          // ATTENTION:
+          // since we have a new session, we get a new csrf token embedded in the client, so we have to fetch this as well
+          return fetch(`${backendUrl}/client/`, { // TODO: should reference to the react-geo-baseclient instance when ready...
+            agent: isHttpsBackendUrl ? agent : null,
+            headers: {
+              'Cookie': cookie,
+              'X-CSRF-TOKEN': csrfToken
+            },
+            method: 'GET',
+            redirect: 'manual'
+          })
+            .then(resp => resp.text()).then((html) => {
+              const $2 = cheerio.load(html);
+              csrfToken = $2('meta[name="_csrf"]').prop('content');
 
-          if (success) {
-            Logger.info(`Successfully logged in. Will append the cookie ${cookie} to ` +
-              'all proxied contexts.');
-          } else {
-            Logger.error('Could not log in. The webpack server will start, but ' +
-              'it is very likely the application will not work as expected.');
-          }
+              if (success) {
+                Logger.info(`Successfully logged in. Will append the cookie ${cookie} to ` +
+                  'all proxied contexts.');
+              } else {
+                Logger.error('Could not log in. The webpack server will start, but ' +
+                  'it is very likely the application will not work as expected.');
+              }
 
-          commonWebpackConfig.plugins = [
-            ...commonWebpackConfig.plugins || [],
-            new HtmlWebpackPlugin({
-              favicon: './public/favicon.ico',
-              filename: 'index.html',
-              files: {
-                csrfHeader: csrfHeader,
-                csrfParameterName: csrfParameterName,
-                csrfToken: csrfToken
-              },
-              hash: true,
-              minify: {
-                collapseWhitespace: true,
-                removeComments: true
-              },
-              template: './public/index.html',
-              title: 'react-geo-baseclient'
-            }),
-            new webpack.ProgressPlugin({ profile: false })
-          ];
+              commonWebpackConfig.plugins = [
+                ...commonWebpackConfig.plugins || [],
+                new HtmlWebpackPlugin({
+                  favicon: './public/favicon.ico',
+                  filename: 'index.html',
+                  files: {
+                    csrfHeader: csrfHeader,
+                    csrfParameterName: csrfParameterName,
+                    csrfToken: csrfToken
+                  },
+                  hash: true,
+                  minify: {
+                    collapseWhitespace: true,
+                    removeComments: true
+                  },
+                  template: './public/index.html',
+                  title: 'react-geo-baseclient'
+                }),
+                new webpack.ProgressPlugin({ profile: false })
+              ];
 
-          commonWebpackConfig.devServer = {
-            contentBase: path.join(__dirname, 'src'),
-            disableHostCheck: true,
-            host: '0.0.0.0',
-            https: true,
-            inline: true,
-            port: 9090,
-            proxy: [{
-              context: [
-                '/rest/**',
-                '/locale/**',
-                '/**/*.action',
-                '/import/**'
-              ],
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'X-CSRF-TOKEN': csrfToken,
-                cookie: cookie
-              },
-              secure: false,
-              target: backendUrl
-            }],
-            publicPath: 'https://localhost:9090/'
-          };
-          return commonWebpackConfig;
-        });
-      }).catch((error) => {
-        Logger.log('error', `Error while trying to login: ${error.message}`);
-      });
+              commonWebpackConfig.devServer = {
+                contentBase: path.join(__dirname, 'src'),
+                disableHostCheck: true,
+                host: '0.0.0.0',
+                https: true,
+                inline: true,
+                port: 9090,
+                proxy: [{
+                  context: [
+                    '/rest/**',
+                    '/locale/**',
+                    '/**/*.action',
+                    '/import/**'
+                  ],
+                  headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'X-CSRF-TOKEN': csrfToken,
+                    cookie: cookie
+                  },
+                  secure: false,
+                  target: backendUrl
+                }],
+                publicPath: 'https://localhost:9090/'
+              };
+              return commonWebpackConfig;
+            });
+          })
+          .catch((error) => {
+            Logger.log('error', `Error while trying to login: ${error.message}`);
+          });
     });
   });
 
