@@ -94,13 +94,15 @@ export class Main extends React.Component<MainProps, MainState> {
     if (this.state.hasError) { // TODO check if it works ok
       return (
         <SomethingWentWrong
-          error={this.state.error + this.state.info}
+          error={
+            JSON.stringify(this.state.error) +
+            JSON.stringify(this.state.info)
+          }
         />
       );
     }
     const {
       // activeModules,
-      appContextLoading,
       // loading,
       map
     } = this.props;
