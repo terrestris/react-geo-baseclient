@@ -2,9 +2,9 @@ import * as React from 'react';
 import './Main.css';
 import 'ol/ol.css';
 import { connect } from 'react-redux';
-import i18next from './i18n';
 import { translate } from 'react-i18next';
 import OlMap from 'ol/map';
+import SomethingWentWrong from './SomethingWentWrong';
 import {
   MapComponent
 //   ToggleButton,
@@ -81,7 +81,6 @@ export class Main extends React.Component<MainProps, MainState> {
    * @param info 
    */
   componentDidCatch(error: Error | null, info: object) {
-    // Display fallback UI
     this.setState({
       hasError: true
     });
@@ -93,32 +92,26 @@ export class Main extends React.Component<MainProps, MainState> {
    */
   render() {
     if (this.state.hasError) { // TODO check if it works ok
-      // You can render any custom fallback UI
       return (
-        <div><h1>Something went wrong.</h1>
-          <p>{this.state.error}</p>
-          {this.state.info}
-          </div>
+        <SomethingWentWrong
+          error={
+            JSON.stringify(this.state.error) +
+            JSON.stringify(this.state.info)
+          }
+        />
       );
     }
     const {
       // activeModules,
-      appContextLoading,
       // loading,
       map
     } = this.props;
 
-    if (appContextLoading || !i18next.isInitialized) {
-      return (
-        <div>Lade bitte warten</div>
-      );
-    } else {
-      return (
-        <MapComponent 
-          map={map}
-        />
-      );
-    }
+    return (
+      <MapComponent 
+        map={map}
+      />
+    );
   }
 }
 

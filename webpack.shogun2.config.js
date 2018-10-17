@@ -2,6 +2,8 @@ const path = require('path');
 const fetch = require('node-fetch');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const URLSearchParams = require('url-search-params');
 const cheerio = require('cheerio');
 const winston = require('winston');
@@ -15,9 +17,15 @@ const Logger = winston.createLogger({
   ]
 });
 const shogunConfig = require('./shogunconfig.json');
+
+process.env.NODE_ENV = 'development';
+// prepare the InterpolateHtmlPlugin
+const interpolations = {
+  'NODE_ENV': 'development',
+  'PUBLIC_URL': ''
+};
 // We will borrow some properties from the create-react-app webpack config
 // in order to get a more harmonized configuration
-process.env.NODE_ENV = 'development';
 const createReactAppConf = require('react-scripts-ts/config/webpack.config.dev.js');
 const commonWebpackConfig = {};
 commonWebpackConfig.entry = createReactAppConf.entry;
@@ -141,7 +149,7 @@ const delayedConf =
               commonWebpackConfig.plugins = [
                 ...commonWebpackConfig.plugins || [],
                 new HtmlWebpackPlugin({
-                  favicon: './public/favicon.ico',
+                  favicon: './public/icon_terrestris.png',
                   filename: 'index.html',
                   files: {
                     csrfHeader: csrfHeader,
@@ -156,7 +164,13 @@ const delayedConf =
                   template: './public/index.html',
                   title: 'react-geo-baseclient'
                 }),
-                new webpack.ProgressPlugin({ profile: false })
+                new webpack.ProgressPlugin({ profile: false }),
+                new CopyWebpackPlugin([
+                  'public/logo_terrestris.png',
+                  'public/index.css',
+                  'public/something-went-wrong.png'
+                ]),
+                new InterpolateHtmlPlugin(interpolations)
               ];
 
               commonWebpackConfig.devServer = {
