@@ -1,11 +1,7 @@
-/**
- * Action types
- */
-export const ENABLE_LOADING = 'ENABLE_LOADING';
-export const DISABLE_LOADING = 'DISABLE_LOADING';
-
-// Action creators
-
+import {
+  DISABLE_LOADING,
+  ENABLE_LOADING
+} from '../constants/Loading';
 
 /**
  * disableLoading - Action

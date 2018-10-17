@@ -1,7 +1,7 @@
 import {
   ADD_ACTIVEMODULE,
   REMOVE_ACTIVEMODULE
-} from '../actions/ActiveModulesAction';
+} from '../constants/ActiveModules';
 
 /**
  * Handles the requested changes in the activeModules section of the state.
@@ -10,7 +10,7 @@ import {
  * @param {Object} action The action object.
  * @return {Object} The new state.
  */
-function handleActiveModules(activeModules: object[] = [], action: any) {
+export function reduce(activeModules: object[] = [], action: any) {
   switch (action.type) {
     case ADD_ACTIVEMODULE: {
       // Create a copy of the existing array of activeTools.
@@ -37,4 +37,4 @@ function handleActiveModules(activeModules: object[] = [], action: any) {
   }
 }
 
-export default handleActiveModules;
+export default reduce;

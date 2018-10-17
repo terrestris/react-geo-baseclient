@@ -1,13 +1,13 @@
+const remove = require('lodash/remove');
+import OlLayer from 'ol/layer/base';
+
 import {
   SET_LAYERS,
   ADD_LAYERS,
   REMOVE_LAYERS,
   CHANGE_LAYER_VISIBILITY,
   UPDATE_LAYER_ORDERING
-} from '../actions/MapLayerChangeAction';
-
-const remove = require('lodash/remove');
-import OlLayer from 'ol/layer/base';
+} from '../constants/MapLayerChange';
 
 const initialState: any[] = [];
 
@@ -19,7 +19,7 @@ const initialState: any[] = [];
  * @param {Object} action Containts the action information.
  * @return {Object} The mapLayers as they should be in the state afterwards.
  */
-function handleMapLayerChange(mapLayers = initialState, action: any) {
+export function reduce(mapLayers = initialState, action: any) {
   switch (action.type) {
     case SET_LAYERS: {
       return action.layerObjects;
@@ -57,4 +57,4 @@ function handleMapLayerChange(mapLayers = initialState, action: any) {
   }
 }
 
-export default handleMapLayerChange;
+export default reduce;

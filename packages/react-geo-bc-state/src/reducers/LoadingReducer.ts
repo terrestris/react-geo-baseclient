@@ -4,7 +4,7 @@ const without = require('lodash/without');
 import {
   ENABLE_LOADING,
   DISABLE_LOADING
-} from '../actions/LoadingAction';
+} from '../constants/Loading';
 
 const initialState = {
   queue: [],
@@ -21,7 +21,7 @@ const initialState = {
  *
  * @return {Object} updated loading queue
  */
-function loadingChange(loadingQueue = initialState, action: any) {
+export function reduce(loadingQueue = initialState, action: any) {
   switch (action.type) {
     case ENABLE_LOADING: {
       return Object.assign({}, loadingQueue, {
@@ -43,4 +43,4 @@ function loadingChange(loadingQueue = initialState, action: any) {
   }
 }
 
-export default loadingChange;
+export default reduce;

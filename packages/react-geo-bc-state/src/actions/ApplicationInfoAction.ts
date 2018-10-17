@@ -1,9 +1,7 @@
-/**
- * Action types
- */
-export const ADD_APPINFO = 'ADD_APPINFO';
+import {
+  ADD_APPINFO
+} from '../constants/ApplicationInfo';
 
-// Action creators
 /**
  * addAppInfo - Action
  *

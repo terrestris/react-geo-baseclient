@@ -1,6 +1,6 @@
 import {
   ADD_APPINFO,
-} from '../actions/ApplicationInfoAction';
+} from '../constants/ApplicationInfo';
 
 const initialState = {
   name: '',
@@ -17,7 +17,7 @@ const initialState = {
  *
  * @return {Object} updated loading queue
  */
-function handleApplicationInfo(appInfo = initialState, action: any) {
+export function reduce(appInfo = initialState, action: any) {
   switch (action.type) {
     case ADD_APPINFO: {
       return Object.assign({}, appInfo, {
@@ -30,4 +30,4 @@ function handleApplicationInfo(appInfo = initialState, action: any) {
   }
 }
 
-export default handleApplicationInfo;
+export default reduce;

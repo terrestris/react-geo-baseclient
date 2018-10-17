@@ -1,12 +1,12 @@
 import OlCollection from 'ol/collection';
-/**
- * Action types
- */
-export const SET_LAYERS = 'SET_LAYERS';
-export const ADD_LAYERS = 'ADD_LAYERS';
-export const REMOVE_LAYERS = 'REMOVE_LAYERS';
-export const CHANGE_LAYER_VISIBILITY = 'CHANGE_LAYER_VISIBILITY';
-export const UPDATE_LAYER_ORDERING = 'UPDATE_LAYER_ORDERING';
+
+import {
+  ADD_LAYERS,
+  CHANGE_LAYER_VISIBILITY,
+  REMOVE_LAYERS,
+  SET_LAYERS,
+  UPDATE_LAYER_ORDERING
+} from '../constants/MapLayerChange';
 
 /**
  * setLayers - Description

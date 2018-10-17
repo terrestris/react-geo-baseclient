@@ -3,12 +3,11 @@ const isNumber = require('lodash/isNumber');
 const isObject = require('lodash/isObject');
 import { Logger } from '@terrestris/base-util';
 
-/**
- * Action types
- */
-export const ADD_ACTIVEMODULE = 'ADD_ACTIVEMODULE';
-export const REMOVE_ACTIVEMODULE = 'REMOVE_ACTIVEMODULE';
-export const SET_INITIALLY_ACTIVE_MODULE = 'SET_INITIALLY_ACTIVE_MODULE';
+import {
+  ADD_ACTIVEMODULE,
+  REMOVE_ACTIVEMODULE,
+  SET_INITIALLY_ACTIVE_MODULE
+} from '../constants/ActiveModules';
 
 /**
  * Returns the ADD_ACTIVEMODULE action.

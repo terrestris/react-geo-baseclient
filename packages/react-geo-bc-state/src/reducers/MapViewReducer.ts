@@ -1,4 +1,7 @@
 import undoable from 'redux-undo';
+const isEqual = require('lodash/isEqual');
+import MapUtil from '@terrestris/ol-util';
+
 import {
   SET_CENTER,
   SET_ZOOM,
@@ -6,16 +9,14 @@ import {
   SET_MAPVIEW,
   ZOOM_IN,
   ZOOM_OUT
-} from '../actions/MapViewChangeAction';
-const isEqual = require('lodash/isEqual');
-import MapUtil from '@terrestris/ol-util/src/MapUtil/MapUtil';
+} from '../constants/MapViewChange';
 
 const initialState: any = {};
 
 /**
  * mapViewChange - reducer
  */
-export function mapViewChange(mapViewState = initialState, action: any) {
+export function reduce(mapViewState = initialState, action: any) {
   switch (action.type) {
     case SET_CENTER:
       return Object.assign({}, mapViewState, {
@@ -57,4 +58,4 @@ export function mapViewChange(mapViewState = initialState, action: any) {
   }
 }
 
-export default undoable(mapViewChange);
+export default undoable(reduce);
