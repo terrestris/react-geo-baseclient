@@ -5,14 +5,7 @@ import { connect } from 'react-redux';
 import i18next from './i18n';
 import { translate } from 'react-i18next';
 import OlMap from 'ol/map';
-import {
-  MapComponent
-//   ToggleButton,
-//   LayerTree,
-//   Panel
-} from '@terrestris/react-geo';
-
-
+import { MapComponent } from '@terrestris/react-geo/src/Map/MapComponent/MapComponent';
 
 /**
  * mapStateToProps - mapping state to props of Main Component
@@ -70,15 +63,15 @@ export class Main extends React.Component<MainProps, MainState> {
     this.state = {
       hasError: false,
       error:  null,
-      info: null,      
+      info: null,
       layerGroup: []
     };
   }
 
   /**
-   * 
-   * @param error 
-   * @param info 
+   *
+   * @param error
+   * @param info
    */
   componentDidCatch(error: Error | null, info: object) {
     // Display fallback UI
@@ -114,7 +107,7 @@ export class Main extends React.Component<MainProps, MainState> {
       );
     } else {
       return (
-        <MapComponent 
+        <MapComponent
           map={map}
         />
       );
