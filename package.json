@@ -39,7 +39,14 @@
   },
   "homepage": ".",
   "dependencies": {},
-  "scripts": {},
+  "scripts": {
+    "add": "lerna add",
+    "bootstrap": "lerna bootstrap",
+    "test": "lerna run test",
+    "start": "lerna run start-shogun2 --stream",
+    "build:ts": "lerna run build:ts --stream",
+    "postinstall": "npm run bootstrap"
+  },
   "devDependencies": {
     "lerna": "3.4.3"
   }
