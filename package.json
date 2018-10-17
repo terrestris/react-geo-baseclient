@@ -44,7 +44,7 @@
     "@terrestris/react-geo": "10.4.0",
     "@types/lodash": "4.14.117",
     "@types/ol": "4.6.2",
-    "@types/react": "16.4.16",
+    "@types/react": "16.4.17",
     "@types/react-dom": "16.0.8",
     "@types/react-i18next": "7.8.3",
     "@types/react-redux": "6.0.9",
