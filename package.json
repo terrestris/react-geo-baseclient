@@ -57,10 +57,10 @@
     "redux-undo": "0.6.1"
   },
   "scripts": {
-    "start-static": "node scripts/start.js",
+    "start-static": "webpack-dev-server --config config/webpack.static.config.js --hot",
     "start-shogun2": "webpack-dev-server --config config/webpack.shogun2.config.js --hot",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom --config config/jest/jest.config.js --watchAll",
+    "test": "node scripts/test.js --env=jsdom --config config/jest/jest.config.js",
     "lint": "tslint --project tsconfig.json --config tslint.json 'src/**/*.ts' && tsc --noEmit --project tsconfig.json",
     "pretest": "npm run lint"
   },
