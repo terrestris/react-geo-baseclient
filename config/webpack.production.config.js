@@ -10,7 +10,7 @@ commonWebpackConfig.devtool = 'cheap-module-source-map';
 
 // prepare the InterpolateHtmlPlugin
 const interpolations = {
-  'NODE_ENV': 'development',
+  'NODE_ENV': 'production',
   'PUBLIC_URL': ''
 };
 

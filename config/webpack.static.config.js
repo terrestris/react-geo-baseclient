@@ -1,23 +1,12 @@
 process.env.NODE_ENV = 'development';
 
 const path = require('path');
-const fetch = require('node-fetch');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
-const winston = require('winston');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
-const Logger = winston.createLogger({
-  format: winston.format.simple(),
-  level: 'info',
-  transports: [
-    new winston.transports.Console({
-      colorize: true
-    })
-  ]
-});
 
 commonWebpackConfig.mode = 'development';
 // prepare the InterpolateHtmlPlugin
@@ -48,7 +37,19 @@ const delayedConf = new Promise(function(resolve) {
       './public/index.css',
       './public/something-went-wrong.png'
     ]),
-    new InterpolateHtmlPlugin(interpolations)
+    new InterpolateHtmlPlugin(interpolations),
+    new CopyWebpackPlugin([
+      {
+        from: './src/resources/appContext.json',
+        to: './resources/'
+      }, {
+        from: './src/resources/i18n/',
+        to: './resources/i18n/'
+      }
+    ]),
+    new webpack.DefinePlugin({
+      APP_MODE: JSON.stringify(commonConfig.TARGET)
+    })
   ];
 
   commonWebpackConfig.devServer = {

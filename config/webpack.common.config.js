@@ -115,5 +115,6 @@ const commonWebpackConfig = {
 
 module.exports = {
   logger: Logger,
-  commonWebpackConfig: commonWebpackConfig
+  commonWebpackConfig: commonWebpackConfig,
+  TARGET: TARGET
 };

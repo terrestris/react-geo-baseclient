@@ -8,18 +8,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const URLSearchParams = require('url-search-params');
 const cheerio = require('cheerio');
-const winston = require('winston');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
-const Logger = winston.createLogger({
-  format: winston.format.simple(),
-  level: 'info',
-  transports: [
-    new winston.transports.Console({
-      colorize: true
-    })
-  ]
-});
+const Logger = commonConfig.logger;
 const shogunConfig = require('./shogunconfig.json');
 
 commonWebpackConfig.mode = 'development';
@@ -148,7 +139,10 @@ const delayedConf =
                   './public/index.css',
                   './public/something-went-wrong.png'
                 ]),
-                new InterpolateHtmlPlugin(interpolations)
+                new InterpolateHtmlPlugin(interpolations),
+                new webpack.DefinePlugin({
+                  APP_MODE: JSON.stringify(commonConfig.TARGET)
+                })
               ];
 
               commonWebpackConfig.devServer = {
