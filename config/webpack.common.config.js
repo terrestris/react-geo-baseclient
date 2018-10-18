@@ -31,7 +31,7 @@ const commonWebpackConfig = {
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
-    filename: 'static/js/bundle.js',
+    filename: (TARGET === 'build') ? '../build/static/js/bundle.js' : 'static/js/bundle.js',
     publicPath: '',
     // There are also additional JS chunk files if you use code splitting.
     chunkFilename: '../build/static/js/[name].chunk.js'
