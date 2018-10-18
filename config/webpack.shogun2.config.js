@@ -1,57 +1,24 @@
+process.env.NODE_ENV = 'development';
+
 const path = require('path');
 const fetch = require('node-fetch');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const URLSearchParams = require('url-search-params');
 const cheerio = require('cheerio');
-const winston = require('winston');
-const Logger = winston.createLogger({
-  format: winston.format.simple(),
-  level: 'info',
-  transports: [
-    new winston.transports.Console({
-      colorize: true
-    })
-  ]
-});
+const commonConfig = require('./webpack.common.config.js');
+let commonWebpackConfig = commonConfig.commonWebpackConfig;
+const Logger = commonConfig.logger;
 const shogunConfig = require('./shogunconfig.json');
 
-process.env.NODE_ENV = 'development';
+commonWebpackConfig.mode = 'development';
 // prepare the InterpolateHtmlPlugin
 const interpolations = {
   'NODE_ENV': 'development',
   'PUBLIC_URL': ''
 };
-// We will borrow some properties from the create-react-app webpack config
-// in order to get a more harmonized configuration
-const createReactAppConf = require('react-scripts-ts/config/webpack.config.dev.js');
-const commonWebpackConfig = {};
-commonWebpackConfig.entry = createReactAppConf.entry;
-commonWebpackConfig.module = createReactAppConf.module;
-commonWebpackConfig.module.rules = [
-  ...createReactAppConf.module.rules || [],
-  // {
-  //   test: /\.less$/,
-  //   loaders: [
-  //     'style-loader',
-  //     'css-loader',
-  //     {
-  //       loader: 'less-loader',
-  //       options: {
-  //         //modifyVars: CustomAntThemeModifyVars(), // TODO do we need it?
-  //         javascriptEnabled: true
-  //       }
-  //     }
-  //   ]
-  // },
-  {
-    test: /\.jsx?$/,
-    exclude: /node_modules\/(?!@terrestris)/,
-    loader: 'babel-loader'
-  }
-];
 
 const backendUrl = shogunConfig.baseUrl;
 const userName = shogunConfig.user;
@@ -82,6 +49,8 @@ const https = require('https');
 const agent = new https.Agent({
   rejectUnauthorized: false
 });
+
+// commonWebpackConfig.devtool = 'inline-source-map';
 
 const delayedConf =
   fetch(`${backendUrl}/login`, {
@@ -166,11 +135,14 @@ const delayedConf =
                 }),
                 new webpack.ProgressPlugin({ profile: false }),
                 new CopyWebpackPlugin([
-                  'public/logo_terrestris.png',
-                  'public/index.css',
-                  'public/something-went-wrong.png'
+                  './public/logo_terrestris.png',
+                  './public/index.css',
+                  './public/something-went-wrong.png'
                 ]),
-                new InterpolateHtmlPlugin(interpolations)
+                new InterpolateHtmlPlugin(interpolations),
+                new webpack.DefinePlugin({
+                  APP_MODE: JSON.stringify(commonConfig.TARGET)
+                })
               ];
 
               commonWebpackConfig.devServer = {
@@ -205,17 +177,6 @@ const delayedConf =
           });
     });
   });
-
-commonWebpackConfig.devtool = 'inline-source-map';
-
-commonWebpackConfig.resolve = {
-  ...createReactAppConf.resolve || {},
-  alias: {
-    ...createReactAppConf.resolve.alias || {},
-    ol: path.join(__dirname, 'node_modules', 'ol'),
-    react: path.join(__dirname, 'node_modules', 'react')
-  }
-};
 
 module.exports = new Promise((resolve) => {
   Logger.log('info', `Trying to login to ${backendUrl}`);

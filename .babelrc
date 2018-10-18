@@ -3,5 +3,28 @@
     "env",
     "stage-0",
     "react"
+  ],
+  "env": {
+    "coverage": {
+      "plugins": [
+        [
+          "istanbul", {
+            "exclude": [
+              "spec/**/*.js*"
+            ]
+          }
+        ]
+      ]
+    }
+  },
+  "plugins": [
+    [
+      "import", {
+        "libraryName": "antd",
+        "style": true
+      }
+
+    ],
+    "transform-decorators-legacy"
   ]
 }

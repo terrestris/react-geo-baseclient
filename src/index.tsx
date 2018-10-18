@@ -31,11 +31,12 @@ import {
  */
 const mapPromise = new Promise((resolve, reject) => {
   const subScription = store.subscribe(() => {
-    const errorOnAppContext = store.getState().asyncInitialState.error;
+    const state: any = store.getState();
+    const errorOnAppContext = state.asyncInitialState.error;
     if (errorOnAppContext !== null) {
       reject(errorOnAppContext);
     }
-    if (store.getState().asyncInitialState.loaded) {
+    if (state.asyncInitialState.loaded) {
       const map = setupMap(store.getState());
       resolve(map);
       subScription(); // unsubscribe
