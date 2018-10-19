@@ -40,7 +40,7 @@
   "homepage": ".",
   "dependencies": {
     "@terrestris/base-util": "0.1.1",
-    "@terrestris/ol-util": "1.5.0",
+    "@terrestris/ol-util": "1.5.1",
     "@terrestris/react-geo": "10.4.0",
     "antd": "3.10.1",
     "i18next": "11.10.0",
