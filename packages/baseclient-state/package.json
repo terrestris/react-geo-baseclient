@@ -1,0 +1,39 @@
+{
+  "name": "baseclient-state",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terrestris/TODO.git"
+  },
+  "scripts": {
+    "test": "jest --env=jsdom --config jest.config.js",
+    "build:ts": "tsc -p tsconfig.build.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@terrestris/base-util": "0.1.1",
+    "@terrestris/ol-util": "1.5.0",
+    "@types/lodash": "4.14.117",
+    "@types/node": "10.11.7",
+    "@types/ol": "4.6.2",
+    "babel-preset-env": "1.7.0",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-0": "6.24.1",
+    "lodash": "4.17.11",
+    "ol": "5.2.0",
+    "redux-undo": "0.6.1"
+  },
+  "devDependencies": {
+    "@types/jest": "23.3.5",
+    "jest": "23.6.0",
+    "ts-jest": "23.10.4",
+    "typescript": "3.1.3"
+  }
+}
