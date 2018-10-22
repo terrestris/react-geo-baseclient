@@ -1,0 +1,3 @@
+[submodule "packages/react-geo"]
+	path = packages/react-geo
+	url = https://github.com/terrestris/react-geo.git
