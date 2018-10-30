@@ -10,14 +10,20 @@
 	animation-iteration-count: 1;
 	animation-timing-function: ease-out;
 	animation-duration: 1s;
+	animation-fill-mode: forwards;
 }
 
 @keyframes fadeOutOpacity {
 	0% {
 		opacity: 1;
 	}
+	99% {
+		opacity: 0.01;
+	}
 	100% {
 		opacity: 0;
+		z-index: -1;
+		display: none;
 	}
 }
 
