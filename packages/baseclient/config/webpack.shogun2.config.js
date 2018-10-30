@@ -152,7 +152,10 @@ const delayedConf =
                 https: true,
                 inline: true,
                 port: 9090,
-                proxy: [{
+                proxy: [{ // first we need to fixup hard coded pathes from and to shogun2-webapp
+                  context: ['/shogun2-webapp'],
+                  target: backendUrl.replace('/shogun2-webapp', '')
+                }, {
                   context: [
                     '/rest/**',
                     '/locale/**',
