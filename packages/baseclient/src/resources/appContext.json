@@ -31,27 +31,27 @@
         "id": 25,
         "name": "default",
         "center": {
-          "x": 370000,
-          "y": 5546750
+          "x": 791118,
+          "y": 6574734
         },
         "extent": {
           "id": 24,
           "lowerLeft": {
-            "x": 180000,
-            "y": 5260000
+            "x": -20026376,
+            "y": -20048966
           },
           "upperRight": {
-            "x": 560000,
-            "y": 5833500
+            "x": 20026376,
+            "y": 20048966
           }
         },
-        "resolutions": [560, 280, 140, 70, 28, 14, 7, 2.8, 1.4, 0.7, 0.28, 0.14, 0.028],
-        "zoom": 0,
+        "resolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
+        "zoom": 15,
         "resolution": null,
         "maxResolution": 0.5971642833948135,
         "minResolution": 156543.03390625,
         "rotation": 0.0,
-        "projection": "EPSG:25832"
+        "projection": "EPSG:3857"
       },
       "mapControls": [{
         "id": 19,
@@ -77,100 +77,9 @@
         "mapControlProperties": {}
       }],
       "mapLayers": [{
-        "id": 17,
-        "name": "OSM-WMS",
-        "description": null,
+        "name": "terrestris OSM-Vectortiles",
         "source": {
-          "id": 14,
-          "name": null,
-          "type": "TileWMS",
-          "url": "http://ows.terrestris.de/osm/service?",
-          "width": 256,
-          "height": 256,
-          "version": "1.1.0",
-          "layerNames": "OSM-WMS",
-          "layerStyles": "",
-          "tileGrid": {
-            "id": 13,
-            "type": "TileGrid",
-            "tileGridOrigin": {
-              "x": 0.0,
-              "y": 0.0
-            },
-            "tileGridExtent": {
-              "id": 12,
-              "lowerLeft": {
-                "x": -2.002637639E7,
-                "y": -2.00489661E7
-              },
-              "upperRight": {
-                "x": 2.002637639E7,
-                "y": 2.00489661E7
-              }
-            },
-            "tileSize": 256,
-            "tileGridResolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
-          }
-        },
-        "appearance": {
-          "id": 16,
-          "attribution": "© <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> <br>",
-          "hoverable": null,
-          "hoverTemplate": null,
-          "properties": {},
-          "name": null,
-          "maxResolution": 156543.03390625,
-          "minResolution": 0.5971642833948135,
-          "opacity": 1.0,
-          "visible": true
-        }
-      }, {
-        "id": 18,
-        "name": "OSM-WMS GRAY",
-        "description": null,
-        "source": {
-          "id": 15,
-          "name": null,
-          "type": "TileWMS",
-          "url": "http://ows.terrestris.de/osm-gray/service?",
-          "width": 256,
-          "height": 256,
-          "version": "1.1.0",
-          "layerNames": "OSM-WMS",
-          "layerStyles": "",
-          "tileGrid": {
-            "id": 13,
-            "type": "TileGrid",
-            "tileGridOrigin": {
-              "x": 0.0,
-              "y": 0.0
-            },
-            "tileGridExtent": {
-              "id": 12,
-              "lowerLeft": {
-                "x": -2.002637639E7,
-                "y": -2.00489661E7
-              },
-              "upperRight": {
-                "x": 2.002637639E7,
-                "y": 2.00489661E7
-              }
-            },
-            "tileSize": 256,
-            "tileGridResolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
-          }
-        },
-        "appearance": {
-          "id": 16,
-          "attribution": "© <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> <br>",
-          "hoverable": null,
-          "hoverTemplate": null,
-          "properties": {},
-          "name": null,
-          "maxResolution": 156543.03390625,
-          "minResolution": 0.5971642833948135,
-          "opacity": 1.0,
-          "visible": true
+          "type": "OSMVectortiles"
         }
       }]
     }, {

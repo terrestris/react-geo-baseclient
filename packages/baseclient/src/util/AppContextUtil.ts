@@ -14,6 +14,7 @@ const reverse = require('lodash/reverse');
 
 import { Logger } from '@terrestris/base-util';
 import initialState from '../store/initialState';
+import getOSMLayer from '@terrestris/vectortiles';
 
 /**
  * This class provides some static methods which can be used with the appContext of SHOGun2.
@@ -79,9 +80,19 @@ class AppContextUtil {
     }
 
     mapLayerObjArray.forEach(function(layerObj: any) {
-      if (['ImageWMS', 'TileWMS', 'WMSTime'].indexOf(layerObj.source.type) < 0) {
-        Logger.warn('Currently only TileWMS and ImageWMS / WMSTime layers are supported.');
+      if ([
+        'ImageWMS',
+        'TileWMS',
+        'WMSTime',
+        'OSMVectortiles'
+      ].indexOf(layerObj.source.type) < 0) {
+        Logger.warn('Currently only TileWMS, ImageWMS, WMSTime and OSMVectortiles layers are supported.');
       }
+
+      if (layerObj.source.type === 'OSMVectortiles') {
+        layers.push(getOSMLayer());
+      }
+
       let tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);
       let tileGrid = find(tileGrids,function(o: any) {
         return isEqual(o.getTileSize()[0], tileGridObj.tileSize) &&
@@ -128,7 +139,7 @@ class AppContextUtil {
       tileGrid: tileGrid,
       params: {
         'LAYERS': layerObj.source.layerNames,
-        // 'TILED': layerObj.source.requestWithTiled || false // TODO
+        'TILED': layerObj.source.requestWithTiled || false
       }
     });
 

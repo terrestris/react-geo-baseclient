@@ -5,6 +5,7 @@ declare module '@terrestris/ol-util/src/MapUtil/MapUtil';
 declare module '@terrestris/ol-util/src/FeatureUtil/FeatureUtil';
 declare module '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
 declare module '@terrestris/ol-util/src/MeasureUtil/MeasureUtil';
+declare module '@terrestris/vectortiles';
 declare module 'baseclient-state';
 declare module 'redux-undo';
 declare module 'redux-async-initial-state';
