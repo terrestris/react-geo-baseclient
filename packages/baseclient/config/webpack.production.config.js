@@ -19,10 +19,10 @@ commonWebpackConfig.plugins = [
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify('production')
-    }
+    },
+    APP_MODE: JSON.stringify(commonConfig.TARGET)
   }),
   new CopyWebpackPlugin([
-    // Note: This can be removed as soon as the SHOGun2 interface is being called.
     {
       from: './src/resources/appContext.json',
       to: './resources/'

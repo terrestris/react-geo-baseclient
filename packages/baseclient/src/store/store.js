@@ -19,12 +19,15 @@ const loggerMiddleware = createLogger({
  */
 const loadAppContextStore = () => {
   return new Promise((resolve, reject) => {
-    const appId = window.location.href.split('applicationId=')[1] || '';
-    const appContextPath = config.appContextPath.endsWith('/') ?
-      config.appContextPath :
-      `${config.appContextPath}/`;
+    const appId = window.location.href.split('applicationId=')[1] || undefined;
+    let appContextPath = config.appContextPath;
+    if (appId) {
+      appContextPath = appContextPath.endsWith('/') ?
+        `${appContextPath}${appId}` :
+        `${appContextPath}/${appId}`;
+    }
 
-    fetch(`${appContextPath}${appId}`, {
+    fetch(appContextPath, {
       credentials: 'same-origin'
     }).then(response => {
         if (response.status === 404) {
