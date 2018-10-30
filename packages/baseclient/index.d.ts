@@ -7,6 +7,7 @@ declare module '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
 declare module '@terrestris/ol-util/src/MeasureUtil/MeasureUtil';
 declare module '@terrestris/vectortiles';
 declare module 'baseclient-state';
+declare module 'baseclient-components';
 declare module 'redux-undo';
 declare module 'redux-async-initial-state';
 declare module 'ol/proj';

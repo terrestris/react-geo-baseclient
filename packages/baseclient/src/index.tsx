@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import i18n from './i18n';
 import { I18nextProvider } from 'react-i18next';
 import { LocaleProvider } from 'antd';
+import 'antd/dist/antd.min.css'; // should be working via the loader but it does not..
 import deDE from 'antd/lib/locale-provider/de_DE';
 import {
   defaults as OlDefaultControls

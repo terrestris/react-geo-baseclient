@@ -1,0 +1,44 @@
+{
+  "name": "baseclient-components",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terrestris/TODO.git"
+  },
+  "scripts": {
+    "test": "jest --env=jsdom --config jest.config.js",
+    "build:ts": "copyfiles -V -u 1 src/**/*.less dist/ && tsc -p tsconfig.build.json",
+    "build:ts:watch": "copyfiles -V -u 1 src/**/*.less dist/ && tsc -w -p tsconfig.build.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@terrestris/ol-util": "1.5.2",
+    "@terrestris/react-geo": "10.4.1",
+    "@types/antd": "1.0.0",
+    "@types/node": "10.11.7",
+    "@types/ol": "4.6.2",
+    "@types/react": "16.4.18",
+    "@types/react-i18next": "8.1.0",
+    "antd": "3.10.1",
+    "babel-preset-env": "1.7.0",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-0": "6.24.1",
+    "ol": "5.2.0",
+    "react": "16.6.0",
+    "react-i18next": "8.3.5"
+  },
+  "devDependencies": {
+    "@types/jest": "23.3.5",
+    "copyfiles": "2.1.0",
+    "jest": "23.6.0",
+    "ts-jest": "23.10.4",
+    "typescript": "3.1.3"
+  }
+}
