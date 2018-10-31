@@ -1,137 +1,858 @@
 {
-  "id": 39,
-  "created": "2017-08-10T10:25:43.195+02:00",
-  "modified": "2017-08-10T10:25:44.431+02:00",
-  "name": "Default App",
-  "description": "Default App",
-  "language": null,
-  "open": true,
-  "active": true,
-  "url": null,
-  "viewport": {
-    "id": 31,
-    "name": "Viewport with Border Layout",
-    "xtype": null,
-    "properties": {},
-    "layout": {
-      "id": 9,
-      "type": "border",
-      "propertyHints": ["split", "title", "collapsible"],
-      "propertyMusts": ["region"],
-      "regions": ["center", "north", "west"]
-    },
-    "subModules": [{
-      "id": 30,
-      "name": "Main Map",
-      "xtype": "shogun-component-map",
-      "properties": {
-        "region": "center"
-      },
-      "mapConfig": {
-        "id": 25,
-        "name": "default",
-        "center": {
-          "x": 791118,
-          "y": 6574734
-        },
-        "extent": {
-          "id": 24,
-          "lowerLeft": {
-            "x": -20026376,
-            "y": -20048966
-          },
-          "upperRight": {
-            "x": 20026376,
-            "y": 20048966
+	"id": 63,
+	"created": "2018-10-31T10:23:50.593Z",
+	"modified": "2018-10-31T10:39:46.875Z",
+	"name": "Default Application",
+	"description": "Default Application",
+	"language": "de",
+	"open": true,
+	"active": true,
+	"url": null,
+	"viewport": {
+		"id": 62,
+		"name": "Viewport with Border Layout",
+		"xtype": "viewport",
+		"properties": {},
+		"layout": {
+			"id": 3,
+			"type": "border",
+			"propertyHints": ["split", "collapsible"],
+			"propertyMusts": ["region"],
+			"regions": ["center", "north", "west"]
+		},
+		"subModules": [{
+			"id": 53,
+			"name": "Map Container",
+			"xtype": "container",
+			"properties": {
+				"split": true,
+				"width": "100%",
+				"region": "center",
+				"collapsible": false,
+				"height": "100%"
+			},
+			"layout": {
+				"id": 4,
+				"type": "absolute",
+				"propertyHints": [],
+				"propertyMusts": ["x", "y"],
+				"coords": []
+			},
+			"subModules": [{
+				"id": 50,
+				"name": "Main Map",
+				"xtype": "shogun-component-map",
+				"properties": {
+					"width": "100%",
+					"x": 0,
+					"y": 0,
+					"height": "100%"
+				},
+				"mapConfig": {
+					"id": 36,
+					"name": "default",
+					"center": {
+						"x": 791118,
+						"y": 6574734
+					},
+					"extent": {
+						"id": 35,
+						"lowerLeft": {
+							"x": -2.002637639E7,
+							"y": -2.00489661E7
+						},
+						"upperRight": {
+							"x": 2.002637639E7,
+							"y": 2.00489661E7
+						}
+					},
+					"resolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
+					"zoom": 15,
+					"resolution": null,
+					"maxResolution": 0.5971642833948135,
+					"minResolution": 156543.03390625,
+					"rotation": 0.0,
+					"projection": "EPSG:3857"
+				},
+				"mapControls": [{
+					"id": 30,
+					"mapControlName": "Attribution",
+					"mapControlProperties": {}
+				}, {
+					"id": 34,
+					"mapControlName": "ScaleLine",
+					"mapControlProperties": {
+						"units": "metric"
+					}
+				}, {
+					"id": 31,
+					"mapControlName": "Zoom",
+					"mapControlProperties": {}
+				}, {
+					"id": 32,
+					"mapControlName": "Rotate",
+					"mapControlProperties": {}
+				}, {
+					"id": 33,
+					"mapControlName": "ZoomSlider",
+					"mapControlProperties": {}
+				}],
+				"mapLayers": [{
+          "name": "terrestris OSM-Vectortiles",
+          "source": {
+            "type": "OSMVectortiles"
           }
-        },
-        "resolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
-        "zoom": 15,
-        "resolution": null,
-        "maxResolution": 0.5971642833948135,
-        "minResolution": 156543.03390625,
-        "rotation": 0.0,
-        "projection": "EPSG:3857"
-      },
-      "mapControls": [{
-        "id": 19,
-        "mapControlName": "Attribution",
-        "mapControlProperties": {}
-      }, {
-        "id": 20,
-        "mapControlName": "Zoom",
-        "mapControlProperties": {}
-      }, {
-        "id": 22,
-        "mapControlName": "ZoomSlider",
-        "mapControlProperties": {}
-      }, {
-        "id": 23,
-        "mapControlName": "ScaleLine",
-        "mapControlProperties": {
-          "units": "metric"
-        }
-      }, {
-        "id": 21,
-        "mapControlName": "Rotate",
-        "mapControlProperties": {}
-      }],
-      "mapLayers": [{
-        "name": "terrestris OSM-Vectortiles",
-        "source": {
-          "type": "OSMVectortiles"
-        }
-      }]
-    }, {
-      "id": 28,
-      "name": "Viewport Header",
-      "xtype": "panel",
-      "properties": {
-        "bodyStyle": "background:#5FA2DD;",
-        "region": "north",
-        "height": 120
-      },
-      "layout": {
-        "id": 11,
-        "type": "hbox",
-        "propertyHints": ["flex", "width"],
-        "propertyMusts": []
-      },
-      "subModules": [{
-        "id": 26,
-        "name": "Logo Image",
-        "xtype": "imagecomponent",
-        "properties": {
-          "margin": "0 0 10 95",
-          "src": "resources/img/logo_terrestris.svg",
-          "width": 160,
-          "height": 100
-        },
-        "src": null,
-        "link": null,
-        "altText": null
-      }, {
-        "id": 27,
-        "name": "Logo Title",
-        "xtype": "displayfield",
-        "properties": {
-          "flex": 1,
-          "value": "SHOGun2 Client",
-          "fieldStyle": "color:#FFFFFF; font-size:30px; text-align: center; padding-top: 40px;"
-        }
-      }]
-    }, {
-      "id": 29,
-      "name": "Legend Tree",
-      "xtype": "shogun-view-panel-legendtree",
-      "properties": {
-        "split": true,
-        "region": "west",
-        "title": "Layer Panel"
-      },
-      "layout": null,
-      "subModules": []
-    }]
-  },
-  "plugins": []
+        }, {
+					"id": 21,
+					"chartable": false,
+					"dataType": "",
+					"description": "",
+					"hoverable": false,
+					"metadataIdentifier": "",
+					"name": "OSM-WMS",
+					"spatiallyRestricted": false,
+					"appearance": {
+						"id": 11,
+						"attribution": "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> <br>",
+						"hoverable": null,
+						"hoverTemplate": null,
+						"properties": {},
+						"name": null,
+						"maxResolution": 156543.03390625,
+						"minResolution": 0.5971642833948135,
+						"opacity": 1.0,
+						"visible": true
+					},
+					"owner": null,
+					"source": {
+						"id": 10,
+						"name": null,
+						"type": "TileWMS",
+						"url": "https://ows.terrestris.de/osm/service?",
+						"width": 256,
+						"height": 256,
+						"version": "1.1.0",
+						"layerNames": "OSM-WMS",
+						"layerStyles": "",
+						"tileGrid": {
+							"id": 8,
+							"type": "TileGrid",
+							"tileGridOrigin": {
+								"x": 0.0,
+								"y": 0.0
+							},
+							"tileGridExtent": {
+								"id": 7,
+								"lowerLeft": {
+									"x": -2.002637639E7,
+									"y": -2.00489661E7
+								},
+								"upperRight": {
+									"x": 2.002637639E7,
+									"y": 2.00489661E7
+								}
+							},
+							"tileSize": 256,
+							"tileGridResolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
+						},
+						"requestWithTiled": false
+					},
+					"readPermissionGrantedFromAnyApplication": false
+        }]
+			}, {
+				"id": 48,
+				"name": "Show meta toolbar button",
+				"xtype": "shogun-button-showmetapanel",
+				"properties": {
+					"ui": "shogun-tools",
+					"scale": "small"
+				},
+				"text": null,
+				"tooltip": null,
+				"glyph": "xf0ac@FontAwesome",
+				"connectedModule": null,
+				"interaction": null,
+				"buttonAction": null,
+				"defaultButton": null
+			}, {
+				"id": 49,
+				"name": "Meta info toolbar for the map",
+				"xtype": "shogun-panel-metainfos",
+				"properties": {}
+			}, {
+				"id": 51,
+				"name": "Tools Toolbar",
+				"xtype": "toolbar",
+				"properties": {
+					"width": 50,
+					"x": 0,
+					"y": 0,
+					"vertical": true,
+					"cls": "map-tools"
+				},
+				"layout": null,
+				"subModules": [{
+					"id": 37,
+					"name": "Zoom in button",
+					"xtype": "basigx-button-zoomin",
+					"properties": {
+						"ui": "shogun-tools",
+						"scale": "small"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf00e@FontAwesome",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": true
+				}, {
+					"id": 38,
+					"name": "Zoom out button",
+					"xtype": "basigx-button-zoomout",
+					"properties": {
+						"ui": "shogun-tools",
+						"scale": "small"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf010@FontAwesome",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": true
+				}, {
+					"id": 39,
+					"name": "Zoom to extent button",
+					"xtype": "shogun-button-zoomtoextent",
+					"properties": {
+						"ui": "shogun-tools",
+						"scale": "small"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf0b2@FontAwesome",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": true
+				}, {
+					"id": 40,
+					"name": "Step back to previous extent button",
+					"xtype": "shogun-button-stepback",
+					"properties": {
+						"ui": "shogun-tools",
+						"scale": "small"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf060@FontAwesome",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": true
+				}, {
+					"id": 41,
+					"name": "Step forward to next extent button",
+					"xtype": "shogun-button-stepforward",
+					"properties": {
+						"ui": "shogun-tools",
+						"scale": "small"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf061@FontAwesome",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": true
+				}, {
+					"id": 42,
+					"name": "Activate hover-select tool",
+					"xtype": "basigx-button-hsi",
+					"properties": {
+						"ui": "shogun-tools",
+						"scale": "small"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf05a@FontAwesome",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": false
+				}, {
+					"id": 43,
+					"name": "Print button",
+					"xtype": "shogun-button-print",
+					"properties": {
+						"ui": "shogun-tools",
+						"printUrl": "/shogun2-webapp/print"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf02f@FontAwesome",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": false
+				}, {
+					"id": 44,
+					"name": "Show measure tools button",
+					"xtype": "shogun-button-showmeasuretoolspanel",
+					"properties": {
+						"ui": "shogun-tools",
+						"scale": "small"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf105@Flaticon",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": false
+				}, {
+					"id": 45,
+					"name": "Show redlining tools button",
+					"xtype": "shogun-button-showredliningtoolspanel",
+					"properties": {
+						"ui": "shogun-tools",
+						"scale": "small"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf040@FontAwesome",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": false
+				}, {
+					"id": 46,
+					"name": "Show workstate tools button",
+					"xtype": "shogun-button-showworkstatetoolspanel",
+					"properties": {
+						"ui": "shogun-tools",
+						"scale": "small"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf108@FontAwesome",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": false
+				}, {
+					"id": 47,
+					"name": "Show addwms tools button",
+					"xtype": "shogun-button-addwms",
+					"properties": {
+						"ui": "shogun-tools",
+						"scale": "small"
+					},
+					"text": null,
+					"tooltip": null,
+					"glyph": "xf278@FontAwesome",
+					"connectedModule": null,
+					"interaction": null,
+					"buttonAction": null,
+					"defaultButton": null
+				}]
+			}]
+		}, {
+			"id": 60,
+			"name": "Viewport Header",
+			"xtype": "shogun-toolbar-header",
+			"properties": {
+				"region": "north"
+			},
+			"layout": null,
+			"subModules": [{
+				"id": 54,
+				"name": "Project Logo Image",
+				"xtype": "image",
+				"properties": {
+					"src": "resources/images/numerare-150px.png",
+					"cls": "viewport-header-logo",
+					"height": 43
+				}
+			}, {
+				"id": 59,
+				"name": "Toolbar spacer",
+				"xtype": "tbspacer",
+				"properties": {
+					"flex": 1
+				}
+			}, {
+				"id": 52,
+				"name": "Gazetteer and Object Search",
+				"xtype": "shogun-form-field-multisearch",
+				"properties": {
+					"hideTrigger": true,
+					"emptyText": "...",
+					"width": 600,
+					"minChars": 3
+				}
+			}, {
+				"id": 59,
+				"name": "Toolbar spacer",
+				"xtype": "tbspacer",
+				"properties": {
+					"flex": 1
+				}
+			}, {
+				"id": 56,
+				"name": "Translate to German Button",
+				"xtype": "shogun-translation-de-button",
+				"properties": {}
+			}, {
+				"id": 57,
+				"name": "Translate to English Button",
+				"xtype": "shogun-translation-en-button",
+				"properties": {}
+			}, {
+				"id": 55,
+				"name": "Login Button",
+				"xtype": "shogun-login-logout-button",
+				"properties": {}
+			}, {
+				"id": 58,
+				"name": "User Batch",
+				"xtype": "shogun-container-user-batch",
+				"properties": {}
+			}]
+		}, {
+			"id": 61,
+			"name": "Legend Tree",
+			"xtype": "shogun-panel-legendtree",
+			"properties": {
+				"split": true,
+				"region": "west",
+				"title": "Layer Panel"
+			},
+			"layout": null,
+			"subModules": []
+		}]
+	},
+	"plugins": [],
+	"documentRootNodes": [],
+	"layerTree": {
+		"@class": "de.terrestris.appshogun.model.tree.LayerTreeFolder",
+		"id": 24,
+		"text": "",
+		"index": 0,
+		"root": true,
+		"leaf": false,
+		"expandable": true,
+		"expanded": true,
+		"children": [{
+			"@class": "de.terrestris.appshogun.model.tree.LayerTreeFolder",
+			"id": 25,
+			"text": "Themen",
+			"index": 0,
+			"root": false,
+			"leaf": false,
+			"checked": true,
+			"expandable": true,
+			"expanded": true,
+			"children": [{
+				"@class": "de.terrestris.appshogun.model.tree.LayerTreeLeaf",
+				"id": 26,
+				"text": "Orte",
+				"index": 0,
+				"root": false,
+				"leaf": true,
+				"checked": true,
+				"expandable": false,
+				"expanded": false,
+				"layer": {
+					"id": 23,
+					"chartable": false,
+					"dataType": "",
+					"description": "",
+					"hoverable": true,
+					"metadataIdentifier": "",
+					"name": "Orte",
+					"spatiallyRestricted": false,
+					"appearance": {
+						"id": 15,
+						"attribution": null,
+						"hoverable": null,
+						"hoverTemplate": "{name}",
+						"properties": {},
+						"name": null,
+						"maxResolution": 156543.03390625,
+						"minResolution": 0.5971642833948135,
+						"opacity": 1.0,
+						"visible": true
+					},
+					"owner": null,
+					"source": {
+						"id": 14,
+						"name": null,
+						"type": "TileWMS",
+						"url": "/shogun2-webapp/geoserver.action",
+						"width": 256,
+						"height": 256,
+						"version": "1.1.0",
+						"layerNames": "SHOGUN:POPULATED_PLACES",
+						"layerStyles": "",
+						"tileGrid": {
+							"id": 8,
+							"type": "TileGrid",
+							"tileGridOrigin": {
+								"x": 0.0,
+								"y": 0.0
+							},
+							"tileGridExtent": {
+								"id": 7,
+								"lowerLeft": {
+									"x": -2.002637639E7,
+									"y": -2.00489661E7
+								},
+								"upperRight": {
+									"x": 2.002637639E7,
+									"y": 2.00489661E7
+								}
+							},
+							"tileSize": 256,
+							"tileGridResolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
+						},
+						"requestWithTiled": false
+					},
+					"readPermissionGrantedFromAnyApplication": false
+				},
+				"parentId": 25
+			}, {
+				"@class": "de.terrestris.appshogun.model.tree.LayerTreeLeaf",
+				"id": 74,
+				"text": "Länder",
+				"index": 1,
+				"root": false,
+				"leaf": true,
+				"checked": true,
+				"expandable": false,
+				"expanded": false,
+				"layer": {
+					"id": 22,
+					"chartable": false,
+					"dataType": "",
+					"description": "",
+					"hoverable": true,
+					"metadataIdentifier": "",
+					"name": "Länder",
+					"spatiallyRestricted": false,
+					"appearance": {
+						"id": 13,
+						"attribution": null,
+						"hoverable": null,
+						"hoverTemplate": "{name}",
+						"properties": {},
+						"name": null,
+						"maxResolution": 156543.03390625,
+						"minResolution": 0.5971642833948135,
+						"opacity": 1.0,
+						"visible": true
+					},
+					"owner": null,
+					"source": {
+						"id": 12,
+						"name": null,
+						"type": "TileWMS",
+						"url": "/shogun2-webapp/geoserver.action",
+						"width": 256,
+						"height": 256,
+						"version": "1.1.0",
+						"layerNames": "SHOGUN:COUNTRIES_LAKES",
+						"layerStyles": "",
+						"tileGrid": {
+							"id": 8,
+							"type": "TileGrid",
+							"tileGridOrigin": {
+								"x": 0.0,
+								"y": 0.0
+							},
+							"tileGridExtent": {
+								"id": 7,
+								"lowerLeft": {
+									"x": -2.002637639E7,
+									"y": -2.00489661E7
+								},
+								"upperRight": {
+									"x": 2.002637639E7,
+									"y": 2.00489661E7
+								}
+							},
+							"tileSize": 256,
+							"tileGridResolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
+						},
+						"requestWithTiled": false
+					},
+					"readPermissionGrantedFromAnyApplication": false
+				},
+				"parentId": 25
+			}],
+			"parentId": 24
+		}, {
+			"@class": "de.terrestris.appshogun.model.tree.LayerTreeFolder",
+			"id": 28,
+			"text": "Hintergrundlayer",
+			"index": 2,
+			"root": false,
+			"leaf": false,
+			"checked": true,
+			"expandable": true,
+			"expanded": false,
+			"children": [{
+				"@class": "de.terrestris.appshogun.model.tree.LayerTreeLeaf",
+				"id": 29,
+				"text": "OSM-WMS GRAY",
+				"index": 0,
+				"root": false,
+				"leaf": true,
+				"checked": true,
+				"expandable": false,
+				"expanded": false,
+				"layer": {
+					"id": 21,
+					"chartable": false,
+					"dataType": "",
+					"description": "",
+					"hoverable": false,
+					"metadataIdentifier": "",
+					"name": "OSM-WMS GRAY",
+					"spatiallyRestricted": false,
+					"appearance": {
+						"id": 11,
+						"attribution": "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> <br>",
+						"hoverable": null,
+						"hoverTemplate": null,
+						"properties": {},
+						"name": null,
+						"maxResolution": 156543.03390625,
+						"minResolution": 0.5971642833948135,
+						"opacity": 1.0,
+						"visible": true
+					},
+					"owner": null,
+					"source": {
+						"id": 10,
+						"name": null,
+						"type": "TileWMS",
+						"url": "https://ows.terrestris.de/osm-gray/service?",
+						"width": 256,
+						"height": 256,
+						"version": "1.1.0",
+						"layerNames": "OSM-WMS",
+						"layerStyles": "",
+						"tileGrid": {
+							"id": 8,
+							"type": "TileGrid",
+							"tileGridOrigin": {
+								"x": 0.0,
+								"y": 0.0
+							},
+							"tileGridExtent": {
+								"id": 7,
+								"lowerLeft": {
+									"x": -2.002637639E7,
+									"y": -2.00489661E7
+								},
+								"upperRight": {
+									"x": 2.002637639E7,
+									"y": 2.00489661E7
+								}
+							},
+							"tileSize": 256,
+							"tileGridResolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
+						},
+						"requestWithTiled": false
+					},
+					"readPermissionGrantedFromAnyApplication": false
+				},
+				"parentId": 28
+			}],
+			"parentId": 24
+		}]
+	},
+	"activeTools": [{
+		"id": 37,
+		"name": "Zoom in button",
+		"xtype": "basigx-button-zoomin",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf00e@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": true
+	}, {
+		"id": 38,
+		"name": "Zoom out button",
+		"xtype": "basigx-button-zoomout",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf010@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": true
+	}, {
+		"id": 39,
+		"name": "Zoom to extent button",
+		"xtype": "shogun-button-zoomtoextent",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf0b2@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": true
+	}, {
+		"id": 40,
+		"name": "Step back to previous extent button",
+		"xtype": "shogun-button-stepback",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf060@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": true
+	}, {
+		"id": 41,
+		"name": "Step forward to next extent button",
+		"xtype": "shogun-button-stepforward",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf061@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": true
+	}, {
+		"id": 42,
+		"name": "Activate hover-select tool",
+		"xtype": "basigx-button-hsi",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf05a@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": false
+	}, {
+		"id": 43,
+		"name": "Print button",
+		"xtype": "shogun-button-print",
+		"properties": {
+			"ui": "shogun-tools",
+			"printUrl": "/shogun2-webapp/print"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf02f@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": false
+	}, {
+		"id": 44,
+		"name": "Show measure tools button",
+		"xtype": "shogun-button-showmeasuretoolspanel",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf105@Flaticon",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": false
+	}, {
+		"id": 45,
+		"name": "Show redlining tools button",
+		"xtype": "shogun-button-showredliningtoolspanel",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf040@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": false
+	}, {
+		"id": 46,
+		"name": "Show workstate tools button",
+		"xtype": "shogun-button-showworkstatetoolspanel",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf108@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": false
+	}, {
+		"id": 47,
+		"name": "Show addwms tools button",
+		"xtype": "shogun-button-addwms",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf278@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": null
+	}, {
+		"id": 48,
+		"name": "Show meta toolbar button",
+		"xtype": "shogun-button-showmetapanel",
+		"properties": {
+			"ui": "shogun-tools",
+			"scale": "small"
+		},
+		"text": null,
+		"tooltip": null,
+		"glyph": "xf0ac@FontAwesome",
+		"connectedModule": null,
+		"interaction": null,
+		"buttonAction": null,
+		"defaultButton": null
+	}]
 }
