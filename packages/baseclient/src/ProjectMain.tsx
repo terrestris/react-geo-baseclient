@@ -1,17 +1,15 @@
 import * as React from 'react';
 import './ProjectMain.less';
 import { connect } from 'react-redux';
-import { translate } from 'react-i18next';
+import { withNamespaces } from 'react-i18next';
+import i18n from './i18n';
 import OlMap from 'ol/map';
 import SomethingWentWrong from './SomethingWentWrong';
 import {
-  MapComponent,
-//   ToggleButton,
-  // Panel
+  MapComponent
 } from '@terrestris/react-geo';
 import { Layout } from 'antd';
 const { /*Header,*/ Footer, Content } = Layout;
-
 import { SiderMenu } from 'baseclient-components';
 
 
@@ -43,7 +41,7 @@ export interface MainProps extends Partial<DefaultMainProps> {
     mapLayers: [],
     appContextLoading: boolean,
     activeModules: object[],
-    t: (arg: string) => void
+    t: (arg: string) => {}
 }
 
 export interface MainState {
@@ -51,7 +49,6 @@ export interface MainState {
   error: Error | null,
   info: object | null,
   layerGroup: [],
-  viewport: object | null
 }
 
 /**
@@ -73,8 +70,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
       hasError: false,
       error:  null,
       info: null,      
-      layerGroup: [],
-      viewport: this.setupViewport()
+      layerGroup: []
     };
   }
 
@@ -96,13 +92,16 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
    */
   setupViewport(): object {
     const {
-      map
+      map,
+      t
     } = this.props;
     const viewport = (
       <div>
         <Layout>
           <SiderMenu
             map={map}
+            t={t}
+            i18n={i18n}
           />
             <Content>
               <MapComponent
@@ -131,8 +130,8 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
         />
       );
     }
-    return this.state.viewport;
+    return this.setupViewport();
   }
 }
 
-export default connect(mapStateToProps)(translate()(ProjectMain));
+export default withNamespaces()(connect(mapStateToProps)(ProjectMain));

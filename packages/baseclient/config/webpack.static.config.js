@@ -33,6 +33,8 @@ const delayedConf = new Promise(function(resolve) {
     }),
     new webpack.ProgressPlugin({ profile: false }),
     new CopyWebpackPlugin([
+      './public/de.png',
+      './public/en.png',
       './public/logo_terrestris.png',
       './public/index.css',
       './public/something-went-wrong.png'

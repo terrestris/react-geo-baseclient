@@ -1,38 +1,16 @@
 {
-  "Toolbar": {
-    "NavigationToolbar": {
-      "featureInfoButton": "Show feature information",
-      "zoomToMaxExtentButton": "Zoom to maximum extent",
-      "zoomInButton": "Zoom in",
-      "zoomOutButton": "Zoom out",
-      "undoButton": "Undo last zoom/pan operation",
-      "redoButton": "Redo the last undone zoom/pan operation",
-      "helpButton": "Show help",
-      "flightInfoButton": "Show flight information"
-    },
-    "Statusbar": {
-      "crsLabel": "Coordinate system"
-    },
-    "Titlebar": {
-      "collapse": "Einklappen",
-      "close": "Schließen"
-    }
+  "LayerTree": "Layers",
+  "Legend": "Legend",
+  "Measure": {
+    "title": "Measure",
+    "point": "Point",
+    "line": "Line",
+    "area": "Area"
   },
-  "Map": {
-    "ScaleCombo": {
-      "scaleLabel": "Scale"
-    }
+  "Imprint": {
+    "title": "Imprint",
+    "contact": "Contact",
+    "privacypolicy": "Privacy Policy"
   },
-  "Menu": {
-    "UserAndApplicationInfoMenu": {
-      "moduleLabel": "Module",
-      "versionLabel": "Version",
-      "emailSupportLabel": "E-Mail Support",
-      "logoutLabel": "Logout"
-    }
-  },
-  "Main": {
-    "measureLabel": "MEASURE",
-    "printAndSaveLabel": "PRINT & SAVE"
-  }
+  "Logout": "Logout"
 }

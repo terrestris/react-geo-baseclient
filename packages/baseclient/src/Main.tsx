@@ -4,10 +4,11 @@ import 'ol/ol.css';
 import OlMap from 'ol/map';
 import SomethingWentWrong from './SomethingWentWrong';
 import ProjectMain from './ProjectMain';
+import { withNamespaces } from 'react-i18next';
 
 export interface MainProps {
     map: OlMap,
-    t: (arg: string) => void
+    t: (arg: string) => {}
 }
 
 export interface MainState {
@@ -74,4 +75,4 @@ export class Main extends React.Component<MainProps, MainState> {
   }
 }
 
-export default Main;
+export default withNamespaces()(Main);

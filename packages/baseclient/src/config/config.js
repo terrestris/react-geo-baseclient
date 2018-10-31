@@ -11,7 +11,7 @@ if (appMode && appMode.indexOf('build:static') > -1) {
 export default {
   appContextPath: !appMode || appMode.indexOf('shogun2') > -1 ? shogun2Path : appMode.indexOf('static') > -1 ? staticPath : null,
   layerPath: basePath + 'rest/layers',
-  // locale: basePath + 'locale/client/{{lng}}.json',
+  locale: basePath + 'resources/i18n/{{lng}}.json',
   getBasePath: function (){
     return basePath;
   }

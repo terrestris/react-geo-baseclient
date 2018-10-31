@@ -4,15 +4,15 @@ import './SiderMenu.less';
 import { LayerTree } from '@terrestris/react-geo';
 import LegendContainer from '../container/Legend/LegendContainer';
 import MapUtil from '@terrestris/ol-util/src/MapUtil/MapUtil';
-// import { translate } from 'react-i18next';
 const { Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 // default props
-
 interface SiderProps {
   collapsed: boolean,
-  map: any
+  map: any,
+  t: (arg: string) => {},
+  i18n: any
 }
 
 interface SiderState {
@@ -25,7 +25,7 @@ interface SiderState {
  * @class The SiderMenu.
  * @extends React.Component
  */
-export default class SiderMenu extends React.Component<SiderProps, SiderState> {
+export class SiderMenu extends React.Component<SiderProps, SiderState> {
 
   /**
    * Create a SiderMenu component.
@@ -47,7 +47,14 @@ export default class SiderMenu extends React.Component<SiderProps, SiderState> {
     }, 200);
   }
 
+  onLanguageChange = (lang: string) => {
+    this.props.i18n.changeLanguage(lang);
+  }
+
   render() {
+    const {
+      t
+    } = this.props;
     return (
       <Sider
         width="300"
@@ -60,13 +67,17 @@ export default class SiderMenu extends React.Component<SiderProps, SiderState> {
         <div className="sidermenu-logo">
           <img src="logo_terrestris.png" alt="Logo" />
         </div>
+        <div className="sidermenu-language-selection">
+        <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')}/>
+          <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')}/>
+        </div>
         <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
           <SubMenu
             key="1"
             className="treesubmenu"
             mode="vertical"
             title={
-              <div><Icon type="file" /><span>Themen</span></div>
+              <div><Icon type="file" /><span>{t('LayerTree')}</span></div>
             }
           >
             <LayerTree
@@ -77,7 +88,7 @@ export default class SiderMenu extends React.Component<SiderProps, SiderState> {
             key="2"
             mode="vertical"
             title={
-              <div><Icon type="desktop" /><span>Legende</span></div>
+              <div><Icon type="desktop" /><span>{t('Legend')}</span></div>
             }
           >
             <LegendContainer
@@ -90,26 +101,27 @@ export default class SiderMenu extends React.Component<SiderProps, SiderState> {
             key="sub1"
             mode="vertical"
             title={
-              <div><Icon type="file" /><span>Messen</span></div>
+              <div><Icon type="file" /><span>{t('Measure.title')}</span></div>
             }
           >
-            <Menu.Item key="3">Punkt</Menu.Item>
-            <Menu.Item key="4">Linie</Menu.Item>
-            <Menu.Item key="5">Fläche</Menu.Item>
+            <Menu.Item key="3">{t('Measure.point')}</Menu.Item>
+            <Menu.Item key="4">{t('Measure.line')}</Menu.Item>
+            <Menu.Item key="5">{t('Measure.area')}</Menu.Item>
           </SubMenu>
           <SubMenu
             key="sub2"
-            title={<span><Icon type="team" /><span>Impressum</span></span>}
+            title={<span><Icon type="team" /><span>{t('Imprint.title')}</span></span>}
           >
-            <Menu.Item key="6">Kontakt</Menu.Item>
-            <Menu.Item key="8">Datenschutz</Menu.Item>
+            <Menu.Item key="6">{t('Imprint.contact')}</Menu.Item>
+            <Menu.Item key="8">{t('Imprint.privacypolicy')}</Menu.Item>
           </SubMenu>
           <Menu.Item key="9">
             <Icon type="user" />
-            <span>Ausloggen</span>
+            <span>{t('Logout')}</span>
           </Menu.Item>
         </Menu>
       </Sider>
     );
   }
 }
+export default SiderMenu;
