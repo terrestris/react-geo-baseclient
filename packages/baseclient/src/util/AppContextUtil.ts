@@ -94,10 +94,13 @@ class AppContextUtil {
       }
 
       let tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);
-      let tileGrid = find(tileGrids,function(o: any) {
-        return isEqual(o.getTileSize()[0], tileGridObj.tileSize) &&
-          isEqual(o.getTileSize()[1], tileGridObj.tileSize);
-      });
+      let tileGrid;
+      if (tileGridObj) {
+        tileGrid = find(tileGrids,function(o: any) {
+          return isEqual(o.getTileSize()[0], tileGridObj.tileSize) &&
+            isEqual(o.getTileSize()[1], tileGridObj.tileSize);
+        });
+      }
 
       if (!tileGrid && tileGridObj) {
         tileGrid = new OlTileGrid({
