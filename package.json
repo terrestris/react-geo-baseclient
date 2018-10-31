@@ -42,7 +42,8 @@
     "add": "lerna add",
     "bootstrap": "lerna bootstrap",
     "test": "lerna run test --scope *baseclient*",
-    "start": "lerna run start-shogun2 --stream",
+    "start-static": "lerna run start-static --stream",
+    "start-shogun2": "lerna run start-shogun2 --stream",
     "build:ts": "lerna run build:ts --stream",
     "postinstall": "npm run bootstrap"
   },

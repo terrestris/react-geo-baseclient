@@ -14,8 +14,8 @@ and then
 
 This will automatically install package dependencies with `lerna bootstrap`.
 
-Initially you will also need to build react-geo and the state module:
-`cd packages/react-geo && npm run build:dist && cd ../baseclient-state && npm run build:ts`
+Initially you will also need to build react-geo, the state and components module:
+`cd packages/react-geo && npm run build:dist && cd ../baseclient-state && npm run build:ts && cd ../baseclient-components && npm run build:ts`
 
 TODO: move above to postinstall
 
@@ -23,7 +23,7 @@ TODO: move above to postinstall
 
   * When using shogun2 as backend
     * Set the credentials in config/shogunconfig.json
-    * Start the app with `npm run start`
+    * Start the app with `npm run start-shogun2`
   * When using no backend / a static appContext
     * Start the app with `npm run start-static`
 
@@ -46,6 +46,6 @@ one could use the following:
 
 ## TODOS
 
-* Publish react-geo-bc-state as own project
+* Publish react-geo-bc-state and components as own project
 * Add ol-util and base-util as packages?
 * Check why babelrc config with react is needed in react-geo-bc-state
