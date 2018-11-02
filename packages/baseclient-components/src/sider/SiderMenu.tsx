@@ -109,42 +109,44 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
           { measureToolsEnabled ?
             <SubMenu
               key="sub1"
+              className="measuremenu"
               mode={ isMobile ? "inline" : "vertical" }
               title={
                 <div><Icon type="file" /><span>{t('Measure.title')}</span></div>
               }
             >
-              <div className="measuregroup">
-                <ToggleGroup
-                  allowDeselect={true}
-                  selectedName="one"
-                  // onChange={onChange}
-                >
-                  <MeasureButton
-                    name="multi"
-                    map={map}
-                    measureType="line"
-                    multipleDrawing
+              <Menu.Item key="5">
+                <div className="measuregroup">
+                  <ToggleGroup
+                    allowDeselect={true}
+                    selectedName="one"
                   >
-                  {t('Measure.line')}
-                  </MeasureButton>
-                  <MeasureButton
-                    name="poly"
-                    map={map}
-                    measureType="polygon"
-                    multipleDrawing
-                  >
-                  {t('Measure.area')}
-                  </MeasureButton>
-                  <MeasureButton
-                    name="angle"
-                    map={map}
-                    measureType="angle"
-                  >
-                  {t('Measure.angle')}
-                  </MeasureButton>
-                </ToggleGroup>
-              </div>
+                    <MeasureButton
+                      name="multi"
+                      map={map}
+                      measureType="line"
+                      multipleDrawing
+                    >
+                    {t('Measure.line')}
+                    </MeasureButton>
+                    <MeasureButton
+                      name="poly"
+                      map={map}
+                      measureType="polygon"
+                      multipleDrawing
+                    >
+                    {t('Measure.area')}
+                    </MeasureButton>
+                    <MeasureButton
+                      name="angle"
+                      map={map}
+                      measureType="angle"
+                    >
+                    {t('Measure.angle')}
+                    </MeasureButton>
+                  </ToggleGroup>
+                </div>
+              </Menu.Item>
             </SubMenu> : null
           }
           <SubMenu
