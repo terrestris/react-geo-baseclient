@@ -2,4 +2,8 @@ declare module '@terrestris/react-geo';
 declare module 'ol';
 declare module 'ol/layer/Group';
 declare module 'ol/layer/Base';
+declare module 'ol/Map';
 declare module '@terrestris/ol-util/src/MapUtil/MapUtil';
+declare module '@terrestris/base-util/src/CsrfUtil/CsrfUtil';
+declare module '@terrestris/mapfish-print-manager';
+declare module 'react-i18next';
