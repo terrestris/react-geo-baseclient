@@ -152,6 +152,7 @@ const delayedConf =
                 }, {
                   context: [
                     '/rest/**',
+                    '/print/**',
                     '/locale/**',
                     '/**/*.action',
                     '/import/**'

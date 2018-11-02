@@ -12,5 +12,35 @@
     "contact": "Contact",
     "privacypolicy": "Privacy Policy"
   },
-  "Logout": "Logout"
+  "Logout": "Logout",
+  "ScaleComboLabel": "Map scale",
+  "FullPrintPanel": {
+    "previewCardTitle": "Preview",
+    "printTitleLabelText": "Title",
+    "printDescriptionLabelText": "Description",
+    "printTitlePlaceholder": "Please enter a title",
+    "printDescriptionPlaceholder": "Please enter a description",
+    "printLayoutLabelText": "Printlayout",
+    "printScaleLabelText": "Map scale",
+    "printResolutionLabelText": "Resolution",
+    "standardResolutionText": "Default resolution",
+    "highResolutionText": "High resolution",
+    "workPrintTemplateTitle": "Workprint",
+    "printFormatLabelText": "Image format",
+    "printLabelLabelText": "Print labels?",
+    "printLegendsLabelText": "Legends",
+    "printBtnText": "Print",
+    "previewPrintTitle": "Preview",
+    "previewPrintDescription": "Preview comment",
+    "defaultPrintTitle": "Print",
+    "defaultPrintComment": "Enter a comment",
+    "fetchCapabilitiesErrorMsg": "Error while requesting the print capabilities. Print will not work!",
+    "printErrorMsg": "Error while requesting the print document!"
+  },
+  "QuickPrintPanel": {
+    "printDescription": "Please select an extent for the work print and confirm by pressing the print button.",
+    "printBtnText": "Print",
+    "fetchCapabilitiesErrorMsg": "Error while requesting the print capabilities. Print will not work!",
+    "printErrorMsg": "Error while requesting the print document!"
+  }
 }

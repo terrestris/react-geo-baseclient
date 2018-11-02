@@ -14,5 +14,9 @@ export default {
   locale: basePath + 'resources/i18n/{{lng}}.json',
   getBasePath: function (){
     return basePath;
-  }
+  },
+  printAction: `${basePath}print/print`,
+  printCreateUrlAction: `${basePath}print/createUrl.action`,
+  printUrlAction: `${basePath}print/doPrint.action`,
+  printGetResultAction: `${basePath}print/getPrintResult.action`,
 };

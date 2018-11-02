@@ -12,5 +12,35 @@
     "contact": "Kontakt",
     "privacypolicy": "Datenschutz"
   },
-  "Logout": "Ausloggen"
+  "Logout": "Ausloggen",
+  "ScaleComboLabel": "Maßstab",
+  "FullPrintPanel": {
+    "previewCardTitle": "Vorschau",
+    "printTitleLabelText": "Titel",
+    "printDescriptionLabelText": "Beschreibung",
+    "printTitlePlaceholder": "Bitte geben Sie einen Titel ein",
+    "printDescriptionPlaceholder": "Bitte geben Sie eine Beschreibung ein",
+    "printLayoutLabelText": "Drucklayout",
+    "printScaleLabelText": "Maßstab",
+    "printResolutionLabelText": "Auflösung",
+    "standardResolutionText": "Standardauflösung",
+    "highResolutionText": "Hohe Auflösung",
+    "workPrintTemplateTitle": "Arbeitsausdruck",
+    "printFormatLabelText": "Bildformat",
+    "printLabelLabelText": "Label drucken?",
+    "printLegendsLabelText": "Legenden",
+    "printBtnText": "Drucken",
+    "previewPrintTitle": "Vorschau",
+    "previewPrintDescription": "Vorschaukommentar",
+    "defaultPrintTitle": "Druck",
+    "defaultPrintComment": "Kommentar eingeben",
+    "fetchCapabilitiesErrorMsg": "Es ist ein Fehler beim Abrufen der Druck-Eigenschaften aufgetreten. Druckausgabe nicht möglich!",
+    "printErrorMsg": "Beim Druck ist ein Fehler aufgetreten!"
+  },
+  "QuickPrintPanel": {
+    "printDescription": "Bitte wählen Sie einen Ausschnitt für den Arbeitsausdruck und betätigen dann den Drucken-Knopf.",
+    "printBtnText": "Drucken",
+    "fetchCapabilitiesErrorMsg": "Es ist ein Fehler beim Abrufen der Druck-Eigenschaften aufgetreten. Druckausgabe nicht möglich!",
+    "printErrorMsg": "Beim Druck ist ein Fehler aufgetreten!"
+  }
 }
