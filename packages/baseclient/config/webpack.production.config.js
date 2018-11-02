@@ -1,7 +1,6 @@
 const commonConfig = require('./webpack.common.config.js');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
@@ -22,15 +21,6 @@ commonWebpackConfig.plugins = [
     },
     APP_MODE: JSON.stringify(commonConfig.TARGET)
   }),
-  new CopyWebpackPlugin([
-    {
-      from: './src/resources/appContext.json',
-      to: './resources/'
-    }, {
-      from: './src/resources/i18n/',
-      to: './resources/i18n/'
-    }
-  ]),
   new HtmlWebpackPlugin({
     title: 'react-geo baseclient',
     filename: 'index.html',

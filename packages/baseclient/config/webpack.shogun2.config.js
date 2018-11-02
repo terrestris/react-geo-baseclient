@@ -4,7 +4,6 @@ const path = require('path');
 const fetch = require('node-fetch');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const URLSearchParams = require('url-search-params');
 const cheerio = require('cheerio');
@@ -134,11 +133,6 @@ const delayedConf =
                   title: 'react-geo-baseclient'
                 }),
                 new webpack.ProgressPlugin({ profile: false }),
-                new CopyWebpackPlugin([
-                  './public/logo_terrestris.png',
-                  './public/index.css',
-                  './public/something-went-wrong.png'
-                ]),
                 new InterpolateHtmlPlugin(interpolations),
                 new webpack.DefinePlugin({
                   APP_MODE: JSON.stringify(commonConfig.TARGET)

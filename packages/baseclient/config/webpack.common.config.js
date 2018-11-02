@@ -2,6 +2,7 @@ const path = require('path');
 const winston = require('winston');
 const paths = require('./paths.js');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // const CustomAntThemeModifyVars = require('./src/theme/antLessModifyVars.js');
 const TARGET = process.env.npm_lifecycle_event;
@@ -102,6 +103,20 @@ const commonWebpackConfig = {
       tsconfig: paths.appTsConfig,
       tslint: paths.appTsLint,
     }),
+    new CopyWebpackPlugin([
+      './public/de.png',
+        './public/en.png',
+        './public/logo_terrestris.png',
+        './public/index.css',
+        './public/something-went-wrong.png',
+        {
+          from: './src/resources/appContext.json',
+          to: './resources/'
+        }, {
+          from: './src/resources/i18n/',
+          to: './resources/i18n/'
+        }
+    ])
   ],
 
   resolve: {

@@ -3,7 +3,6 @@ process.env.NODE_ENV = 'development';
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
@@ -32,23 +31,7 @@ const delayedConf = new Promise(function(resolve) {
       title: 'react-geo-baseclient'
     }),
     new webpack.ProgressPlugin({ profile: false }),
-    new CopyWebpackPlugin([
-      './public/de.png',
-      './public/en.png',
-      './public/logo_terrestris.png',
-      './public/index.css',
-      './public/something-went-wrong.png'
-    ]),
     new InterpolateHtmlPlugin(interpolations),
-    new CopyWebpackPlugin([
-      {
-        from: './src/resources/appContext.json',
-        to: './resources/'
-      }, {
-        from: './src/resources/i18n/',
-        to: './resources/i18n/'
-      }
-    ]),
     new webpack.DefinePlugin({
       APP_MODE: JSON.stringify(commonConfig.TARGET)
     })
