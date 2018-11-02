@@ -19,7 +19,8 @@ export default {
     loading: false
   },
   mapLayers: [],
-  activeModules: []
+  activeModules: [],
+  appContext: {}
   // hoverFeatures: {
   //   isFetching: false,
   //   features: []

@@ -15,6 +15,7 @@ const baseclientMainReducer = outerReducer(combineReducers({
   appInfo: ApplicationInfoReducer.reduce,
   mapLayers: MapLayersReducer.reduce,
   activeModules: ActiveModulesReducer.reduce,
+  appContext: (appContext = {}) => appContext,
   // We need innerReducer to store loading state, i.e. for showing loading spinner
   asyncInitialState: innerReducer
 }));
