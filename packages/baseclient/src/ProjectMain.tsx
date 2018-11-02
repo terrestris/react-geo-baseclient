@@ -3,14 +3,15 @@ import './ProjectMain.less';
 import { connect } from 'react-redux';
 import { withNamespaces } from 'react-i18next';
 import i18n from './i18n';
+import BrowserUtil from './util/BrowserUtil';
 import OlMap from 'ol/map';
 import SomethingWentWrong from './SomethingWentWrong';
 import {
-  MapComponent
+  MapComponent,
+  Toolbar
 } from '@terrestris/react-geo';
-import { Layout } from 'antd';
-const { /*Header,*/ Footer, Content } = Layout;
-import { SiderMenu } from 'baseclient-components';
+import { SiderMenu, Footer } from 'baseclient-components';
+import AppContextUtil from './util/AppContextUtil';
 
 
 /**
@@ -25,7 +26,8 @@ const mapStateToProps = (state: any) => {
     activeModules: state.activeModules,
     appContextLoading: state.asyncInitialState.loading,
     loading: state.loadingQueue.loading,
-    mapLayers: state.mapLayers
+    mapLayers: state.mapLayers,
+    appContext: state.appContext
   };
 };
 
@@ -39,9 +41,10 @@ export interface MainProps extends Partial<DefaultMainProps> {
     loading: boolean,
     map: OlMap,
     mapLayers: [],
+    appContext: {},
     appContextLoading: boolean,
     activeModules: object[],
-    t: (arg: string) => {}
+    t: (arg: string) => string
 }
 
 export interface MainState {
@@ -93,23 +96,37 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
   setupViewport(): object {
     const {
       map,
-      t
+      appContext,
+      t,
     } = this.props;
+    const isMobile = BrowserUtil.isMobile();
     const viewport = (
-      <div>
-        <Layout>
+      <div className="viewport">
+        { isMobile ? null :
+          <header>Header</header>
+        }
+        <div className="main-content">
           <SiderMenu
+              map={map}
+              t={t}
+              i18n={i18n}
+              collapsible={false}
+              isMobile={isMobile}
+            />
+          <MapComponent
             map={map}
-            t={t}
-            i18n={i18n}
           />
-            <Content>
-              <MapComponent
-                map={map}
-              />
-            </Content>
-        </Layout>
-        <Footer>Footer</Footer>
+          <Toolbar
+            alignment="vertical"
+            style={isMobile ? {top: '10px'} : null}
+          >
+            { AppContextUtil.getToolsForToolbar(this.props.activeModules, map, appContext, t) }
+          </Toolbar>
+        </div>
+        <Footer
+          map={map}
+          t={t}
+        />
       </div>
     );
     return viewport;
