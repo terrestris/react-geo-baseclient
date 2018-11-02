@@ -12,7 +12,8 @@ interface SiderProps {
   collapsed: boolean,
   map: any,
   t: (arg: string) => {},
-  i18n: any
+  i18n: any,
+  isMobile: boolean
 }
 
 interface SiderState {
@@ -53,7 +54,8 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
 
   render() {
     const {
-      t
+      t,
+      isMobile
     } = this.props;
     return (
       <Sider
@@ -75,7 +77,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
           <SubMenu
             key="1"
             className="treesubmenu"
-            mode="vertical"
+            mode={ isMobile ? "inline" : "vertical" }
             title={
               <div><Icon type="file" /><span>{t('LayerTree')}</span></div>
             }
@@ -86,7 +88,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
           </SubMenu>
           <SubMenu 
             key="2"
-            mode="vertical"
+            mode={ isMobile ? "inline" : "vertical" }
             title={
               <div><Icon type="desktop" /><span>{t('Legend')}</span></div>
             }
@@ -99,7 +101,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
           </SubMenu>
           <SubMenu
             key="sub1"
-            mode="vertical"
+            mode={ isMobile ? "inline" : "vertical" }
             title={
               <div><Icon type="file" /><span>{t('Measure.title')}</span></div>
             }
@@ -110,6 +112,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
           </SubMenu>
           <SubMenu
             key="sub2"
+            mode={ isMobile ? "inline" : "vertical" }
             title={<span><Icon type="team" /><span>{t('Imprint.title')}</span></span>}
           >
             <Menu.Item key="6">{t('Imprint.contact')}</Menu.Item>
