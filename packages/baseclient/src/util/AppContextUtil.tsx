@@ -1,3 +1,4 @@
+import * as React from 'react';
 import ObjectUtil from '@terrestris/base-util/src/ObjectUtil/ObjectUtil';
 import OlTileWMS from 'ol/source/TileWMS';
 import OlTileLayer from 'ol/layer/Tile';
@@ -16,6 +17,15 @@ import { Logger } from '@terrestris/base-util';
 import initialState from '../store/initialState';
 import getOSMLayer from '@terrestris/vectortiles';
 
+import {
+  SimpleButton,
+  // Window,
+  ZoomButton,
+  ZoomToExtentButton
+} from '@terrestris/react-geo';
+// import { FullPrintPanel } from 'baseclient-components/src/container/FullPrintPanel/v2/FullPrintPanel';
+// import config from '../config/config';
+
 /**
  * This class provides some static methods which can be used with the appContext of SHOGun2.
  *
@@ -30,10 +40,10 @@ class AppContextUtil {
    * @return {Object} The initialState used by the store.
    */
   static appContextToState(appContext: any) {
-    var state: any = initialState;
-    var mapConfig = ObjectUtil.getValue('mapConfig', appContext);
-    var mapLayers = ObjectUtil.getValue('mapLayers', appContext);
-    var activeModules = ObjectUtil.getValue('activeTools', appContext);
+    let state: any = initialState;
+    const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
+    const mapLayers = ObjectUtil.getValue('mapLayers', appContext);
+    const activeModules = ObjectUtil.getValue('activeTools', appContext);
 
     // AppInfo
     state.appInfo.name = appContext.name || state.appInfo.name;
@@ -59,6 +69,8 @@ class AppContextUtil {
     state.mapLayers = AppContextUtil.parseLayers(mapLayers);
 
     state.activeModules = union(state.activeModules, activeModules);
+
+    state.appContext = appContext;
 
     return state;
   }
@@ -179,6 +191,115 @@ class AppContextUtil {
       hoverTemplate: layerObj.appearance.hoverTemplate,
       type: layerObj.source.type
     });
+  }
+
+  /**
+   * TODO: Missing features: 
+   * "shogun-button-stepback", 
+   * "shogun-button-stepforward", 
+   * basigx-button-hsi, 
+   * shogun-button-print, 
+   * "shogun-button-showmeasuretoolspanel"
+   * "shogun-button-showredliningtoolspanel"
+   * "shogun-button-showworkstatetoolspanel"
+   * "shogun-button-addwms"
+   * "shogun-button-showmetapanel"
+   * @param activeModules 
+   * @param map 
+   * @param appContext 
+   */
+  static getToolsForToolbar(activeModules: Array<any>, map: any, appContext: any, t:(arg: string) => string) {
+    let tools:any[] = [];
+    const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
+    activeModules.forEach((module: any) => {
+      switch(module.xtype) {
+        case 'basigx-button-zoomin':
+          tools.push(<ZoomButton
+            delta={1}
+            map={map}
+            key="1"
+            type="primary"
+            shape="circle"
+            icon="plus"
+            tooltip={t('test')}
+            tooltipPlacement={'left'}
+          />);
+          return;
+        case 'basigx-button-zoomout':
+        tools.push(<ZoomButton
+            delta={-1}
+            map={map}
+            key="2"
+            type="primary"
+            shape="circle"
+            icon="minus"
+          />);
+          return;
+        case 'shogun-button-zoomtoextent':
+          tools.push(<ZoomToExtentButton
+            extent={[
+              mapConfig.extent.lowerLeft.x,
+              mapConfig.extent.lowerLeft.y,
+              mapConfig.extent.upperRight.x,
+              mapConfig.extent.upperRight.y,
+            ]}
+            map={map}
+            key="3"
+            type="primary"
+            shape="circle"
+            icon="minus-circle"
+          />);
+          return;
+        case 'shogun-button-print':
+          tools.push(<SimpleButton
+            map={map}
+            key="4"
+            type="primary"
+            shape="circle"
+            icon="print"
+          />);
+          // tools.push(
+          //   <Window
+          //   className="bismap-window"
+          //   key="5"
+          //   // onEscape={this.changeFullPrintWindowVisibility}
+          //   title={t('FullPrintPanel.defaultPrintTitle')}
+          //   width={750}
+          //   y={50}
+          //   x={100}
+          //   enableResizing={false}
+          //   // collapseTooltip={t('Component.collapse')}
+          //   bounds="#app"
+          //   tools={[
+          //     <SimpleButton
+          //       icon="times"
+          //       key="close-tool"
+          //       size="small"
+          //       // tooltip={t('Component.close')}
+          //       // onClick={this.changeFullPrintWindowVisibility}
+          //     />
+          //   ]}
+          // >
+
+          // <FullPrintPanel 
+          //   map={map}
+          //   key="5"
+          //   t={t}
+          //   config={config}
+          //   legendBlackList={['test']}//{layerBlackList}
+          //   printLayerBlackList={['test']}//{printLayerBlackList}
+          //   // onPrintManagerInitFailed="test"//{this.changeFullPrintWindowVisibility}
+
+          // />
+          // </Window>
+          // )
+          return;
+        default:
+          return;
+      }
+      
+    });
+    return tools;
   }
 
 }
