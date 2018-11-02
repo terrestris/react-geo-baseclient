@@ -3,7 +3,7 @@
   "Legend": "Legend",
   "Measure": {
     "title": "Measure",
-    "point": "Point",
+    "angle": "Angle",
     "line": "Line",
     "area": "Area"
   },

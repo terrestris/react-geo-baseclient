@@ -302,6 +302,10 @@ class AppContextUtil {
     return tools;
   }
 
+  static measureToolsEnabled(activeModules: Array<any>) {
+    return activeModules.map((module: any) => module.xtype === 'shogun-button-showmeasuretoolspanel').indexOf(true) > -1;
+  }
+
 }
 
 export default AppContextUtil;

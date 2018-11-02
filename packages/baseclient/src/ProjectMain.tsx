@@ -98,8 +98,10 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
       map,
       appContext,
       t,
+      activeModules
     } = this.props;
     const isMobile = BrowserUtil.isMobile();
+    const measureToolsEnabled = AppContextUtil.measureToolsEnabled(activeModules);
     const viewport = (
       <div className="viewport">
         { isMobile ? null :
@@ -112,6 +114,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
               i18n={i18n}
               collapsible={false}
               isMobile={isMobile}
+              measureToolsEnabled={measureToolsEnabled}
             />
           <MapComponent
             map={map}
@@ -120,7 +123,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
             alignment="vertical"
             style={isMobile ? {top: '10px'} : null}
           >
-            { AppContextUtil.getToolsForToolbar(this.props.activeModules, map, appContext, t) }
+            { AppContextUtil.getToolsForToolbar(activeModules, map, appContext, t) }
           </Toolbar>
         </div>
         <Footer

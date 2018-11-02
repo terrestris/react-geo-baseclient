@@ -3,7 +3,7 @@
   "Legend": "Legende",
   "Measure": {
     "title": "Messen",
-    "point": "Punkt",
+    "angle": "Winkel",
     "line": "Linie",
     "area": "Fläche"
   },

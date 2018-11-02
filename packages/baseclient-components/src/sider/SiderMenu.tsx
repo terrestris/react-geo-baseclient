@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import './SiderMenu.less';
-import { LayerTree } from '@terrestris/react-geo';
+import {
+  LayerTree,
+  MeasureButton,
+  ToggleGroup
+} from '@terrestris/react-geo';
 import LegendContainer from '../container/Legend/LegendContainer';
 import MapUtil from '@terrestris/ol-util/src/MapUtil/MapUtil';
 const { Sider } = Layout;
@@ -13,7 +17,8 @@ interface SiderProps {
   map: any,
   t: (arg: string) => {},
   i18n: any,
-  isMobile: boolean
+  isMobile: boolean,
+  measureToolsEnabled: boolean
 }
 
 interface SiderState {
@@ -55,7 +60,9 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
   render() {
     const {
       t,
-      isMobile
+      isMobile,
+      measureToolsEnabled,
+      map
     } = this.props;
     return (
       <Sider
@@ -99,17 +106,47 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
               filterFn={(l: any) => l.getVisible()}
             />
           </SubMenu>
-          <SubMenu
-            key="sub1"
-            mode={ isMobile ? "inline" : "vertical" }
-            title={
-              <div><Icon type="file" /><span>{t('Measure.title')}</span></div>
-            }
-          >
-            <Menu.Item key="3">{t('Measure.point')}</Menu.Item>
-            <Menu.Item key="4">{t('Measure.line')}</Menu.Item>
-            <Menu.Item key="5">{t('Measure.area')}</Menu.Item>
-          </SubMenu>
+          { measureToolsEnabled ?
+            <SubMenu
+              key="sub1"
+              mode={ isMobile ? "inline" : "vertical" }
+              title={
+                <div><Icon type="file" /><span>{t('Measure.title')}</span></div>
+              }
+            >
+              <div className="measuregroup">
+                <ToggleGroup
+                  allowDeselect={true}
+                  selectedName="one"
+                  // onChange={onChange}
+                >
+                  <MeasureButton
+                    name="multi"
+                    map={map}
+                    measureType="line"
+                    multipleDrawing
+                  >
+                  {t('Measure.line')}
+                  </MeasureButton>
+                  <MeasureButton
+                    name="poly"
+                    map={map}
+                    measureType="polygon"
+                    multipleDrawing
+                  >
+                  {t('Measure.area')}
+                  </MeasureButton>
+                  <MeasureButton
+                    name="angle"
+                    map={map}
+                    measureType="angle"
+                  >
+                  {t('Measure.angle')}
+                  </MeasureButton>
+                </ToggleGroup>
+              </div>
+            </SubMenu> : null
+          }
           <SubMenu
             key="sub2"
             mode={ isMobile ? "inline" : "vertical" }
