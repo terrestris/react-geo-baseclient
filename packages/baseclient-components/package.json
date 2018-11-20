@@ -40,9 +40,16 @@
     "@types/node": "10.11.7",
     "@types/ol": "4.6.2",
     "@types/react": "16.4.18",
+    "canvas-prebuilt": "1.6.11",
     "copyfiles": "2.1.0",
+    "enzyme": "3.7.0",
+    "enzyme-adapter-react-16": "1.7.0",
     "jest": "23.6.0",
+    "jest-fetch-mock": "1.7.4",
     "lodash": "4.17.11",
+    "redux": "4.0.1",
+    "redux-thunk": "2.3.0",
+    "redux-mock-store": "1.5.3",
     "ts-jest": "23.10.4",
     "typescript": "3.1.3"
   }
