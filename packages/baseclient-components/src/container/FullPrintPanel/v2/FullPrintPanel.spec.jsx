@@ -1,8 +1,7 @@
 /*eslint-env jest*/
-import '../../../spec/enzyme.conf';
-import TestUtils from '../../../spec/TestUtils';
+import TestUtils from '../../../../spec/TestUtils';
 
-import FullPrintPanel from './FullPrintPanel.jsx';
+import FullPrintPanel from './FullPrintPanel.tsx';
 
 describe('<FullPrintPanel />', () => {
   let map;
@@ -12,7 +11,10 @@ describe('<FullPrintPanel />', () => {
     map = TestUtils.createMap();
     wrapper = TestUtils.mountComponent(FullPrintPanel, {
       t: () => {},
-      map: map
+      map: map,
+      config: {
+        printAction: 'http://nowhere.com'
+      }
     });
   });
 
@@ -150,8 +152,8 @@ describe('<FullPrintPanel />', () => {
         expect(wrapper.state().printTitle).toBe('');
         expect(wrapper.state().printDescription).toBe('');
         expect(wrapper.state().layout).toBe('');
-        expect(wrapper.state().scale).toBe('');
-        expect(wrapper.state().dpi).toBe('');
+        expect(wrapper.state().scale).toBe('dummyScale');
+        expect(wrapper.state().dpi).toBe('dummyDpi');
         expect(wrapper.state().outputFormat).toBe('');
       });
     });
