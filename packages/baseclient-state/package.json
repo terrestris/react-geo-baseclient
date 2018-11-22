@@ -21,7 +21,7 @@
     "@terrestris/base-util": "0.1.2",
     "@terrestris/ol-util": "1.5.2",
     "@types/lodash": "4.14.118",
-    "@types/node": "10.12.9",
+    "@types/node": "10.12.10",
     "@types/ol": "4.6.2",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
