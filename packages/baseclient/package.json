@@ -39,7 +39,7 @@
   "homepage": ".",
   "dependencies": {
     "@terrestris/base-util": "0.1.3",
-    "@terrestris/ol-util": "1.5.2",
+    "@terrestris/ol-util": "1.6.0",
     "@terrestris/react-geo": "10.4.1",
     "@terrestris/vectortiles": "0.3.0",
     "antd": "3.10.9",

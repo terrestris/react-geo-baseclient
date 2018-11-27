@@ -21,7 +21,7 @@
   "dependencies": {
     "@terrestris/base-util": "0.1.3",
     "@terrestris/mapfish-print-manager": "2.0.0",
-    "@terrestris/ol-util": "1.5.2",
+    "@terrestris/ol-util": "1.6.0",
     "@terrestris/react-geo": "10.4.1",
     "antd": "3.10.9",
     "babel-preset-env": "1.7.0",
@@ -32,7 +32,7 @@
     "react-dom": "16.6.3"
   },
   "devDependencies": {
-    "@terrestris/ol-util": "1.5.2",
+    "@terrestris/ol-util": "1.6.0",
     "@terrestris/react-geo": "10.4.1",
     "@types/antd": "1.0.0",
     "@types/jest": "23.3.9",
