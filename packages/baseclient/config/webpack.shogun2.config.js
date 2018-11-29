@@ -10,7 +10,7 @@ const cheerio = require('cheerio');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
-const shogunConfig = require('./shogunconfig.json');
+const shogunConfig = require('./projectconfig.json').shogunConfig;
 
 commonWebpackConfig.mode = 'development';
 // prepare the InterpolateHtmlPlugin
