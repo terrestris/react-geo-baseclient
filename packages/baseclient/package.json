@@ -68,7 +68,7 @@
     "pretest": "npm run lint"
   },
   "devDependencies": {
-    "@types/i18next": "11.9.3",
+    "@types/i18next": "12.1.0",
     "@types/jest": "23.3.10",
     "@types/lodash": "4.14.118",
     "@types/node": "10.12.10",
