@@ -39,7 +39,7 @@
     "@types/lodash": "4.14.118",
     "@types/node": "10.12.10",
     "@types/ol": "4.6.2",
-    "@types/react": "16.7.8",
+    "@types/react": "16.7.9",
     "canvas-prebuilt": "1.6.11",
     "copyfiles": "2.1.0",
     "enzyme": "3.7.0",
