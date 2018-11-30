@@ -22,10 +22,15 @@ TODO: move above to postinstall
 * How to start the application?
 
   * When using shogun2 as backend
-    * Set the credentials in config/shogunconfig.json
+    * Set the credentials in config/projectconfig.json
     * Start the app with `npm run start-shogun2`
   * When using no backend / a static appContext
     * Start the app with `npm run start-static`
+
+* To start a new project:
+  * Create a new folder next to the baseclient package, e.g. "myproject" and add at least a single Main class.
+  * Configure the project main view and configs in the baseclient/config/projectconfig.json file
+  * This way, your project will use the baseclients setup and will render your own view and components
 
 * How to add a dependency?
 

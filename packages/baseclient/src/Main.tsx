@@ -3,7 +3,6 @@ import './Main.css';
 import 'ol/ol.css';
 import OlMap from 'ol/map';
 import SomethingWentWrong from './SomethingWentWrong';
-import ProjectMain from './ProjectMain';
 import { withNamespaces } from 'react-i18next';
 
 export interface MainProps {
@@ -25,6 +24,8 @@ export interface MainState {
  */
 export class Main extends React.Component<MainProps, MainState> {
 
+  main: any;
+
   /**
    * Create a main component.
    * @constructs Main
@@ -34,9 +35,18 @@ export class Main extends React.Component<MainProps, MainState> {
 
     this.state = {
       hasError: false,
-      error:  null,
+      error: null,
       info: null
     };
+
+    // load and show the project specific main view, as
+    // configured by the user in the projectconfig.js
+    // @ts-ignore
+    const context = require.context(PROJECT_MAIN_PATH, true, PROJECT_MAIN_CLASS);
+    context.keys().forEach((filename: any) => {
+      const main = context(filename);
+      this.main = main.default;
+    })
   }
 
   /**
@@ -68,9 +78,7 @@ export class Main extends React.Component<MainProps, MainState> {
       );
     }
     return (
-      <ProjectMain
-        map={this.props.map}
-      />
+      this.main ? <this.main map={this.props.map}/> : null
     );
   }
 }

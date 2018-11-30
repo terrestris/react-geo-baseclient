@@ -1,8 +1,10 @@
 const path = require('path');
 const winston = require('winston');
 const paths = require('./paths.js');
+const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const projectconfig = require('./projectconfig.js');
 
 // const CustomAntThemeModifyVars = require('./src/theme/antLessModifyVars.js');
 const TARGET = process.env.npm_lifecycle_event;
@@ -22,7 +24,7 @@ const commonWebpackConfig = {
     app: [
       'whatwg-fetch',
       paths.appIndexJs
-    ],
+    ]
   },
 
   output: {
@@ -35,7 +37,7 @@ const commonWebpackConfig = {
     filename: (TARGET.indexOf('build') > -1) ? '../build/static/js/bundle.js' : 'static/js/bundle.js',
     publicPath: '',
     // There are also additional JS chunk files if you use code splitting.
-    chunkFilename: '../build/static/js/[name].chunk.js'
+    chunkFilename: 'static/js/[name].chunk.js'
   },
 
   module: {
@@ -116,7 +118,11 @@ const commonWebpackConfig = {
           from: './src/resources/i18n/',
           to: './resources/i18n/'
         }
-    ])
+    ]),
+    new webpack.DefinePlugin({
+      PROJECT_MAIN_PATH: JSON.stringify(projectconfig.appConfig.projectMainPath),
+      PROJECT_MAIN_CLASS: new RegExp('^./' + projectconfig.appConfig.projectMainClass + '\\.(jsx|js|ts|tsx)$')
+    })
   ],
 
   resolve: {
