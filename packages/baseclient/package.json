@@ -129,7 +129,7 @@
     "uglifyjs-webpack-plugin": "2.0.1",
     "url-loader": "1.1.2",
     "url-search-params": "1.1.0",
-    "webpack": "4.26.1",
+    "webpack": "4.27.0",
     "webpack-cli": "3.1.2",
     "webpack-dev-server": "3.1.10",
     "webpack-manifest-plugin": "2.0.4",
