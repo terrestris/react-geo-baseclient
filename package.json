@@ -48,6 +48,6 @@
     "postinstall": "npm run bootstrap"
   },
   "devDependencies": {
-    "lerna": "3.6.0"
+    "lerna": "3.8.0"
   }
 }
