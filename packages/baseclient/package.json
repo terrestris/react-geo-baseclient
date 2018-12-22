@@ -126,7 +126,7 @@
     "tslint-config-prettier": "1.17.0",
     "tslint-react": "3.6.0",
     "typescript": "3.1.6",
-    "uglifyjs-webpack-plugin": "2.0.1",
+    "uglifyjs-webpack-plugin": "2.1.0",
     "url-loader": "1.1.2",
     "url-search-params": "1.1.0",
     "webpack": "4.28.1",
