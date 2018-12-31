@@ -69,7 +69,7 @@
   },
   "devDependencies": {
     "@types/i18next": "12.1.0",
-    "@types/jest": "23.3.10",
+    "@types/jest": "23.3.11",
     "@types/lodash": "4.14.119",
     "@types/node": "10.12.18",
     "@types/ol": "4.6.2",
