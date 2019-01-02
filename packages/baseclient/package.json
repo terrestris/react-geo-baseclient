@@ -72,7 +72,7 @@
     "@types/jest": "23.3.10",
     "@types/lodash": "4.14.119",
     "@types/node": "10.12.18",
-    "@types/ol": "4.6.2",
+    "@types/ol": "4.6.3",
     "@types/react": "16.7.17",
     "@types/react-dom": "16.0.11",
     "@types/react-redux": "6.0.11",
