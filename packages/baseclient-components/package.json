@@ -38,7 +38,7 @@
     "@types/jest": "23.3.11",
     "@types/lodash": "4.14.119",
     "@types/node": "10.12.18",
-    "@types/ol": "4.6.2",
+    "@types/ol": "4.6.3",
     "@types/react": "16.7.17",
     "canvas-prebuilt": "1.6.11",
     "copyfiles": "2.1.0",
