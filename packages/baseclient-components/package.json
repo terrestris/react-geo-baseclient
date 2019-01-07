@@ -35,7 +35,7 @@
     "@terrestris/ol-util": "1.6.0",
     "@terrestris/react-geo": "10.4.1",
     "@types/antd": "1.0.0",
-    "@types/jest": "23.3.10",
+    "@types/jest": "23.3.11",
     "@types/lodash": "4.14.119",
     "@types/node": "10.12.18",
     "@types/ol": "4.6.2",
