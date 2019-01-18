@@ -20,7 +20,7 @@
   "dependencies": {
     "@terrestris/base-util": "0.1.3",
     "@terrestris/ol-util": "1.6.0",
-    "@types/lodash": "4.14.119",
+    "@types/lodash": "4.14.120",
     "@types/node": "10.12.18",
     "@types/ol": "4.6.3",
     "babel-preset-env": "1.7.0",
