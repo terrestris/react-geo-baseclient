@@ -28,6 +28,7 @@
     "jest",
     "data",
     "**/*.spec.ts",
-    "coverage"
+    "coverage",
+    "./jest.config.js"
   ]
 }

@@ -13,11 +13,7 @@ and then
 `npm i`
 
 This will automatically install package dependencies with `lerna bootstrap`.
-
-Initially you will also need to build react-geo, the state and components module:
-`cd packages/react-geo && npm run build:dist && cd ../baseclient-state && npm run build:ts && cd ../baseclient-components && npm run build:ts`
-
-TODO: move above to postinstall
+It will also automatically compile the submodules like react-geo, the state and components module via postinstall.
 
 * How to start the application?
 

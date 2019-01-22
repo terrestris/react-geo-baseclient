@@ -10,7 +10,7 @@ import PrintUtil from './PrintUtil.js';
 
 describe('<PrintUtil />', () => {
 
-  let map;
+  let map: any;
 
   let printExtentLayer = new OlVectorLayer({
     source: new OlVectorSource(),
@@ -56,7 +56,7 @@ describe('<PrintUtil />', () => {
   });
 
   beforeEach(() => {
-    map = TestUtils.createMap();
+    map = TestUtils.createMap({});
     addLayersToMap();
   });
 
