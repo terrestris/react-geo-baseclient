@@ -1,0 +1,34 @@
+.scale-bar {
+  position: relative;
+
+  .scale-bar {
+    position: relative;
+    transition: all 0.25s;
+    z-Index: 9;
+    border: 1px solid black;
+  }
+
+  .scale-text {
+    position: absolute;
+    transition: all 0.25s;
+    text-align: center;
+    bottom: 35px;
+    color: #000000;
+    text-shadow: -2px 0 #FFFFFF, 0 2px #FFFFFF, 2px 0 #FFFFFF, 0 -2px #FFFFFF;
+  }
+
+  .step-marker {
+    width: 1px;
+    height: 15px;
+    background-color: #000000;
+    float: right;
+    z-Index: 10;
+  }
+
+  .step-text {
+    position: relative;
+    z-Index: 11;
+    color: #000000;
+    text-shadow: -2px 0 #FFFFFF, 0 2px #FFFFFF, 2px 0 #FFFFFF, 0 -2px #FFFFFF;
+  }
+}

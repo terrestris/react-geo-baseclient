@@ -7,6 +7,8 @@ declare module 'ol/layer/Image';
 declare module 'ol/Map';
 declare module 'ol/source/Vector';
 declare module 'ol/source/ImageWMS';
+declare module 'ol/sphere';
+declare module 'ol/proj';
 declare module '@terrestris/ol-util/src/MapUtil/MapUtil';
 declare module '@terrestris/base-util/src/CsrfUtil/CsrfUtil';
 declare module '@terrestris/mapfish-print-manager';

@@ -10,7 +10,7 @@ import {
   MapComponent,
   Toolbar
 } from '@terrestris/react-geo';
-import { SiderMenu, Footer } from 'baseclient-components';
+import { SiderMenu, Footer, ScaleBar } from 'baseclient-components';
 import AppContextUtil from './util/AppContextUtil';
 
 
@@ -118,6 +118,12 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
             />
           <MapComponent
             map={map}
+            children={
+              <ScaleBar
+                map={map}
+                bottom={35}
+              />
+            }
           />
           <Toolbar
             alignment="vertical"

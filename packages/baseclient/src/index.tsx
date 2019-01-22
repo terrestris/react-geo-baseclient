@@ -15,7 +15,6 @@ import {
   get as OlGetProjection
 } from 'ol/proj';
 import OlView from 'ol/View';
-import OlScaleLine from 'ol/control/ScaleLine';
 import ProjectionUtil from '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
 import store from './store/store';
 import Main from './Main';
@@ -93,9 +92,7 @@ const mapPromise = new Promise((resolve, reject) => {
         attributionOptions: {
           collapsible: true
         }
-      }).extend([
-        new OlScaleLine()
-      ]),
+      }),
       layers: mapLayers
     });
 
