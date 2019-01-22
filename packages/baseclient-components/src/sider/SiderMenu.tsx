@@ -91,6 +91,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
           >
             <LayerTree
               map={this.props.map}
+              filterFunction={(layer: any) => layer.get('name').indexOf('react-geo') < 0}
             />
           </SubMenu>
           <SubMenu 
