@@ -1,21 +1,21 @@
 /*eslint-env jest*/
 import TestUtils from '../../../../spec/TestUtils';
 
-import FullPrintPanel from './FullPrintPanel.tsx';
+import FullPrintPanel from './FullPrintPanel';
 
 describe('<FullPrintPanel />', () => {
   let map;
-  let wrapper;
+  let wrapper: any;
 
   beforeEach(() => {
-    map = TestUtils.createMap();
+    map = TestUtils.createMap({});
     wrapper = TestUtils.mountComponent(FullPrintPanel, {
       t: () => {},
       map: map,
       config: {
         printAction: 'http://nowhere.com'
       }
-    });
+    }, {});
   });
 
   afterEach(() => {

@@ -10,9 +10,9 @@
     ],
     "sourceMap": true,
     "allowJs": true,
+    "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "src",
-    "jsx": "react",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -29,7 +29,8 @@
     "jest",
     "jest.config.js",
     "data",
-    "**/*.spec.ts",
-    "coverage"
+    "**/*.spec.tsx",
+    "coverage",
+    "spec"
   ]
 }
