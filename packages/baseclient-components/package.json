@@ -42,7 +42,7 @@
     "canvas-prebuilt": "1.6.11",
     "copyfiles": "2.1.0",
     "enzyme": "3.8.0",
-    "enzyme-adapter-react-16": "1.7.1",
+    "enzyme-adapter-react-16": "1.8.0",
     "jest": "23.6.0",
     "jest-fetch-mock": "2.1.0",
     "lodash": "4.17.11",
