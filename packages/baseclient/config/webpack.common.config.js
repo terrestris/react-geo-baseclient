@@ -22,6 +22,7 @@ const Logger = winston.createLogger({
 const commonWebpackConfig = {
   entry: {
     app: [
+      'babel-polyfill',
       'whatwg-fetch',
       paths.appIndexJs
     ]
