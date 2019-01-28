@@ -73,7 +73,7 @@
     "@types/lodash": "4.14.120",
     "@types/node": "10.12.18",
     "@types/ol": "4.6.3",
-    "@types/react": "16.7.21",
+    "@types/react": "16.7.22",
     "@types/react-dom": "16.0.11",
     "@types/react-redux": "7.0.1",
     "@types/redux-logger": "3.0.6",
