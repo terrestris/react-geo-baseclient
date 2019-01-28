@@ -5,8 +5,6 @@ const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 
-commonWebpackConfig.devtool = 'cheap-module-source-map';
-
 // prepare the InterpolateHtmlPlugin
 const interpolations = {
   'NODE_ENV': 'production',
