@@ -128,9 +128,17 @@ const commonWebpackConfig = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
+      "@terrestris/react-geo": path.join(__dirname + '/../', 'node_modules', '@terrestris/react-geo'),
+      antd: path.join(__dirname + '/../', 'node_modules', 'antd'),
+      baseclient: path.join(__dirname + '/../', 'src'),
+      "baseclient-components": path.join(__dirname + '/../../', 'baseclient-components'),
       ol: path.join(__dirname + '/../', 'node_modules', 'ol'),
-      react: path.join(__dirname + '/../', 'node_modules', 'react')
-    }
+      react: path.join(__dirname + '/../', 'node_modules', 'react'),
+      "react-redux": path.join(__dirname + '/../', 'node_modules', 'react-redux'),
+      "react-i18next": path.join(__dirname + '/../', 'node_modules', 'react-i18next'),
+      tslib: path.join(__dirname + '/../', 'node_modules', 'tslib'),
+    },
+    modules: ['node_modules', '../baseclient/node_modules', './packages/baseclient/node_modules']
   }
 };
 

@@ -39,12 +39,12 @@ interface FullPrintPanelProps extends Partial<DefaultFullPrintPanelProps> {
   map: any,
 
   /**
-   * Optional function that should be called if the print manager couldn't
+   * Function that should be called if the print manager couldn't
    * be initialized.
    *
    * @type {Function}
    */
-  onPrintManagerInitFailed?: (message: string) => {},
+  onPrintManagerInitFailed: (message: string) => {},
 
   /**
    * List of (vector) layers which should be excluded from list of
