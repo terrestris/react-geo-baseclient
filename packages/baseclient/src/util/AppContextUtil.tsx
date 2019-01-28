@@ -102,7 +102,11 @@ class AppContextUtil {
       }
 
       if (layerObj.source.type === 'OSMVectortiles') {
-        layers.push(getOSMLayer());
+        const vectorLayer = getOSMLayer();
+        if (!layerObj.appearance.visible) {
+          vectorLayer.set('visible', false);
+        }
+        layers.push(vectorLayer);
       }
 
       let tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);

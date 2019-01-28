@@ -67,7 +67,7 @@
 						}
 					},
 					"resolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
-					"zoom": 15,
+					"zoom": 12,
 					"resolution": null,
 					"maxResolution": 0.5971642833948135,
 					"minResolution": 156543.03390625,
@@ -98,67 +98,109 @@
 					"mapControlProperties": {}
 				}],
 				"mapLayers": [{
+					"name": "OSM-Overlay-WMS",
+          "source": {
+						"type": "ImageWMS",
+						"url": "https://ows.terrestris.de/osm/service?",
+						"layerNames": "OSM-Overlay-WMS"
+					},
+					"appearance": {
+						"visible": false,
+						"attribution": "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> <br>"
+					}
+				}, {
+					"name": "SRTM30-Hillshade",
+          "source": {
+						"type": "ImageWMS",
+						"url": "https://ows.terrestris.de/osm/service?",
+						"layerNames": "SRTM30-Hillshade"
+					},
+					"appearance": {
+						"visible": false
+					}
+				}, {
+					"name": "SRTM30-Colored",
+          "source": {
+						"type": "ImageWMS",
+						"url": "https://ows.terrestris.de/osm/service?",
+						"layerNames": "SRTM30-Colored"
+					},
+					"appearance": {
+						"visible": false
+					}
+				}, {
+					"name": "SRTM30-Colored-Hillshade",
+          "source": {
+						"type": "ImageWMS",
+						"url": "https://ows.terrestris.de/osm/service?",
+						"layerNames": "SRTM30-Colored-Hillshade"
+					},
+					"appearance": {
+						"visible": false
+					}
+				}, {
+					"name": "SRTM30-Contour",
+          "source": {
+						"type": "ImageWMS",
+						"url": "https://ows.terrestris.de/osm/service?",
+						"layerNames": "SRTM30-Contour"
+					},
+					"appearance": {
+						"visible": false
+					}
+				}, {
+					"name": "TOPO-OSM-WMS",
+          "source": {
+						"type": "ImageWMS",
+						"url": "https://ows.terrestris.de/osm/service?",
+						"layerNames": "TOPO-OSM-WMS"
+					},
+					"appearance": {
+						"visible": false,
+						"attribution": "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> <br>"
+					}
+				}, {
+					"name": "TOPO-WMS",
+          "source": {
+						"type": "ImageWMS",
+						"url": "https://ows.terrestris.de/osm/service?",
+						"layerNames": "TOPO-WMS"
+					},
+					"appearance": {
+						"visible": false
+					}
+				}, {
+					"name": "OSM-WMS gray",
+          "source": {
+						"type": "ImageWMS",
+						"url": "https://ows.terrestris.de/osm-gray/service?",
+						"layerNames": "OSM-WMS"
+					},
+					"appearance": {
+						"visible": true,
+						"attribution": "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> <br>"
+					}
+				}, {
+					"name": "OSM-WMS",
+          "source": {
+						"type": "ImageWMS",
+						"url": "https://ows.terrestris.de/osm/service?",
+						"layerNames": "OSM-WMS"
+					},
+					"appearance": {
+						"visible": false,
+						"attribution": "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> <br>"
+					}
+        }, {
           "name": "terrestris OSM-Vectortiles",
           "source": {
             "type": "OSMVectortiles"
-          }
-        }, {
-					"id": 21,
-					"chartable": false,
-					"dataType": "",
-					"description": "",
-					"hoverable": false,
-					"metadataIdentifier": "",
-					"name": "OSM-WMS",
-					"spatiallyRestricted": false,
+					},
 					"appearance": {
-						"id": 11,
-						"attribution": "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> <br>",
-						"hoverable": null,
-						"hoverTemplate": null,
-						"properties": {},
-						"name": null,
-						"maxResolution": 156543.03390625,
-						"minResolution": 0.5971642833948135,
-						"opacity": 1.0,
-						"visible": true
-					},
-					"owner": null,
-					"source": {
-						"id": 10,
-						"name": null,
-						"type": "TileWMS",
-						"url": "https://ows.terrestris.de/osm/service?",
-						"width": 256,
-						"height": 256,
-						"version": "1.1.0",
-						"layerNames": "OSM-WMS",
-						"layerStyles": "",
-						"tileGrid": {
-							"id": 8,
-							"type": "TileGrid",
-							"tileGridOrigin": {
-								"x": 0.0,
-								"y": 0.0
-							},
-							"tileGridExtent": {
-								"id": 7,
-								"lowerLeft": {
-									"x": -2.002637639E7,
-									"y": -2.00489661E7
-								},
-								"upperRight": {
-									"x": 2.002637639E7,
-									"y": 2.00489661E7
-								}
-							},
-							"tileSize": 256,
-							"tileGridResolutions": [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
-						},
-						"requestWithTiled": false
-					},
-					"readPermissionGrantedFromAnyApplication": false
-        }]
+						"visible": false,
+						"attribution": "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> <br>"
+					}
+				}]
 			}, {
 				"id": 48,
 				"name": "Show meta toolbar button",
@@ -222,81 +264,6 @@
 					"buttonAction": null,
 					"defaultButton": true
 				}, {
-					"id": 39,
-					"name": "Zoom to extent button",
-					"xtype": "shogun-button-zoomtoextent",
-					"properties": {
-						"ui": "shogun-tools",
-						"scale": "small"
-					},
-					"text": null,
-					"tooltip": null,
-					"glyph": "xf0b2@FontAwesome",
-					"connectedModule": null,
-					"interaction": null,
-					"buttonAction": null,
-					"defaultButton": true
-				}, {
-					"id": 40,
-					"name": "Step back to previous extent button",
-					"xtype": "shogun-button-stepback",
-					"properties": {
-						"ui": "shogun-tools",
-						"scale": "small"
-					},
-					"text": null,
-					"tooltip": null,
-					"glyph": "xf060@FontAwesome",
-					"connectedModule": null,
-					"interaction": null,
-					"buttonAction": null,
-					"defaultButton": true
-				}, {
-					"id": 41,
-					"name": "Step forward to next extent button",
-					"xtype": "shogun-button-stepforward",
-					"properties": {
-						"ui": "shogun-tools",
-						"scale": "small"
-					},
-					"text": null,
-					"tooltip": null,
-					"glyph": "xf061@FontAwesome",
-					"connectedModule": null,
-					"interaction": null,
-					"buttonAction": null,
-					"defaultButton": true
-				}, {
-					"id": 42,
-					"name": "Activate hover-select tool",
-					"xtype": "basigx-button-hsi",
-					"properties": {
-						"ui": "shogun-tools",
-						"scale": "small"
-					},
-					"text": null,
-					"tooltip": null,
-					"glyph": "xf05a@FontAwesome",
-					"connectedModule": null,
-					"interaction": null,
-					"buttonAction": null,
-					"defaultButton": false
-				}, {
-					"id": 43,
-					"name": "Print button",
-					"xtype": "shogun-button-print",
-					"properties": {
-						"ui": "shogun-tools",
-						"printUrl": "/shogun2-webapp/print"
-					},
-					"text": null,
-					"tooltip": null,
-					"glyph": "xf02f@FontAwesome",
-					"connectedModule": null,
-					"interaction": null,
-					"buttonAction": null,
-					"defaultButton": false
-				}, {
 					"id": 44,
 					"name": "Show measure tools button",
 					"xtype": "shogun-button-showmeasuretoolspanel",
@@ -311,51 +278,6 @@
 					"interaction": null,
 					"buttonAction": null,
 					"defaultButton": false
-				}, {
-					"id": 45,
-					"name": "Show redlining tools button",
-					"xtype": "shogun-button-showredliningtoolspanel",
-					"properties": {
-						"ui": "shogun-tools",
-						"scale": "small"
-					},
-					"text": null,
-					"tooltip": null,
-					"glyph": "xf040@FontAwesome",
-					"connectedModule": null,
-					"interaction": null,
-					"buttonAction": null,
-					"defaultButton": false
-				}, {
-					"id": 46,
-					"name": "Show workstate tools button",
-					"xtype": "shogun-button-showworkstatetoolspanel",
-					"properties": {
-						"ui": "shogun-tools",
-						"scale": "small"
-					},
-					"text": null,
-					"tooltip": null,
-					"glyph": "xf108@FontAwesome",
-					"connectedModule": null,
-					"interaction": null,
-					"buttonAction": null,
-					"defaultButton": false
-				}, {
-					"id": 47,
-					"name": "Show addwms tools button",
-					"xtype": "shogun-button-addwms",
-					"properties": {
-						"ui": "shogun-tools",
-						"scale": "small"
-					},
-					"text": null,
-					"tooltip": null,
-					"glyph": "xf278@FontAwesome",
-					"connectedModule": null,
-					"interaction": null,
-					"buttonAction": null,
-					"defaultButton": null
 				}]
 			}]
 		}, {
@@ -705,81 +627,6 @@
 		"buttonAction": null,
 		"defaultButton": true
 	}, {
-		"id": 39,
-		"name": "Zoom to extent button",
-		"xtype": "shogun-button-zoomtoextent",
-		"properties": {
-			"ui": "shogun-tools",
-			"scale": "small"
-		},
-		"text": null,
-		"tooltip": null,
-		"glyph": "xf0b2@FontAwesome",
-		"connectedModule": null,
-		"interaction": null,
-		"buttonAction": null,
-		"defaultButton": true
-	}, {
-		"id": 40,
-		"name": "Step back to previous extent button",
-		"xtype": "shogun-button-stepback",
-		"properties": {
-			"ui": "shogun-tools",
-			"scale": "small"
-		},
-		"text": null,
-		"tooltip": null,
-		"glyph": "xf060@FontAwesome",
-		"connectedModule": null,
-		"interaction": null,
-		"buttonAction": null,
-		"defaultButton": true
-	}, {
-		"id": 41,
-		"name": "Step forward to next extent button",
-		"xtype": "shogun-button-stepforward",
-		"properties": {
-			"ui": "shogun-tools",
-			"scale": "small"
-		},
-		"text": null,
-		"tooltip": null,
-		"glyph": "xf061@FontAwesome",
-		"connectedModule": null,
-		"interaction": null,
-		"buttonAction": null,
-		"defaultButton": true
-	}, {
-		"id": 42,
-		"name": "Activate hover-select tool",
-		"xtype": "basigx-button-hsi",
-		"properties": {
-			"ui": "shogun-tools",
-			"scale": "small"
-		},
-		"text": null,
-		"tooltip": null,
-		"glyph": "xf05a@FontAwesome",
-		"connectedModule": null,
-		"interaction": null,
-		"buttonAction": null,
-		"defaultButton": false
-	}, {
-		"id": 43,
-		"name": "Print button",
-		"xtype": "shogun-button-print",
-		"properties": {
-			"ui": "shogun-tools",
-			"printUrl": "/shogun2-webapp/print"
-		},
-		"text": null,
-		"tooltip": null,
-		"glyph": "xf02f@FontAwesome",
-		"connectedModule": null,
-		"interaction": null,
-		"buttonAction": null,
-		"defaultButton": false
-	}, {
 		"id": 44,
 		"name": "Show measure tools button",
 		"xtype": "shogun-button-showmeasuretoolspanel",
@@ -794,65 +641,5 @@
 		"interaction": null,
 		"buttonAction": null,
 		"defaultButton": false
-	}, {
-		"id": 45,
-		"name": "Show redlining tools button",
-		"xtype": "shogun-button-showredliningtoolspanel",
-		"properties": {
-			"ui": "shogun-tools",
-			"scale": "small"
-		},
-		"text": null,
-		"tooltip": null,
-		"glyph": "xf040@FontAwesome",
-		"connectedModule": null,
-		"interaction": null,
-		"buttonAction": null,
-		"defaultButton": false
-	}, {
-		"id": 46,
-		"name": "Show workstate tools button",
-		"xtype": "shogun-button-showworkstatetoolspanel",
-		"properties": {
-			"ui": "shogun-tools",
-			"scale": "small"
-		},
-		"text": null,
-		"tooltip": null,
-		"glyph": "xf108@FontAwesome",
-		"connectedModule": null,
-		"interaction": null,
-		"buttonAction": null,
-		"defaultButton": false
-	}, {
-		"id": 47,
-		"name": "Show addwms tools button",
-		"xtype": "shogun-button-addwms",
-		"properties": {
-			"ui": "shogun-tools",
-			"scale": "small"
-		},
-		"text": null,
-		"tooltip": null,
-		"glyph": "xf278@FontAwesome",
-		"connectedModule": null,
-		"interaction": null,
-		"buttonAction": null,
-		"defaultButton": null
-	}, {
-		"id": 48,
-		"name": "Show meta toolbar button",
-		"xtype": "shogun-button-showmetapanel",
-		"properties": {
-			"ui": "shogun-tools",
-			"scale": "small"
-		},
-		"text": null,
-		"tooltip": null,
-		"glyph": "xf0ac@FontAwesome",
-		"connectedModule": null,
-		"interaction": null,
-		"buttonAction": null,
-		"defaultButton": null
 	}]
 }
