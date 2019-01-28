@@ -129,6 +129,8 @@ const commonWebpackConfig = {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
       "@terrestris/react-geo": path.join(__dirname + '/../', 'node_modules', '@terrestris/react-geo'),
+      "@terrestris/base-util": path.join(__dirname + '/../', 'node_modules', '@terrestris/base-util'),
+      "@terrestris/ol-util": path.join(__dirname + '/../', 'node_modules', '@terrestris/ol-util'),
       antd: path.join(__dirname + '/../', 'node_modules', 'antd'),
       baseclient: path.join(__dirname + '/../', 'src'),
       "baseclient-components": path.join(__dirname + '/../../', 'baseclient-components'),
