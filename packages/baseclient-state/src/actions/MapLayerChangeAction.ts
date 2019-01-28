@@ -1,5 +1,3 @@
-import OlCollection from 'ol/collection';
-
 import {
   ADD_LAYERS,
   CHANGE_LAYER_VISIBILITY,
@@ -43,7 +41,7 @@ export function addLayers(layerObjects: object[]) {
  *
  * @return {type} Description
  */
-export function removeLayers(layers: OlCollection<[]>) {
+export function removeLayers(layers: any) {
   return {
     type: REMOVE_LAYERS,
     layers

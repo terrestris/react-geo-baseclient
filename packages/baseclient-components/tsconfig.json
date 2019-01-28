@@ -17,7 +17,13 @@
     "importHelpers": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "paths": {
+      "*": [
+        "*",
+        "../baseclient/node_modules/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules",

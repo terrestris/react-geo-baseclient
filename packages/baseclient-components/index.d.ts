@@ -1,14 +1,1 @@
-declare module '@terrestris/react-geo';
-declare module 'ol';
-declare module 'ol/layer/Group';
-declare module 'ol/layer/Base';
-declare module 'ol/layer/Vector';
-declare module 'ol/layer/Image';
-declare module 'ol/Map';
-declare module 'ol/source/Vector';
-declare module 'ol/source/ImageWMS';
-declare module 'ol/source/TileWMS';
-declare module '@terrestris/ol-util/src/MapUtil/MapUtil';
-declare module '@terrestris/base-util/src/CsrfUtil/CsrfUtil';
-declare module '@terrestris/mapfish-print-manager';
-declare module 'react-i18next';
+declare module '*';

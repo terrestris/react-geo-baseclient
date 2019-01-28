@@ -1,5 +1,4 @@
 const remove = require('lodash/remove');
-import OlLayer from 'ol/layer/base';
 
 import {
   SET_LAYERS,
@@ -36,9 +35,9 @@ export function reduce(mapLayers = initialState, action: any) {
       });
     }
     case UPDATE_LAYER_ORDERING: {
-      const orderedLayers: OlLayer[] = [];
-      action.mapLayers.forEach((layer: OlLayer) => {
-        mapLayers.forEach((ml: OlLayer) => {
+      const orderedLayers: any[] = [];
+      action.mapLayers.forEach((layer: any) => {
+        mapLayers.forEach((ml: any) => {
           if (ml.get('id') === layer.get('shogunId')) {
             orderedLayers.push(ml);
           }
@@ -47,8 +46,8 @@ export function reduce(mapLayers = initialState, action: any) {
       return orderedLayers.reverse();
     }
     case REMOVE_LAYERS: {
-      const idsToRemove = action.layers.map((olLayer: OlLayer) => olLayer.get('shogunId'));
-      return remove(mapLayers, (layer: OlLayer) => {
+      const idsToRemove = action.layers.map((olLayer: any) => olLayer.get('shogunId'));
+      return remove(mapLayers, (layer: any) => {
         return !idsToRemove.includes(layer.get('id'));
       });
     }
