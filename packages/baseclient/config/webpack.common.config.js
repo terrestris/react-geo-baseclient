@@ -30,12 +30,12 @@ const commonWebpackConfig = {
 
   output: {
     // Add /* filename */ comments to generated require()s in the output.
-    pathinfo: true,
-    path: (TARGET === 'start') ? path.join(__dirname + '/../') : path.join(__dirname + '/../', 'build'),
+    pathinfo: (TARGET.indexOf('build') > -1) ? false: true,
+    path: (TARGET.indexOf('start') > -1) ? path.join(__dirname + '/../') : path.join(__dirname + '/../', 'build'),
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
-    filename: (TARGET.indexOf('build') > -1) ? '../build/static/js/bundle.js' : 'static/js/bundle.js',
+    filename: 'bundle.js',
     publicPath: '',
     // There are also additional JS chunk files if you use code splitting.
     chunkFilename: 'static/js/[name].chunk.js'
@@ -111,6 +111,7 @@ const commonWebpackConfig = {
         './public/en.png',
         './public/logo_terrestris.png',
         './public/index.css',
+        './public/manifest.json',
         './public/something-went-wrong.png',
         {
           from: './src/resources/appContext.json',
