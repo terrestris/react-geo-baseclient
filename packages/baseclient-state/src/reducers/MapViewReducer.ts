@@ -1,6 +1,6 @@
 import undoable from 'redux-undo';
 const isEqual = require('lodash/isEqual');
-import { MapUtil } from '@terrestris/ol-util';
+import { MapUtil } from '@terrestris/ol-util/src/MapUtil/MapUtil';
 
 import {
   SET_CENTER,

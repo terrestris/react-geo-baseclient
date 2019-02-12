@@ -22,7 +22,7 @@ const Logger = winston.createLogger({
 const commonWebpackConfig = {
   entry: {
     app: [
-      'babel-polyfill',
+      '@babel/polyfill',
       'whatwg-fetch',
       paths.appIndexJs
     ]
@@ -136,6 +136,7 @@ const commonWebpackConfig = {
       antd: path.join(__dirname + '/../', 'node_modules', 'antd'),
       baseclient: path.join(__dirname + '/../', 'src'),
       "baseclient-components": path.join(__dirname + '/../../', 'baseclient-components'),
+      "baseclient-state": path.join(__dirname + '/../../', 'baseclient-state'),
       ol: path.join(__dirname + '/../', 'node_modules', 'ol'),
       react: path.join(__dirname + '/../', 'node_modules', 'react'),
       "react-redux": path.join(__dirname + '/../', 'node_modules', 'react-redux'),

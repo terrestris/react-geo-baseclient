@@ -20,6 +20,7 @@ module.exports = {
     "^.+\\.tsx?$": "ts-jest"
   },
   transformIgnorePatterns: [
+    '../baseclient/node_modules/(?!(ol|labelgun|mapbox-to-ol-style|ol-mapbox-style|antd|@terrestris|(rc-*[a-z]*))/).*/',
     '/node_modules/(?!(ol|labelgun|mapbox-to-ol-style|ol-mapbox-style|antd|@terrestris|(rc-*[a-z]*))/).*/'
   ],
   setupFiles: [
