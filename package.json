@@ -48,6 +48,6 @@
     "postinstall": "npm run bootstrap && cd packages/react-geo && npm run build:dist && cd ../baseclient-state && npm run build:ts && cd ../baseclient-components && npm run build:ts"
   },
   "devDependencies": {
-    "lerna": "3.12.0"
+    "lerna": "3.13.1"
   }
 }
