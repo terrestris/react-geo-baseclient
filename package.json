@@ -44,6 +44,7 @@
     "test": "lerna run test --scope *baseclient*",
     "start-static": "lerna run start-static --stream",
     "start-shogun2": "lerna run start-shogun2 --stream",
+    "build:static": "cd packages/baseclient/ && npm run build:static && cd ../../",
     "build:ts": "lerna run build:ts --stream",
     "postinstall": "npm run bootstrap && cd packages/react-geo && npm run build:dist && cd ../baseclient-state && npm run build:ts && cd ../baseclient-components && npm run build:ts"
   },

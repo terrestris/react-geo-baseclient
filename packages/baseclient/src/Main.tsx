@@ -3,8 +3,8 @@ import './Main.css';
 import 'ol/ol.css';
 import OlMap from 'ol/map';
 import SomethingWentWrong from './SomethingWentWrong';
-import { withNamespaces } from 'react-i18next';
-
+import { withTranslation } from 'react-i18next';
+import ProjectMain from './ProjectMain';
 export interface MainProps {
     map: OlMap,
     t: (arg: string) => {}
@@ -39,6 +39,13 @@ export class Main extends React.Component<MainProps, MainState> {
       info: null
     };
 
+    // require.context may not be available in test setup. Use
+    // default ProjectMain instead
+    // @ts-ignore
+    if (!require.context) {
+      this.main = ProjectMain;
+      return;
+    }
     // load and show the project specific main view, as
     // configured by the user in the projectconfig.js
     // @ts-ignore
@@ -83,4 +90,4 @@ export class Main extends React.Component<MainProps, MainState> {
   }
 }
 
-export default withNamespaces()(Main);
+export default withTranslation()(Main);

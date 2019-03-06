@@ -37,6 +37,7 @@
     "data",
     "**/*.spec.tsx",
     "coverage",
-    "spec"
+    "spec",
+    "**.config.js"
   ]
 }
