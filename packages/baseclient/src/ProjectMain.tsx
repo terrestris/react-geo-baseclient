@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import i18n from './i18n';
 import BrowserUtil from './util/BrowserUtil';
-import OlMap from 'ol/map';
+import OlMap from 'ol/Map';
 import SomethingWentWrong from './SomethingWentWrong';
 import {
   MapComponent,
@@ -113,7 +113,6 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
               t={t}
               i18n={i18n}
               collapsible={false}
-              isMobile={isMobile}
               measureToolsEnabled={measureToolsEnabled}
             />
           <MapComponent

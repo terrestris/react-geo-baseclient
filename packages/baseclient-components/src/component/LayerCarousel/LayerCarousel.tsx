@@ -152,7 +152,6 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       swipeToSlide: true,
       centerMode: true,
       infinite: true,
-      lazyLoad: true,
       dots: false,
       draggable: true,
       arrows: true,

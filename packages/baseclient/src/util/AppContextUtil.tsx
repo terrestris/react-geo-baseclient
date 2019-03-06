@@ -5,7 +5,7 @@ import OlTileLayer from 'ol/layer/Tile';
 import OlImageWMS from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
 import OlTileGrid from 'ol/tilegrid/TileGrid';
-import OlLayer from 'ol/layer/base';
+import OlLayer from 'ol/layer/Base';
 const union = require('lodash/union');
 const unionWith = require('lodash/unionWith');
 const isEqual = require('lodash/isEqual');
