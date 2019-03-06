@@ -17,15 +17,14 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "7.3.4",
+    "@babel/preset-env": "7.3.4",
+    "@babel/preset-react": "7.0.0",
     "@types/jest": "24.0.9",
     "@types/node": "11.9.6",
-    "babel-preset-env": "1.7.0",
-    "babel-preset-react": "6.24.1",
-    "babel-preset-stage-0": "6.24.1",
-    "jest": "23.6.0",
+    "jest": "24.1.0",
     "lodash": "4.17.11",
     "ts-jest": "24.0.0",
     "typescript": "3.1.6"
