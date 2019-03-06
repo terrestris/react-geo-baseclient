@@ -28,7 +28,6 @@ module.exports = {
     '/node_modules/(?!(ol|css-animation|labelgun|mapbox-to-ol-style|ol-mapbox-style|antd|@terrestris|(rc-*[a-z]*))/).*/'
   ],
   setupFiles: [
-    // '<rootDir>/../config/jest/__mocks__/shim.js',
     '<rootDir>/../config/jest/spec/setup.js'
   ],
   collectCoverage: false,
