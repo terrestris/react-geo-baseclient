@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './ProjectMain.less';
 import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import i18n from './i18n';
 import BrowserUtil from './util/BrowserUtil';
 import OlMap from 'ol/map';
@@ -154,4 +154,4 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
   }
 }
 
-export default withNamespaces()(connect(mapStateToProps)(ProjectMain));
+export default withTranslation()(connect(mapStateToProps)(ProjectMain));

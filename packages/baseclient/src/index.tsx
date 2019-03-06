@@ -2,8 +2,7 @@ import './index.css';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import i18n from './i18n';
-import { I18nextProvider } from 'react-i18next';
+import './i18n';
 import { LocaleProvider } from 'antd';
 import 'antd/dist/antd.min.css'; // should be working via the loader but it does not..
 import deDE from 'antd/lib/locale-provider/de_DE';
@@ -105,7 +104,7 @@ const mapPromise = new Promise((resolve, reject) => {
 const MappifiedMain = (mappify)(Main);
 
 render(
-  <I18nextProvider i18n={i18n}>
+  <React.Suspense fallback={<div>Loading...</div>}>
     <LocaleProvider locale={deDE}>
       <Provider store={store}>
         <MapProvider map={mapPromise}>
@@ -113,6 +112,6 @@ render(
         </MapProvider>
       </Provider>
     </LocaleProvider>
-  </I18nextProvider>,
+  </React.Suspense>,
   document.getElementById('app')
 );
