@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './Main.css';
 import 'ol/ol.css';
-import OlMap from 'ol/map';
+import OlMap from 'ol/Map';
 import SomethingWentWrong from './SomethingWentWrong';
 import { withTranslation } from 'react-i18next';
 import ProjectMain from './ProjectMain';
