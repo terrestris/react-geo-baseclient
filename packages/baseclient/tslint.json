@@ -3,6 +3,7 @@
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
+      "config/jest/spec/*.js",
       "node_modules/**/*.ts",
       "node_modules",
       "coverage/lcov-report/*.js"
