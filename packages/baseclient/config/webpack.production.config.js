@@ -20,7 +20,7 @@ commonWebpackConfig.plugins = [
     APP_MODE: JSON.stringify(commonConfig.TARGET)
   }),
   new HtmlWebpackPlugin({
-    title: 'react-geo baseclient',
+    title: 'react-geo-baseclient',
     filename: 'index.html',
     favicon: './public/favicon.ico',
     template: './public/index.html',
