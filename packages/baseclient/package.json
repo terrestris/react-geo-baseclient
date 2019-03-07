@@ -88,7 +88,7 @@
     "@types/puppeteer": "1.12.1",
     "@types/react": "16.8.6",
     "@types/react-dom": "16.8.2",
-    "@types/react-redux": "7.0.1",
+    "@types/react-redux": "7.0.2",
     "@types/redux-logger": "3.0.7",
     "@types/webpack": "4.4.25",
     "babel-eslint": "10.0.1",
