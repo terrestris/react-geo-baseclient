@@ -79,7 +79,7 @@
     "@babel/preset-react": "7.0.0",
     "@types/expect-puppeteer": "3.3.1",
     "@types/i18next": "12.1.0",
-    "@types/jest": "24.0.9",
+    "@types/jest": "24.0.10",
     "@types/jest-diff": "20.0.1",
     "@types/jest-environment-puppeteer": "4.0.0",
     "@types/lodash": "4.14.122",
