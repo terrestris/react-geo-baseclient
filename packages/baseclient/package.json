@@ -118,7 +118,7 @@
     "image-webpack-loader": "4.6.0",
     "interpolate-html-plugin": "3.0.0",
     "jest": "24.1.0",
-    "jest-diff": "24.4.0",
+    "jest-diff": "24.5.0",
     "jest-environment-node": "24.5.0",
     "jest-environment-puppeteer": "4.0.0",
     "jest-fetch-mock": "2.1.1",
