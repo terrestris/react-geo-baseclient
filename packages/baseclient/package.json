@@ -103,7 +103,7 @@
     "copy-webpack-plugin": "5.0.1",
     "css-loader": "2.1.1",
     "dotenv": "7.0.0",
-    "dotenv-expand": "5.0.0",
+    "dotenv-expand": "5.1.0",
     "enzyme": "3.9.0",
     "expect": "24.5.0",
     "expect-puppeteer": "4.0.0",
