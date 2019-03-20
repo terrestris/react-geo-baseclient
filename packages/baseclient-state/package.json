@@ -19,7 +19,7 @@
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "7.3.4",
+    "@babel/plugin-proposal-class-properties": "7.4.0",
     "@babel/preset-env": "7.3.4",
     "@babel/preset-react": "7.0.0",
     "@types/node": "11.11.3",
