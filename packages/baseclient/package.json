@@ -58,7 +58,7 @@
     "i18next-browser-languagedetector": "3.0.1",
     "i18next-xhr-backend": "2.0.1",
     "ol": "5.3.1",
-    "react-i18next": "10.5.3",
+    "react-i18next": "10.6.0",
     "react": "16.8.5",
     "react-dom": "16.8.5",
     "react-redux": "6.0.1",
