@@ -125,7 +125,7 @@
     "jest-fetch-mock": "2.1.1",
     "jest-matcher-utils": "24.5.0",
     "jest-puppeteer": "4.1.0",
-    "jest-snapshot": "24.5.0",
+    "jest-snapshot": "24.6.0",
     "less": "3.9.0",
     "less-loader": "4.1.0",
     "node-fetch": "2.3.0",
