@@ -54,7 +54,7 @@
     "antd": "3.15.2",
     "baseclient-components": "1.0.0",
     "baseclient-state": "1.0.0",
-    "i18next": "15.0.7",
+    "i18next": "15.0.8",
     "i18next-browser-languagedetector": "3.0.1",
     "i18next-xhr-backend": "2.0.1",
     "ol": "5.3.1",
