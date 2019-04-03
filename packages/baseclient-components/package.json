@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "7.4.0",
-    "@babel/preset-env": "7.4.1",
+    "@babel/preset-env": "7.4.3",
     "@babel/preset-react": "7.0.0",
     "@types/antd": "1.0.0",
     "@types/jest": "24.0.10",
