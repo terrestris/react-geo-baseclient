@@ -86,7 +86,7 @@
     "@types/node": "11.11.8",
     "@types/ol": "4.6.5",
     "@types/puppeteer": "1.12.3",
-    "@types/react": "16.8.10",
+    "@types/react": "16.8.12",
     "@types/react-dom": "16.8.3",
     "@types/react-redux": "7.0.4",
     "@types/redux-logger": "3.0.7",
