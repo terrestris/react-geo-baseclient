@@ -122,7 +122,7 @@
     "jest-diff": "24.7.0",
     "jest-environment-node": "24.7.0",
     "jest-environment-puppeteer": "4.1.0",
-    "jest-fetch-mock": "2.1.1",
+    "jest-fetch-mock": "2.1.2",
     "jest-matcher-utils": "24.7.0",
     "jest-puppeteer": "4.1.0",
     "jest-snapshot": "24.7.0",
