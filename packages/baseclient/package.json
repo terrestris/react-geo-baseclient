@@ -140,7 +140,7 @@
     "resolve": "1.10.0",
     "scheduler": "0.13.5",
     "source-map-loader": "0.2.4",
-    "source-map-support": "0.5.11",
+    "source-map-support": "0.5.12",
     "style-loader": "0.23.1",
     "sw-precache-webpack-plugin": "0.11.5",
     "ts-jest": "24.0.0",
