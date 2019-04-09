@@ -22,8 +22,7 @@
     "noUnusedLocals": true,
     "paths": {
       "*": [
-        "*",
-        "../baseclient/node_modules/*"
+        "*"
       ]
     }
   },
