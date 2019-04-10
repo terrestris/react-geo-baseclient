@@ -9,6 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TARGET = process.env.npm_lifecycle_event;
 const PROJECT_MAIN_PATH = process.env.PROJECT_MAIN_PATH || './';
 const PROJECT_MAIN_CLASS = process.env.PROJECT_MAIN_CLASS || 'ProjectMain';
+const RESOURCES_PATH = process.env.RESOURCES_PATH || './src/resources/';
 
 const Logger = winston.createLogger({
   format: winston.format.simple(),
@@ -115,10 +116,10 @@ const commonWebpackConfig = {
         './public/manifest.json',
         './public/something-went-wrong.png',
         {
-          from: './src/resources/appContext.json',
+          from: RESOURCES_PATH + 'appContext.json',
           to: './resources/'
         }, {
-          from: './src/resources/i18n/',
+          from: RESOURCES_PATH + 'i18n/',
           to: './resources/i18n/'
         }
     ]),
