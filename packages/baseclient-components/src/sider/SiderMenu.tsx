@@ -91,7 +91,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
               filterFunction={(layer: any) => layer.get('name').indexOf('react-geo') < 0}
             />
           </SubMenu>
-          <SubMenu 
+          <SubMenu
             key="2"
             title={
               <div><Icon type="desktop" /><span>{t('Legend')}</span></div>

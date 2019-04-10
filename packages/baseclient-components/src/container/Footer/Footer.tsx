@@ -39,7 +39,7 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
       map,
       t
     } = this.props;
-    
+
     return (
       <div className="footer">
         <div className="scalecombo">

@@ -57,9 +57,9 @@ export class Main extends React.Component<MainProps, MainState> {
   }
 
   /**
-   * 
-   * @param error 
-   * @param info 
+   *
+   * @param error
+   * @param info
    */
   componentDidCatch(error: Error | null, info: object) {
     this.setState({

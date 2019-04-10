@@ -57,7 +57,7 @@ const commonWebpackConfig = {
       test: /\.jsx?$/,
       exclude: /node_modules\/(?!@terrestris)/,
       loader: 'babel-loader',
-    }, 
+    },
     {
       test: /\.css$/,
       loaders: [
