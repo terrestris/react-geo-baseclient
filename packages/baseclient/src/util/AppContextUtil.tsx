@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ObjectUtil from '@terrestris/base-util/src/ObjectUtil/ObjectUtil';
+import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
 import OlTileWMS from 'ol/source/TileWMS';
 import OlTileLayer from 'ol/layer/Tile';
 import OlImageWMS from 'ol/source/ImageWMS';
@@ -13,7 +13,7 @@ const find = require('lodash/find');
 const isEmpty = require('lodash/isEmpty');
 const reverse = require('lodash/reverse');
 
-import { Logger } from '@terrestris/base-util';
+import Logger from '@terrestris/base-util/dist/Logger';
 import initialState from '../store/initialState';
 import getOSMLayer from '@terrestris/vectortiles';
 
@@ -198,19 +198,19 @@ class AppContextUtil {
   }
 
   /**
-   * TODO: Missing features: 
-   * "shogun-button-stepback", 
-   * "shogun-button-stepforward", 
-   * basigx-button-hsi, 
-   * shogun-button-print, 
+   * TODO: Missing features:
+   * "shogun-button-stepback",
+   * "shogun-button-stepforward",
+   * basigx-button-hsi,
+   * shogun-button-print,
    * "shogun-button-showmeasuretoolspanel"
    * "shogun-button-showredliningtoolspanel"
    * "shogun-button-showworkstatetoolspanel"
    * "shogun-button-addwms"
    * "shogun-button-showmetapanel"
-   * @param activeModules 
-   * @param map 
-   * @param appContext 
+   * @param activeModules
+   * @param map
+   * @param appContext
    */
   static getToolsForToolbar(activeModules: Array<any>, map: any, appContext: any, t:(arg: string) => string) {
     let tools:any[] = [];
@@ -285,7 +285,7 @@ class AppContextUtil {
           //   ]}
           // >
 
-          // <FullPrintPanel 
+          // <FullPrintPanel
           //   map={map}
           //   key="5"
           //   t={t}
@@ -301,7 +301,7 @@ class AppContextUtil {
         default:
           return;
       }
-      
+
     });
     return tools;
   }

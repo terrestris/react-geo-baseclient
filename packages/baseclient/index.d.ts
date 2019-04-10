@@ -1,10 +1,4 @@
 declare module '@terrestris/react-geo';
-declare module '@terrestris/base-util';
-declare module '@terrestris/base-util/src/ObjectUtil/ObjectUtil';
-declare module '@terrestris/ol-util/src/MapUtil/MapUtil';
-declare module '@terrestris/ol-util/src/FeatureUtil/FeatureUtil';
-declare module '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
-declare module '@terrestris/ol-util/src/MeasureUtil/MeasureUtil';
 declare module '@terrestris/vectortiles';
 declare module 'react-i18next';
 declare module 'baseclient-state';

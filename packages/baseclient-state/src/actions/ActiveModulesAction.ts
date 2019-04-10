@@ -1,7 +1,7 @@
 const isString = require('lodash/isString');
 const isNumber = require('lodash/isNumber');
 const isObject = require('lodash/isObject');
-import { Logger } from '@terrestris/base-util';
+import Logger from '@terrestris/base-util/dist/Logger';
 
 import {
   ADD_ACTIVEMODULE,

@@ -1,4 +1,4 @@
-import StringUtil from '@terrestris/base-util/src/StringUtil/StringUtil';
+import StringUtil from '@terrestris/base-util/dist/StringUtil/StringUtil';
 
 /**
  * Helper class for some operations related to print function.

@@ -6,7 +6,7 @@ import { middleware } from 'redux-async-initial-state';
 import baseclientMainReducer from '../reducers/Reducer';
 import appContextUtil from '../util/AppContextUtil';
 import config from '../config/config';
-import { Logger } from '@terrestris/base-util';
+import Logger from '@terrestris/base-util/dist/Logger';
 
 const loggerMiddleware = createLogger({
   collapsed: true

@@ -16,7 +16,7 @@ import {
   Titlebar
 } from '@terrestris/react-geo';
 
-import CsrfUtil from '@terrestris/base-util/src/CsrfUtil/CsrfUtil';
+import CsrfUtil from '@terrestris/base-util/dist/CsrfUtil/CsrfUtil';
 
 import { MapFishPrintV2Manager } from '@terrestris/mapfish-print-manager';
 
@@ -161,7 +161,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
         printManager.setOutputFormat('pdf');
 
         printManager.on('change:scale', this.onChangeScale);
-        
+
         this.setState({
           // layout: printManager.getLayout().name,// removed due to static default layout
           scale: printManager.getScale().name,
