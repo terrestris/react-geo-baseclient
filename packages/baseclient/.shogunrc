@@ -1,0 +1,4 @@
+# SHOGun configuration
+SHOGUN_BACKEND_URL=http://localhost:9876/shogun2-webapp
+SHOGUN_USER=admin
+SHOGUN_PASS=🔑
