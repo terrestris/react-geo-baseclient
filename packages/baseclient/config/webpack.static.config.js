@@ -14,7 +14,9 @@ const interpolations = {
   'PUBLIC_URL': ''
 };
 
-// commonWebpackConfig.devtool = 'inline-source-map';
+if (process.env.USE_SOURCEMAP) {
+  commonWebpackConfig.devtool = 'inline-source-map';
+}
 
 const delayedConf = new Promise(function(resolve) {
   commonWebpackConfig.plugins = [
