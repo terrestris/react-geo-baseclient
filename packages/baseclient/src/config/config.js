@@ -14,5 +14,5 @@ export default {
   printAction: `${basePath}print/print`,
   printCreateUrlAction: `${basePath}print/createUrl.action`,
   printUrlAction: `${basePath}print/doPrint.action`,
-  printGetResultAction: `${basePath}print/getPrintResult.action`,
+  printGetResultAction: `${basePath}print/getPrintResult.action`
 };

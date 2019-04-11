@@ -18,16 +18,39 @@ It will also automatically compile the submodules like react-geo, the state and 
 * How to start the application?
 
   * When using shogun2 as backend
-    * Set the credentials in config/projectconfig.json
+    * Set the credentials in `.shogunrc`
     * Start the app with `npm run start-shogun2`
   * When using no backend / a static appContext
     * Start the app with `npm run start-static`
 
 * To start a new project:
   * Create a new folder next to the baseclient package, e.g. "myproject" and add at least a single Main class.
-  * Configure the project main view and configs in the baseclient/config/projectconfig.json file
-  * This way, your project will use the baseclients setup and will render your own view and components
+  * Configure the project main view and configs in an `.env` file located in your project base folder, e.g. in `myproject/.env`
+    * This `.env` file should look like
+```
+## Contents of .env file
+# Whether to use source map in webpack dev server or not
+USE_SOURCEMAP=true
 
+# The name of the main class
+PROJECT_MAIN_CLASS=ProjectMain
+
+# The paths !!! relative to Main Component in react-geo-baseclient/packages/baseclient/src/Main.tsx !!!
+PROJECT_MAIN_PATH='../../../src/Main/'
+
+# resources path relative to webpack config in react-geo-baseclient/packages/baseclient/config
+RESOURCES_PATH='../../src/resources/'
+```
+  * Place an project `package.json` which uses previously configured `.env` file using [`env-cmd`](https://www.npmjs.com/package/env-cmd), e.g.
+```
+  ...
+  "scripts": {
+    ...
+    "start": "cd ../baseclient/ && env-cmd ../myproject/.env npm run start-static",
+    ...
+  },
+  ...
+```
 * How to add a dependency?
 
 `npm run add -- [NAME_OF_DEPENDENCY] [LERNA_ADD_ARGS]`

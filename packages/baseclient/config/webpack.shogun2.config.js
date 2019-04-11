@@ -10,7 +10,6 @@ const cheerio = require('cheerio');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
-const shogunConfig = require('./projectconfig.js').shogunConfig;
 
 commonWebpackConfig.mode = 'development';
 // prepare the InterpolateHtmlPlugin
@@ -19,9 +18,9 @@ const interpolations = {
   'PUBLIC_URL': ''
 };
 
-const backendUrl = shogunConfig.baseUrl;
-const userName = shogunConfig.user;
-const password = shogunConfig.password;
+const backendUrl = process.env.SHOGUN_BACKEND_URL;
+const userName = process.env.SHOGUN_USER;
+const password = process.env.SHOGUN_PASS;
 
 if (!backendUrl) {
   Logger.error(`No SHOGun base URL set in .shogunrc.`);

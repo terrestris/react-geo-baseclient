@@ -4,10 +4,12 @@ const paths = require('./paths.js');
 const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const projectconfig = require('./projectconfig.js');
 
 // const CustomAntThemeModifyVars = require('./src/theme/antLessModifyVars.js');
 const TARGET = process.env.npm_lifecycle_event;
+const PROJECT_MAIN_PATH = process.env.PROJECT_MAIN_PATH || './';
+const PROJECT_MAIN_CLASS = process.env.PROJECT_MAIN_CLASS || 'ProjectMain';
+const RESOURCES_PATH = process.env.RESOURCES_PATH || './src/resources/';
 
 const Logger = winston.createLogger({
   format: winston.format.simple(),
@@ -57,7 +59,7 @@ const commonWebpackConfig = {
       test: /\.jsx?$/,
       exclude: /node_modules\/(?!@terrestris)/,
       loader: 'babel-loader',
-    }, 
+    },
     {
       test: /\.css$/,
       loaders: [
@@ -114,16 +116,16 @@ const commonWebpackConfig = {
         './public/manifest.json',
         './public/something-went-wrong.png',
         {
-          from: './src/resources/appContext.json',
+          from: RESOURCES_PATH + 'appContext.json',
           to: './resources/'
         }, {
-          from: './src/resources/i18n/',
+          from: RESOURCES_PATH + 'i18n/',
           to: './resources/i18n/'
         }
     ]),
     new webpack.DefinePlugin({
-      PROJECT_MAIN_PATH: JSON.stringify(projectconfig.appConfig.projectMainPath),
-      PROJECT_MAIN_CLASS: new RegExp('^./' + projectconfig.appConfig.projectMainClass + '\\.(jsx|js|ts|tsx)$')
+      PROJECT_MAIN_PATH: JSON.stringify(PROJECT_MAIN_PATH),
+      PROJECT_MAIN_CLASS: new RegExp('^./' + PROJECT_MAIN_CLASS + '\\.(jsx|js|ts|tsx)$')
     })
   ],
 
