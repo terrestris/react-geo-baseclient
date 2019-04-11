@@ -125,7 +125,8 @@ const commonWebpackConfig = {
     ]),
     new webpack.DefinePlugin({
       PROJECT_MAIN_PATH: JSON.stringify(PROJECT_MAIN_PATH),
-      PROJECT_MAIN_CLASS: new RegExp('^./' + PROJECT_MAIN_CLASS + '\\.(jsx|js|ts|tsx)$')
+      PROJECT_MAIN_CLASS: new RegExp('^./' + PROJECT_MAIN_CLASS + '\\.(jsx|js|ts|tsx)$'),
+      ___TEST___: JSON.stringify(TARGET.indexOf('test') > -1)
     })
   ],
 
