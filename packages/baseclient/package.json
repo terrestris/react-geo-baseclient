@@ -98,7 +98,7 @@
     "babel-loader": "8.0.5",
     "babel-plugin-import": "1.11.0",
     "babel-plugin-istanbul": "5.1.1",
-    "canvas-prebuilt": "2.0.0-alpha.14",
+    "canvas-prebuilt": "1.6.11",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "chalk": "2.4.2",
     "cheerio": "1.0.0-rc.3",
