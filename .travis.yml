@@ -3,7 +3,7 @@ node_js:
 - "8"
 - "10"
 before_script:
-- CI=false && npm run build:static && CI=true
+- CI=false && npm config set package-lock false && npm run build:static && CI=true
 script:
 - npm run test
 cache:
