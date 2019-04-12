@@ -40,7 +40,7 @@
   "dependencies": {},
   "scripts": {
     "add": "lerna add",
-    "bootstrap": "lerna bootstrap --no-ci",
+    "bootstrap": "lerna bootstrap",
     "test": "lerna run test --scope *baseclient*",
     "start-static": "lerna run start-static --stream",
     "start-shogun2": "lerna run start-shogun2 --stream",
