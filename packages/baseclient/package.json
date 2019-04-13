@@ -51,7 +51,7 @@
     "@terrestris/ol-util": "2.2.0",
     "@terrestris/react-geo": "11.4.0",
     "@terrestris/vectortiles": "0.3.0",
-    "antd": "3.16.2",
+    "antd": "3.16.3",
     "baseclient-components": "1.0.0",
     "baseclient-state": "1.0.0",
     "i18next": "15.0.9",
