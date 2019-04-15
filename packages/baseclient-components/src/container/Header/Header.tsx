@@ -22,9 +22,9 @@ interface DefaultHeaderProps {
 interface HeaderProps extends Partial<DefaultHeaderProps>{
   map: any;
   i18n: any;
+  t: (arg: string) => {};
 }
 
-// TODO
 interface HeaderState {
 }
 
@@ -78,7 +78,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     const {
       map,
       title,
-      loading
+      loading,
+      t
     } = this.props;
 
     return (
@@ -90,7 +91,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             md={1}
             lg={1}
           >
-            <Spin spinning={loading} className="app-loading-indicator" />
+            <Spin
+              spinning={loading}
+              className="app-loading-indicator"
+            />
           </Col>
           <Col
             xs={2}
@@ -107,6 +111,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             lg={8}
           >
             <NominatimSearch
+              placeholder={t('Header.nominatimPlaceHolder')}
               map={map}
               style={{
                 width: '100%'
@@ -131,7 +136,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               name="helpButtonModule"
               icon="question"
               shape="circle"
-              tooltip={'Toolbar.NavigationToolbar.helpButton'}
+              tooltip={t('Header.helpButtonTooltip')}
               onClick={this.onHelpButtonClick}
               tooltipPlacement={'bottom'}
             />

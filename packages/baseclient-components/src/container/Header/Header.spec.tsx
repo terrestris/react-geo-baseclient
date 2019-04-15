@@ -1,5 +1,5 @@
 /*eslint-env jest*/
-import TestUtils from '../../../../spec/TestUtils';
+import TestUtils from '../../../spec/TestUtils';
 
 import Header from './Header';
 
@@ -14,7 +14,8 @@ describe('<Header />', () => {
       i18n: {
         changeLanguage
       },
-      map: map
+      map: map,
+      t: (t: string) => t
     }, {});
   });
 
