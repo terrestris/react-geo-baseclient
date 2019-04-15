@@ -51,7 +51,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
   };
 
   /**
-   * Change hander if language was changed
+   * Change handler if language was changed
    * @param {String} lang The chosen language (e.g. 'de' or 'en')
    */
   onLanguageChange = (lang: string) => {
