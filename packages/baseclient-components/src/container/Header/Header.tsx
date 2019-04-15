@@ -5,7 +5,6 @@ import {
   Col,
   notification
 } from 'antd';
-import OlMap from 'ol/Map';
 
 import {
   NominatimSearch,
@@ -21,7 +20,7 @@ interface DefaultHeaderProps {
 }
 
 interface HeaderProps extends Partial<DefaultHeaderProps>{
-  map: OlMap;
+  map: any;
   i18n: any;
 }
 
