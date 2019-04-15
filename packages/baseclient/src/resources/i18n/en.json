@@ -42,5 +42,9 @@
     "printBtnText": "Print",
     "fetchCapabilitiesErrorMsg": "Error while requesting the print capabilities. Print will not work!",
     "printErrorMsg": "Error while requesting the print document!"
+  },
+  "Header": {
+    "nominatimPlaceHolder": "Municipality, street, district, poi…",
+    "helpButtonTooltip": "Help"
   }
 }

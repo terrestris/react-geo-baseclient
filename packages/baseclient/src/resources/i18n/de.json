@@ -42,5 +42,9 @@
     "printBtnText": "Drucken",
     "fetchCapabilitiesErrorMsg": "Es ist ein Fehler beim Abrufen der Druck-Eigenschaften aufgetreten. Druckausgabe nicht möglich!",
     "printErrorMsg": "Beim Druck ist ein Fehler aufgetreten!"
+  },
+  "Header": {
+    "nominatimPlaceHolder": "Ortsname, Straßenname, Stadtteilname, POI usw.",
+    "helpButtonTooltip": "Hilfe"
   }
 }
