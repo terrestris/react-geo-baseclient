@@ -169,7 +169,8 @@ class AppContextUtil {
       opacity: layerObj.appearance.opacity,
       hoverable: layerObj.appearance.hoverable,
       hoverTemplate: layerObj.appearance.hoverTemplate,
-      type: layerObj.source.type
+      type: layerObj.source.type,
+      legendUrl: layerObj.appearance.legendUrl
     });
   }
 
@@ -193,7 +194,8 @@ class AppContextUtil {
       opacity: layerObj.appearance.opacity,
       hoverable: layerObj.appearance.hoverable,
       hoverTemplate: layerObj.appearance.hoverTemplate,
-      type: layerObj.source.type
+      type: layerObj.source.type,
+      legendUrl: layerObj.appearance.legendUrl
     });
   }
 
