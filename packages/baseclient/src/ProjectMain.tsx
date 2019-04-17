@@ -26,7 +26,6 @@ const mapStateToProps = (state: any) => {
     activeModules: state.activeModules,
     appContextLoading: state.asyncInitialState.loading,
     loading: state.loadingQueue.loading,
-    mapLayers: state.mapLayers,
     appContext: state.appContext
   };
 };
@@ -40,7 +39,6 @@ export interface MainProps extends Partial<DefaultMainProps> {
     dispatch: (arg: any) => void,
     loading: boolean,
     map: OlMap,
-    mapLayers: [],
     appContext: {},
     appContextLoading: boolean,
     activeModules: object[],
@@ -50,8 +48,7 @@ export interface MainProps extends Partial<DefaultMainProps> {
 export interface MainState {
   hasError: boolean,
   error: Error | null,
-  info: object | null,
-  layerGroup: [],
+  info: object | null
 }
 
 /**
@@ -72,15 +69,14 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
     this.state = {
       hasError: false,
       error:  null,
-      info: null,      
-      layerGroup: []
+      info: null
     };
   }
 
   /**
-   * 
-   * @param error 
-   * @param info 
+   *
+   * @param error
+   * @param info
    */
   componentDidCatch(error: Error | null, info: object) {
     this.setState({
@@ -91,7 +87,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
   }
 
   /**
-   * 
+   *
    */
   setupViewport(): object {
     const {
