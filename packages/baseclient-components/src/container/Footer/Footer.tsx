@@ -12,7 +12,6 @@ import {
 import { applyTransform } from 'ol/extent.js';
 import { createStringXY } from 'ol/coordinate.js';
 import OlView from 'ol/View';
-import OlMap from 'ol/Map';
 import OlMousePositionControl from 'ol/control/MousePosition';
 
 import {
@@ -76,10 +75,10 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
   /**
    * Creates and adds the mouse position control to the map.
    */
-  createOlMousePositionControl = (map: OlMap) => {
+  createOlMousePositionControl = (map: any) => {
     const mousePositionControl = new OlMousePositionControl({
       coordinateFormat: createStringXY(2),
-      projection: this.props.projection,
+      projection: map.getView().getProjection().getCode(),
       target: document.getElementById('mouse-position'),
       undefinedHTML: '&nbsp;'
     });
