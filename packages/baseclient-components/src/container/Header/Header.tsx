@@ -43,6 +43,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
    */
   constructor(props: HeaderProps) {
     super(props);
+
+    this.onHelpButtonClick = this.onHelpButtonClick.bind(this);
   }
 
   public static defaultProps: DefaultHeaderProps = {
@@ -64,9 +66,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
    * Handler for click action of help button
    */
   onHelpButtonClick() {
+    const { t } = this.props;
     notification.info({
-      message: 'Help',
-      description: 'This is the content of the react-geo-baseclient help.',
+      message: t('Header.helpMessage'),
+      description: t('Header.helpDescription'),
       placement: 'bottomRight'
     });
   }

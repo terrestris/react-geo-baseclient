@@ -45,6 +45,8 @@
   },
   "Header": {
     "nominatimPlaceHolder": "Ortsname, Straßenname, Stadtteilname, POI usw.",
-    "helpButtonTooltip": "Hilfe"
+    "helpButtonTooltip": "Hilfe",
+    "helpMessage": "Hilfe",
+    "helpDescription": "Hier sollte die Hilfe erscheinen."
   }
 }
