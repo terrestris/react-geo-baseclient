@@ -14,6 +14,11 @@
   },
   "Logout": "Logout",
   "ScaleComboLabel": "Map scale",
+  "MousePositionLabel": "Mouse position",
+  "CoordinateReferenceSystemCombo": {
+    "label": "Coordinate reference system",
+    "emptyTextPlaceholderText": "Please choose CRS…"
+  },
   "FullPrintPanel": {
     "previewCardTitle": "Preview",
     "printTitleLabelText": "Title",

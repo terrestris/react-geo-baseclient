@@ -1,14 +1,49 @@
 
 .footer {
-  height: 30px;
-  background-color: white;
+  height: 35px;
+
+  .footer-element {
+    height: 35px;
+    display: flex;
+    padding: 0px 5px 0px 5px;
+    align-items: center;
+  }
+
+  .scalecombo-col {
+    float: left;
+    > span {
+      padding-right: 5px;
+    }
+
+    .scalecombo {
+      width: 150px !important;
+    }
+  }
+
+  .crscombo-col {
+    padding-left: 5px;
+    > span {
+      padding-right: 5px;
+    }
+
+    .react-geo-coordinatereferencesystemcombo {
+      width: 50%;
+    }
+  }
+
+  .ol-mouse-position {
+    top: 0;
+    right: 0;
+    position: inherit;
+    padding-left: 5px;
+  }
+
+  .imprint {
+    justify-content: center;
+  }
 }
 
-.scalecombo {
-  float: right;
-  padding-top: 3px;
-  padding-right: 5px;
-  > span {
-    padding-right: 5px;
-  }
+#mouse-position {
+  justify-content: flex-start;
+  margin-right: 5px;
 }
