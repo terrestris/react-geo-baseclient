@@ -1,14 +1,13 @@
 import * as React from 'react';
 
-import OlLayer from 'ol/layer/Layer';
 import OlLayerGroup from 'ol/layer/Group';
 import OlVectorLayer from 'ol/layer/Vector';
 import OlTileWmsSource from 'ol/source/TileWMS';
 import OlImageWmsSource from 'ol/source/Image';
 
-import _isEqual from 'lodash/isEqual';
-import _groupBy from 'lodash/groupBy';
-import _uniqueId from 'lodash/uniqueId';
+const _isEqual = require('lodash/isEqual');
+const _groupBy = require('lodash/groupBy');
+const _uniqueId = require('lodash/uniqueId');
 
 import {
   Collapse,
@@ -35,7 +34,7 @@ import './LayerLegendAccordion.less';
 // default props
 interface DefaultLayerLegendAccordionProps {
   title: string;
-  treeNodeFilter: (layer: OlLayer, index: number, array: OlLayer[]) => any;
+  treeNodeFilter: (layer: any, index: number, array: any[]) => any;
 }
 
 interface LayerLegendAccordionProps extends Partial<DefaultLayerLegendAccordionProps>{
@@ -95,8 +94,8 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
   componentDidMount() {
     const { map } = this.props;
     map.getLayers().getArray()
-      .filter((layer: OlLayer) => !(layer instanceof OlVectorLayer) && !(layer instanceof OlLayerGroup))
-      .forEach((layer: OlLayer) => this.registerLoadingEventsForOlLayer(layer));
+      .filter((layer: any) => !(layer instanceof OlVectorLayer) && !(layer instanceof OlLayerGroup))
+      .forEach((layer: any) => this.registerLoadingEventsForOlLayer(layer));
   }
 
   /**
@@ -124,7 +123,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    * Register loadstart and loadend handler for ImageWMS and TileWMS layers
    * @param {OlLayer} layer The OpenLayers layer to register listener for
    */
-  registerLoadingEventsForOlLayer(layer: OlLayer) {
+  registerLoadingEventsForOlLayer(layer: any) {
     const layerSource = layer.getSource();
     if (layerSource instanceof OlTileWmsSource) {
       layer.getSource().on('tileloadstart', this.loadingStartHandler);
@@ -190,7 +189,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    *
    * @param  {OlLayer} layer The OpenLayers layer the tree node should be rendered for
    */
-  treeNodeTitleRenderer(layer: OlLayer) {
+  treeNodeTitleRenderer(layer: any) {
     const {
       t
     } = this.props;
@@ -309,8 +308,8 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     const scale = MapUtil.getScaleForResolution(map.getView().getResolution(), 'm');
 
     // clone the array, reverse will work in place
-    const reversed = layers.slice(0).reverse().filter((l: OlLayer) => l.getVisible());
-    const legends = reversed.map((l: OlLayer) => {
+    const reversed = layers.slice(0).reverse().filter((l: any) => l.getVisible());
+    const legends = reversed.map((l: any) => {
       return <Collapse
         bordered={false}
         destroyInactivePanel
@@ -347,7 +346,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    * @param {OlLayer[]} The OpenLayes layers to check
    * @param {string} The css class name
    */
-  getLayerVisiblilityClassName(layers: OlLayer[]) {
+  getLayerVisiblilityClassName(layers: any[]) {
     if (!layers) {
       return 'fa fa-eye-slash all-layers-handle';
     }
@@ -374,7 +373,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    *
    * @param {OlLayer[]} The OpenLayes layers to change visiblity for
    */
-  onAllLayersVisibleChange(mapLayers: OlLayer[]) {
+  onAllLayersVisibleChange(mapLayers: any[]) {
     const filteredLayers = mapLayers.filter(this.props.treeNodeFilter!);
     const layerVisibilityClassName: string = this.getLayerVisiblilityClassName(mapLayers);
     let visibility = false;
@@ -395,7 +394,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    * Handler called if visibility of a certain layers is changed
    * @param {OlLayer[]} layer The layer for which the visibility has to be changed
    */
-  onLayerTreeNodeVisibilityChange(layer: OlLayer) {
+  onLayerTreeNodeVisibilityChange(layer: any) {
     const nextLayerVisibility = !layer.getVisible();
     layer.setVisible(nextLayerVisibility);
 
