@@ -147,13 +147,13 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
             />
           </Col>
           <Col
-            span={4}
+            span={8}
             className="ol-mouse-position footer-element"
           >
             <span>{t('MousePositionLabel')}: </span>
             <div id="mouse-position"/>
           </Col>
-          <Col span={6}>
+          <Col span={2}>
             <div />
           </Col>
           <Col
