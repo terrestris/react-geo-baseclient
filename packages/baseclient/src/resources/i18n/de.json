@@ -53,5 +53,14 @@
     "helpButtonTooltip": "Hilfe",
     "helpMessage": "Hilfe",
     "helpDescription": "Hier sollte die Hilfe erscheinen."
+  },
+  "LayerLegendAccordion": {
+    "toggleVisibilityTooltipText": "Sichtbarkeit",
+    "layerSettingsTooltipText": "Eigenschaften",
+    "collapseAccordionTooltipText": "Themenauswahl / Legende anzeigen",
+    "layerTreeTilte": "Themenauswahl",
+    "legendPanelTitle": "Legende",
+    "activateAllLayersText": "Alle Layer aktivieren",
+    "deactivateAllLayersText": "Alle Layer deaktivieren"
   }
 }

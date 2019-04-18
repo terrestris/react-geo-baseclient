@@ -53,5 +53,14 @@
     "helpButtonTooltip": "Help",
     "helpMessage": "Help",
     "helpDescription": "This is the content of the react-geo-baseclient help."
+  },
+  "LayerLegendAccordion": {
+    "toggleVisibilityTooltipText": "Visibility",
+    "layerSettingsTooltipText": "Properties",
+    "collapseAccordionTooltipText": "Show layertree / legend",
+    "layerTreeTilte": "Layertree",
+    "legendPanelTitle": "Legend",
+    "activateAllLayersText": "Activate all layers",
+    "deactivateAllLayersText": "De-activate all layers"
   }
 }
