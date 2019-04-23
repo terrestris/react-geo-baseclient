@@ -22,7 +22,7 @@
     "@babel/plugin-proposal-class-properties": "7.4.0",
     "@babel/preset-env": "7.4.3",
     "@babel/preset-react": "7.0.0",
-    "@types/node": "11.13.5",
+    "@types/node": "11.13.7",
     "@types/jest": "24.0.10",
     "jest": "24.1.0",
     "lodash": "4.17.11",
