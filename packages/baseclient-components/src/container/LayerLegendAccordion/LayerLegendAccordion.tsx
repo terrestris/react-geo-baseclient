@@ -33,6 +33,7 @@ import './LayerLegendAccordion.less';
 interface DefaultLayerLegendAccordionProps {
   title: string;
   treeNodeFilter: (layer: any, index: number, array: any[]) => any;
+  extraLegensParams: Object;
 }
 
 interface LayerLegendAccordionProps extends Partial<DefaultLayerLegendAccordionProps>{
@@ -83,6 +84,9 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
   public static defaultProps: DefaultLayerLegendAccordionProps = {
     title: 'LayerTree',
     treeNodeFilter: () => true,
+    extraLegensParams: {
+      'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
+    }
   };
 
   /**
@@ -330,7 +334,10 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    * @returns {Collapse[]} An array of collapsible Instances of <Legend>
    */
   getLegendItems() {
-    const { map } = this.props;
+    const {
+      map,
+      extraLegensParams
+    } = this.props;
     if (!map) {
       return;
     }
@@ -355,11 +362,11 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
               key={l.getRevision()}
               layer={l}
               extraParams={{
-                scale: scale,
+                scale,
                 WIDTH: 30 * 1.5,
                 HEIGHT: 30,
                 TRANSPARENT: true,
-                LEGEND_OPTIONS: 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
+                ...extraLegensParams
               }}
             />
           </Panel>
