@@ -17,7 +17,7 @@ import OlMousePositionControl from 'ol/control/MousePosition';
 import {
   CoordinateReferenceSystemCombo,
   ScaleCombo
-} from '@terrestris/react-geo/';
+} from '@terrestris/react-geo';
 
 // default props
 interface DefaultFooterProps {
@@ -38,6 +38,8 @@ interface FooterState {
  * @extends React.Component
  */
 export default class Footer extends React.Component<FooterProps, FooterState> {
+
+  private footerMousePositionControlName = 'react-geo-baseclient-mouse-position';
 
   private predefinedCrsDefinitions = [{
     code: '4326',
@@ -73,22 +75,66 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
   }
 
   /**
-   * Creates and adds the mouse position control to the map.
+   * Is invoked if component is unmounted from DOM
    */
-  createOlMousePositionControl = (map: any) => {
-    const mousePositionControl = new OlMousePositionControl({
-      coordinateFormat: createStringXY(2),
-      projection: map.getView().getProjection().getCode(),
-      target: document.getElementById('mouse-position'),
-      undefinedHTML: '&nbsp;'
-    });
-
-    map.addControl(mousePositionControl);
+  componentWillUnmount() {
+    const {
+      map
+    } = this.props;
+    if (map) {
+      this.removeOlMousePositionControl(map);
+    }
   }
 
   /**
+   * Creates and adds the mouse position control to the map.
    *
-   * @param crsObj
+   * @param {OlMap} The OpenLayers map
+   */
+  createOlMousePositionControl = (map: any) => {
+    const existingControls = map.getControls();
+    const mousePositionControl = existingControls.getArray()
+      .find((c: any) => c instanceof OlMousePositionControl);
+
+    if (!mousePositionControl) {
+      const options: any = {
+        name: this.footerMousePositionControlName,
+        coordinateFormat: createStringXY(2),
+        projection: map.getView().getProjection().getCode(),
+        target: document.getElementById('mouse-position'),
+        undefinedHTML: '&nbsp;'
+      }
+      const mousePositionControl = new OlMousePositionControl(options);
+      map.addControl(mousePositionControl);
+    }
+  }
+
+  /**
+   * Removes mouse position control from map
+   *
+   * @param {OlMap} The OpenLayers map
+   */
+  removeOlMousePositionControl = (map: any) => {
+    if (!map) {
+      return;
+    }
+    const mousePositionControls = map.getControls().getArray()
+      .filter((c: any) => c instanceof OlMousePositionControl);
+    if (!mousePositionControls) {
+      return;
+    }
+    const crtlToRemove = mousePositionControls.find((ctrl: any) => ctrl.get('name') === this.footerMousePositionControlName);
+    if (crtlToRemove) {
+      map.removeControl(crtlToRemove);
+    }
+  }
+
+  /**
+   * Handler to set projection of map - called if coordinate system in
+   * CoordinateReferenceSystemCombo was changed
+   *
+   * @param {Object} crsObj The object returned by CoordinateReferenceSystemCombo
+   *
    */
   setProjection(crsObj: any) {
     const { map } = this.props;
