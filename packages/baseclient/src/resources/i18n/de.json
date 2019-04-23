@@ -14,6 +14,11 @@
   },
   "Logout": "Ausloggen",
   "ScaleComboLabel": "Maßstab",
+  "MousePositionLabel": "Zeigerposition",
+  "CoordinateReferenceSystemCombo": {
+    "label": "Bezugsystem",
+    "emptyTextPlaceholderText": "Bitte Bezugsystem wählen"
+  },
   "FullPrintPanel": {
     "previewCardTitle": "Vorschau",
     "printTitleLabelText": "Titel",
