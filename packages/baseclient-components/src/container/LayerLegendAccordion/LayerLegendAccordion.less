@@ -1,0 +1,154 @@
+.layer-legend-collapse-icon {
+  position: relative;
+  right: 15px;
+  z-index: 10;
+  padding: 12px 0px 12px 0px;
+}
+
+.layer-legend-accordion {
+  width: 400px;
+  @media only screen and (max-width: 720px) {
+    width: 250px;
+  }
+
+  top: 50px; // TODO: depend on header height
+  @media only screen and (max-width: 720px) {
+    top: 0px;
+  }
+
+  .ant-collapse-header {
+    background-color: #e6e6e6;
+  }
+
+  position: absolute;
+  right: 0;
+  z-index: 5;
+  border: 1px solid lightgray;
+
+  .ant-collapse-content > .ant-collapse-content-box {
+    padding: 5x;
+    padding-top: 5px;
+  }
+
+  .layer-legend-accordion-title {
+    span.fa {
+      float: right;
+      vertical-align: middle;
+    }
+
+    .fa.fa-eye.some-layers,.fa.fa-eye-slash {
+      opacity: 0.5;
+    }
+  }
+
+  .all-layers-handle{
+    padding-left: 5px;
+    margin-bottom: 5px;
+    span {
+      font: 14px sans-serif;
+      margin-left: 15px;
+    }
+   }
+
+  .legend-collapse-panel {
+    .ant-collapse-content-box {
+      max-height: 500px;
+      overflow: auto;
+      background-color: #fafafa;
+
+      .ant-collapse-header {
+        line-height: 30px;
+        padding: 0px 0px 0px 30px;
+        background-color: #fafafa;
+        color: rgba(0, 0, 0, 0.65);
+
+        i {
+          left: 5px;
+        }
+      }
+    }
+  }
+
+  .layertree-collapse-panel {
+    .react-geo-layertree {
+      max-height: 250px;
+      overflow: auto;
+      background-color: #fafafa;
+      border: 1px dotted lightgray;
+
+      .react-geo-layertree-node {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid lightgray;
+
+        // let settings icon never be transparent
+        // (even if layer is out of scale or inactive)
+        &.out-off-range {
+          opacity: 1;
+
+          .layer-tree-node-title-filter,
+          .layer-tree-node-title-active,
+          .layer-tree-node-title-layername,
+          .layer-tree-node-title-visibility,
+          .layer-tree-node-title-inactive {
+              opacity: .5;
+          }
+        }
+
+        .ant-tree-switcher {
+          display: none;
+        }
+
+        span.ant-tree-checkbox {
+          display: none;
+        }
+
+        .ant-tree-node-content-wrapper {
+          flex: 1;
+          overflow: hidden;
+          height: 100%;
+
+          .layer-tree-node-list-item {
+            .ant-slider {
+              margin: 5px 7px 5px;
+            }
+          }
+
+          .layer-tree-node-title {
+            display: flex;
+            flex: 1;
+            align-items: center;
+
+            .layer-tree-node-title-layername {
+              margin-left: 12px;
+              flex: 1;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            .layer-tree-node-title-visibility.layer-tree-node-title-inactive {
+              opacity: 0.5;
+            }
+
+            .layer-tree-node-title-settings {
+              margin-right: 12px;
+              width: 12px;
+            }
+
+            .layer-tree-node-loading-active {
+              margin-right: 12px;
+              width: 12px;
+            }
+
+            .layer-tree-node-loading-inactive {
+              margin-right: 12px;
+              width: 12px;
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
