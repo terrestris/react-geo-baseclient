@@ -45,6 +45,8 @@
   },
   "Header": {
     "nominatimPlaceHolder": "Municipality, street, district, poi…",
-    "helpButtonTooltip": "Help"
+    "helpButtonTooltip": "Help",
+    "helpMessage": "Help",
+    "helpDescription": "This is the content of the react-geo-baseclient help."
   }
 }
