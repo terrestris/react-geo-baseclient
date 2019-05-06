@@ -106,7 +106,7 @@
     "css-loader": "^2.1.1",
     "dotenv": "^7.0.0",
     "dotenv-expand": "^5.1.0",
-    "env-cmd": "^8.0.2",
+    "env-cmd": "^9.0.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "expect": "^24.7.1",
