@@ -1,4 +1,8 @@
 {
+  "Component": {
+    "collapse": "Ein-/Zuklappen",
+    "close": "Schließen"
+  },
   "LayerTree": "Themen",
   "Legend": "Legende",
   "Measure": {
@@ -19,11 +23,13 @@
     "label": "Bezugsystem",
     "emptyTextPlaceholderText": "Bitte Bezugsystem wählen"
   },
-  "FullPrintPanel": {
+  "PrintPanel": {
+    "windowTitle": "Karte drucken",
     "previewCardTitle": "Vorschau",
     "printTitleLabelText": "Titel",
     "printDescriptionLabelText": "Beschreibung",
     "printTitlePlaceholder": "Bitte geben Sie einen Titel ein",
+    "comboPlaceholder": "auswählen...",
     "printDescriptionPlaceholder": "Bitte geben Sie eine Beschreibung ein",
     "printLayoutLabelText": "Drucklayout",
     "printScaleLabelText": "Maßstab",
@@ -35,16 +41,12 @@
     "printLabelLabelText": "Label drucken?",
     "printLegendsLabelText": "Legenden",
     "printBtnText": "Drucken",
+    "resetBtnText": "Zurücksetzen",
     "previewPrintTitle": "Vorschau",
     "previewPrintDescription": "Vorschaukommentar",
     "defaultPrintTitle": "Druck",
     "defaultPrintComment": "Kommentar eingeben",
-    "fetchCapabilitiesErrorMsg": "Es ist ein Fehler beim Abrufen der Druck-Eigenschaften aufgetreten. Druckausgabe nicht möglich!",
-    "printErrorMsg": "Beim Druck ist ein Fehler aufgetreten!"
-  },
-  "QuickPrintPanel": {
-    "printDescription": "Bitte wählen Sie einen Ausschnitt für den Arbeitsausdruck und betätigen dann den Drucken-Knopf.",
-    "printBtnText": "Drucken",
+    "printLegendCbLabel": "Legende drucken",
     "fetchCapabilitiesErrorMsg": "Es ist ein Fehler beim Abrufen der Druck-Eigenschaften aufgetreten. Druckausgabe nicht möglich!",
     "printErrorMsg": "Beim Druck ist ein Fehler aufgetreten!"
   },

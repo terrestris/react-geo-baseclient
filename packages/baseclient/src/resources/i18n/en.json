@@ -1,4 +1,8 @@
 {
+  "Component": {
+    "collapse": "Collapse/Expand",
+    "close": "Close"
+  },
   "LayerTree": "Layers",
   "Legend": "Legend",
   "Measure": {
@@ -19,11 +23,13 @@
     "label": "Coordinate reference system",
     "emptyTextPlaceholderText": "Please choose CRS…"
   },
-  "FullPrintPanel": {
+  "PrintPanel": {
+    "windowTitle": "Print map",
     "previewCardTitle": "Preview",
     "printTitleLabelText": "Title",
     "printDescriptionLabelText": "Description",
     "printTitlePlaceholder": "Please enter a title",
+    "comboPlaceholder": "Please choose...",
     "printDescriptionPlaceholder": "Please enter a description",
     "printLayoutLabelText": "Printlayout",
     "printScaleLabelText": "Map scale",
@@ -35,16 +41,12 @@
     "printLabelLabelText": "Print labels?",
     "printLegendsLabelText": "Legends",
     "printBtnText": "Print",
+    "resetBtnText": "Reset",
     "previewPrintTitle": "Preview",
     "previewPrintDescription": "Preview comment",
     "defaultPrintTitle": "Print",
     "defaultPrintComment": "Enter a comment",
-    "fetchCapabilitiesErrorMsg": "Error while requesting the print capabilities. Print will not work!",
-    "printErrorMsg": "Error while requesting the print document!"
-  },
-  "QuickPrintPanel": {
-    "printDescription": "Please select an extent for the work print and confirm by pressing the print button.",
-    "printBtnText": "Print",
+    "printLegendCbLabel": "Print legend",
     "fetchCapabilitiesErrorMsg": "Error while requesting the print capabilities. Print will not work!",
     "printErrorMsg": "Error while requesting the print document!"
   },

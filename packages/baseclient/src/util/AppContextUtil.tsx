@@ -17,14 +17,12 @@ import Logger from '@terrestris/base-util/dist/Logger';
 import initialState from '../store/initialState';
 import getOSMLayer from '@terrestris/vectortiles';
 
+import { PrintButton } from 'baseclient-components';
+
 import {
-  SimpleButton,
-  // Window,
   ZoomButton,
   ZoomToExtentButton
 } from '@terrestris/react-geo';
-// import { FullPrintPanel } from 'baseclient-components/src/container/FullPrintPanel/v2/FullPrintPanel';
-// import config from '../config/config';
 
 /**
  * This class provides some static methods which can be used with the appContext of SHOGun2.
@@ -40,6 +38,7 @@ class AppContextUtil {
    * @return {Object} The initialState used by the store.
    */
   static appContextToState(appContext: any) {
+
     let state: any = initialState;
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
     const mapLayers = ObjectUtil.getValue('mapLayers', appContext);
@@ -214,7 +213,8 @@ class AppContextUtil {
    * @param map
    * @param appContext
    */
-  static getToolsForToolbar(activeModules: Array<any>, map: any, appContext: any, t:(arg: string) => string) {
+  static getToolsForToolbar(activeModules: Array<any>, map: any,
+    appContext: any, t:(arg: string) => string, config?: Object) {
     let tools:any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
     activeModules.forEach((module: any) => {
@@ -257,48 +257,15 @@ class AppContextUtil {
           />);
           return;
         case 'shogun-button-print':
-          tools.push(<SimpleButton
+          tools.push(<PrintButton
             map={map}
             key="4"
             type="primary"
             shape="circle"
             icon="print"
+            config={config}
+            t={t}
           />);
-          // tools.push(
-          //   <Window
-          //   className="bismap-window"
-          //   key="5"
-          //   // onEscape={this.changeFullPrintWindowVisibility}
-          //   title={t('FullPrintPanel.defaultPrintTitle')}
-          //   width={750}
-          //   y={50}
-          //   x={100}
-          //   enableResizing={false}
-          //   // collapseTooltip={t('Component.collapse')}
-          //   bounds="#app"
-          //   tools={[
-          //     <SimpleButton
-          //       icon="times"
-          //       key="close-tool"
-          //       size="small"
-          //       // tooltip={t('Component.close')}
-          //       // onClick={this.changeFullPrintWindowVisibility}
-          //     />
-          //   ]}
-          // >
-
-          // <FullPrintPanel
-          //   map={map}
-          //   key="5"
-          //   t={t}
-          //   config={config}
-          //   legendBlackList={['test']}//{layerBlackList}
-          //   printLayerBlackList={['test']}//{printLayerBlackList}
-          //   // onPrintManagerInitFailed="test"//{this.changeFullPrintWindowVisibility}
-
-          // />
-          // </Window>
-          // )
           return;
         default:
           return;
