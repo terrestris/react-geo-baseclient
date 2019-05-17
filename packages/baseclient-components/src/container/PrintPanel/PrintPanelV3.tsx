@@ -530,7 +530,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
   renderScaleSelectOptions = (scale: number) => {
     const scaleString = `1:${scale.toLocaleString()}`
     return (
-      <Option key={scale} value={scale}>
+      <Option key={scale.toString()} value={scale}>
         {scaleString}
       </Option>
     );
@@ -558,7 +558,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
    */
   renderDpiSelectOptions = (dpi: number) => {
     return (
-      <Option key={dpi} value={dpi}>
+      <Option key={dpi.toString()} value={dpi}>
         {`${dpi} dpi`}
       </Option>
     );
