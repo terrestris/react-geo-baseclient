@@ -369,9 +369,6 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         this.setState({
           loadingDownload: false
         });
-        if (!downloadUrl) {
-          message.error(t('PrintPanel.printErrorMsg'));
-        }
       })
       .catch(() => {
         this.setState({
@@ -407,7 +404,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         this.setState({
           previewUrl: downloadUrl ? downloadUrl : this.previewPlaceholder,
           loadingPreview: false
-          });
+        });
         if (!downloadUrl) {
           message.error(t('PrintPanel.printErrorMsg'));
         }
@@ -724,7 +721,6 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
             size="small"
             key="reset-button"
             type="primary"
-            disabled={printDisabled}
             onClick={this.onResetBtnClick}
           >
             {t('PrintPanel.resetBtnText')}
@@ -733,6 +729,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
             size="small"
             key="print-button"
             type="primary"
+            disabled={printDisabled}
             loading={loadingDownload}
             onClick={this.onPrintBtnClick}
           >
