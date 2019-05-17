@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import i18n from './i18n';
 import BrowserUtil from './util/BrowserUtil';
-import OlMap from 'ol/Map';
 import SomethingWentWrong from './SomethingWentWrong';
 import {
   MapComponent,
@@ -38,7 +37,7 @@ export interface DefaultMainProps {
 export interface MainProps extends Partial<DefaultMainProps> {
     dispatch: (arg: any) => void,
     loading: boolean,
-    map: OlMap,
+    map: any,
     appContext: {},
     appContextLoading: boolean,
     activeModules: object[],

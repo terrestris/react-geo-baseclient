@@ -1,15 +1,15 @@
 /*eslint-env jest*/
-import TestUtils from '../../../../spec/TestUtils';
+import TestUtils from '../../../spec/TestUtils';
 
-import FullPrintPanel from './FullPrintPanel';
+import PrintPanelV2 from './PrintPanelV2';
 
-describe('<FullPrintPanel />', () => {
+describe('<PrintPanelV2 />', () => {
   let map;
   let wrapper: any;
 
   beforeEach(() => {
     map = TestUtils.createMap({});
-    wrapper = TestUtils.mountComponent(FullPrintPanel, {
+    wrapper = TestUtils.mountComponent(PrintPanelV2, {
       t: () => {},
       map: map,
       config: {
@@ -25,7 +25,7 @@ describe('<FullPrintPanel />', () => {
 
   describe('Basics', () => {
     it('is defined', () => {
-      expect(FullPrintPanel).not.toBe(undefined);
+      expect(PrintPanelV2).not.toBe(undefined);
     });
 
     it('can be rendered', () => {

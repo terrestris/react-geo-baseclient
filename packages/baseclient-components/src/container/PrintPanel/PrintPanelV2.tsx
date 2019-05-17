@@ -20,16 +20,16 @@ import CsrfUtil from '@terrestris/base-util/dist/CsrfUtil/CsrfUtil';
 
 import { MapFishPrintV2Manager } from '@terrestris/mapfish-print-manager';
 
-import PrintUtil from '../../../util/PrintUtil/PrintUtil';
+import PrintUtil from '../../util/PrintUtil/PrintUtil';
 
-import './FullPrintPanel.less';
+import './PrintPanelV2.less';
 
-interface DefaultFullPrintPanelProps {
+interface DefaultPrintPanelProps {
   legendBlackList: string[],
   printLayerBlackList: string[]
 }
 
-interface FullPrintPanelProps extends Partial<DefaultFullPrintPanelProps> {
+interface PrintPanelProps extends Partial<DefaultPrintPanelProps> {
 
   /**
    * Instance of OL map this component is bound to.
@@ -69,7 +69,7 @@ interface FullPrintPanelProps extends Partial<DefaultFullPrintPanelProps> {
   t: (arg: string) => string
 }
 
-interface FullPrintPanelState {
+interface PrintPanelState {
   printTitle: string,
   printDescription: string,
   layout: string,
@@ -88,12 +88,12 @@ interface FullPrintPanelState {
 }
 
 /**
- * The FullPrintPanel container
+ * The PrintPanelV2 container
  *
- * @class FullPrintPanel
+ * @class PrintPanelV2
  * @extends React.Component
  */
-export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPrintPanelState> {
+export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelState> {
 
   printManager = new MapFishPrintV2Manager({
     url: this.props.config.printAction,
@@ -104,10 +104,10 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
   });
 
   /**
-   * Create a FullPrintPanel.
-   * @constructs FullPrintPanel
+   * Create a PrintPanelV2.
+   * @constructs PrintPanelV2
    */
-  constructor(props: FullPrintPanelProps) {
+  constructor(props: PrintPanelProps) {
     super(props);
 
     const {
@@ -115,8 +115,8 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
     } = props;
 
     this.state = {
-      printTitle: t('FullPrintPanel.defaultPrintTitle'),
-      printDescription: t('FullPrintPanel.defaultPrintComment'),
+      printTitle: t('PrintPanel.defaultPrintTitle'),
+      printDescription: t('PrintPanel.defaultPrintComment'),
       layout: 'A4 Hochformat',
       scale: '',
       dpi: '',
@@ -175,7 +175,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
         });
       })
       .catch((error:any) => {
-        message.error(t('FullPrintPanel.fetchCapabilitiesErrorMsg'));
+        message.error(t('PrintPanel.fetchCapabilitiesErrorMsg'));
 
         if (isFunction(onPrintManagerInitFailed)) {
           onPrintManagerInitFailed(error.message);
@@ -317,7 +317,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
         this.setState({
           loadingDownload: false
         });
-        message.error(t('FullPrintPanel.printErrorMsg'));
+        message.error(t('PrintPanel.printErrorMsg'));
       });
   }
 
@@ -354,7 +354,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
         this.setState({
           loadingPreview: false
         });
-        message.error(t('FullPrintPanel.printErrorMsg'));
+        message.error(t('PrintPanel.printErrorMsg'));
       });
 
     this.printManager.setOutputFormat(outputFormat);
@@ -379,9 +379,9 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
     } = this.state;
 
     this.printManager.customParams.mapTitle = printTitle ?
-      printTitle : preview ? t('FullPrintPanel.previewPrintTitle') : '';
+      printTitle : preview ? t('PrintPanel.previewPrintTitle') : '';
     this.printManager.customParams.comment = printDescription ?
-      printDescription : preview ? t('FullPrintPanel.previewPrintDescription') : '';
+      printDescription : preview ? t('PrintPanel.previewPrintDescription') : '';
     this.printManager.customParams.showLegendPage = !preview && !isEmpty(legendIds);
     this.printManager.customParams.attributions =
       PrintUtil.getAttributions(map, this.printManager.extentLayer);
@@ -408,7 +408,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
    */
   getOptionsForLegendSelect() {
     return this.getFilteredLegendLayers()
-      .map(layer =>
+      .map((layer: any) =>
         <Option
           key={layer.ol_uid}
           value={layer.ol_uid}
@@ -435,7 +435,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
       map, this.printManager.extentLayer
     );
 
-    return layers.filter(l => legendBlackList.indexOf(l.get('name')) === -1);
+    return layers.filter((l: any) => legendBlackList.indexOf(l.get('name')) === -1);
   }
 
   /**
@@ -485,7 +485,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
 
     const { t } = this.props;
 
-    const isFiltered = isEqual(option.name, t('FullPrintPanel.workPrintTemplateTitle'));
+    const isFiltered = isEqual(option.name, t('PrintPanel.workPrintTemplateTitle'));
     return (
       !isFiltered ?
         <Option key={option.name}>
@@ -509,8 +509,8 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
     } = option;
     const { t } = this.props;
     const mappingObject = {
-      72: t('FullPrintPanel.standardResolutionText'),
-      150: t('FullPrintPanel.highResolutionText'),
+      72: t('PrintPanel.standardResolutionText'),
+      150: t('PrintPanel.highResolutionText'),
     };
 
     return (
@@ -554,7 +554,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
           {/*preview column*/}
           <Col span={12}>
             <Card
-              title={t('FullPrintPanel.previewCardTitle')}
+              title={t('PrintPanel.previewCardTitle')}
               loading={loadingPreview}
               className="preview-card"
             >
@@ -571,19 +571,19 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
             {/*title and description*/}
             <div className="wrapper-settings-col">
               <Card className="common-settings-card">
-                <span className="label-span">{t('FullPrintPanel.printTitleLabelText')}:</span>
+                <span className="label-span">{t('PrintPanel.printTitleLabelText')}:</span>
                 <TextArea
                   className="common-settings-textarea"
-                  placeholder={t('FullPrintPanel.printTitlePlaceholder')}
+                  placeholder={t('PrintPanel.printTitlePlaceholder')}
                   value={printTitle}
                   maxLength={150}
                   rows={2}
                   onChange={this.onPrintTitleChange}
                 />
-                <span className="label-span">{t('FullPrintPanel.printDescriptionLabelText')}:</span>
+                <span className="label-span">{t('PrintPanel.printDescriptionLabelText')}:</span>
                 <TextArea
                   className="common-settings-textarea"
-                  placeholder={t('FullPrintPanel.printDescriptionPlaceholder')}
+                  placeholder={t('PrintPanel.printDescriptionPlaceholder')}
                   value={printDescription}
                   maxLength={150}
                   rows={2}
@@ -595,7 +595,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
                 className="print-settings-card"
               >
                 <div className="select-div">
-                  <span className="label-span">{t('FullPrintPanel.printLayoutLabelText')}:</span>
+                  <span className="label-span">{t('PrintPanel.printLayoutLabelText')}:</span>
                   <Select
                     style={{ width: 250 }}
                     placeholder="Select a layout"
@@ -606,7 +606,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
                   </Select>
                 </div>
                 <div className="select-div">
-                  <span className="label-span">{t('FullPrintPanel.printScaleLabelText')}:</span>
+                  <span className="label-span">{t('PrintPanel.printScaleLabelText')}:</span>
                   <Select
                     style={{ width: 250 }}
                     placeholder="Select a scale"
@@ -617,7 +617,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
                   </Select>
                 </div>
                 <div className="select-div">
-                  <span className="label-span">{t('FullPrintPanel.printResolutionLabelText')}:</span>
+                  <span className="label-span">{t('PrintPanel.printResolutionLabelText')}:</span>
                   <Select
                     style={{ width: 250 }}
                     placeholder="Select a resolution"
@@ -628,7 +628,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
                   </Select>
                 </div>
                 <div className="select-div">
-                  <span className="label-span">{t('FullPrintPanel.printFormatLabelText')}:</span>
+                  <span className="label-span">{t('PrintPanel.printFormatLabelText')}:</span>
                   <Select
                     style={{ width: 250 }}
                     placeholder="Select a format"
@@ -638,13 +638,13 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
                     {outputFormats.map(outputFormat => this.renderSelectOptions(outputFormat))}
                   </Select>
                 </div>
-                <span style={{display: 'none'}} className="switch-label-span">{t('FullPrintPanel.printLabelLabelText')}</span>
+                <span style={{display: 'none'}} className="switch-label-span">{t('PrintPanel.printLabelLabelText')}</span>
                 <Switch
                   // style={{display: 'none'}}
                   onChange={this.onPrintLabelSwitchChange}
                 />
                 <div className="select-div">
-                  <span className="label-span">{t('FullPrintPanel.printLegendsLabelText')}</span>
+                  <span className="label-span">{t('PrintPanel.printLegendsLabelText')}</span>
                   <Select
                     style={{ width: 250 }}
                     maxTagCount={3}
@@ -668,7 +668,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
             loading={loadingPreview}
             onClick={this.onPreviewBtnClick}
           >
-            {t('FullPrintPanel.previewCardTitle')}
+            {t('PrintPanel.previewCardTitle')}
           </SimpleButton>,
           <SimpleButton
             size="small"
@@ -676,7 +676,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
             type="primary"
             onClick={this.onResetBtnClick}
           >
-            {t('BismapComponent.resetBtnText')}
+            {t('PrintPanel.resetBtnText')}
           </SimpleButton>,
           <SimpleButton
             size="small"
@@ -685,7 +685,7 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
             loading={loadingDownload}
             onClick={this.onPrintBtnClick}
           >
-            {t('FullPrintPanel.printBtnText')}
+            {t('PrintPanel.printBtnText')}
           </SimpleButton>
         ]} />
       </div>
@@ -693,4 +693,4 @@ export class FullPrintPanel extends React.Component<FullPrintPanelProps, FullPri
   }
 }
 
-export default FullPrintPanel;
+export default PrintPanelV2;
