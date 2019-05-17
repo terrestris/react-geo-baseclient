@@ -1,12 +1,11 @@
 import * as React from 'react';
 import './Main.css';
 import 'ol/ol.css';
-import OlMap from 'ol/Map';
 import SomethingWentWrong from './SomethingWentWrong';
 import { withTranslation } from 'react-i18next';
 import ProjectMain from './ProjectMain';
 export interface MainProps {
-    map: OlMap,
+    map: any,
     t: (arg: string) => {}
 }
 
