@@ -695,7 +695,6 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                       maxTagCount={3}
                       mode="multiple"
                       value={legendIds}
-                      disabled={isEmpty(legendIds)}
                       onChange={this.onPrintLegendsChange}
                     >
                       {this.getOptionsForLegendSelect()}
