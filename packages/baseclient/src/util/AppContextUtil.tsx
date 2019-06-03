@@ -169,7 +169,9 @@ class AppContextUtil {
       hoverable: layerObj.appearance.hoverable,
       hoverTemplate: layerObj.appearance.hoverTemplate,
       type: layerObj.source.type,
-      legendUrl: layerObj.appearance.legendUrl
+      legendUrl: layerObj.appearance.legendUrl,
+      isBaseLayer: layerObj.isBaseLayer,
+      topic: layerObj.topic
     });
   }
 
@@ -194,7 +196,9 @@ class AppContextUtil {
       hoverable: layerObj.appearance.hoverable,
       hoverTemplate: layerObj.appearance.hoverTemplate,
       type: layerObj.source.type,
-      legendUrl: layerObj.appearance.legendUrl
+      legendUrl: layerObj.appearance.legendUrl,
+      isBaseLayer: layerObj.isBaseLayer,
+      topic: layerObj.topic
     });
   }
 

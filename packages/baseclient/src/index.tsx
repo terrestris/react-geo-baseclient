@@ -77,14 +77,14 @@ const mapPromise = new Promise((resolve, reject) => {
       olProjection.setExtent(mapExtent);
     }
 
-    let mapView = new OlView({
+    const mapView = new OlView({
       center: center,
       zoom: zoom,
       projection: olProjection,
       resolutions: resolutions
     });
 
-    let map = new OlMap({
+    const map = new OlMap({
       view: mapView,
       keyboardEventTarget: document,
       controls: OlDefaultControls({

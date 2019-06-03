@@ -34,6 +34,8 @@ interface DefaultLayerLegendAccordionProps {
   title: string;
   treeNodeFilter: (layer: any, index: number, array: any[]) => any;
   extraLegensParams: Object;
+  mapLayers: any[];
+  revision: number;
 }
 
 interface LayerLegendAccordionProps extends Partial<DefaultLayerLegendAccordionProps>{
@@ -54,6 +56,18 @@ interface LayerLegendAccordionState {
  */
 export default class LayerLegendAccordion extends React.Component<LayerLegendAccordionProps, LayerLegendAccordionState> {
 
+  public static defaultProps: DefaultLayerLegendAccordionProps = {
+    title: 'LayerTree',
+    treeNodeFilter: () => true,
+    extraLegensParams: {
+      'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
+    },
+    mapLayers: [],
+    revision: 0
+  };
+
+  private _mapLayerGroup : any;
+
   /**
    * Create the LayerLegendAccordion.
    *
@@ -67,6 +81,10 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
       activeKeys: ['tree', 'legend']
     }
 
+    this._mapLayerGroup = new OlLayerGroup({
+      layers: props.mapLayers
+    });
+
     this.treeNodeTitleRenderer = this.treeNodeTitleRenderer.bind(this);
     this.getLegendItems = this.getLegendItems.bind(this);
     this.loadingStartHandler = this.loadingStartHandler.bind(this);
@@ -79,22 +97,10 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
 
   /**
    *
-   * The default props
-   */
-  public static defaultProps: DefaultLayerLegendAccordionProps = {
-    title: 'LayerTree',
-    treeNodeFilter: () => true,
-    extraLegensParams: {
-      'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
-    }
-  };
-
-  /**
-   *
    */
   componentDidMount() {
-    const { map } = this.props;
-    map.getLayers().getArray()
+    const { mapLayers } = this.props;
+    mapLayers!
       .filter((layer: any) => !(layer instanceof OlVectorLayer) && !(layer instanceof OlLayerGroup))
       .forEach((layer: any) => this.registerLoadingEventsForOlLayer(layer, true));
   }
@@ -103,8 +109,8 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    *
    */
   componentWillUnmount() {
-    const { map } = this.props;
-    map.getLayers().getArray()
+    const { mapLayers } = this.props;
+    mapLayers!
       .filter((layer: any) => !(layer instanceof OlVectorLayer) && !(layer instanceof OlLayerGroup))
       .forEach((layer: any) => this.registerLoadingEventsForOlLayer(layer, false));
   }
@@ -127,6 +133,10 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
       if (!_isEqual(Object.keys(prevGrouped), Object.keys(currentGrouped))) {
         this.props.map.dispatchEvent('moveend');
       }
+    }
+
+    if (prevProps.revision && this.props.revision && !_isEqual(prevProps.revision, this.props.revision)) {
+      this.forceUpdate();
     }
   }
 
@@ -335,18 +345,18 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    */
   getLegendItems() {
     const {
+      mapLayers,
       map,
       extraLegensParams
     } = this.props;
-    if (!map) {
-      return;
+    if (!map || !mapLayers) {
+      return null;
     }
-    const layers = map.getLayerGroup().getLayers().getArray();
     const unit = map.getView().getProjection().getUnits();
     const scale = MapUtil.getScaleForResolution(map.getView().getResolution(), unit);
 
     // clone the array, reverse will work in place
-    const reversed = layers.slice(0).reverse().filter((l: any) => l.getVisible());
+    const reversed = mapLayers.slice(0).reverse().filter((l: any) => l && l.getVisible());
     const legends = reversed.map((l: any) => {
       return (
         <Collapse
@@ -386,7 +396,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    *
    * @param {OlLayer[]} layers The OpenLayers layers to get the class names for
    */
-  getLayerVisiblilityClassName(layers: any[]) {
+  getLayerVisiblilityClassName(layers: any[] | undefined) {
     if (!layers) {
       return 'fa fa-eye-slash all-layers-handle';
     }
@@ -397,7 +407,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     const numLayers = filteredLayers.length;
     let visibleLayers = 0;
     filteredLayers.forEach(l => {
-      if (l.getVisible() === true) {
+      if (l && l.getVisible() === true) {
         visibleLayers++;
       }
     });
@@ -413,7 +423,10 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    *
    * @param {OlLayer[]} The OpenLayes layers to change visiblity for
    */
-  onAllLayersVisibleChange(mapLayers: any[]) {
+  onAllLayersVisibleChange(mapLayers: any[] | undefined) {
+    if (!mapLayers) {
+      return;
+    }
     const filteredLayers = mapLayers.filter(this.props.treeNodeFilter!);
     const layerVisibilityClassName: string = this.getLayerVisiblilityClassName(mapLayers);
     let visibility = false;
@@ -456,6 +469,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
   render() {
     const {
       map,
+      mapLayers,
       t
     } = this.props;
 
@@ -463,7 +477,6 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
       activeKeys
     } = this.state;
 
-    const mapLayers = this.props.map.getLayers().getArray();
     const layerVisibilityClassName = this.getLayerVisiblilityClassName(mapLayers);
 
     return (
@@ -497,7 +510,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
           </span>
           <LayerTree
             map={map}
-            layerGroup={map.getLayerGroup()}
+            layerGroup={this._mapLayerGroup}
             nodeTitleRenderer={this.treeNodeTitleRenderer}
             filterFunction={this.props.treeNodeFilter}
           />
