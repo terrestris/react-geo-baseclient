@@ -1,0 +1,103 @@
+@layerset-basemap-chooser-width: 100vw;
+@layerset-basemap-chooser-height: 350px;
+
+.layerset-basemap-chooser {
+  position: absolute;
+  bottom: 35px;
+  left: 5px;
+
+  width: @layerset-basemap-chooser-width;
+  height: @layerset-basemap-chooser-height;
+
+  #overview-map {
+    position: absolute;
+    top: calc(@layerset-basemap-chooser-height - 42.5%);
+    left: 0;
+    height: 42.5%;
+    width: 10%;
+    display: flex;
+
+    .layerset-basemap-chooser-overviewmap {
+      flex: 1;
+      bottom: unset;
+      left: unset;
+      height: 100%;
+      width: 100%;
+
+      &.ol-control {
+        position: inherit;
+      }
+
+      .ol-overviewmap-map {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+      }
+    }
+  }
+
+  .collapse-btn {
+    position: absolute;
+    top: calc(@layerset-basemap-chooser-height - 50%);
+    left: calc(@layerset-basemap-chooser-width - 90%);
+    height: 7.5%;
+    width: 2.5%;
+
+    align-self: end;
+    border: 1px solid darken(#4ba9ff, 25%);
+  }
+
+  .show-topic-carousel-toggle {
+    position: absolute;
+    top: calc(@layerset-basemap-chooser-height - 50%);
+    left: 0;
+    height: 7.5%;
+    width: 10%;
+    align-self: end;
+    border: 1px solid darken(#4ba9ff, 25%);
+  }
+
+  .show-baselayer-carousel-toggle {
+    position: absolute;
+    top: calc(@layerset-basemap-chooser-height - 42.5%);
+    left: calc(@layerset-basemap-chooser-width - 90%);
+    height: 42.5%;
+    width: 2.5%;
+
+    border: 1px solid darken(#4ba9ff, 25%);
+
+    div {
+      display: inline-block;
+      transform: rotate(-90deg);
+      margin: -40px;
+
+      .baselayer-carousel-toggle-text {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .base-layer-carousel,.topic-carousel {
+    .carousel {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .topic-carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 50%;
+    width: 100%;
+  }
+
+  .base-layer-carousel {
+    position: absolute;
+    top: calc(@layerset-basemap-chooser-height - 50%);
+    left: calc(@layerset-basemap-chooser-width - 87.5%);
+    height: 50%;
+    width: calc(@layerset-basemap-chooser-width - 12.5%);
+  }
+}
+
