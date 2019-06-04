@@ -70,7 +70,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
     } = this.state;
 
     if (!config) {
-      return;
+      return <div />;
     }
 
     return (
