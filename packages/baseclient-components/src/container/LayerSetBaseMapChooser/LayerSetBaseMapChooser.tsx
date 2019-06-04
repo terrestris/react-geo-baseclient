@@ -7,6 +7,8 @@ import {
   SimpleButton
 } from '@terrestris/react-geo';
 
+import { isFunction } from 'lodash';
+
 import './LayerSetBaseMapChooser.less';
 import LayerCarousel from '../../component/LayerCarousel/LayerCarousel';
 
@@ -21,6 +23,7 @@ interface LayerSetBaseMapChooserProps extends Partial<DefaultLayerSetBaseMapChoo
   t: (arg: string) => {};
   baseLayerGroup: any;
   topicLayerGroup: any;
+  onTopicLayerGroupSelected: (arg: string) => void;
 }
 
 interface LayerSetBaseMapChooserState {
@@ -54,8 +57,8 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     super(props);
 
     this.state = {
-      showTopicCarousel: true,
-      showBaseLayerCarousel: true
+      showTopicCarousel: false,
+      showBaseLayerCarousel: false
     }
 
     // binds
@@ -122,12 +125,19 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
   /**
    *
    */
-  onTopicLayerGroupSelected() {
+  onTopicLayerGroupSelected(layerOlUid: string) {
     this.setState({
       showTopicCarousel: false
     });
-    const { map } = this.props;
+    const {
+      map,
+      onTopicLayerGroupSelected
+    } = this.props;
     map.dispatchEvent('updateLayerAccordion');
+
+    if (isFunction(onTopicLayerGroupSelected)) {
+      onTopicLayerGroupSelected(layerOlUid);
+    }
   }
 
   /**

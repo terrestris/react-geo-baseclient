@@ -30,6 +30,10 @@
     padding-top: 5px;
   }
 
+  .ant-divider.ant-divider-horizontal {
+    margin: 2px 0px;
+  }
+
   .layer-legend-accordion-title {
     span.fa {
       float: right;
@@ -75,80 +79,6 @@
       overflow: auto;
       background-color: #fafafa;
       border: 1px dotted lightgray;
-
-      .react-geo-layertree-node {
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid lightgray;
-
-        // let settings icon never be transparent
-        // (even if layer is out of scale or inactive)
-        &.out-off-range {
-          opacity: 1;
-
-          .layer-tree-node-title-filter,
-          .layer-tree-node-title-active,
-          .layer-tree-node-title-layername,
-          .layer-tree-node-title-visibility,
-          .layer-tree-node-title-inactive {
-              opacity: .5;
-          }
-        }
-
-        .ant-tree-switcher {
-          display: none;
-        }
-
-        span.ant-tree-checkbox {
-          display: none;
-        }
-
-        .ant-tree-node-content-wrapper {
-          flex: 1;
-          overflow: hidden;
-          height: 100%;
-
-          .layer-tree-node-list-item {
-            .ant-slider {
-              margin: 5px 7px 5px;
-            }
-          }
-
-          .layer-tree-node-title {
-            display: flex;
-            flex: 1;
-            align-items: center;
-
-            .layer-tree-node-title-layername {
-              margin-left: 12px;
-              flex: 1;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-
-            .layer-tree-node-title-visibility.layer-tree-node-title-inactive {
-              opacity: 0.5;
-            }
-
-            .layer-tree-node-title-settings {
-              margin-right: 12px;
-              width: 12px;
-            }
-
-            .layer-tree-node-loading-active {
-              margin-right: 12px;
-              width: 12px;
-            }
-
-            .layer-tree-node-loading-inactive {
-              margin-right: 12px;
-              width: 12px;
-              display: none;
-            }
-          }
-        }
-      }
     }
   }
 }

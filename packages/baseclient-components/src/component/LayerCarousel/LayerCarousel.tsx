@@ -68,14 +68,27 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     this.renderTrigger = this.renderTrigger.bind(this);
   }
 
+  /**
+   * @memberof LayerCarousel
+   */
   componentDidMount() {
     this.props.map.on('moveend', this.renderTrigger);
   }
 
+  /**
+   *
+   *
+   * @memberof LayerCarousel
+   */
   componentWillUnmount() {
     this.props.map.un('moveend', this.renderTrigger);
   }
 
+  /**
+   *
+   *
+   * @memberof LayerCarousel
+   */
   renderTrigger() {
     this.setState({
       renderTrigger: this.state.renderTrigger + 1
@@ -278,7 +291,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
           arrows={true}
           infinite={true}
           centered={true}
-          slidesPerPage={Math.round(window.innerWidth / this.getWidth() - 1) * 2}
+          slidesPerPage={Math.round(window.innerWidth / this.getWidth()) - 1}
           afterChange={(a: any) => console.log(a)}
           arrowLeft={<Icon type="left" />}
           arrowRight={<Icon type="right" />}
