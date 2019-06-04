@@ -20,6 +20,7 @@ interface DefaultHeaderProps {
 }
 
 interface HeaderProps extends Partial<DefaultHeaderProps>{
+  topic: string;
   map: any;
   i18n: any;
   t: (arg: string) => {};
@@ -82,8 +83,14 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       map,
       title,
       loading,
+      topic,
       t
     } = this.props;
+
+    let titleString = title;
+    if (topic) {
+      titleString = `${title} (${topic})`;
+    }
 
     return (
       <header className="app-header">
@@ -127,7 +134,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
              md={11}
              lg={11}
           >
-            <span className="app-title">{title}</span>
+            <span className="app-title">{titleString}</span>
           </Col>
           <Col
             xs={1}
