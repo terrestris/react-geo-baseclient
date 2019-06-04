@@ -78,10 +78,9 @@
   }
 
   .base-layer-carousel,.topic-carousel {
-    .carousel {
-      height: 100%;
-      width: 100%;
-    }
+    background: rgba(darken(#4ba9ff, 5%), 75%);
+    border: 1px solid darken(#4ba9ff, 25%);
+    border-radius: 4px;
   }
 
   .topic-carousel {
@@ -94,10 +93,11 @@
 
   .base-layer-carousel {
     position: absolute;
-    top: calc(@layerset-basemap-chooser-height - 50%);
+    top: calc(@layerset-basemap-chooser-height - 42.5%);
     left: calc(@layerset-basemap-chooser-width - 87.5%);
-    height: 50%;
+    height: 42.5%;
     width: calc(@layerset-basemap-chooser-width - 12.5%);
   }
+
 }
 

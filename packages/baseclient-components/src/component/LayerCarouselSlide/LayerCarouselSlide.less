@@ -1,61 +1,30 @@
-.slick-slide {
+.BrainhubCarouselItem {
   text-align: center;
-  height: 100%;
-  width: 192px !important;
-  background: #4ba9ff;
+  border: 1px solid white;
+  border-radius: 4px;
+  background-color: white;
+
   overflow: hidden;
   margin: 0 3px;
   opacity: .85;
 
-  .layersetentry {
-    width: 192px;
-  }
-
   &:hover {
     opacity: 1;
-    border: 1px solid white;
+    background-color: rgba(white, 0.5)
   }
 
-  >div {
-    height: 100%;
+  > img {
+    flex: 1;
+    align-self: center;
+    margin: 5px 10px 10px 10px;
+    max-width: 95%;
+    box-sizing: content-box;
+    box-shadow: 0 0 10px 5px darken(#4ba9ff, 15%);
+    background: white;
+    cursor: pointer;
+  }
 
-    .layersetentry {
-      font-size: 1.1em;
-      color: white;
-      cursor: all-scroll;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-
-      >.title-div {
-        position: relative;
-        width: 100%;
-
-        >.loading-div {
-          position: absolute;
-          top: 0;
-          right: 0;
-        }
-      }
-
-      > img {
-        flex: 1;
-        align-self: center;
-        margin: 5px 10px 10px 10px;
-        max-width: 95%;
-        box-sizing: content-box;
-        box-shadow: 0 0 10px 5px darken(#4ba9ff, 15%);
-        background: white;
-        cursor: pointer;
-      }
-
-      button {
-        background: none;
-        border: none;
-        &:hover {
-          border: none;
-        }
-      }
-    }
+  .title-div {
+    background-color: lighten(#4ba9ff, 25%);
   }
 }

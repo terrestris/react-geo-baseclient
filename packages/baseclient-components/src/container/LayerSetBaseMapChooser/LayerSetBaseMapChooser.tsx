@@ -33,6 +33,13 @@ interface LayerSetBaseMapChooserState {
  */
 class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps, LayerSetBaseMapChooserState> {
 
+  /**
+   * The default props of LayerSetBaseMapChooser
+   *
+   * @static
+   * @type {DefaultLayerSetBaseMapChooserProps}
+   * @memberof LayerSetBaseMapChooser
+   */
   public static defaultProps: DefaultLayerSetBaseMapChooserProps = {
     loading: false,
     onCollapse: () => { }
@@ -47,8 +54,8 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     super(props);
 
     this.state = {
-      showTopicCarousel: false,
-      showBaseLayerCarousel: false
+      showTopicCarousel: true,
+      showBaseLayerCarousel: true
     }
 
     // binds
@@ -60,7 +67,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
   }
 
   /**
-   *
+   * After the compoment did mount, add the overviewmap to generated div
    *
    * @memberof LayerSetBaseMapChooser
    */
@@ -77,11 +84,6 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     });
 
     map.addControl(overviewMap);
-
-    // todo: check if DragRotateAndZoom is in map / activated
-    // interactions: ol.interaction.defaults().extend([
-    //   new ol.interaction.DragRotateAndZoom()
-    // ]),
   }
 
     /**
@@ -119,22 +121,19 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
 
   /**
    *
-   *
-   * @param {string} layerOlUid
-   * @memberof LayerSetBaseMapChooser
    */
-  onTopicLayerGroupSelected(layerOlUid: string) {
+  onTopicLayerGroupSelected() {
     this.setState({
       showTopicCarousel: false
     });
-    const { map} = this.props;
+    const { map } = this.props;
     map.dispatchEvent('updateLayerAccordion');
   }
 
   /**
    *
    */
-  onBaseLayerSelected(layerOlUid: string) {
+  onBaseLayerSelected() {
     this.setState({
       showBaseLayerCarousel: false
     });

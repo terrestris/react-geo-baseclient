@@ -5,7 +5,10 @@ const _uniqueId = require('lodash/uniqueId');
 
 import LayerCarouselSlide from '../LayerCarouselSlide/LayerCarouselSlide';
 import './LayerCarousel.less';
-import Slider, { Settings } from 'react-slick';
+
+import Carousel from '@brainhubeu/react-carousel';
+import '@brainhubeu/react-carousel/lib/style.css'
+import { Icon } from 'antd';
 
 interface DefaultLayerCarouselProps {
   map: any;
@@ -20,7 +23,9 @@ interface LayerCarouselProps extends Partial<DefaultLayerCarouselProps> {
 interface LayerCarouselState {
   mouseDownTime: number,
   renderTrigger: number,
-  originalBaseLayerOlUid: string
+  originalBaseLayerOlUid: string,
+  width: number,
+  ratio: number
 }
 
 /**
@@ -49,13 +54,10 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     this.state = {
       mouseDownTime: 0,
       renderTrigger: 0,
-      originalBaseLayerOlUid: ''
+      originalBaseLayerOlUid: '',
+      ratio: this.getRatio(),
+      width: this.getWidth()
     };
-    this.props.map.on('moveend', () => {
-      this.setState({
-        renderTrigger: this.state.renderTrigger + 1
-      });
-    });
 
     // binds
     this.mouseDown = this.mouseDown.bind(this);
@@ -63,6 +65,21 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     this.onCarouselItemClick = this.onCarouselItemClick.bind(this);
     this.onCarouselItemHover = this.onCarouselItemHover.bind(this);
     this.onCarouselItemHoverOut = this.onCarouselItemHoverOut.bind(this);
+    this.renderTrigger = this.renderTrigger.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.map.on('moveend', this.renderTrigger);
+  }
+
+  componentWillUnmount() {
+    this.props.map.un('moveend', this.renderTrigger);
+  }
+
+  renderTrigger() {
+    this.setState({
+      renderTrigger: this.state.renderTrigger + 1
+    });
   }
 
   /**
@@ -188,7 +205,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    * @param {Object} evt The mouseover/click event
    * @return {OlLayer} The clicked/hovered layer object
    */
-  findLayer = (evt: any) => {
+  findLayer (evt: any) {
     let targetElement = evt.target;
 
     const id = targetElement.getAttribute('data-identifier');
@@ -203,27 +220,39 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     return layers.find((l: any) => l.ol_uid === id);
   }
 
+  getRatio() {
+    const {
+      map
+    } = this.props;
+    const size = map.getSize();
+    if (!size) {
+      return 1;
+    }
+    const ratio = size[0] / size[1];
+    return ratio;
+  }
+
+  /**
+   * Get the width for GetMap requests
+   */
+  getWidth() {
+    // TODO: maybe configurable ??
+    return 128 * this.getRatio();
+  }
+
   /**
    * The render function
    */
   render() {
     const {
-      map,
-      layers
+      map
     } = this.props;
 
-    const carouselSettings: Settings = {
-      className: 'carousel',
-      slidesToShow: Math.ceil(layers.length / 2),
-      slidesToScroll: 1,
-      lazyLoad: 'ondemand',
-      infinite: true,
-      swipeToSlide: true,
-      dots: false,
-      arrows: false
-    };
+    const {
+      width,
+      ratio
+    } = this.state;
 
-    const mapSize = map.getSize();
     const extent = map.getView().calculateExtent();
     const carouselClassName = `${this.props.className} carousel-wrapper`.trim();
     const mapProjection = map.getView().getProjection().getCode();
@@ -234,8 +263,9 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
           onMouseEnter={this.onCarouselItemHover}
           onMouseLeave={this.onCarouselItemHoverOut}
           layer={layer}
-          mapSize={mapSize}
           extent={extent}
+          width={width}
+          ratio={ratio}
           projection={mapProjection}
           key={_uniqueId('layer-slide-')}
         />
@@ -243,17 +273,19 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     );
 
     return (
-      <div
-        className={carouselClassName}
-        onMouseDown={this.mouseDown}
-        onMouseUp={this.mouseUp}
-      >
-        <Slider
-          {...carouselSettings}
+        <Carousel
+          className={carouselClassName}
+          arrows={true}
+          infinite={true}
+          centered={true}
+          slidesPerPage={Math.round(window.innerWidth / this.getWidth() - 1) * 2}
+          afterChange={(a: any) => console.log(a)}
+          arrowLeft={<Icon type="left" />}
+          arrowRight={<Icon type="right" />}
+          addArrowClickHandler={true}
         >
-          {layerSlides}
-        </Slider>
-      </div>
+           {layerSlides}
+        </Carousel>
     );
   }
 }
