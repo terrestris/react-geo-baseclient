@@ -157,7 +157,8 @@ class AppContextUtil {
       tileGrid: tileGrid,
       params: {
         'LAYERS': layerObj.source.layerNames,
-        'TILED': layerObj.source.requestWithTiled || false
+        'TILED': layerObj.source.requestWithTiled || false,
+        'TRANSPARENT': true
       }
     });
 
@@ -184,7 +185,8 @@ class AppContextUtil {
       url: layerObj.source.url,
       attributions: layerObj.appearance.attribution,
       params: {
-        'LAYERS': layerObj.source.layerNames
+        'LAYERS': layerObj.source.layerNames,
+        'TRANSPARENT': true
       }
     });
 
