@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@terrestris/mapfish-print-manager": "^3.0.0"
+    "@terrestris/mapfish-print-manager": "^4.0.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.4.0",
