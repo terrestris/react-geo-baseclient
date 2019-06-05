@@ -315,18 +315,21 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
           key="tree"
           className="layertree-collapse-panel"
         >
-          <span
-            className={layerVisibilityClassName}
-            onClick={(event: React.MouseEvent) => {
-              this.onAllLayersVisibleChange(mapLayers);
-              event.preventDefault();
-            }}
-          >
-            <span>{layerVisibilityClassName !== 'fa fa-eye all-layers-handle' ?
-              t('LayerLegendAccordion.activateAllLayersText') :
-              t('LayerLegendAccordion.deactivateAllLayersText')}
-            </span>
-          </span>
+          {
+            mapLayers && mapLayers.length > 0 ?
+            <span
+              className={layerVisibilityClassName}
+              onClick={(event: React.MouseEvent) => {
+                this.onAllLayersVisibleChange(mapLayers);
+                event.preventDefault();
+              }}
+            >
+              <span>{layerVisibilityClassName !== 'fa fa-eye all-layers-handle' ?
+                t('LayerLegendAccordion.activateAllLayersText') :
+                t('LayerLegendAccordion.deactivateAllLayersText')}
+              </span>
+            </span> : null
+          }
           <LayerTree
             map={map}
             layerGroup={this._mapLayerGroup}

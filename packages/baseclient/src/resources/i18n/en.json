@@ -68,8 +68,8 @@
     "collapseAccordionTooltipText": "Show layer list / legend",
     "layerTreeTilte": "Layer list",
     "legendPanelTitle": "Legend",
-    "activateAllLayersText": "Activate all layers",
-    "deactivateAllLayersText": "De-activate all layers"
+    "activateAllLayersText": "Activate all topic layers",
+    "deactivateAllLayersText": "De-activate all topic layers"
   },
   "LayerSetBaseMapChooser": {
     "topicText": "Topics",

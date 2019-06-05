@@ -274,11 +274,11 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
               </Tooltip>
             </Dropdown> :
             null
-          }
-          </div>
-          <LayerTransparencySlider
-            layer={layer}
-          />
+        }
+        </div>
+        <LayerTransparencySlider
+          layer={layer}
+        />
       </span>
     )
   }
