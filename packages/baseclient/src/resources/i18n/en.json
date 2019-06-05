@@ -11,6 +11,12 @@
     "line": "Line",
     "area": "Area"
   },
+  "ZoomIn": {
+    "tooltip": "Zoom in"
+  },
+  "ZoomOut": {
+    "tooltip": "Zoom out"
+  },
   "Imprint": {
     "title": "Imprint",
     "contact": "Contact",
@@ -59,10 +65,14 @@
   "LayerLegendAccordion": {
     "toggleVisibilityTooltipText": "Visibility",
     "layerSettingsTooltipText": "Properties",
-    "collapseAccordionTooltipText": "Show layertree / legend",
-    "layerTreeTilte": "Layertree",
+    "collapseAccordionTooltipText": "Show layer list / legend",
+    "layerTreeTilte": "Layer list",
     "legendPanelTitle": "Legend",
     "activateAllLayersText": "Activate all layers",
     "deactivateAllLayersText": "De-activate all layers"
+  },
+  "LayerSetBaseMapChooser": {
+    "topicText": "Topics",
+    "baseLayerText": "Base layers"
   }
 }

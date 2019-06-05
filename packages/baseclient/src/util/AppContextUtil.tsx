@@ -231,8 +231,8 @@ class AppContextUtil {
             type="primary"
             shape="circle"
             icon="plus"
-            tooltip={t('test')}
-            tooltipPlacement={'left'}
+            tooltip={t('ZoomIn.tooltip')}
+            tooltipPlacement={'right'}
           />);
           return;
         case 'basigx-button-zoomout':
@@ -243,6 +243,8 @@ class AppContextUtil {
             type="primary"
             shape="circle"
             icon="minus"
+            tooltip={t('ZoomOut.tooltip')}
+            tooltipPlacement={'right'}
           />);
           return;
         case 'shogun-button-zoomtoextent':

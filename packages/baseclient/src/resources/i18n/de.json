@@ -11,6 +11,12 @@
     "line": "Linie",
     "area": "Fläche"
   },
+  "ZoomIn": {
+    "tooltip": "Hineinzoomen"
+  },
+  "ZoomOut": {
+    "tooltip": "Herauszoomen"
+  },
   "Imprint": {
     "title": "Impressum",
     "contact": "Kontakt",
@@ -59,10 +65,14 @@
   "LayerLegendAccordion": {
     "toggleVisibilityTooltipText": "Sichtbarkeit",
     "layerSettingsTooltipText": "Eigenschaften",
-    "collapseAccordionTooltipText": "Themenauswahl / Legende anzeigen",
-    "layerTreeTilte": "Themenauswahl",
+    "collapseAccordionTooltipText": "Layerliste / Legende anzeigen",
+    "layerTreeTilte": "Layerliste",
     "legendPanelTitle": "Legende",
     "activateAllLayersText": "Alle Layer aktivieren",
     "deactivateAllLayersText": "Alle Layer deaktivieren"
+  },
+  "LayerSetBaseMapChooser": {
+    "topicText": "Themen",
+    "baseLayerText": "Basiskarten"
   }
 }

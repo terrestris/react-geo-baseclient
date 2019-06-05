@@ -161,7 +161,8 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     const {
       baseLayerGroup,
       map,
-      topicLayerGroup
+      topicLayerGroup,
+      t
     } = this.props;
 
     const {
@@ -203,7 +204,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
           pressed={showTopicCarousel}
           onToggle={this.onShowTopicCarouselToggle}
         >
-          Themen
+          {t('LayerSetBaseMapChooser.topicText')}
         </ToggleButton>
         <ToggleButton
           size="small"
@@ -213,7 +214,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
         >
           <div>
             <span className={showBaseLayerCarousel ? 'fa fa-angle-double-up' : 'fa fa-angle-double-down'} />
-            <span className="baselayer-carousel-toggle-text">Basiskarten</span>
+            <span className="baselayer-carousel-toggle-text">{t('LayerSetBaseMapChooser.baseLayerText')}</span>
           </div>
         </ToggleButton>
         </div>
