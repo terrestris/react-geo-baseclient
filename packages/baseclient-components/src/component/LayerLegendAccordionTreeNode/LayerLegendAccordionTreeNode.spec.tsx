@@ -4,11 +4,14 @@ import TestUtils from '../../../spec/TestUtils';
 import LayerLegendAccordionTreeNode from './LayerLegendAccordionTreeNode';
 
 describe('<LayerLegendAccordionTreeNode />', () => {
+  let layer;
   let wrapper: any;
 
   beforeEach(() => {
-    wrapper = TestUtils.shallowComponent(LayerLegendAccordionTreeNode, {
-      t: (t: string) => t
+    layer = TestUtils.createTileLayer({});
+    wrapper = TestUtils.mountComponent(LayerLegendAccordionTreeNode, {
+      t: () => {},
+      layer,
     }, {});
   });
 
