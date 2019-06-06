@@ -5,7 +5,7 @@ import {
   DISABLE_LOADING
 } from '../constants/Loading';
 
-const initialState = {
+const initialState: any = {
   queue: [],
   loading: false
 };
@@ -44,7 +44,7 @@ describe('LoadingReducer', () => {
   });
 
   it('should handle DISABLE_LOADING', () => {
-    const singleLoadingState = {
+    const singleLoadingState: any = {
       'queue': [],
       'loading': false
     };
