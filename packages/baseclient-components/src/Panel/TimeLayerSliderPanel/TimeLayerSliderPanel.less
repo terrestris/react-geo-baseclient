@@ -1,0 +1,47 @@
+.time-layer-slider {
+  position: absolute;
+  bottom: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid lightgray;
+
+  button {
+    margin-left: 5px;
+  }
+
+  .timeslider {
+    flex: 1;
+    margin: 10px;
+
+    &.ant-slider-with-marks {
+      margin: 10px 40px 20px 40px;
+    }
+  }
+
+  .timeslider-in-future {
+    .ant-slider-handle {
+      background-color: #FFFFFF;
+    }
+  }
+
+  .playback {
+    border-radius: 2px 0 0 2px;
+  }
+
+  .ant-select-selection {
+    background-color: white;
+    width: 150px;
+    margin-right: 5px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .time-value {
+    text-align: center;
+    width: 90px;
+    padding: 0 10px;
+    font-weight: bold;
+  }
+}
