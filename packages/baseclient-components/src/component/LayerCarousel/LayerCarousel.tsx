@@ -216,7 +216,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    * findLayer - Find a clicked/hovered layer.
    *
    * @param {Object} evt The mouseover/click event
-   * @return {OlLayer} The clicked/hovered layer object
+   * @return {OlLayer} layer The clicked/hovered layer object
    */
   findLayer (evt: any) {
     let targetElement = evt.target;
