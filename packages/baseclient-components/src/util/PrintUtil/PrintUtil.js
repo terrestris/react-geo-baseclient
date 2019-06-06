@@ -15,7 +15,7 @@ export class PrintUtil {
    * @return {Array} The printable layers.
    */
   static getPrintableLayers = (map, printLayer) => {
-    const layers = MapUtil.getAllLayers(map); //map.getLayers().getArray();
+    const layers = MapUtil.getAllLayers(map);
     return layers.filter(layer => {
       const layerName = layer.get('name');
       return layerName
