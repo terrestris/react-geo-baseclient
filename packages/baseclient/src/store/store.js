@@ -1,4 +1,8 @@
-import { createStore, applyMiddleware } from 'redux';
+import {
+  createStore,
+  applyMiddleware,
+  compose
+} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { middleware } from 'redux-async-initial-state';
@@ -53,8 +57,10 @@ const loadAppContextStore = () => {
 
 const store = createStore(
   baseclientMainReducer,
-  {},
-  applyMiddleware(loggerMiddleware, thunkMiddleware, middleware(loadAppContextStore))
+  compose(
+    applyMiddleware(middleware(loadAppContextStore)),
+    applyMiddleware(thunkMiddleware, loggerMiddleware)
+  )
 );
 
 // An initial dispatch to trigger the execution of all middlewares. This is
