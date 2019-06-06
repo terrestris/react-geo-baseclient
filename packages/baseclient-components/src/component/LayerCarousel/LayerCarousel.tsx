@@ -292,7 +292,6 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
           infinite={true}
           centered={true}
           slidesPerPage={Math.round(window.innerWidth / this.getWidth()) - 1}
-          afterChange={(a: any) => console.log(a)}
           arrowLeft={<Icon type="left" />}
           arrowRight={<Icon type="right" />}
           addArrowClickHandler={true}

@@ -43,7 +43,7 @@ export class LayerCarouselSlide extends React.PureComponent<LayerCarouselSlidePr
   };
 
   /**
-   *Creates an instance of Slide.
+   * Creates an instance of Slide.
    * @param {SlideProps} props
    * @memberof Slide
    */
