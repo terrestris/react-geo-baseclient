@@ -20,7 +20,8 @@
   "license": "ISC",
   "dependencies": {
     "@terrestris/mapfish-print-manager": "^5.0.0",
-    "@brainhubeu/react-carousel": "^1.10.17"
+    "@brainhubeu/react-carousel": "^1.10.17",
+    "moment": "^2.24.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.4.0",
