@@ -66,7 +66,7 @@
     "toggleVisibilityTooltipText": "Visibility",
     "layerSettingsTooltipText": "Properties",
     "collapseAccordionTooltipText": "Show layer list / legend",
-    "layerTreeTilte": "Layer list",
+    "layerTreeTitle": "Layer list",
     "legendPanelTitle": "Legend",
     "activateAllLayersText": "Activate all topic layers",
     "deactivateAllLayersText": "De-activate all topic layers"
