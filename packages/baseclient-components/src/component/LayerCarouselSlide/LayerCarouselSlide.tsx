@@ -99,7 +99,7 @@ export class LayerCarouselSlide extends React.PureComponent<LayerCarouselSlidePr
     // TODO configurable WMS parameters!
     const baseParams =
       '?SERVICE=WMS&' +
-      'VERSION=1.1.0&' +
+      'VERSION=1.1.1&' +
       'REQUEST=GetMap&' +
       'FORMAT=image/png&' +
       'TRANSPARENT=true&' +
