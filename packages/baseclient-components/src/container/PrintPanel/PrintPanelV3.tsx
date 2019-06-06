@@ -17,6 +17,8 @@ import {
   Titlebar
 } from '@terrestris/react-geo';
 
+import OlLayerGroup from 'ol/layer/Group';
+
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 import { MapFishPrintV3Manager } from '@terrestris/mapfish-print-manager';
@@ -176,7 +178,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       customPrintScales: this.getPrintScales(),
       timeout: 30000,
       legendFilter: (layer: any) => this.state.legendIds.includes(layer.ol_uid),
-      layerFilter: (layer: any) => !this.props.printLayerBlackList.includes(layer.get('name'))
+      layerFilter: (layer: any) => !(layer instanceof OlLayerGroup) && !this.props.printLayerBlackList.includes(layer.get('name'))
     });
 
     this.printManager = printManager;
@@ -474,12 +476,14 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
   getOptionsForLegendSelect() {
     return this.getFilteredLegendLayers()
       .map((layer: any) =>
-        <Option
-          key={layer.ol_uid}
-          value={layer.ol_uid}
-        >
-          {layer.get('name')}
-        </Option>
+        (
+          <Option
+            key={layer.ol_uid}
+            value={layer.ol_uid}
+          >
+            {layer.get('name')}
+          </Option>
+        )
       );
   }
 

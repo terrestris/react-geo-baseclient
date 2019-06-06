@@ -1,23 +1,17 @@
 import * as React from 'react';
 
 import OlLayerGroup from 'ol/layer/Group';
-import OlVectorLayer from 'ol/layer/Vector';
-import OlTileWmsSource from 'ol/source/TileWMS';
-import OlImageWmsSource from 'ol/source/Image';
 
 const _isEqual = require('lodash/isEqual');
 const _groupBy = require('lodash/groupBy');
 const _uniqueId = require('lodash/uniqueId');
 
 import {
-  Collapse,
-  Tooltip,
-  Dropdown
+  Collapse, Divider
 } from 'antd';
 const Panel = Collapse.Panel;
 
 import {
-  LayerTransparencySlider,
   LayerTree,
   Legend,
   Titlebar
@@ -28,12 +22,17 @@ import {
 } from '@terrestris/ol-util';
 
 import './LayerLegendAccordion.less';
+import LayerLegendAccordionTreeNode from '../../component/LayerLegendAccordionTreeNode/LayerLegendAccordionTreeNode.tsx';
 
 // default props
 interface DefaultLayerLegendAccordionProps {
   title: string;
   treeNodeFilter: (layer: any, index: number, array: any[]) => any;
   extraLegensParams: Object;
+  mapLayers: any[];
+  baseLayer: any;
+  revision: number;
+  onTopicLayerDragEnd: () => void;
 }
 
 interface LayerLegendAccordionProps extends Partial<DefaultLayerLegendAccordionProps>{
@@ -54,6 +53,21 @@ interface LayerLegendAccordionState {
  */
 export default class LayerLegendAccordion extends React.Component<LayerLegendAccordionProps, LayerLegendAccordionState> {
 
+  public static defaultProps: DefaultLayerLegendAccordionProps = {
+    title: 'LayerTree',
+    treeNodeFilter: () => true,
+    extraLegensParams: {
+      'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
+    },
+    mapLayers: [],
+    baseLayer: null,
+    revision: 0,
+    onTopicLayerDragEnd: () => { }
+  };
+
+  private _mapLayerGroup: any;
+  private _baseLayerGroup: any;
+
   /**
    * Create the LayerLegendAccordion.
    *
@@ -67,49 +81,24 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
       activeKeys: ['tree', 'legend']
     }
 
+    this._mapLayerGroup = new OlLayerGroup({
+      layers: props.mapLayers
+    });
+
+    if (props.baseLayer) {
+      this._baseLayerGroup = new OlLayerGroup({
+        layers: [ props.baseLayer ]
+      });
+    }
+
     this.treeNodeTitleRenderer = this.treeNodeTitleRenderer.bind(this);
     this.getLegendItems = this.getLegendItems.bind(this);
-    this.loadingStartHandler = this.loadingStartHandler.bind(this);
-    this.loadingEndHandler = this.loadingEndHandler.bind(this);
     this.onAllLayersVisibleChange = this.onAllLayersVisibleChange.bind(this);
     this.onAccordionChange = this.onAccordionChange.bind(this);
-    this.onLayerTreeNodeVisibilityChange = this.onLayerTreeNodeVisibilityChange.bind(this);
-    this.registerLoadingEventsForOlLayer = this.registerLoadingEventsForOlLayer.bind(this);
   }
 
   /**
-   *
-   * The default props
-   */
-  public static defaultProps: DefaultLayerLegendAccordionProps = {
-    title: 'LayerTree',
-    treeNodeFilter: () => true,
-    extraLegensParams: {
-      'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
-    }
-  };
-
-  /**
-   *
-   */
-  componentDidMount() {
-    const { map } = this.props;
-    map.getLayers().getArray()
-      .filter((layer: any) => !(layer instanceof OlVectorLayer) && !(layer instanceof OlLayerGroup))
-      .forEach((layer: any) => this.registerLoadingEventsForOlLayer(layer, true));
-  }
-
-  /**
-   *
-   */
-  componentWillUnmount() {
-    const { map } = this.props;
-    map.getLayers().getArray()
-      .filter((layer: any) => !(layer instanceof OlVectorLayer) && !(layer instanceof OlLayerGroup))
-      .forEach((layer: any) => this.registerLoadingEventsForOlLayer(layer, false));
-  }
-
-  /**
+   * The componentDidUpdate lifecycle function
    *
    * @param prevProps
    * @param prevState
@@ -131,82 +120,26 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
   }
 
   /**
-   * Register loadstart and loadend handler for ImageWMS and TileWMS layers
-   * @param {OlLayer} layer The OpenLayers layer to register listener for
-   * @param {boolean} mode The mode: true => register handler, false => unregister handler
+   * Check if revision changed, if so: update private _mapLayerGroup
+   * @param prevProps
    */
-  registerLoadingEventsForOlLayer(layer: any, mode: boolean) {
-    const layerSource = layer.getSource();
-
-    if (layerSource instanceof OlTileWmsSource) {
-      if (mode) {
-        layerSource.on('tileloadstart', this.loadingStartHandler);
-        layerSource.on('tileloadend', this.loadingEndHandler);
-        // on error: stop loading indicator for current tile
-        layerSource.on('tileloaderror', this.loadingEndHandler);
-        return;
-      } else {
-        layerSource.un('tileloadstart', this.loadingStartHandler);
-        layerSource.un('tileloadend', this.loadingEndHandler);
-        // on error: stop loading indicator for current tile
-        layerSource.un('tileloaderror', this.loadingEndHandler);
-        return;
+  getSnapshotBeforeUpdate(prevProps: any) {
+    if (!_isEqual(prevProps.revision, this.props.revision)) {
+      if (this.props.mapLayers && this.props.mapLayers.length !== 0) {
+        const layersCollection = this._mapLayerGroup.getLayers();
+        layersCollection.clear();
+        layersCollection.extend(this.props.mapLayers);
       }
-    }
-    if (layerSource instanceof OlImageWmsSource) {
-      if (mode) {
-        layerSource.on('imageloadstart', this.loadingStartHandler);
-        layerSource.on('imageloadend', this.loadingEndHandler);
-        // on error: stop loading indicator for current image
-        layerSource.on('imageloaderror', this.loadingEndHandler);
-        return;
-      } else {
-        layerSource.un('imageloadstart', this.loadingStartHandler);
-        layerSource.un('imageloadend', this.loadingEndHandler);
-        // on error: stop loading indicator for current image
-        layerSource.un('imageloaderror', this.loadingEndHandler);
-        return;
+      if (this.props.baseLayer) {
+        const baseLayerCollection = this._baseLayerGroup.getLayers()
+        baseLayerCollection.clear();
+        baseLayerCollection.extend([this.props.baseLayer]);
       }
+      this.forceUpdate();
+      return null;
     }
-  }
 
-  /**
-   * The handler called if tile / image starts loading
-   * @param evt The event
-   */
-  loadingStartHandler(evt: any) {
-    const layerNames = evt.target.getParams().LAYERS;
-
-    if (evt.target instanceof OlTileWmsSource) {
-      this.setState(prevState => ({
-        loadingQueue: [...prevState.loadingQueue, `tile-${evt.tile.ol_uid}_${layerNames}`]
-      }))
-    }
-    if (evt.target instanceof OlImageWmsSource) {
-      this.setState(prevState => ({
-        loadingQueue: [...prevState.loadingQueue, `IMAGEWMS_${layerNames}`]
-      }))
-    }
-  }
-
-  /**
-   * The handler called if tile / image is loaded / has thrown an error
-   * @param evt The event
-   */
-  loadingEndHandler(evt: any) {
-    const { loadingQueue } = this.state;
-    const layerNames = evt.target.getParams().LAYERS;
-
-    if (evt.target instanceof OlTileWmsSource) {
-      this.setState({
-        loadingQueue: loadingQueue.filter((lq: string) => lq !== `tile-${evt.tile.ol_uid}_${layerNames}`)
-      })
-    }
-    if (evt.target instanceof OlImageWmsSource) {
-      this.setState({
-        loadingQueue: loadingQueue.filter((lq: string) => lq !== `IMAGEWMS_${layerNames}`)
-      })
-    }
+    return null;
   }
 
   /**
@@ -223,108 +156,11 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
       t
     } = this.props;
 
-    const {
-      loadingQueue
-    } = this.state;
-
-    const visibilityClass = layer.getVisible() ?
-      'fa-eye layer-tree-node-title-active' :
-      'fa-eye-slash layer-tree-node-title-inactive';
-    const visibilitySpanClass = `fa ${visibilityClass} layer-tree-node-title-visibility`;
-
-    if (layer instanceof OlLayerGroup) {
-      return (
-        <span
-          className="layer-tree-node-title"
-        >
-          <Tooltip
-            title={t('LayerLegendAccordion.toggleVisibilityTooltipText')}
-            placement="right"
-            mouseEnterDelay={0.5}
-          >
-            <span
-              className={visibilitySpanClass}
-              onClick={() => this.onLayerTreeNodeVisibilityChange(layer)}
-            />
-          </Tooltip>
-          <Tooltip
-            title={layer.get('name')}
-            placement="top"
-            mouseEnterDelay={0.5}
-          >
-            <span
-              className="layer-tree-node-title-layername"
-            >
-              {layer.get('name')}
-            </span>
-          </Tooltip>
-        </span>
-      );
-    }
-
-    let loading;
-    if (layer &&
-      layer.getVisible() &&
-      (layer.getSource() instanceof OlImageWmsSource || layer.getSource() instanceof OlTileWmsSource)) {
-      const wmsSource: any = layer.getSource();
-      const encodedLayerNames = wmsSource.getParams().LAYERS;
-      loading = loadingQueue!.find((e: string) => e.indexOf(encodedLayerNames) > -1);
-    }
-    const loadingSpanClass = `fa fa-spinner fa-spin layer-tree-node-loading-${loading ? 'active' : 'inactive'}`;
-
     return (
-      <span
-        className="layer-tree-node-list-item"
-      >
-        <div className="layer-tree-node-title">
-        <Tooltip
-          title={t('LayerLegendAccordion.toggleVisibilityTooltipText')}
-          placement="right"
-          mouseEnterDelay={0.5}
-        >
-          <span
-            className={visibilitySpanClass}
-            onClick={() => this.onLayerTreeNodeVisibilityChange(layer)}
-          />
-        </Tooltip>
-        <Tooltip
-          title={layer.get('name')}
-          placement="top"
-          mouseEnterDelay={0.5}
-        >
-          <span
-            className="layer-tree-node-title-layername"
-          >
-            {layer.get('name')}
-          </span>
-        </Tooltip>
-        <span
-          className={loadingSpanClass}
-        />
-        {
-          !(layer instanceof OlLayerGroup) ?
-            <Dropdown
-              overlay={<div />} // TODO: make something more senseful here
-              placement="topLeft"
-              trigger={['click']}
-            >
-              <Tooltip
-                title={this.props.t('LayerLegendAccordion.layerSettingsTooltipText')}
-                placement="right"
-                mouseEnterDelay={0.5}
-              >
-                <span
-                  className="fa fa-cog layer-tree-node-title-settings"
-                />
-              </Tooltip>
-            </Dropdown> :
-            null
-          }
-          </div>
-          <LayerTransparencySlider
-            layer={layer}
-          />
-      </span>
+      <LayerLegendAccordionTreeNode
+        t={t}
+        layer={layer}
+      />
     );
   }
 
@@ -335,18 +171,22 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    */
   getLegendItems() {
     const {
+      baseLayer,
+      mapLayers,
       map,
       extraLegensParams
     } = this.props;
-    if (!map) {
-      return;
+    if (!map || !mapLayers) {
+      return null;
     }
-    const layers = map.getLayerGroup().getLayers().getArray();
     const unit = map.getView().getProjection().getUnits();
     const scale = MapUtil.getScaleForResolution(map.getView().getResolution(), unit);
 
     // clone the array, reverse will work in place
-    const reversed = layers.slice(0).reverse().filter((l: any) => l.getVisible());
+    const reversed = mapLayers.slice(0).reverse().filter((l: any) => l && l.getVisible());
+    if (baseLayer) {
+      reversed.push(baseLayer);
+    }
     const legends = reversed.map((l: any) => {
       return (
         <Collapse
@@ -386,7 +226,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    *
    * @param {OlLayer[]} layers The OpenLayers layers to get the class names for
    */
-  getLayerVisiblilityClassName(layers: any[]) {
+  getLayerVisiblilityClassName(layers: any[] | undefined) {
     if (!layers) {
       return 'fa fa-eye-slash all-layers-handle';
     }
@@ -397,7 +237,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     const numLayers = filteredLayers.length;
     let visibleLayers = 0;
     filteredLayers.forEach(l => {
-      if (l.getVisible() === true) {
+      if (l && l.getVisible() === true) {
         visibleLayers++;
       }
     });
@@ -413,7 +253,10 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    *
    * @param {OlLayer[]} The OpenLayes layers to change visiblity for
    */
-  onAllLayersVisibleChange(mapLayers: any[]) {
+  onAllLayersVisibleChange(mapLayers: any[] | undefined) {
+    if (!mapLayers) {
+      return;
+    }
     const filteredLayers = mapLayers.filter(this.props.treeNodeFilter!);
     const layerVisibilityClassName: string = this.getLayerVisiblilityClassName(mapLayers);
     let visibility = false;
@@ -425,18 +268,6 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     }
     // update all layers
     filteredLayers.forEach(l => l.setVisible(visibility));
-
-    // we need to do this since legend needs to be redrawn
-    this.forceUpdate();
-  }
-
-  /**
-   * Handler called if visibility of a certain layers is changed
-   * @param {OlLayer[]} layer The layer for which the visibility has to be changed
-   */
-  onLayerTreeNodeVisibilityChange(layer: any) {
-    const nextLayerVisibility = !layer.getVisible();
-    layer.setVisible(nextLayerVisibility);
 
     // we need to do this since legend needs to be redrawn
     this.forceUpdate();
@@ -456,14 +287,15 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
   render() {
     const {
       map,
-      t
+      mapLayers,
+      t,
+      onTopicLayerDragEnd
     } = this.props;
 
     const {
       activeKeys
     } = this.state;
 
-    const mapLayers = this.props.map.getLayers().getArray();
     const layerVisibilityClassName = this.getLayerVisiblilityClassName(mapLayers);
 
     return (
@@ -483,24 +315,39 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
           key="tree"
           className="layertree-collapse-panel"
         >
-          <span
-            className={layerVisibilityClassName}
-            onClick={(event: React.MouseEvent) => {
-              this.onAllLayersVisibleChange(mapLayers);
-              event.preventDefault();
-            }}
-          >
-            <span>{layerVisibilityClassName !== 'fa fa-eye all-layers-handle' ?
-              t('LayerLegendAccordion.activateAllLayersText') :
-              t('LayerLegendAccordion.deactivateAllLayersText')}
-            </span>
-          </span>
+          {
+            mapLayers && mapLayers.length > 0 ?
+            <span
+              className={layerVisibilityClassName}
+              onClick={(event: React.MouseEvent) => {
+                this.onAllLayersVisibleChange(mapLayers);
+                event.preventDefault();
+              }}
+            >
+              <span>{layerVisibilityClassName !== 'fa fa-eye all-layers-handle' ?
+                t('LayerLegendAccordion.activateAllLayersText') :
+                t('LayerLegendAccordion.deactivateAllLayersText')}
+              </span>
+            </span> : null
+          }
           <LayerTree
             map={map}
-            layerGroup={map.getLayerGroup()}
+            layerGroup={this._mapLayerGroup}
             nodeTitleRenderer={this.treeNodeTitleRenderer}
             filterFunction={this.props.treeNodeFilter}
+            onDragEnd={onTopicLayerDragEnd}
           />
+          {
+            this._mapLayerGroup.getLayers().getArray().length ? <Divider /> : null
+          }
+          {
+            this._baseLayerGroup ? <LayerTree
+              map={map}
+              layerGroup={this._baseLayerGroup}
+              nodeTitleRenderer={this.treeNodeTitleRenderer}
+              draggable={false}
+            /> : null
+          }
         </Panel>
         <Panel
           header={

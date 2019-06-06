@@ -157,7 +157,8 @@ class AppContextUtil {
       tileGrid: tileGrid,
       params: {
         'LAYERS': layerObj.source.layerNames,
-        'TILED': layerObj.source.requestWithTiled || false
+        'TILED': layerObj.source.requestWithTiled || false,
+        'TRANSPARENT': true
       }
     });
 
@@ -169,7 +170,9 @@ class AppContextUtil {
       hoverable: layerObj.appearance.hoverable,
       hoverTemplate: layerObj.appearance.hoverTemplate,
       type: layerObj.source.type,
-      legendUrl: layerObj.appearance.legendUrl
+      legendUrl: layerObj.appearance.legendUrl,
+      isBaseLayer: layerObj.isBaseLayer,
+      topic: layerObj.topic
     });
   }
 
@@ -182,7 +185,8 @@ class AppContextUtil {
       url: layerObj.source.url,
       attributions: layerObj.appearance.attribution,
       params: {
-        'LAYERS': layerObj.source.layerNames
+        'LAYERS': layerObj.source.layerNames,
+        'TRANSPARENT': true
       }
     });
 
@@ -194,7 +198,9 @@ class AppContextUtil {
       hoverable: layerObj.appearance.hoverable,
       hoverTemplate: layerObj.appearance.hoverTemplate,
       type: layerObj.source.type,
-      legendUrl: layerObj.appearance.legendUrl
+      legendUrl: layerObj.appearance.legendUrl,
+      isBaseLayer: layerObj.isBaseLayer,
+      topic: layerObj.topic
     });
   }
 
@@ -227,8 +233,8 @@ class AppContextUtil {
             type="primary"
             shape="circle"
             icon="plus"
-            tooltip={t('test')}
-            tooltipPlacement={'left'}
+            tooltip={t('ZoomIn.tooltip')}
+            tooltipPlacement={'right'}
           />);
           return;
         case 'basigx-button-zoomout':
@@ -239,6 +245,8 @@ class AppContextUtil {
             type="primary"
             shape="circle"
             icon="minus"
+            tooltip={t('ZoomOut.tooltip')}
+            tooltipPlacement={'right'}
           />);
           return;
         case 'shogun-button-zoomtoextent':

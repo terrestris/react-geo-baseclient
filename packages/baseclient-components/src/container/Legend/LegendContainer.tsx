@@ -61,18 +61,19 @@ export default class LegendContainer extends React.Component<LegendContainerProp
     if (filterFn) {
       layers = layers.filter(filterFn);
     }
-    
+
     // clone the array, reverse will work in place
     const reversed = layers.slice(0).reverse();
-
-    const legends = reversed.map((l: any) => {
-      return <Legend
-        key={l.ol_uid}
-        layer={l}
-        scale={scale}
-        collapsed={false}
-      />;
-    });
+    const legends = reversed.map((l: any) =>
+      (
+        <Legend
+          key={l.ol_uid}
+          layer={l}
+          scale={scale}
+          collapsed={false}
+        />
+      )
+    );
 
     return (
       <div>

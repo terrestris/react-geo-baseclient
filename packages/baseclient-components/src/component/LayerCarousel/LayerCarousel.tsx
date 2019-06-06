@@ -1,20 +1,31 @@
 import * as React from 'react';
+import OlLayerGroup from 'ol/layer/Group';
+
+const _uniqueId = require('lodash/uniqueId');
+
+import LayerCarouselSlide from '../LayerCarouselSlide/LayerCarouselSlide';
 import './LayerCarousel.less';
-import OlSourceTileWMS from 'ol/source/TileWMS';
-import OlSourceImageWMS from 'ol/source/ImageWMS';
 
-import {
-  Carousel
-} from 'antd';
+import Carousel from '@brainhubeu/react-carousel';
+import '@brainhubeu/react-carousel/lib/style.css'
+import { Icon } from 'antd';
 
-interface LayerCarouselProps {
-  layers: any,
-  map: any
+interface DefaultLayerCarouselProps {
+  map: any;
+  className: string;
+}
+
+interface LayerCarouselProps extends Partial<DefaultLayerCarouselProps> {
+  layers: any[];
+  onLayerSelected: (olUid: String) => void;
 }
 
 interface LayerCarouselState {
   mouseDownTime: number,
-  renderTrigger: number
+  renderTrigger: number,
+  originalBaseLayerOlUid: string,
+  width: number,
+  ratio: number
 }
 
 /**
@@ -27,6 +38,12 @@ interface LayerCarouselState {
  */
 export default class LayerCarousel extends React.Component<LayerCarouselProps, LayerCarouselState> {
 
+  public static defaultProps: LayerCarouselProps = {
+    onLayerSelected: () => { },
+    layers: [],
+    className: ''
+  };
+
   /**
    * Create the LayerCarousel.
    *
@@ -36,62 +53,46 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     super(props);
     this.state = {
       mouseDownTime: 0,
-      renderTrigger: 0
+      renderTrigger: 0,
+      originalBaseLayerOlUid: '',
+      ratio: this.getRatio(),
+      width: this.getWidth()
     };
-    this.props.map.on('moveend', () => {
-      this.setState({
-        renderTrigger: this.state.renderTrigger + 1
-      });
-    });
+
+    // binds
+    this.mouseDown = this.mouseDown.bind(this);
+    this.mouseUp = this.mouseUp.bind(this);
+    this.onCarouselItemClick = this.onCarouselItemClick.bind(this);
+    this.onCarouselItemHover = this.onCarouselItemHover.bind(this);
+    this.onCarouselItemHoverOut = this.onCarouselItemHoverOut.bind(this);
+    this.renderTrigger = this.renderTrigger.bind(this);
+  }
+
+  /**
+   * @memberof LayerCarousel
+   */
+  componentDidMount() {
+    this.props.map.on('moveend', this.renderTrigger);
   }
 
   /**
    *
-   * @param layer
+   *
+   * @memberof LayerCarousel
    */
-  getLayerPreview(layer: any) {
-    if (!(layer.getSource() instanceof OlSourceTileWMS) &&
-        !(layer.getSource() instanceof OlSourceImageWMS)) {
-      return '404';
-    }
-    const {
-      map
-    } = this.props;
-    const extent = map.getView().calculateExtent();
-    let baseUrl;
-    if (layer.getSource().getUrls) {
-      baseUrl = layer.getSource().getUrls()[0];
-    } else {
-      baseUrl = layer.getSource().getUrl();
-    }
-    const baseParams =
-      '?SERVICE=WMS&' +
-      'VERSION=1.1.0&' +
-      'REQUEST=GetMap&' +
-      'FORMAT=image/png&' +
-      'TRANSPARENT=true&' +
-      'LAYERS=' + layer.getSource().getParams().LAYERS + '&' +
-      'WIDTH=' + this.getWidth() + '&' +
-      'HEIGHT=128&' +
-      'SRS=EPSG:3857&' +
-      'STYLES=&' +
-      'BBOX=' + extent.join(',');
-    return baseUrl + baseParams;
+  componentWillUnmount() {
+    this.props.map.un('moveend', this.renderTrigger);
   }
 
   /**
-   * Get the width for GetMap requests
+   *
+   *
+   * @memberof LayerCarousel
    */
-  getWidth() {
-    const {
-      map
-    } = this.props;
-    const size = map.getSize();
-    if (!size) {
-      return 128;
-    }
-    const ratio = size[0] / size[1];
-    return Math.round(128 * ratio);
+  renderTrigger() {
+    this.setState({
+      renderTrigger: this.state.renderTrigger + 1
+    });
   }
 
   /**
@@ -138,81 +139,165 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
   }
 
   /**
-   * The render function
+   * Sets layers from the hovered layerset on the map temporary.
+   *
+   * @param {Object} evt Event object containing currently hovered layerset.
    */
-  render() {
+  onCarouselItemHover(evt: any, callback?: Function) {
+    const layer = this.findLayer(evt);
+    if (!layer) {
+      return;
+    }
+    const currentlyVisibleLayer = this.props.layers.find(l => l.getVisible());
+    this.setState({
+      originalBaseLayerOlUid: currentlyVisibleLayer ? currentlyVisibleLayer.ol_uid : undefined
+    })
+    // change visibility
+    this.setLayersVisible([layer.ol_uid]);
+    if (callback) {
+      callback(layer.ol_uid);
+    }
+  }
+
+  /**
+   * Restores previously stored in state original map layers on carousel item
+   * hover out event.
+   */
+  onCarouselItemHoverOut() {
+    const {
+      originalBaseLayerOlUid
+    } = this.state;
+
+    this.setLayersVisible([originalBaseLayerOlUid]);
+    this.setState({
+      originalBaseLayerOlUid: ''
+    });
+  }
+
+  /**
+   *
+   *
+   * @param {String[]} olUidsToSetVisible
+   * @memberof LayerCarousel
+   */
+  setLayersVisible(olUidsToSetVisible: String[]) {
     const {
       layers
     } = this.props;
 
-    const carouselSettings = {
-      className: 'carousel',
-      slidesToShow: Math.round(window.innerWidth / this.getWidth() - 1),
-      slidesToScroll: 1,
-      swipeToSlide: true,
-      centerMode: true,
-      infinite: true,
-      dots: false,
-      draggable: true,
-      arrows: true,
-      responsive: [
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1
-          }
-        },
-        {
-          breakpoint: 768,
-          settings: {
-            slidesToShow: 2
-          }
-        },
-        {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: 3
-          }
-        },
-        {
-          breakpoint: 1366,
-          settings: {
-            slidesToShow: 4
-          }
-        },
-        {
-          breakpoint: 1920,
-          settings: {
-            slidesToShow: 5
-          }
-        }
-      ]
-    };
+    layers.forEach((l: any) => {
+      const visibility = olUidsToSetVisible.includes(l.ol_uid);
+      l.setVisible(visibility);
+      if (l instanceof OlLayerGroup) {
+        l.getLayers().forEach((l: any) => l.setVisible(visibility));
+      }
+    });
+  }
 
-    const layerSlides = layers.map((layer: any) =>
-      <div
-        key={Math.random()}
-        className={layer.get('visible') ? 'carousel-slide selected' : 'carousel-slide'}
-        style={{width: this.getWidth() + 'px'}}
-        onClick={this.onSlideClick.bind(this, layer)}
-        onMouseDown={this.mouseDown.bind(this)}
-        onMouseUp={this.mouseUp.bind(this)}
-      >
-        {layer.get('name')}
-        <br/>
-        <img
-          src={layer.get('imageUrl') ? layer.get('imageUrl') : this.getLayerPreview(layer)}
-          height={128}
+  /**
+   * Sets clicked layerset as currentLayerSet in state and collapses the
+   * carousel.
+   *
+   * @param {Object} evt Event object containing currently clicked layerset.
+   */
+  onCarouselItemClick (evt: React.MouseEvent){
+    // TODO: slow clicks will be handled as drags....
+    if (this.state.mouseDownTime > 180) {
+      return;
+    }
+
+    const {
+      onLayerSelected
+    } = this.props;
+    this.onCarouselItemHover(evt, onLayerSelected);
+  }
+
+  /**
+   * findLayer - Find a clicked/hovered layer.
+   *
+   * @param {Object} evt The mouseover/click event
+   * @return {OlLayer} layer The clicked/hovered layer object
+   */
+  findLayer (evt: any) {
+    let targetElement = evt.target;
+
+    const id = targetElement.getAttribute('data-identifier');
+    if (!id) {
+      return;
+    }
+
+    const {
+      layers
+    } = this.props;
+
+    return layers.find((l: any) => l.ol_uid === id);
+  }
+
+  getRatio() {
+    const {
+      map
+    } = this.props;
+    const size = map.getSize();
+    if (!size) {
+      return 1;
+    }
+    const ratio = size[0] / size[1];
+    return ratio;
+  }
+
+  /**
+   * Get the width for GetMap requests
+   */
+  getWidth() {
+    // TODO: maybe configurable ??
+    return 128 * this.getRatio();
+  }
+
+  /**
+   * The render function
+   */
+  render() {
+    const {
+      map
+    } = this.props;
+
+    const {
+      width,
+      ratio
+    } = this.state;
+
+    const extent = map.getView().calculateExtent();
+    const carouselClassName = `${this.props.className} carousel-wrapper`.trim();
+    const mapProjection = map.getView().getProjection().getCode();
+    const layerSlides = this.props.layers.map((layer: any) =>
+      (
+        <LayerCarouselSlide
+          onClick={this.onCarouselItemClick}
+          onMouseEnter={this.onCarouselItemHover}
+          onMouseLeave={this.onCarouselItemHoverOut}
+          layer={layer}
+          extent={extent}
+          width={width}
+          ratio={ratio}
+          projection={mapProjection}
+          key={_uniqueId('layer-slide-')}
         />
-      </div>
+      )
     );
 
     return (
-      <div className='carousel-wrapper'>
-        <Carousel {...carouselSettings}>
-          {layerSlides}
+        <Carousel
+          className={carouselClassName}
+          arrows={true}
+          infinite={true}
+          centered={true}
+          slidesPerPage={Math.round(window.innerWidth / this.getWidth()) - 1}
+          arrowLeft={<Icon type="left" />}
+          arrowRight={<Icon type="right" />}
+          addArrowClickHandler={true}
+        >
+           {layerSlides}
         </Carousel>
-      </div>
     );
   }
 }

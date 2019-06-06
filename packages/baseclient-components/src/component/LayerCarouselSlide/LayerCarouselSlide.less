@@ -1,0 +1,30 @@
+.BrainhubCarouselItem {
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 4px;
+  background-color: white;
+
+  overflow: hidden;
+  margin: 0 3px;
+  opacity: .85;
+
+  &:hover {
+    opacity: 1;
+    background-color: rgba(white, 0.5)
+  }
+
+  > img {
+    flex: 1;
+    align-self: center;
+    margin: 5px 10px 10px 10px;
+    max-width: 95%;
+    box-sizing: content-box;
+    box-shadow: 0 0 10px 5px darken(#4ba9ff, 15%);
+    background: white;
+    cursor: pointer;
+  }
+
+  .title-div {
+    background-color: lighten(#4ba9ff, 25%);
+  }
+}
