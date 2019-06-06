@@ -105,7 +105,7 @@ export class LayerCarouselSlide extends React.PureComponent<LayerCarouselSlidePr
       'TRANSPARENT=true&' +
       'LAYERS=' + layer.getSource().getParams().LAYERS + '&' +
       'HEIGHT='+Math.round(height)+'&' +
-      'WIDTH='+Math.round(width!)+'&' +
+      'WIDTH=' + Math.round(width!) + '&' +
       'SRS='+projection+'&' +
       'STYLES=&' +
       'BBOX=' + extent.join(',');
