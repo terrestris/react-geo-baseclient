@@ -12,6 +12,7 @@ const isEqual = require('lodash/isEqual');
 const find = require('lodash/find');
 const isEmpty = require('lodash/isEmpty');
 const reverse = require('lodash/reverse');
+import * as moment from "moment";
 
 import Logger from '@terrestris/base-util/dist/Logger';
 import initialState from '../store/initialState';
@@ -131,12 +132,12 @@ class AppContextUtil {
         tileGrids = unionWith(tileGrids, [tileGrid], isEqual);
       }
 
-      if (layerObj.source.type === 'TileWMS') {
-        layers.push(AppContextUtil.parseTileLayer(layerObj, tileGrid));
+      if (layerObj.source.type === 'ImageWMS') {
+        layers.push(AppContextUtil.parseImageLayer(layerObj));
       }
 
-      if (['ImageWMS', 'WMSTime'].indexOf(layerObj.source.type) > -1) {
-        layers.push(AppContextUtil.parseImageLayer(layerObj));
+      if (['TileWMS', 'WMSTime'].indexOf(layerObj.source.type) > -1) {
+        layers.push(AppContextUtil.parseTileLayer(layerObj, tileGrid));
       }
 
     });
@@ -175,7 +176,8 @@ class AppContextUtil {
       params: {
         'LAYERS': layerNames,
         'TILED': requestWithTiled || false,
-        'TRANSPARENT': true
+        'TRANSPARENT': true,
+        'TIME': type === 'WMSTime' ? moment(moment.now()).format(layerObj.timeFormat) : undefined
       },
       crossOrigin: crossOrigin
     });
@@ -190,7 +192,8 @@ class AppContextUtil {
       type: type,
       legendUrl: legendUrl,
       isBaseLayer: layerObj.isBaseLayer,
-      topic: layerObj.topic
+      topic: layerObj.topic,
+      timeFormat: layerObj.source.timeFormat
     });
   }
 
