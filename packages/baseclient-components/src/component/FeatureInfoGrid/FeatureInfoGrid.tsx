@@ -132,43 +132,18 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
   }
 
   /**
-   * Returns column configuration for property grid.
-   *
-   * @return {Array} Column configuration array.
-   */
-  getColumns(): any[] {
-    return [{
-      dataIndex: 'attributeName',
-      key: 'attributeName',
-      width: '30%'
-    }, {
-      dataIndex: 'attributeValue',
-      key: 'attributeValue',
-      width: '70%',
-      render: (text: string) => this.getColumnText(text)
-    }];
-  }
-
-  /**
    * Generates HTML link for attributes which value refers to external URL,
    * returns original attribute value otherwise.
    *
    * @param {String} text Attribute value
    * @return {ReactElement|String} Hyperlink element or original attribute value
    */
-  getColumnText(text: string): string|React.ReactElement {
-    if (text && text.toString().toLowerCase().indexOf('http') > -1) {
-      return (
-        <a
-          href={text}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Link
-        </a>
-      );
+  getColumnText(text: any): string|React.ReactElement {
+    const colText = text.value;
+    if (colText && colText.toString().toLowerCase().indexOf('http') > -1) {
+      return `<a href=${colText} target='_blank'>Link</a>`;
     }
-    return text;
+    return colText;
   }
 
   /**
@@ -183,10 +158,12 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
     return [{
       headerName: t('FeatureInfoGrid.gfiAttributeNameColumnText'),
       field: 'attr',
-      width: 125
+      minWidth: 100
     }, {
       headerName: t('FeatureInfoGrid.gfiAttributeValueColumnText'),
-      field: 'val'
+      field: 'val',
+      minWidth: 200,
+      cellRenderer: (text: string) => this.getColumnText(text)
     }];
   }
 
