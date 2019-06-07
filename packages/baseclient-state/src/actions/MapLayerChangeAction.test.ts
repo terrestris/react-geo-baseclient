@@ -9,7 +9,7 @@ import {
 
 describe('MapLayerChangeAction', () => {
   it ('dispatches an action on setting layers', () => {
-    const layers = {
+    const layers: any = {
       id: '1909',
       root: true,
       children: [],

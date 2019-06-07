@@ -123,7 +123,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    * Check if revision changed, if so: update private _mapLayerGroup
    * @param prevProps
    */
-  getSnapshotBeforeUpdate(prevProps: any) {
+  getSnapshotBeforeUpdate(prevProps: any): null {
     if (!_isEqual(prevProps.revision, this.props.revision)) {
       if (this.props.mapLayers && this.props.mapLayers.length !== 0) {
         const layersCollection = this._mapLayerGroup.getLayers();

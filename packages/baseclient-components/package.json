@@ -13,8 +13,8 @@
   },
   "scripts": {
     "test": "jest --env=jsdom --config jest.config.js",
-    "build:ts": "copyfiles -V -u 1 src/**/*.less src/**/**/*.less dist/ && tsc -p tsconfig.build.json",
-    "build:ts:watch": "copyfiles -V -u 1 src/**/*.less src/**/**/*.less dist/ && tsc -w -p tsconfig.build.json"
+    "build:ts": "copyfiles -V -u 1 src/**/*.less src/**/**/*.less src/**/**/**/*.less dist/ && tsc -p tsconfig.build.json",
+    "build:ts:watch": "copyfiles -V -u 1 src/**/*.less src/**/**/*.less src/**/**/**/*.less dist/ && tsc -w -p tsconfig.build.json"
   },
   "author": "",
   "license": "ISC",

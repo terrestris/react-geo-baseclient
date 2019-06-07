@@ -17,7 +17,7 @@ import Logger from '@terrestris/base-util/dist/Logger';
 import initialState from '../store/initialState';
 import getOSMLayer from '@terrestris/vectortiles';
 
-import { PrintButton } from 'baseclient-components';
+import { PrintButton, HsiButton } from 'baseclient-components';
 
 import {
   ZoomButton,
@@ -151,26 +151,44 @@ class AppContextUtil {
    * @return {ol.layer.Tile} the new layer
    */
   static parseTileLayer(layerObj: any, tileGrid: any) {
+    const {
+      url,
+      layerNames,
+      crossOrigin,
+      requestWithTiled,
+      type
+    } = layerObj.source;
+
+    const {
+      attribution,
+      visible,
+      opacity,
+      hoverable,
+      hoverTemplate,
+      legendUrl
+    } = layerObj.appearance;
+
     const layerSource = new OlTileWMS({
-      url: layerObj.source.url,
-      attributions: layerObj.appearance.attribution,
+      url: url,
+      attributions: attribution,
       tileGrid: tileGrid,
       params: {
-        'LAYERS': layerObj.source.layerNames,
-        'TILED': layerObj.source.requestWithTiled || false,
+        'LAYERS': layerNames,
+        'TILED': requestWithTiled || false,
         'TRANSPARENT': true
-      }
+      },
+      crossOrigin: crossOrigin
     });
 
     return new OlTileLayer({
       source: layerSource,
-      visible: layerObj.appearance.visible,
+      visible: visible,
       name: layerObj.name,
-      opacity: layerObj.appearance.opacity,
-      hoverable: layerObj.appearance.hoverable,
-      hoverTemplate: layerObj.appearance.hoverTemplate,
-      type: layerObj.source.type,
-      legendUrl: layerObj.appearance.legendUrl,
+      opacity: opacity,
+      hoverable: hoverable,
+      hoverTemplate: hoverTemplate,
+      type: type,
+      legendUrl: legendUrl,
       isBaseLayer: layerObj.isBaseLayer,
       topic: layerObj.topic
     });
@@ -181,24 +199,41 @@ class AppContextUtil {
    * @return {ol.layer.Image} the new layer
    */
   static parseImageLayer(layerObj: any) {
+    const {
+      url,
+      layerNames,
+      crossOrigin,
+      type
+    } = layerObj.source;
+
+    const {
+      attribution,
+      visible,
+      opacity,
+      hoverable,
+      hoverTemplate,
+      legendUrl
+    } = layerObj.appearance;
+
     const layerSource = new OlImageWMS({
-      url: layerObj.source.url,
-      attributions: layerObj.appearance.attribution,
+      url: url,
+      attributions: attribution,
       params: {
-        'LAYERS': layerObj.source.layerNames,
+        'LAYERS': layerNames,
         'TRANSPARENT': true
-      }
+      },
+      crossOrigin: crossOrigin
     });
 
     return new OlImageLayer({
       source: layerSource,
-      visible: layerObj.appearance.visible,
+      visible: visible,
       name: layerObj.name,
-      opacity: layerObj.appearance.opacity,
-      hoverable: layerObj.appearance.hoverable,
-      hoverTemplate: layerObj.appearance.hoverTemplate,
-      type: layerObj.source.type,
-      legendUrl: layerObj.appearance.legendUrl,
+      opacity: opacity,
+      hoverable: hoverable,
+      hoverTemplate: hoverTemplate,
+      type: type,
+      legendUrl: legendUrl,
       isBaseLayer: layerObj.isBaseLayer,
       topic: layerObj.topic
     });
@@ -208,8 +243,6 @@ class AppContextUtil {
    * TODO: Missing features:
    * "shogun-button-stepback",
    * "shogun-button-stepforward",
-   * basigx-button-hsi,
-   * shogun-button-print,
    * "shogun-button-showmeasuretoolspanel"
    * "shogun-button-showredliningtoolspanel"
    * "shogun-button-showworkstatetoolspanel"
@@ -272,6 +305,13 @@ class AppContextUtil {
             shape="circle"
             icon="print"
             config={config}
+            t={t}
+          />);
+          return;
+        case 'shogun-button-hsi':
+          tools.push(<HsiButton
+            map={map}
+            key="5"
             t={t}
           />);
           return;

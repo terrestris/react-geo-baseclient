@@ -74,5 +74,9 @@
   "LayerSetBaseMapChooser": {
     "topicText": "Themen",
     "baseLayerText": "Basiskarten"
+  },
+  "FeatureInfoGrid": {
+    "gfiAttributeNameColumnText": "Attribut",
+    "gfiAttributeValueColumnText": "Wert"
   }
 }

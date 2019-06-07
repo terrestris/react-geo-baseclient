@@ -17,7 +17,8 @@ describe('ActiveModulesAction', () => {
 
   it ('dispatches the addUniqueActiveModule action', () => {
     /* eslint-disable require-jsdoc */
-    const getState = () => ({activeModules: []});
+    const activeModules: any = {activeModules: []};
+    const getState = () => (activeModules);
     /* eslint-enable require-jsdoc */
     const dispatch = jest.fn();
     const activeModule = {

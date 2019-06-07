@@ -9,12 +9,14 @@ import * as ApplicationInfoAction from './actions/ApplicationInfoAction';
 import * as LoadingAction from './actions/LoadingAction';
 import * as MapLayerChangeAction from './actions/MapLayerChangeAction';
 import * as MapViewChangeAction from './actions/MapViewChangeAction';
+import * as RemoteFeatureAction from './actions/RemoteFeatureAction';
 
 import * as ActiveModulesReducer from './reducers/ActiveModulesReducer';
 import * as ApplicationInfoReducer from './reducers/ApplicationInfoReducer';
 import * as LoadingReducer from './reducers/LoadingReducer';
 import * as MapLayersReducer from './reducers/MapLayersReducer';
 import * as MapViewReducer from './reducers/MapViewReducer';
+import * as RemoteFeatureReducer from './reducers/RemoteFeatureReducer';
 
 export {
   ActiveModules,
@@ -28,10 +30,12 @@ export {
   LoadingAction,
   MapLayerChangeAction,
   MapViewChangeAction,
+  RemoteFeatureAction,
 
   ActiveModulesReducer,
   ApplicationInfoReducer,
   LoadingReducer,
   MapLayersReducer,
-  MapViewReducer
+  MapViewReducer,
+  RemoteFeatureReducer
 };

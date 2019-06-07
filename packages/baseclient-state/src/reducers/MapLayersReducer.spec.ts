@@ -8,9 +8,8 @@ import {
   // REMOVE_LAYERS
 } from '../constants/MapLayerChange';
 
-
 describe('MapViewReducer', () => {
-  const testLayers = [
+  const testLayers: any[] = [
     {
       "id": 17,
       "name": "OSM-WMS",
