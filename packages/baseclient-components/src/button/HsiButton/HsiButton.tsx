@@ -8,7 +8,7 @@ import {
 import OlSourceImageWMS from 'ol/source/ImageWMS';
 import OlSourceTileWMS from 'ol/source/TileWMS';
 
-import { abortFetchingFeatures, fetchFeatures } from 'react-geo-baseclient/packages/baseclient-state/src/actions/RemoteFeatureAction';
+import { abortFetchingFeatures, fetchFeatures } from 'baseclient-state';
 
 import UrlUtil from '@terrestris/base-util/dist/UrlUtil/UrlUtil';
 
