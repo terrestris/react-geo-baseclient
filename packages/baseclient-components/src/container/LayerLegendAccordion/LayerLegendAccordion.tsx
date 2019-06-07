@@ -309,7 +309,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
         <Panel
           header={
             <Titlebar className="layer-legend-accordion-title">
-              <span>{t('LayerLegendAccordion.layerTreeTilte')}</span>
+              <span>{t('LayerLegendAccordion.layerTreeTitle')}</span>
             </Titlebar>
           }
           key="tree"
