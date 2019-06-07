@@ -8,7 +8,7 @@ import {
 import OlSourceImageWMS from 'ol/source/ImageWMS';
 import OlSourceTileWMS from 'ol/source/TileWMS';
 
-import { abortFetchingFeatures, fetchFeatures } from 'baseclient-state';
+import { RemoteFeatureAction } from 'baseclient-state';
 
 import UrlUtil from '@terrestris/base-util/dist/UrlUtil/UrlUtil';
 
@@ -89,7 +89,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
 
       // remove possible hover artifacts
       map.getTargetElement().style.cursor = '';
-      dispatch(abortFetchingFeatures('HOVER'));
+      dispatch(RemoteFeatureAction.abortFetchingFeatures('HOVER'));
     }
   }
 
@@ -131,7 +131,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
     let featureInfoUrls: string[] = [];
 
     // dispatch that any running HOVER process should be canceled
-    dispatch(abortFetchingFeatures('HOVER'));
+    dispatch(RemoteFeatureAction.abortFetchingFeatures('HOVER'));
 
     let infoUrlsToCombine: any = {};
     map.forEachLayerAtPixel(pixel, (layer: any) => {
@@ -173,7 +173,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
     }
 
     map.getTargetElement().style.cursor = featureInfoUrls.length > 0 ? 'wait' : '';
-    dispatch(fetchFeatures(
+    dispatch(RemoteFeatureAction.fetchFeatures(
       'HOVER', featureInfoUrls,
       {olEvt: olEvt}
     ));
