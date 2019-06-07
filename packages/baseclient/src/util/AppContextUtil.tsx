@@ -23,6 +23,7 @@ import {
   ZoomButton,
   ZoomToExtentButton
 } from '@terrestris/react-geo';
+import { PrintConfig } from 'baseclient-components/dist/container/PrintPanel/PrintPanelV3';
 
 /**
  * This class provides some static methods which can be used with the appContext of SHOGun2.
@@ -180,18 +181,20 @@ class AppContextUtil {
       crossOrigin: crossOrigin
     });
 
-    return new OlTileLayer({
+    const layer = new OlTileLayer({
       source: layerSource,
       visible: visible,
-      name: layerObj.name,
-      opacity: opacity,
-      hoverable: hoverable,
-      hoverTemplate: hoverTemplate,
-      type: type,
-      legendUrl: legendUrl,
-      isBaseLayer: layerObj.isBaseLayer,
-      topic: layerObj.topic
+      opacity: opacity
     });
+    layer.set('name', layerObj.name);
+    layer.set('hoverable', layerObj.appearance.hoverable);
+    layer.set('hoverTemplate', layerObj.appearance.hoverTemplate);
+    layer.set('type', layerObj.source.type);
+    layer.set('legendUrl', layerObj.appearance.legendUrl);
+    layer.set('isBaseLayer', layerObj.isBaseLayer);
+    layer.set('topic', layerObj.topic);
+
+    return layer;
   }
 
   /**
@@ -218,6 +221,7 @@ class AppContextUtil {
     const layerSource = new OlImageWMS({
       url: url,
       attributions: attribution,
+      projection: undefined,
       params: {
         'LAYERS': layerNames,
         'TRANSPARENT': true
@@ -225,18 +229,20 @@ class AppContextUtil {
       crossOrigin: crossOrigin
     });
 
-    return new OlImageLayer({
+    const layer = new OlImageLayer({
       source: layerSource,
       visible: visible,
-      name: layerObj.name,
-      opacity: opacity,
-      hoverable: hoverable,
-      hoverTemplate: hoverTemplate,
-      type: type,
-      legendUrl: legendUrl,
-      isBaseLayer: layerObj.isBaseLayer,
-      topic: layerObj.topic
+      opacity: opacity
     });
+    layer.set('name', layerObj.name);
+    layer.set('hoverable', layerObj.appearance.hoverable);
+    layer.set('hoverTemplate', layerObj.appearance.hoverTemplate);
+    layer.set('type', layerObj.source.type);
+    layer.set('legendUrl', layerObj.appearance.legendUrl);
+    layer.set('isBaseLayer', layerObj.isBaseLayer);
+    layer.set('topic', layerObj.topic);
+
+    return layer;
   }
 
   /**
@@ -252,8 +258,12 @@ class AppContextUtil {
    * @param map
    * @param appContext
    */
-  static getToolsForToolbar(activeModules: Array<any>, map: any,
-    appContext: any, t:(arg: string) => string, config?: Object) {
+  static getToolsForToolbar({activeModules, map, appContext, t, printConfig}: {
+    activeModules: Array<any>,
+    map: any,
+    appContext: any,
+    t:(arg: string) => string,
+    printConfig?: PrintConfig}) {
     let tools:any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
     activeModules.forEach((module: any) => {
@@ -298,15 +308,17 @@ class AppContextUtil {
           />);
           return;
         case 'shogun-button-print':
-          tools.push(<PrintButton
-            map={map}
-            key="4"
-            type="primary"
-            shape="circle"
-            icon="print"
-            config={config}
-            t={t}
-          />);
+          if (printConfig) {
+            tools.push(<PrintButton
+              map={map}
+              key="4"
+              type="primary"
+              shape="circle"
+              icon="print"
+              config={printConfig}
+              t={t}
+            />);
+          }
           return;
         case 'shogun-button-hsi':
           tools.push(<HsiButton

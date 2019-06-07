@@ -24,7 +24,7 @@ const loggerMiddleware = createLogger({
 const loadAppContextStore = () => {
   return new Promise((resolve, reject) => {
     const appId = window.location.href.split('applicationId=')[1] || undefined;
-    let appContextPath = config.appContextPath;
+    let appContextPath: string = config.appContextPath as string;
     if (appId) {
       appContextPath = appContextPath.endsWith('/') ?
         `${appContextPath}${appId}` :

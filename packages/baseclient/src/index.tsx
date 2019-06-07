@@ -6,13 +6,9 @@ import './i18n';
 import { LocaleProvider } from 'antd';
 import 'antd/dist/antd.min.css'; // should be working via the loader but it does not..
 import deDE from 'antd/lib/locale-provider/de_DE';
-import {
-  defaults as OlDefaultControls
-} from 'ol/control';
+import controls from 'ol/control';
 import OlMap from 'ol/Map';
-import {
-  get as OlGetProjection
-} from 'ol/proj';
+import proj from 'ol/proj';
 import OlView from 'ol/View';
 import OlScaleLine from 'ol/control/ScaleLine';
 import ProjectionUtil from '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
@@ -24,6 +20,9 @@ import {
   MapProvider,
   mappify
 } from '@terrestris/react-geo';
+
+const OlDefaultControls = controls.defaults;
+const OlGetProjection = proj.get;
 
 /**
  * Get the map asynchronoulsy.

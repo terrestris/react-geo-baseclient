@@ -11,13 +11,13 @@ import MapUtil from '@terrestris/ol-util/src/MapUtil/MapUtil';
 const { Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
-// default props
 interface SiderProps {
   collapsed: boolean,
-  map: any,
-  t: (arg: string) => {},
-  i18n: any,
-  measureToolsEnabled: boolean
+  measureToolsEnabled: boolean,
+  collapsible: boolean,
+  t: (arg: string) => string,
+  map?: any,
+  i18n?: any
 }
 
 interface SiderState {
@@ -44,6 +44,13 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
     };
   }
 
+  public static defaultProps = {
+    collapsed: false,
+    measureToolsEnabled: false,
+    collapsible: false,
+    t: (arg: string) => arg,
+  };
+
   onCollapse = (collapsed: boolean) => {
     this.setState({ collapsed });
     // needed to rescale the map clean instead of stretching it
@@ -58,6 +65,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
 
   render() {
     const {
+      collapsible,
       t,
       measureToolsEnabled,
       map
@@ -67,7 +75,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
         width="300"
         theme="light"
         className="sidermenu"
-        collapsible
+        collapsible={collapsible}
         collapsed={this.state.collapsed}
         onCollapse={this.onCollapse}
       >

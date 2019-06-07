@@ -117,7 +117,14 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
             alignment="vertical"
             style={isMobile ? {top: '10px'} : null}
           >
-            { AppContextUtil.getToolsForToolbar(activeModules, map, appContext, t) }
+            {
+              AppContextUtil.getToolsForToolbar({
+                activeModules,
+                map,
+                appContext,
+                t
+              })
+            }
           </Toolbar>
         </div>
         <Footer
