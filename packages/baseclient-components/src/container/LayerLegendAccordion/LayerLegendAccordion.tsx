@@ -22,7 +22,7 @@ import {
 } from '@terrestris/ol-util';
 
 import './LayerLegendAccordion.less';
-import LayerLegendAccordionTreeNode from '../../component/LayerLegendAccordionTreeNode/LayerLegendAccordionTreeNode.tsx';
+import LayerLegendAccordionTreeNode from '../../component/LayerLegendAccordionTreeNode/LayerLegendAccordionTreeNode';
 
 // default props
 interface DefaultLayerLegendAccordionProps {

@@ -4,8 +4,7 @@ import {
   SimpleButton,
   Window
 } from '@terrestris/react-geo';
-
-import { PrintPanelV3 } from 'baseclient-components';
+import PrintPanelV3, { PrintConfig } from 'src/container/PrintPanel/PrintPanelV3';
 
 interface DefaultPrintButtonProps {
   type: string,
@@ -15,8 +14,8 @@ interface DefaultPrintButtonProps {
 
 interface PrintButtonProps extends Partial<DefaultPrintButtonProps> {
   map: any,
-  t: (arg: string) => {},
-  config: Object
+  t: (arg: string) => string,
+  config: PrintConfig
 }
 
 interface PrintButtonState {

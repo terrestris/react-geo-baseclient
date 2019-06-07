@@ -32,7 +32,7 @@ interface DefaultPrintPanelV3Props {
   printLayerBlackList: string[]
 }
 
-interface PrintConfig {
+export interface PrintConfig {
   printServletPath(): string,
   getPrintFormats(): string[]
 }
@@ -52,7 +52,7 @@ interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
    *
    * @type {Function}
    */
-  onPrintManagerInitFailed: (message: string) => {},
+  onPrintManagerInitFailed?: (message: string) => {},
 
   /**
    * List of (vector) layers which should be excluded from list of

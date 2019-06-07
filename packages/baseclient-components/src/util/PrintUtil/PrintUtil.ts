@@ -14,9 +14,9 @@ export class PrintUtil {
    *
    * @return {Array} The printable layers.
    */
-  static getPrintableLayers = (map, printLayer) => {
+  static getPrintableLayers = (map: any, printLayer: any) => {
     const layers = MapUtil.getAllLayers(map);
-    return layers.filter(layer => {
+    return layers.filter((layer: any) => {
       const layerName = layer.get('name');
       return layerName
         && !(layerName.includes('react-geo'))
@@ -31,17 +31,17 @@ export class PrintUtil {
    *
    * @return {String} The attribution string.
    */
-  static getAttributions(map, printLayer) {
+  static getAttributions(map: any, printLayer: any) {
     const layers = PrintUtil.getPrintableLayers(map, printLayer);
     let attributionString = '';
     layers
-      .filter(layer => {
+      .filter((layer: any) => {
         const attributions = layer.getSource().getAttributions();
 
         if (attributions) {
           if (typeof attributions === 'function') {
             const attribution = attributions();
-            attribution.forEach((attribution, index, allAttributions) => {
+            attribution.forEach((attribution: string, index: number, allAttributions: string[]) => {
               attributionString += StringUtil.stripHTMLTags(attribution);
               if (index < (allAttributions.length - 1)) {
                 attributionString += ',\n';

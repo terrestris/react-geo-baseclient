@@ -1,1 +1,1 @@
-declare module '*';
+declare module '@brainhubeu/react-carousel';

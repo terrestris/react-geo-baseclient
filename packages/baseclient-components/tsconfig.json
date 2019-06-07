@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "build/dist",
+    "declaration": true,
+    "outDir": "dist",
     "module": "esnext",
     "target": "es5",
-    "lib": ["es6", "dom", "es2017"],
+    "lib": [
+      "es6",
+      "dom",
+      "es2017"
+    ],
     "sourceMap": true,
-    "allowJs": true,
-    "moduleResolution": "node",
-    "rootDir": "src",
     "jsx": "react",
+    "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": false,
     "noImplicitThis": true,
@@ -17,22 +20,19 @@
     "importHelpers": true,
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "paths": {
-      "*": [
-        "*",
-        "../baseclient/node_modules/*"
-      ]
-    }
+    "noUnusedLocals": true
   },
   "exclude": [
     "node_modules",
-    "build",
-    "coverage",
+    "dist",
     "scripts",
     "acceptance-tests",
     "jest",
-    "src/setupTests.ts",
+    "jest.config.js",
+    "data",
+    "**/*.spec.tsx",
+    "coverage",
+    "spec",
     "**.config.js"
   ]
 }

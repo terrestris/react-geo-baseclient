@@ -3,15 +3,15 @@
     "baseUrl": ".",
     "outDir": "dist",
     "module": "commonjs",
+    "declaration": true,
     "target": "es5",
     "lib": [
       "dom",
       "es2017"
     ],
     "sourceMap": true,
-    "allowJs": true,
     "moduleResolution": "node",
-    "rootDir": "src",
+    "rootDir": ".",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": false,
     "noImplicitThis": true,
