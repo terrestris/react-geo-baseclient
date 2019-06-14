@@ -97,10 +97,28 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
     } = this.props;
     const isMobile = BrowserUtil.isMobile();
     const measureToolsEnabled = AppContextUtil.measureToolsEnabled(activeModules);
+
+    // SHOGun default
+    const appStyle = {
+      'baseColor': '2378BB',
+      'toolbarColor': '134165',
+      'textColor': 'FFFFFF'
+    }
+
+    if(Object.keys(appContext).includes('style')) {
+      for (var key in appContext["style"]) {
+        appStyle[key] = appContext["style"][key];
+      }
+    }
+
+    // TODO: Where are the color settings for objects (buttons, text, checkboxes etc.)
+    // made to be set by react-geo/antd's "primary-color" instead
+    // of by each element individually?
+
     const viewport = (
       <div className="viewport">
         { isMobile ? null :
-          <header>Header</header>
+          <header style={{backgroundColor: "#" + appStyle.toolbarColor}}>Header</header>
         }
         <div className="main-content">
           <SiderMenu
