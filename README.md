@@ -12,9 +12,6 @@ and then
 
 `npm i`
 
-This will automatically install package dependencies with `lerna bootstrap`.
-It will also automatically compile the submodules like react-geo, the state and components module via postinstall.
-
 * How to start the application?
 
   * When using shogun2 as backend
