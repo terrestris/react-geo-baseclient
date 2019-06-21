@@ -48,25 +48,9 @@ RESOURCES_PATH='../../src/resources/'
   },
   ...
 ```
-* How to add a dependency?
-
-`npm run add -- [NAME_OF_DEPENDENCY] [LERNA_ADD_ARGS]`
-
-If you want, for instance, to add `lodash` to the `react-geo-bc-state` package,
-one could use the following:
-
-`npm run add -- lodash --exact --dev --scope=baseclient-state`
-
-* How to update dependencies?
-
-`npm run bootstrap`
 
 ## Notes
 
-* react-geo linked in client automatically
+* When working with react-geo linked make sure to configure the alias for `ol`
+  in the webpack.commmon.config.
 
-## TODOS
-
-* Publish react-geo-bc-state and components as own project
-* Add ol-util and base-util as packages?
-* Check why babelrc config with react is needed in react-geo-bc-state
