@@ -135,7 +135,7 @@ const commonWebpackConfig = {
     modules: ['node_modules'],
     alias: {
       // This is need if working with npm link
-      'ol': path.join(__dirname, '../node_modules', 'ol')
+      // 'ol': path.join(__dirname, '../node_modules', 'ol')
     }
   }
 };
