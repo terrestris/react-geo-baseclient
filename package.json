@@ -165,5 +165,9 @@
     "webpack-manifest-plugin": "^2.0.4",
     "whatwg-fetch": "^3.0.0",
     "winston": "^3.2.1"
+  },
+  "engines": {
+    "node": ">=10",
+    "npm": ">=5.6.0"
   }
 }
