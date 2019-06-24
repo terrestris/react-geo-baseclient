@@ -134,8 +134,16 @@ const commonWebpackConfig = {
     extensions: ['.ts', '.tsx', '.js'],
     modules: ['node_modules'],
     alias: {
-      // This is need if working with npm link
-      // 'ol': path.join(__dirname, '../node_modules', 'ol')
+       // This is need if working with npm link or while invoking react-geo-baseclient as submodule
+       // in some other project
+      '@terrestris/base-util': path.join(__dirname + '/../', 'node_modules', '@terrestris/base-util'),
+      '@terrestris/ol-util': path.join(__dirname + '/../', 'node_modules', '@terrestris/ol-util'),
+      '@terrestris/react-geo': path.join(__dirname + '/../', 'node_modules', '@terrestris/react-geo'),
+      'antd': path.join(__dirname + '/../', 'node_modules', 'antd'),
+      'react': path.join(__dirname + '/../', 'node_modules', 'react'),
+      'react-redux': path.join(__dirname + '/../', 'node_modules', 'react-redux'),
+      'react-i18next': path.join(__dirname + '/../', 'node_modules', 'react-i18next'),
+      'ol': path.join(__dirname + '/../', 'node_modules', 'ol')
     }
   }
 };
