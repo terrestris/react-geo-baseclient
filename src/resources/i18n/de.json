@@ -65,15 +65,16 @@
   "LayerLegendAccordion": {
     "toggleVisibilityTooltipText": "Sichtbarkeit",
     "layerSettingsTooltipText": "Eigenschaften",
-    "collapseAccordionTooltipText": "Layerliste / Legende anzeigen",
     "layerTreeTitle": "Layerliste",
+    "showLayerTreeTooltipText": "Layerliste / Legende anzeigen",
     "legendPanelTitle": "Legende",
     "activateAllLayersText": "Alle Themenlayer aktivieren",
     "deactivateAllLayersText": "Alle Themenlayer deaktivieren"
   },
   "LayerSetBaseMapChooser": {
-    "topicText": "Themen",
-    "baseLayerText": "Basiskarten"
+    "topicText": "Themenkarten",
+    "baseLayerText": "Basiskarten",
+    "collapsedChooserTooltipText": "Auswahl Themen- und Hintergundkarten"
   },
   "FeatureInfoGrid": {
     "gfiAttributeNameColumnText": "Attribut",
