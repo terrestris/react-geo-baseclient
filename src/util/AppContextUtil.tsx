@@ -311,6 +311,8 @@ class AppContextUtil {
             shape="circle"
             icon="print"
             config={config}
+            tooltip={t('PrintPanel.windowTitle')}
+            tooltipPlacement={'right'}
             t={t}
           />);
           return;
