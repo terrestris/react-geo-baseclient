@@ -86,7 +86,7 @@
     "@types/lodash": "^4.14.123",
     "@types/loglevel": "^1.5.4",
     "@types/node": "^12.0.8",
-    "@types/ol": "4.6.5",
+    "@types/ol": "5.3.1",
     "@types/puppeteer": "^1.12.3",
     "@types/react": "^16.8.20",
     "@types/react-dom": "^16.8.4",
