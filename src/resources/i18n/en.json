@@ -65,15 +65,16 @@
   "LayerLegendAccordion": {
     "toggleVisibilityTooltipText": "Visibility",
     "layerSettingsTooltipText": "Properties",
-    "collapseAccordionTooltipText": "Show layer list / legend",
     "layerTreeTitle": "Layer list",
+    "showLayerTreeTooltipText": "Show layer list / legend",
     "legendPanelTitle": "Legend",
     "activateAllLayersText": "Activate all topic layers",
-    "deactivateAllLayersText": "De-activate all topic layers"
+    "deactivateAllLayersText": "Deactivate all topic layers"
   },
   "LayerSetBaseMapChooser": {
     "topicText": "Topics",
-    "baseLayerText": "Base layers"
+    "baseLayerText": "Base layers",
+    "collapsedChooserTooltipText": "Topics and base layer selection"
   },
   "FeatureInfoGrid": {
     "gfiAttributeNameColumnText": "Attribute",

@@ -3,13 +3,15 @@ import * as React from 'react';
 import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 
 interface DefaultLayerLegendAccordionToggleButtonProps {
-
+  shape: string,
+  icon: string,
+  className: string
 };
 
 interface LayerLegendAccordionToggleButtonProps extends Partial<DefaultLayerLegendAccordionToggleButtonProps>{
-  t: (arg: string) => string;
-  onToggle: (pressed: boolean) => void;
-  pressed: boolean;
+  onToggle: (pressed: boolean) => void,
+  tooltip: string,
+  pressed: boolean
 }
 
 interface LayerLegendAccordionToggleButtonState {
@@ -37,26 +39,32 @@ class LayerLegendAccordionToggleButton extends React.PureComponent<LayerLegendAc
    * @param The default props
    */
   public static defaultProps: LayerLegendAccordionToggleButtonProps = {
-    t: (t: string) => t,
     onToggle: () => { },
-    pressed: false
+    pressed: false,
+    shape: 'circle',
+    icon: 'list',
+    tooltip: '',
+    className: 'react-geo-baseclient-layer-toggle-btn'
   };
 
   render() {
     const {
-      t,
+      shape,
+      icon,
+      className,
       onToggle,
-      pressed
+      pressed,
+      ...passThroughProps
     } = this.props;
 
     return (
       <ToggleButton
-        icon="list"
-        shape="circle"
-        className="react-geo-baseclient-layer-toggle-btn"
-        tooltip={t('LayerLegendAccordion.collapseAccordionTooltipText')}
+        shape={shape}
+        icon={icon}
+        className={className}
         onToggle={onToggle}
         pressed={pressed}
+        {...passThroughProps}
       />
     );
   }
