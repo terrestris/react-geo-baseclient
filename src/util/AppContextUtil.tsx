@@ -318,6 +318,8 @@ class AppContextUtil {
           tools.push(<HsiButton
             map={map}
             key="5"
+            tooltip={t('FeatureInfo.tooltip')}
+            tooltipPlacement={'right'}
             t={t}
           />);
           return;
