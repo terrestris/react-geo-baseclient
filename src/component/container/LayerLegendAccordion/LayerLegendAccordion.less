@@ -1,3 +1,4 @@
+@import '../../../ProjectMain.less';
 .layer-legend-collapse-icon {
   position: relative;
   right: 15px;
@@ -6,14 +7,16 @@
 }
 
 .layer-legend-accordion {
+  top: @header-height;
   width: 400px;
+  max-height: ~"calc(100% - @{header-height} - @{footer-height})";
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
   @media only screen and (max-width: 720px) {
     width: 250px;
-  }
-
-  top: 50px; // TODO: depend on header height
-  @media only screen and (max-width: 720px) {
     top: 0px;
+    max-height: ~"calc(100% - @{footer-height})";
   }
 
   .ant-collapse-header {

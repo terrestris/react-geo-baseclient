@@ -1,10 +1,11 @@
+@import '../../../ProjectMain.less';
 .app-header {
   border-bottom: 1px solid lightgray;
 
   .ant-row {
     width: 100%;
     .ant-col{
-      height: 50px;
+      height: @header-height;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -12,7 +13,7 @@
   }
 
   .app-logo {
-    height: 50px;
+    height: @header-height;
   }
 
   .app-title {
