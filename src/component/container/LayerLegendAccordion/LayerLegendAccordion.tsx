@@ -226,12 +226,13 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    * @param {OlLayer[]} layers The OpenLayers layers to get the class names for
    */
   getLayerVisiblilityClassName(layers: any[] | undefined) {
+    const fallbackCls = 'fa fa-eye-slash all-layers-handle';
     if (!layers) {
-      return 'fa fa-eye-slash all-layers-handle';
+      return fallbackCls;
     }
     const filteredLayers = layers.filter(this.props.treeNodeFilter!);
     if (!filteredLayers) {
-      return 'fa fa-eye-slash all-layers-handle';
+      return fallbackCls;
     }
     const numLayers = filteredLayers.length;
     let visibleLayers = 0;
@@ -241,7 +242,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
       }
     });
     if (visibleLayers === 0) {
-      return 'fa fa-eye-slash all-layers-handle';
+      return fallbackCls;
     }
 
     return visibleLayers === numLayers ? 'fa fa-eye all-layers-handle' : 'fa fa-eye some-layers all-layers-handle';
