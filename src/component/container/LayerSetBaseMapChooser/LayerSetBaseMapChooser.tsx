@@ -171,7 +171,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
 
     return (
       <div className="layerset-basemap-chooser">
-       {
+        {
         showTopicCarousel ?
           <LayerCarousel
             className="topic-carousel"

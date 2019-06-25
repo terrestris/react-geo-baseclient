@@ -1,102 +1,75 @@
-@layerset-basemap-chooser-width: 100vw;
-@layerset-basemap-chooser-height: 350px;
-
 .layerset-basemap-chooser {
-  position: absolute;
-  bottom: 35px;
-  left: 5px;
+  display: inline-grid;
+  width: 100%;
+  grid-template-columns: 200px 30px auto;
+  grid-template-rows: 200px 30px 200px;
 
-  width: @layerset-basemap-chooser-width;
-  height: @layerset-basemap-chooser-height;
+  // Disabele pointer-events for container
+  pointer-events: none;
+  * {
+    // Enable for every child
+    pointer-events: all;
+  }
+
+  button {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
 
   #overview-map {
-    position: absolute;
-    top: calc(@layerset-basemap-chooser-height - 42.5%);
-    left: 0;
-    height: 42.5%;
-    width: 10%;
-    display: flex;
-
-    .layerset-basemap-chooser-overviewmap {
-      flex: 1;
-      bottom: unset;
+    grid-column: 1;
+    grid-row: 3;
+    .ol-overviewmap {
       left: unset;
-      height: 100%;
-      width: 100%;
-
-      &.ol-control {
-        position: inherit;
-      }
-
+      bottom: unset;
+      padding: unset;
+      border-radius: unset;
       .ol-overviewmap-map {
-        height: 100%;
-        width: 100%;
-        margin: 0;
+        margin: unset;
+        width: 200px;
+        height: 200px;
       }
     }
   }
 
   .collapse-btn {
-    position: absolute;
-    top: calc(@layerset-basemap-chooser-height - 50%);
-    left: calc(@layerset-basemap-chooser-width - 90%);
-    height: 7.5%;
-    width: 2.5%;
-
-    align-self: end;
+    grid-column: 2;
+    grid-row: 2;
     border: 1px solid darken(#4ba9ff, 25%);
+    border-radius: 0 4px 0 0;
   }
 
   .show-topic-carousel-toggle {
-    position: absolute;
-    top: calc(@layerset-basemap-chooser-height - 50%);
-    left: 0;
-    height: 7.5%;
-    width: 10%;
-    align-self: end;
+    grid-column: 1;
+    grid-row: 2;
     border: 1px solid darken(#4ba9ff, 25%);
   }
 
   .show-baselayer-carousel-toggle {
-    position: absolute;
-    top: calc(@layerset-basemap-chooser-height - 42.5%);
-    left: calc(@layerset-basemap-chooser-width - 90%);
-    height: 42.5%;
-    width: 2.5%;
-
+    grid-column: 2;
+    grid-row: 3;
     border: 1px solid darken(#4ba9ff, 25%);
-
-    div {
-      display: inline-block;
-      transform: rotate(-90deg);
-      margin: -40px;
-
-      .baselayer-carousel-toggle-text {
-        margin-left: 5px;
-      }
+    >div {
+      transform: rotate(-90deg) translate(-20px, 0px);
     }
   }
 
-  .base-layer-carousel,.topic-carousel {
+  .base-layer-carousel, .topic-carousel {
     background: rgba(darken(#4ba9ff, 5%), 75%);
     border: 1px solid darken(#4ba9ff, 25%);
-    border-radius: 4px;
   }
 
   .topic-carousel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 50%;
-    width: 100%;
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 4;
   }
 
   .base-layer-carousel {
-    position: absolute;
-    top: calc(@layerset-basemap-chooser-height - 42.5%);
-    left: calc(@layerset-basemap-chooser-width - 87.5%);
-    height: 42.5%;
-    width: calc(@layerset-basemap-chooser-width - 12.5%);
+    grid-row: 3;
+    grid-column-start: 3;
+    grid-column-end: 4;
   }
 
 }
