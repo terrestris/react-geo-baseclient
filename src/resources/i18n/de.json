@@ -17,6 +17,9 @@
   "ZoomOut": {
     "tooltip": "Herauszoomen"
   },
+  "FeatureInfo": {
+    "tooltip": "Objektinformationen abfragen"
+  },
   "Imprint": {
     "title": "Impressum",
     "contact": "Kontakt",

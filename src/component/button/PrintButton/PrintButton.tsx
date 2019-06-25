@@ -13,6 +13,8 @@ interface DefaultPrintButtonProps {
 
 interface PrintButtonProps extends Partial<DefaultPrintButtonProps> {
   map: any,
+  tooltip: string,
+  tooltipPlacement: string,
   t: (arg: string) => string,
   config: PrintConfig
 }
@@ -61,6 +63,8 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
       shape,
       icon,
       map,
+      tooltip,
+      tooltipPlacement,
       config
     } = this.props;
     const {
@@ -77,6 +81,8 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
         type={type}
         shape={shape}
         icon={icon}
+        tooltip={tooltip}
+        tooltipPlacement={tooltipPlacement}
         onClick={this.changeFullPrintWindowVisibility}
       />
       { winVisible &&

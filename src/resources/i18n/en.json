@@ -17,6 +17,9 @@
   "ZoomOut": {
     "tooltip": "Zoom out"
   },
+  "FeatureInfo": {
+    "tooltip": "Query object information"
+  },
   "Imprint": {
     "title": "Imprint",
     "contact": "Contact",

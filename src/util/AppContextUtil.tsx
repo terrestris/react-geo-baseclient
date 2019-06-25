@@ -311,6 +311,8 @@ class AppContextUtil {
             shape="circle"
             icon="print"
             config={config}
+            tooltip={t('PrintPanel.windowTitle')}
+            tooltipPlacement={'right'}
             t={t}
           />);
           return;
@@ -318,6 +320,8 @@ class AppContextUtil {
           tools.push(<HsiButton
             map={map}
             key="5"
+            tooltip={t('FeatureInfo.tooltip')}
+            tooltipPlacement={'right'}
             t={t}
           />);
           return;

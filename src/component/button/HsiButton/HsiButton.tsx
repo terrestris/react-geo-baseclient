@@ -32,6 +32,16 @@ interface HsiButtonProps extends Partial<DefaultHsiButtonProps> {
   map: any,
 
   /**
+   * Button tooltip text
+   */
+  tooltip: string,
+
+  /**
+   * Tooltip position
+   */
+  tooltipPlacement: string,
+
+  /**
    * Translate function
    */
   t: (arg: string) => void,
@@ -200,12 +210,16 @@ export class HsiButton extends React.Component<HsiButtonProps> {
         type,
         shape,
         icon,
+        tooltip,
+        tooltipPlacement
       } = this.props;
     return (
         <ToggleButton
           type={type}
           shape={shape}
           icon={icon}
+          tooltip={tooltip}
+          tooltipPlacement={tooltipPlacement}
           onToggle={this.onHsiToggle}
         />
     );
