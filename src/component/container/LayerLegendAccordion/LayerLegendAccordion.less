@@ -1,4 +1,7 @@
 @import '../../../ProjectMain.less';
+@collapse-bckgr-color: #fafafa;
+@accordion-width: 400px;
+
 .layer-legend-collapse-icon {
   position: relative;
   right: 15px;
@@ -8,33 +11,29 @@
 
 .layer-legend-accordion {
   top: @header-height;
-  width: 400px;
+  width: @accordion-width;
   max-height: ~"calc(100% - @{header-height} - @{footer-height})";
   display: flex;
   flex-direction: column;
   border-radius: 0;
+  position: absolute;
+  right: 0;
+  z-index: 5;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+
   @media only screen and (max-width: 720px) {
     width: 250px;
     top: 0px;
     max-height: ~"calc(100% - @{footer-height})";
   }
 
+  .ant-collapse-borderless {
+    background-color: @collapse-bckgr-color;
+  }
+
   .ant-collapse-header {
     background-color: #e6e6e6;
-  }
-
-  position: absolute;
-  right: 0;
-  z-index: 5;
-  border: 1px solid lightgray;
-
-  .ant-collapse-content > .ant-collapse-content-box {
-    padding: 5x;
-    padding-top: 5px;
-  }
-
-  .ant-divider.ant-divider-horizontal {
-    margin: 2px 0px;
   }
 
   .layer-legend-accordion-title {
@@ -48,40 +47,67 @@
     }
   }
 
-  .all-layers-handle{
+  .all-layers-handle {
+    :hover {
+      cursor: pointer;
+    }
+    position: fixed;
+    z-index: 99;
+    height: 1.5em;
+    width: ~"calc(@{accordion-width} - 25px)";
+    background-color: @collapse-bckgr-color;
     padding-left: 5px;
-    margin-bottom: 5px;
+    -webkit-box-shadow: 0 5px 5px -5px darken(@collapse-bckgr-color, 30%);
+    -moz-box-shadow: 0 5px 5px -5px darken(@collapse-bckgr-color, 30%);
+    box-shadow: 0 5px 5px -5px darken(@collapse-bckgr-color, 30%);
+
     span {
       font: 14px sans-serif;
       margin-left: 15px;
     }
    }
 
-  .legend-collapse-panel {
-    .ant-collapse-content-box {
-      max-height: 500px;
-      overflow: auto;
-      background-color: #fafafa;
+  .legend-collapse-panel .ant-collapse-content-box,
+  .layerlist-collapse-panel .react-geo-layertree {
+    background-color: @collapse-bckgr-color;
+  }
 
-      .ant-collapse-header {
-        line-height: 30px;
-        padding: 0px 0px 0px 30px;
-        background-color: #fafafa;
-        color: rgba(0, 0, 0, 0.65);
+  .legend-collapse-panel .ant-collapse-content-box,
+  .layer-collapse-panel {
+    .ant-collapse-header {
+      line-height: 30px;
+      padding: 0px 0px 0px 30px;
+      background-color: @collapse-bckgr-color;
+      color: rgba(0, 0, 0, 0.65);
 
-        i {
-          left: 5px;
-        }
+      i.ant-collapse-arrow {
+        left: 5px;
       }
     }
   }
 
-  .layertree-collapse-panel {
-    .react-geo-layertree {
-      max-height: 250px;
+  .layer-collapse-panel {
+    .ant-collapse-header {
+      font-weight: bold;
+    }
+    &.with-padding {
+      padding-top: 1.5em;
+    }
+  }
+
+  .layerlist-collapse-panel,
+  .legend-collapse-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    .ant-collapse-content {
       overflow: auto;
-      background-color: #fafafa;
-      border: 1px dotted lightgray;
+      flex: 1;
+
+      >.ant-collapse-content-box {
+        padding: 0 5px 5px 5px;
+      }
     }
   }
 }

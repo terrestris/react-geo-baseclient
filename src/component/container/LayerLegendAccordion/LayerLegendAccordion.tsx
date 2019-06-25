@@ -7,7 +7,7 @@ const _groupBy = require('lodash/groupBy');
 const _uniqueId = require('lodash/uniqueId');
 
 import {
-  Collapse, Divider
+  Collapse
 } from 'antd';
 const Panel = Collapse.Panel;
 
@@ -296,6 +296,11 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     } = this.state;
 
     const layerVisibilityClassName = this.getLayerVisiblilityClassName(mapLayers);
+    const layerCollapsePanelCls = 'layer-collapse-panel';
+    let finalLayerCollapsePanelCls = layerCollapsePanelCls;
+    if (mapLayers && mapLayers.length) {
+      finalLayerCollapsePanelCls = `${layerCollapsePanelCls} with-padding`;
+    }
 
     return (
       <Collapse
@@ -312,10 +317,10 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
             </Titlebar>
           }
           key="tree"
-          className="layertree-collapse-panel"
+          className="layerlist-collapse-panel"
         >
           {
-            mapLayers && mapLayers.length > 0 ?
+            mapLayers && mapLayers.length > 0 &&
             <span
               className={layerVisibilityClassName}
               onClick={(event: React.MouseEvent) => {
@@ -327,25 +332,50 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
                 t('LayerLegendAccordion.activateAllLayersText') :
                 t('LayerLegendAccordion.deactivateAllLayersText')}
               </span>
-            </span> : null
-          }
-          <LayerTree
-            map={map}
-            layerGroup={this._mapLayerGroup}
-            nodeTitleRenderer={this.treeNodeTitleRenderer}
-            filterFunction={this.props.treeNodeFilter}
-            onDragEnd={onTopicLayerDragEnd}
-          />
-          {
-            this._mapLayerGroup.getLayers().getArray().length ? <Divider /> : null
+            </span>
           }
           {
-            this._baseLayerGroup ? <LayerTree
-              map={map}
-              layerGroup={this._baseLayerGroup}
-              nodeTitleRenderer={this.treeNodeTitleRenderer}
-              draggable={false}
-            /> : null
+            this._mapLayerGroup.getLayers().getArray().length > 0 &&
+            <Collapse
+              key={_uniqueId('themes-')}
+              bordered={false}
+              destroyInactivePanel={true}
+            >
+              <Panel
+                header={'Themenkarten'}
+                key="themes"
+                className={finalLayerCollapsePanelCls}
+              >
+               <LayerTree
+                 map={map}
+                 layerGroup={this._mapLayerGroup}
+                 nodeTitleRenderer={this.treeNodeTitleRenderer}
+                 filterFunction={this.props.treeNodeFilter}
+                 onDragEnd={onTopicLayerDragEnd}
+               />
+              </Panel>
+           </Collapse>
+          }
+          {
+            this._baseLayerGroup &&
+            <Collapse
+              key={_uniqueId('base-')}
+              bordered={false}
+              destroyInactivePanel={true}
+            >
+              <Panel
+                header={'Basiskarten'}
+                key="themes"
+                className={layerCollapsePanelCls}
+              >
+                <LayerTree
+                  map={map}
+                  layerGroup={this._baseLayerGroup}
+                  nodeTitleRenderer={this.treeNodeTitleRenderer}
+                  draggable={false}
+                />
+              </Panel>
+            </Collapse>
           }
         </Panel>
         <Panel
