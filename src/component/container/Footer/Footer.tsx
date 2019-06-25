@@ -17,6 +17,8 @@ import OlMousePositionControl from 'ol/control/MousePosition';
 import CoordinateReferenceSystemCombo from '@terrestris/react-geo/dist/Field/CoordinateReferenceSystemCombo/CoordinateReferenceSystemCombo';
 import ScaleCombo from '@terrestris/react-geo/dist/Field/ScaleCombo/ScaleCombo';
 
+import ProjectionUtil from '@terrestris/ol-util/dist/ProjectionUtil/ProjectionUtil';
+
 // default props
 interface DefaultFooterProps {
 }
@@ -44,7 +46,7 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
     value: 'WGS 84'
   }, {
     code: '3857',
-    value: 'Pseudo-Mercator -- Spherical Mercator'
+    value: 'Pseudo-Mercator'
   }];
 
   /**
@@ -93,14 +95,15 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
     const existingControls = map.getControls();
     const mousePositionControl = existingControls.getArray()
       .find((c: any) => c instanceof OlMousePositionControl);
+    const projection = map.getView().getProjection().getCode();
 
     if (!mousePositionControl) {
       const options: any = {
         name: this.footerMousePositionControlName,
         coordinateFormat: createStringXY(2),
-        projection: map.getView().getProjection().getCode(),
         target: document.getElementById('mouse-position'),
-        undefinedHTML: '&nbsp;'
+        undefinedHTML: '&nbsp;',
+        projection
       }
       const mousePositionControl = new OlMousePositionControl(options);
       map.addControl(mousePositionControl);
@@ -149,11 +152,13 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
     newView.fit(transformedExtent);
 
     const mousePositionControl = map.getControls().getArray().find((c: any) => c instanceof OlMousePositionControl);
-    const isWgs84 = map.getView().getProjection().getCode() === "EPSG:4326";
-    // TODO: Use ProjectionUtil.toDms if react geo was updated (in particular ol util dependency to v2.2.0 f.e.)
-    const wgs84Format = createStringXY(6);
-    // const wgs84Format = (coordinate: any) => coordinate.map((coord: number) => ProjectionUtil.toDms(coord));
-    mousePositionControl.setCoordinateFormat(isWgs84 ? wgs84Format : createStringXY(2));
+
+    if (mousePositionControl) {
+      const isWgs84 = map.getView().getProjection().getCode() === "EPSG:4326";
+      const wgs84Format = (coordinate: any) => coordinate.map((coord: number) => ProjectionUtil.toDms(coord));
+      mousePositionControl.setProjection(newProj);
+      mousePositionControl.setCoordinateFormat(isWgs84 ? wgs84Format : createStringXY(2));
+    }
   }
 
   /**
@@ -187,6 +192,7 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
               predefinedCrsDefinitions={this.predefinedCrsDefinitions}
               onSelect={this.setProjection}
               emptyTextPlaceholderText={t('CoordinateReferenceSystemCombo.emptyTextPlaceholderText')}
+              value={map.getView().getProjection().getCode().replace('EPSG:', '')}
             />
           </Col>
           <Col
