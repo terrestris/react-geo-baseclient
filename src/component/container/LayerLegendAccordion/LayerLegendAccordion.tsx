@@ -7,7 +7,7 @@ const _groupBy = require('lodash/groupBy');
 const _uniqueId = require('lodash/uniqueId');
 
 import {
-  Collapse, Divider
+  Collapse
 } from 'antd';
 const Panel = Collapse.Panel;
 
@@ -41,7 +41,9 @@ interface LayerLegendAccordionProps extends Partial<DefaultLayerLegendAccordionP
 
 interface LayerLegendAccordionState {
   loadingQueue: string[];
-  activeKeys: string[];
+  mainAccordionActiveKeys: string[];
+  themeLayerActiveKeys: string[];
+  baseLayerActiveKeys: string[];
 }
 
 /**
@@ -77,8 +79,10 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
 
     this.state = {
       loadingQueue: [],
-      activeKeys: ['tree', 'legend']
-    }
+      mainAccordionActiveKeys: ['tree', 'legend'],
+      themeLayerActiveKeys: [],
+      baseLayerActiveKeys: []
+    };
 
     this._mapLayerGroup = new OlLayerGroup({
       layers: props.mapLayers
@@ -93,7 +97,9 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     this.treeNodeTitleRenderer = this.treeNodeTitleRenderer.bind(this);
     this.getLegendItems = this.getLegendItems.bind(this);
     this.onAllLayersVisibleChange = this.onAllLayersVisibleChange.bind(this);
-    this.onAccordionChange = this.onAccordionChange.bind(this);
+    this.onLayerLegendAccordionChange = this.onLayerLegendAccordionChange.bind(this);
+    this.onThemeLayerAccordionChange = this.onThemeLayerAccordionChange.bind(this);
+    this.onBaseLayerAccordionChange = this.onBaseLayerAccordionChange.bind(this);
   }
 
   /**
@@ -226,12 +232,13 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
    * @param {OlLayer[]} layers The OpenLayers layers to get the class names for
    */
   getLayerVisiblilityClassName(layers: any[] | undefined) {
+    const fallbackCls = 'fa fa-eye-slash all-layers-handle';
     if (!layers) {
-      return 'fa fa-eye-slash all-layers-handle';
+      return fallbackCls;
     }
     const filteredLayers = layers.filter(this.props.treeNodeFilter!);
     if (!filteredLayers) {
-      return 'fa fa-eye-slash all-layers-handle';
+      return fallbackCls;
     }
     const numLayers = filteredLayers.length;
     let visibleLayers = 0;
@@ -241,7 +248,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
       }
     });
     if (visibleLayers === 0) {
-      return 'fa fa-eye-slash all-layers-handle';
+      return fallbackCls;
     }
 
     return visibleLayers === numLayers ? 'fa fa-eye all-layers-handle' : 'fa fa-eye some-layers all-layers-handle';
@@ -273,11 +280,27 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
   }
 
   /**
-   * Change handler for accordion
-   * @param {string[]} activeKeys The keys of the panels that should be visible afterwards
+   * Change handler for main layer legend accordion
+   * @param {string[]} mainAccordionActiveKeys The panel keys which should be visible afterwards.
    */
-  onAccordionChange(activeKeys: string[]) {
-    this.setState({ activeKeys });
+  onLayerLegendAccordionChange(mainAccordionActiveKeys: string[]) {
+    this.setState({ mainAccordionActiveKeys });
+  }
+
+  /**
+   * Change handler for theme layers accordion.
+   * @param {string[]} themeLayerActiveKeys The panel keys which should be visible afterwards.
+   */
+  onThemeLayerAccordionChange(themeLayerActiveKeys: string[]) {
+    this.setState({ themeLayerActiveKeys });
+  }
+
+  /**
+   * Change handler for base layers accordion.
+   * @param {string[]} baseLayerActiveKeys The panel keys which should be visible afterwards.
+   */
+  onBaseLayerAccordionChange(baseLayerActiveKeys: string[]) {
+    this.setState({ baseLayerActiveKeys });
   }
 
   /**
@@ -292,18 +315,25 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     } = this.props;
 
     const {
-      activeKeys
+      mainAccordionActiveKeys,
+      themeLayerActiveKeys,
+      baseLayerActiveKeys
     } = this.state;
 
     const layerVisibilityClassName = this.getLayerVisiblilityClassName(mapLayers);
+    const layerCollapsePanelCls = 'layer-collapse-panel';
+    let finalLayerCollapsePanelCls = layerCollapsePanelCls;
+    if (mapLayers && mapLayers.length) {
+      finalLayerCollapsePanelCls = `${layerCollapsePanelCls} with-padding`;
+    }
 
     return (
       <Collapse
         className="layer-legend-accordion"
         bordered={false}
-        activeKey={activeKeys}
+        activeKey={mainAccordionActiveKeys}
         destroyInactivePanel={true}
-        onChange={this.onAccordionChange}
+        onChange={this.onLayerLegendAccordionChange}
       >
         <Panel
           header={
@@ -312,10 +342,10 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
             </Titlebar>
           }
           key="tree"
-          className="layertree-collapse-panel"
+          className="layerlist-collapse-panel"
         >
           {
-            mapLayers && mapLayers.length > 0 ?
+            mapLayers && mapLayers.length > 0 &&
             <span
               className={layerVisibilityClassName}
               onClick={(event: React.MouseEvent) => {
@@ -327,25 +357,52 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
                 t('LayerLegendAccordion.activateAllLayersText') :
                 t('LayerLegendAccordion.deactivateAllLayersText')}
               </span>
-            </span> : null
-          }
-          <LayerTree
-            map={map}
-            layerGroup={this._mapLayerGroup}
-            nodeTitleRenderer={this.treeNodeTitleRenderer}
-            filterFunction={this.props.treeNodeFilter}
-            onDragEnd={onTopicLayerDragEnd}
-          />
-          {
-            this._mapLayerGroup.getLayers().getArray().length ? <Divider /> : null
+            </span>
           }
           {
-            this._baseLayerGroup ? <LayerTree
-              map={map}
-              layerGroup={this._baseLayerGroup}
-              nodeTitleRenderer={this.treeNodeTitleRenderer}
-              draggable={false}
-            /> : null
+            this._mapLayerGroup.getLayers().getArray().length > 0 &&
+            <Collapse
+              bordered={false}
+              destroyInactivePanel={true}
+              activeKey={themeLayerActiveKeys}
+              onChange={this.onThemeLayerAccordionChange}
+            >
+              <Panel
+                header={t('LayerSetBaseMapChooser.topicText')}
+                key="theme"
+                className={finalLayerCollapsePanelCls}
+              >
+               <LayerTree
+                 map={map}
+                 layerGroup={this._mapLayerGroup}
+                 nodeTitleRenderer={this.treeNodeTitleRenderer}
+                 filterFunction={this.props.treeNodeFilter}
+                 onDragEnd={onTopicLayerDragEnd}
+               />
+              </Panel>
+           </Collapse>
+          }
+          {
+            this._baseLayerGroup &&
+            <Collapse
+              bordered={false}
+              destroyInactivePanel={true}
+              activeKey={baseLayerActiveKeys}
+              onChange={this.onBaseLayerAccordionChange}
+            >
+              <Panel
+                header={t('LayerSetBaseMapChooser.baseLayerText')}
+                key="base"
+                className={layerCollapsePanelCls}
+              >
+                <LayerTree
+                  map={map}
+                  layerGroup={this._baseLayerGroup}
+                  nodeTitleRenderer={this.treeNodeTitleRenderer}
+                  draggable={false}
+                />
+              </Panel>
+            </Collapse>
           }
         </Panel>
         <Panel
