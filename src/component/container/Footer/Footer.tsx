@@ -174,16 +174,6 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
       <footer className="footer">
         <Row>
           <Col
-            className="scalecombo-col footer-element"
-            span={4}
-          >
-            <span>{t('ScaleComboLabel')}</span>
-            <ScaleCombo
-              className="scalecombo"
-              map={map}
-            />
-          </Col>
-          <Col
             className="crscombo-col footer-element"
             span={6}
           >
@@ -193,6 +183,16 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
               onSelect={this.setProjection}
               emptyTextPlaceholderText={t('CoordinateReferenceSystemCombo.emptyTextPlaceholderText')}
               value={map.getView().getProjection().getCode().replace('EPSG:', '')}
+            />
+          </Col>
+          <Col
+            className="scalecombo-col footer-element"
+            span={4}
+          >
+            <span>{t('ScaleComboLabel')}</span>
+            <ScaleCombo
+              className="scalecombo"
+              map={map}
             />
           </Col>
           <Col
