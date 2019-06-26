@@ -6,6 +6,8 @@ import OlImageWMS from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
 import OlTileGrid from 'ol/tilegrid/TileGrid';
 import OlLayer from 'ol/layer/Base';
+import OlMap from 'ol/Map';
+
 const union = require('lodash/union');
 const unionWith = require('lodash/unionWith');
 const isEqual = require('lodash/isEqual');
@@ -14,6 +16,8 @@ const isEmpty = require('lodash/isEmpty');
 const reverse = require('lodash/reverse');
 
 import Logger from '@terrestris/base-util/dist/Logger';
+import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
+
 import initialState from '../state/initialState';
 import getOSMLayer from '@terrestris/vectortiles';
 
@@ -29,6 +33,13 @@ import ZoomToExtentButton from '@terrestris/react-geo/dist/Button/ZoomToExtentBu
  * @class AppContextUtil
  */
 class AppContextUtil {
+
+  /**
+   * Array of scales which will be available in print dialog. Will be set on
+   * first client instantiation depending on provided map resolutions array and
+   * won't be manipulated afterwards anymore.
+   */
+  static _printScales: number[] = undefined;
 
   /**
    * This method parses an appContext object as delivered by SHOGun2 and returns
@@ -246,6 +257,35 @@ class AppContextUtil {
   }
 
   /**
+   * Return print scales depending on map resolutions.
+   *
+   * @param {OlMap} map OlMap with resolutions array to obtain print scales from.
+   * @return {Array} Array of computed print scales.
+   */
+  static getPrintScales(map: OlMap): number[] {
+    if (AppContextUtil._printScales) {
+      return AppContextUtil._printScales;
+    }
+
+    if (!map) {
+      return;
+    }
+
+    const mapView = map.getView();
+    const resolutions = mapView.getResolutions();
+    if (!resolutions) {
+      return;
+    }
+
+    const unit = mapView.getProjection().getUnits() || 'm';
+    AppContextUtil._printScales = resolutions
+      .map((res: number) =>
+        MapUtil.roundScale(MapUtil.getScaleForResolution(res, unit)
+        ))
+      .reverse();
+  }
+
+  /**
    * TODO: Missing features:
    * "shogun-button-stepback",
    * "shogun-button-stepforward",
@@ -262,6 +302,7 @@ class AppContextUtil {
     appContext: any, t:(arg: string) => string, config?: any) {
     let tools:any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
+
     activeModules.forEach((module: any) => {
       switch(module.xtype) {
         case 'basigx-button-zoomin':
@@ -313,6 +354,7 @@ class AppContextUtil {
             config={config}
             tooltip={t('PrintPanel.windowTitle')}
             tooltipPlacement={'right'}
+            printScales={this.getPrintScales(map)}
             t={t}
           />);
           return;
