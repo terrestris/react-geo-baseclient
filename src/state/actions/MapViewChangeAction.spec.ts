@@ -1,7 +1,7 @@
 /*eslint-env jest*/
 import * as actions from './MapViewChangeAction';
 import {
-  SET_MAPVIEW,
+  SET_PROJECTION,
   SET_CENTER,
   SET_ZOOM,
   SET_SCALE,
@@ -9,20 +9,7 @@ import {
   ZOOM_OUT
 } from '../constants/MapViewChange';
 
-const mapView = {
-  center: [370000, 5546750],
-  zoom: 0
-};
-
 describe('MapViewChangeAction', () => {
-
-  it ('dispatches an action on map view change', () => {
-    const expectedAction = {
-      type: SET_MAPVIEW,
-      mapView
-    };
-    expect(actions.setMapView(mapView)).toEqual(expectedAction);
-  });
 
   it ('dispatches an action on center change', () => {
     const expectedAction = {
@@ -38,6 +25,14 @@ describe('MapViewChangeAction', () => {
       zoom: 9
     };
     expect(actions.setZoom(9)).toEqual(expectedAction);
+  });
+
+  it('dispatches an action on projection change', () => {
+    const expectedAction = {
+      type: SET_PROJECTION,
+      projection: 'EPSG:4326'
+    };
+    expect(actions.setProjection('EPSG:4326')).toEqual(expectedAction);
   });
 
   it ('dispatches an action on setting map scale', () => {

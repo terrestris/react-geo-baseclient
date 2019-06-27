@@ -5,8 +5,8 @@ import { MapUtil } from '@terrestris/ol-util/src/MapUtil/MapUtil';
 import {
   SET_CENTER,
   SET_ZOOM,
+  SET_PROJECTION,
   SET_SCALE,
-  SET_MAPVIEW,
   ZOOM_IN,
   ZOOM_OUT
 } from '../constants/MapViewChange';
@@ -25,6 +25,10 @@ export function reduce(mapViewState = initialState, action: any) {
     case SET_ZOOM:
       return Object.assign({}, mapViewState, {
         zoom: action.zoom
+      });
+    case SET_PROJECTION:
+      return Object.assign({}, mapViewState, {
+        projection: action.projection
       });
     case SET_SCALE:
       return Object.assign({}, mapViewState, {
@@ -47,11 +51,6 @@ export function reduce(mapViewState = initialState, action: any) {
           : ((mapViewState.zoom - 1) >= 0
             ? mapViewState.zoom - 1
             : 0)
-      });
-    case SET_MAPVIEW:
-      return Object.assign({}, mapViewState, {
-        center: action.mapView.center,
-        zoom: action.mapView.zoom
       });
     default:
       return mapViewState;

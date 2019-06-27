@@ -1,7 +1,7 @@
 /*eslint-env jest*/
 import { reduce } from './MapViewReducer';
 import {
-  SET_MAPVIEW,
+  SET_PROJECTION,
   SET_CENTER,
   SET_ZOOM,
   SET_SCALE,
@@ -15,33 +15,25 @@ describe('MapViewReducer', () => {
     expect(reduce(undefined, {})).toEqual({});
   });
 
-  it('should handle SET_MAPVIEW', () => {
+  it('should handle SET_PROJECTION', () => {
     // test with empty initial state
     const mapViewState = {
-      center: [0, 0],
-      zoom: 9
+      projection: 'EPSG:4326'
     };
     const defaultAction = {
-      type: SET_MAPVIEW,
-      mapView: {
-        center: [0, 0],
-        zoom: 9
-      }
+      type: SET_PROJECTION,
+      projection: 'EPSG:4326'
     };
+
     expect(reduce({}, defaultAction)).toEqual(mapViewState);
 
     // test with existing state
     const actionChangedView = {
-      type: SET_MAPVIEW,
-      mapView: {
-        center: [19, 19],
-        zoom: 19
-      }
+      type: SET_PROJECTION,
+      projection: 'EPSG:3857'
     };
-
     expect(reduce(mapViewState, actionChangedView)).toEqual({
-      center: [19, 19],
-      zoom: 19
+      projection: 'EPSG:3857'
     });
   });
 

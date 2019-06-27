@@ -1,25 +1,12 @@
 import {
   SET_CENTER,
-  SET_MAPVIEW,
+  SET_PROJECTION,
   SET_SCALE,
   SET_ZOOM,
   ZOOM_IN,
   ZOOM_OUT
 } from '../constants/MapViewChange';
 
-/**
- * setMapView - action
- *
- * @param {Object} mapView the mapview having center and zoom property
- *
- * @return {Object} setMapView action object
- */
-export function setMapView(mapView: any) {
-  return {
-    type: SET_MAPVIEW,
-    mapView
-  };
-}
 
 /**
  * setCenter - action
@@ -32,6 +19,20 @@ export function setCenter(center: number[]) {
   return {
     type: SET_CENTER,
     center: center
+  };
+}
+
+/**
+ * setProjection - action
+ *
+ * @param {string} code projection code of the map
+ *
+ * @return {Object} setProjection action object
+ */
+export function setProjection(code: string) {
+  return {
+    type: SET_PROJECTION,
+    projection: code
   };
 }
 
