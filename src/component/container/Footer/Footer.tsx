@@ -25,7 +25,8 @@ interface DefaultFooterProps {
 
 interface FooterProps extends Partial<DefaultFooterProps>{
   map: any,
-  t: (arg: string) => {}
+  t: (arg: string) => {},
+  mapScales: number[]
 }
 
 interface FooterState {
