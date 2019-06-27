@@ -347,6 +347,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     });
 
     this.setCustomPrintParams();
+    this.setCustomMapParams();
 
     this.printManager.print(true)
       .then((downloadUrl: string) => {
@@ -398,7 +399,6 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           previewUrl: this.previewPlaceholder,
           loadingPreview: false
         });
-        console.log(error.message);
         message.error(t('PrintPanel.printErrorMsg'));
       });
 
@@ -433,6 +433,22 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.printManager.customParams.printScalebar = true;
     this.printManager.customParams.attributions =
       PrintUtil.getAttributions(map, this.printManager.extentLayer);
+  }
+
+/**
+ * Sets the custom map params for print.
+ * Currently determines only axis orientation of map projection, what is useful
+ * for lat/lon based geographic coordinates.
+ *
+ */
+  setCustomMapParams() {
+    const {
+      map
+    } = this.props;
+    const proj: any = map.getView().getProjection();
+    if (proj.getAxisOrientation() === 'neu') {
+      this.printManager.customMapParams.longitudeFirst = true;
+    }
   }
 
   /**
