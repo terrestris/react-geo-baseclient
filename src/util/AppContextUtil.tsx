@@ -6,7 +6,6 @@ import OlImageWMS from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
 import OlTileGrid from 'ol/tilegrid/TileGrid';
 import OlLayer from 'ol/layer/Base';
-import OlMap from 'ol/Map';
 
 const union = require('lodash/union');
 const unionWith = require('lodash/unionWith');
@@ -33,13 +32,6 @@ import ZoomToExtentButton from '@terrestris/react-geo/dist/Button/ZoomToExtentBu
  * @class AppContextUtil
  */
 class AppContextUtil {
-
-  /**
-   * Array of scales which will be available in print dialog. Will be set on
-   * first client instantiation depending on provided map resolutions array and
-   * won't be manipulated afterwards anymore.
-   */
-  static _printScales: number[] = undefined;
 
   /**
    * This method parses an appContext object as delivered by SHOGun2 and returns
@@ -80,6 +72,9 @@ class AppContextUtil {
     state.activeModules = union(state.activeModules, activeModules);
 
     state.appContext = appContext;
+
+    // map scales
+    state.mapScales = AppContextUtil.getMapScales(mapConfig.resolutions);
 
     return state;
   }
@@ -257,30 +252,20 @@ class AppContextUtil {
   }
 
   /**
-   * Return print scales depending on map resolutions.
+   * Return map scales depending on map resolutions.
    *
-   * @param {OlMap} map OlMap with resolutions array to obtain print scales from.
-   * @return {Array} Array of computed print scales.
+   * @param {Array} resolutions Resolutions array to obtain map scales from.
+   * @param {string} projUnit Projection unit. Default to 'm'
+   * @return {Array} Array of computed map scales.
    */
-  static getPrintScales(map: OlMap): number[] {
-    if (AppContextUtil._printScales) {
-      return AppContextUtil._printScales;
-    }
-
-    if (!map) {
-      return;
-    }
-
-    const mapView = map.getView();
-    const resolutions = mapView.getResolutions();
+  static getMapScales(resolutions: number[], projUnit: string = 'm'): number[] {
     if (!resolutions) {
       return;
     }
 
-    const unit = mapView.getProjection().getUnits() || 'm';
-    AppContextUtil._printScales = resolutions
+   return resolutions
       .map((res: number) =>
-        MapUtil.roundScale(MapUtil.getScaleForResolution(res, unit)
+        MapUtil.roundScale(MapUtil.getScaleForResolution(res, projUnit)
         ))
       .reverse();
   }
@@ -354,7 +339,7 @@ class AppContextUtil {
             config={config}
             tooltip={t('PrintPanel.windowTitle')}
             tooltipPlacement={'right'}
-            printScales={this.getPrintScales(map)}
+            printScales={this.getMapScales(mapConfig.resolutions)}
             t={t}
           />);
           return;

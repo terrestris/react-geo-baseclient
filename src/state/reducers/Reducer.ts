@@ -17,6 +17,7 @@ const baseclientMainReducer = outerReducer(combineReducers({
   appInfo,
   mapLayers,
   activeModules,
+  mapScales: (state = {}) => state,
   appContext: (appContext = {}) => appContext,
   hoverFeatures: fetchRemoteFeaturesOfType('HOVER'),
   // We need innerReducer to store loading state, i.e. for showing loading spinner

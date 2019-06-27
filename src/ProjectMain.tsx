@@ -25,7 +25,8 @@ const mapStateToProps = (state: any) => {
     activeModules: state.activeModules,
     appContextLoading: state.asyncInitialState.loading,
     loading: state.loadingQueue.loading,
-    appContext: state.appContext
+    appContext: state.appContext,
+    mapScales: state.mapScales
   };
 };
 
@@ -41,6 +42,7 @@ export interface MainProps extends Partial<DefaultMainProps> {
     appContext: {},
     appContextLoading: boolean,
     activeModules: object[],
+    mapScales: number[],
     t: (arg: string) => string
 }
 
@@ -93,7 +95,8 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
       map,
       appContext,
       t,
-      activeModules
+      activeModules,
+      mapScales
     } = this.props;
     const isMobile = BrowserUtil.isMobile();
     const measureToolsEnabled = AppContextUtil.measureToolsEnabled(activeModules);
@@ -123,6 +126,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
         <Footer
           map={map}
           t={t}
+          mapScales={mapScales}
         />
       </div>
     );

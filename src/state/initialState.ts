@@ -10,6 +10,7 @@ export default {
     past: [],
     future: []
   },
+  mapScales: [],
   appInfo: {
     name: 'React-geo baseclient',
     versionNumber: '0.1 (dev)'
