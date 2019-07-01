@@ -110,7 +110,6 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
             map={map}
             t={t}
             i18n={i18n}
-            collapsible={false}
             measureToolsEnabled={measureToolsEnabled}
           />
           <Map

@@ -12,9 +12,12 @@ const { Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 // default props
-interface SiderProps {
+interface DefaultSiderProps {
+  collapsible?: boolean
+}
+
+interface SiderProps extends Partial<DefaultSiderProps> {
   collapsed?: boolean,
-  collapsible?: boolean,
   map: any,
   t: (arg: string) => {},
   i18n: any,
@@ -32,6 +35,13 @@ interface SiderState {
  * @extends React.Component
  */
 export class SiderMenu extends React.Component<SiderProps, SiderState> {
+
+  /**
+  * The default properties.
+  */
+  public static defaultProps: DefaultSiderProps = {
+    collapsible: true
+  };
 
   /**
    * Create a SiderMenu component.
