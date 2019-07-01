@@ -36,18 +36,6 @@ describe('<PrintPanelV3 />', () => {
 
   describe('Private methods', () => {
 
-    describe('#getPrintScales', () => {
-
-      it('returns print scales based on map resolutions', () => {
-        const resolutions = [28, 14];
-        wrapper.props().map.getView().resolutions_ = resolutions;
-
-        const got = wrapper.instance().getPrintScales();
-        expect(got.length).toBe(resolutions.length);
-        expect(got).toEqual([50000, 100000]);
-      })
-    });
-
     describe('#onChangeScale', () => {
 
       it('sets state value for scale on call', () => {

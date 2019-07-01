@@ -6,6 +6,7 @@ import OlImageWMS from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
 import OlTileGrid from 'ol/tilegrid/TileGrid';
 import OlLayer from 'ol/layer/Base';
+
 const union = require('lodash/union');
 const unionWith = require('lodash/unionWith');
 const isEqual = require('lodash/isEqual');
@@ -14,6 +15,8 @@ const isEmpty = require('lodash/isEmpty');
 const reverse = require('lodash/reverse');
 
 import Logger from '@terrestris/base-util/dist/Logger';
+import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
+
 import initialState from '../state/initialState';
 import getOSMLayer from '@terrestris/vectortiles';
 
@@ -69,6 +72,9 @@ class AppContextUtil {
     state.activeModules = union(state.activeModules, activeModules);
 
     state.appContext = appContext;
+
+    // map scales
+    state.mapScales = AppContextUtil.getMapScales(mapConfig.resolutions);
 
     return state;
   }
@@ -246,6 +252,25 @@ class AppContextUtil {
   }
 
   /**
+   * Return map scales depending on map resolutions.
+   *
+   * @param {Array} resolutions Resolutions array to obtain map scales from.
+   * @param {string} projUnit Projection unit. Default to 'm'
+   * @return {Array} Array of computed map scales.
+   */
+  static getMapScales(resolutions: number[], projUnit: string = 'm'): number[] {
+    if (!resolutions) {
+      return;
+    }
+
+   return resolutions
+      .map((res: number) =>
+        MapUtil.roundScale(MapUtil.getScaleForResolution(res, projUnit)
+        ))
+      .reverse();
+  }
+
+  /**
    * TODO: Missing features:
    * "shogun-button-stepback",
    * "shogun-button-stepforward",
@@ -262,6 +287,7 @@ class AppContextUtil {
     appContext: any, t:(arg: string) => string, config?: any) {
     let tools:any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
+
     activeModules.forEach((module: any) => {
       switch(module.xtype) {
         case 'basigx-button-zoomin':
@@ -313,6 +339,7 @@ class AppContextUtil {
             config={config}
             tooltip={t('PrintPanel.windowTitle')}
             tooltipPlacement={'right'}
+            printScales={this.getMapScales(mapConfig.resolutions)}
             t={t}
           />);
           return;

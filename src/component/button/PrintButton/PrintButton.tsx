@@ -16,7 +16,8 @@ interface PrintButtonProps extends Partial<DefaultPrintButtonProps> {
   tooltip: string,
   tooltipPlacement: string,
   t: (arg: string) => string,
-  config: PrintConfig
+  config: PrintConfig,
+  printScales: number[]
 }
 
 interface PrintButtonState {
@@ -65,7 +66,8 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
       map,
       tooltip,
       tooltipPlacement,
-      config
+      config,
+      printScales
     } = this.props;
     const {
       winVisible
@@ -112,6 +114,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
             config={config}
             legendBlackList={[]}
             printLayerBlackList={[]}
+            printScales={printScales}
           />
         </Window>
       }

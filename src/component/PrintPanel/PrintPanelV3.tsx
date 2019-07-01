@@ -16,8 +16,7 @@ import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleB
 import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
 
 import OlLayerGroup from 'ol/layer/Group';
-
-import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
+import OlMap from 'ol/Map';
 
 import { MapFishPrintV3Manager } from '@terrestris/mapfish-print-manager';
 
@@ -42,7 +41,7 @@ interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
    *
    * @type {OlMap}
    */
-  map: any,
+  map: OlMap,
 
   /**
    * Function that should be called if the print manager couldn't
@@ -68,6 +67,11 @@ interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
    */
   printLayerBlackList: string[],
 
+  /**
+   * Available print scales, which should be shown in print dialog. If not set,
+   * fallback values from printCapabilities will be used instead.
+   */
+  printScales: number[],
   /**
    * Configuration object holding relevant print servlet settings.
    *
@@ -167,13 +171,14 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       onPrintManagerInitFailed,
       map,
       config,
-      t
+      t,
+      printScales
     } = this.props;
 
     const printManager = new MapFishPrintV3Manager({
       url: config.printServletPath(),
       map: map,
-      customPrintScales: this.getPrintScales(),
+      customPrintScales: printScales,
       timeout: 30000,
       legendFilter: (layer: any) => this.state.legendIds.includes(layer.ol_uid),
       layerFilter: (layer: any) => !(layer instanceof OlLayerGroup) && !this.props.printLayerBlackList.includes(layer.get('name'))
@@ -216,27 +221,6 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
   componentWillUnmount() {
     this.printManager.un('change:scale', this.onChangeScale);
     this.printManager.shutdownManager();
-  }
-
-  /**
-   * Return print scales depending on map resolutions.
-   *
-   * @return {Array} Array of computed map scales.
-   */
-  getPrintScales() {
-    const {
-      map
-    } = this.props;
-
-    const mapView = map.getView();
-    const resolutions = mapView.getResolutions();
-    const unit = mapView.getProjection().getUnits() || 'm';
-    return resolutions
-      .map((res: number) =>
-        MapUtil.roundScale(MapUtil.getScaleForResolution(res, unit)
-      ))
-      .reverse();
-
   }
 
   /**
@@ -363,6 +347,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     });
 
     this.setCustomPrintParams();
+    this.setCustomMapParams();
 
     this.printManager.print(true)
       .then((downloadUrl: string) => {
@@ -414,7 +399,6 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           previewUrl: this.previewPlaceholder,
           loadingPreview: false
         });
-        console.log(error.message);
         message.error(t('PrintPanel.printErrorMsg'));
       });
 
@@ -449,6 +433,22 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.printManager.customParams.printScalebar = true;
     this.printManager.customParams.attributions =
       PrintUtil.getAttributions(map, this.printManager.extentLayer);
+  }
+
+/**
+ * Sets the custom map params for print.
+ * Currently determines only axis orientation of map projection, what is useful
+ * for lat/lon based geographic coordinates.
+ *
+ */
+  setCustomMapParams() {
+    const {
+      map
+    } = this.props;
+    const proj: any = map.getView().getProjection();
+    if (proj.getAxisOrientation() === 'neu') {
+      this.printManager.customMapParams.longitudeFirst = true;
+    }
   }
 
   /**
