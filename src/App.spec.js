@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jest-environment-puppeteer
+ */
 describe('Application render', () => {
   let page;
   let getMapFound = false;
