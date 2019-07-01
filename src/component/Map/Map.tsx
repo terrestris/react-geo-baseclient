@@ -34,7 +34,7 @@ interface DefaultMapProps {
 
 interface MapProps extends Partial<DefaultMapProps> {
   map: any, //OlMap
-  children: Element,
+  children?: Element,
   dispatch: (arg: any) => void,
   center: number[],
   zoom: number,
