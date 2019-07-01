@@ -12,12 +12,12 @@ import {
 } from 'antd';
 
 const { RangePicker } = DatePicker;
-import * as moment from "moment";
 const Option = Select.Option;
 
 const _isFinite = require('lodash/isFinite');
 
 import './TimeLayerSliderPanel.less';
+import moment from 'moment';
 
 type timeRange = [moment.Moment, moment.Moment];
 
