@@ -78,7 +78,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
       playbackSpeed: '1',
       autoPlayActive: false,
       startDate: moment("2006-01-01"),
-      endDate: moment("2019-06-06")
+      endDate: moment(moment.now())
     };
 
     this._interval = 1000;
@@ -89,6 +89,10 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     this.onTimeChanged = this.onTimeChanged.bind(this);
     this.autoPlay = this.autoPlay.bind(this);
     this.onDataRangeOk = this.onDataRangeOk.bind(this);
+  }
+
+  componentDidUpdate() {
+    this.wrapTimeSlider();
   }
 
   /**

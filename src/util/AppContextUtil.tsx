@@ -138,10 +138,6 @@ class AppContextUtil {
         tileGrids = unionWith(tileGrids, [tileGrid], isEqual);
       }
 
-      if (layerObj.source.type === 'TileWMS') {
-        layers.push(AppContextUtil.parseTileLayer(layerObj, tileGrid));
-      }
-
       if (layerObj.source.type === 'ImageWMS') {
         layers.push(AppContextUtil.parseImageLayer(layerObj));
       }
