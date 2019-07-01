@@ -6,7 +6,7 @@ import MapComponent from '@terrestris/react-geo/dist/Map/MapComponent/MapCompone
 const isEqual = require('lodash/isEqual');
 const debounce = require('lodash/debounce');
 
-import { setMapView } from '../../state/actions/MapViewChangeAction';
+import { setZoom, setCenter, setProjection } from '../../state/actions/MapViewChangeAction';
 
 /**
  * mapStateToProps - mapping state to props of Map Component.
@@ -21,6 +21,7 @@ const mapStateToProps = (state: any) => {
   return {
     center: presentMapView.center,
     zoom: presentMapView.zoom,
+    projection: presentMapView.projection,
     mapLayers: state.mapLayers
   };
 };
@@ -38,6 +39,7 @@ interface MapProps extends Partial<DefaultMapProps> {
   center: number[],
   zoom: number,
   mapLayers: any[]
+  projection: string
 }
 
 interface MapState {
@@ -78,6 +80,7 @@ export class Map extends React.Component<MapProps, MapState> {
 
     // binds
     this.onMapMoveEnd = this.onMapMoveEnd.bind(this);
+    this.onMapViewChange = this.onMapViewChange.bind(this);
     this.onMouseOver = this.onMouseOver.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
     this.checkPointerRest = this.checkPointerRest.bind(this);
@@ -98,6 +101,7 @@ export class Map extends React.Component<MapProps, MapState> {
     const map = this.props.map;
     map.setTarget('map');
     map.on('moveend', this.onMapMoveEnd, this);
+    map.on('change:view', this.onMapViewChange, this);
 
     this.initDebouncedCheckPointerRest(this.props.pointerRestInterval);
     this.setFirePointerRest(this.props.firePointerRest);
@@ -207,21 +211,42 @@ export class Map extends React.Component<MapProps, MapState> {
   }
 
   /**
+   * Sets updated center and zoom mapView attributes globally in state after
+   * map was moved.
    *
    */
   onMapMoveEnd() {
-    const { map, center, zoom } = this.props;
+    const {
+      map,
+      center,
+      zoom,
+      dispatch
+    } = this.props;
     const mapView = map.getView();
     const mapCenter = mapView.getCenter();
     const mapZoom = mapView.getZoom();
 
     if ((zoom && zoom !== mapZoom) ||
         (center && !isEqual(center, mapCenter))) {
-      this.props.dispatch(setMapView({
-        center: mapView.getCenter(),
-        zoom: mapView.getZoom()
-      }));
+        dispatch(setCenter(mapView.getCenter()));
+        dispatch(setZoom(mapView.getZoom()));
     }
+  }
+
+  /**
+   * Sets updated map CRS globally in state after mapView was changed.
+   *
+   * @param {Event} evt mapView change event containing updated map.
+   */
+  onMapViewChange(evt: any) {
+    const {
+      map,
+      dispatch
+    } = this.props;
+    const mapView = map.getView();
+    const projection = mapView.getProjection().getCode();
+
+    dispatch(setProjection(projection));
   }
 
   /**

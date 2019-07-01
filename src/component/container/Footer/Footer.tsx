@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+
 import './Footer.less';
 
 import {
@@ -18,6 +20,7 @@ import CoordinateReferenceSystemCombo from '@terrestris/react-geo/dist/Field/Coo
 import ScaleCombo from '@terrestris/react-geo/dist/Field/ScaleCombo/ScaleCombo';
 
 import ProjectionUtil from '@terrestris/ol-util/dist/ProjectionUtil/ProjectionUtil';
+import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 // default props
 interface DefaultFooterProps {
@@ -26,19 +29,32 @@ interface DefaultFooterProps {
 interface FooterProps extends Partial<DefaultFooterProps>{
   map: any,
   t: (arg: string) => {},
-  mapScales: number[]
+  mapScales: number[],
+  projection: string
 }
 
 interface FooterState {
 }
 
 /**
+ * mapStateToProps - mapping state to props of Map Component.
+ *
+ * @param {Object} state current state
+ * @return {Object} mapped props
+ */
+const mapStateToProps = (state: any) => {
+  return {
+    projection: state.mapView.present.projection
+  };
+};
+
+/**
  * Class representing the Footer.
  *
- * @class LegendContainer
+ * @class Footer
  * @extends React.Component
  */
-export default class Footer extends React.Component<FooterProps, FooterState> {
+export class Footer extends React.Component<FooterProps, FooterState> {
 
   private footerMousePositionControlName = 'react-geo-baseclient-mouse-position';
 
@@ -139,15 +155,23 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
    *
    */
   setProjection(crsObj: any) {
-    const { map } = this.props;
+    const {
+      map,
+      mapScales
+    } = this.props;
     const currentProjection = map.getView().getProjection();
     const newProj = getProjection(`EPSG:${crsObj.code}`);
     const fromToTransform = getTransform(currentProjection, newProj);
     const currentExtent = map.getView().calculateExtent(map.getSize());
 
     var transformedExtent = applyTransform(currentExtent, fromToTransform);
+    const resolutions = mapScales
+      .map((scale: number) =>
+        MapUtil.getResolutionForScale(scale, newProj.getUnits()))
+      .reverse();
     var newView = new OlView({
-      projection: newProj
+      projection: newProj,
+      resolutions: resolutions,
     });
     map.setView(newView);
     newView.fit(transformedExtent);
@@ -168,6 +192,8 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
   render() {
     const {
       map,
+      mapScales,
+      projection,
       t
     } = this.props;
 
@@ -180,10 +206,11 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
           >
             <span>{t('CoordinateReferenceSystemCombo.label')}</span>
             <CoordinateReferenceSystemCombo
+              allowClear={false}
               predefinedCrsDefinitions={this.predefinedCrsDefinitions}
               onSelect={this.setProjection}
               emptyTextPlaceholderText={t('CoordinateReferenceSystemCombo.emptyTextPlaceholderText')}
-              value={map.getView().getProjection().getCode().replace('EPSG:', '')}
+              value={projection.replace('EPSG:', '')}
             />
           </Col>
           <Col
@@ -194,6 +221,7 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
             <ScaleCombo
               className="scalecombo"
               map={map}
+              scales={mapScales}
             />
           </Col>
           <Col
@@ -217,3 +245,5 @@ export default class Footer extends React.Component<FooterProps, FooterState> {
     );
   }
 }
+
+export default connect(mapStateToProps)(Footer);
