@@ -6,7 +6,7 @@ import i18n from './i18n';
 import BrowserUtil from './util/BrowserUtil';
 import SomethingWentWrong from './SomethingWentWrong';
 
-import MapComponent from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent';
+import Map from './component/Map/Map';
 import Toolbar from '@terrestris/react-geo/dist/Toolbar/Toolbar';
 
 import AppContextUtil from './util/AppContextUtil';
@@ -113,7 +113,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
             collapsible={false}
             measureToolsEnabled={measureToolsEnabled}
           />
-          <MapComponent
+          <Map
             map={map}
           />
           <Toolbar
