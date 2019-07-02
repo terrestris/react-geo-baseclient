@@ -25,6 +25,11 @@ export interface DefaultTimeLayerSliderPanelProps {
   className: string;
   onChange: (arg: moment.Moment) => void;
   timeAwareLayers: any[];
+  value: moment.Moment;
+  startDate: moment.Moment;
+  endDate: moment.Moment;
+  t: (arg: string) => {};
+  dateFormat: string;
 }
 
 export interface TimeLayerSliderPanelProps extends Partial<DefaultTimeLayerSliderPanelProps> {
@@ -59,7 +64,12 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   public static defaultProps: DefaultTimeLayerSliderPanelProps = {
     className: '',
     onChange: () => { },
-    timeAwareLayers: []
+    timeAwareLayers: [],
+    value: moment(moment.now()),
+    startDate: moment(moment.now()).subtract(1, 'days'),
+    endDate: moment(moment.now()).add(1, 'days'),
+    t: (arg: string) => arg,
+    dateFormat: 'YYYY-MM-DD'
   };
 
   /**
@@ -68,17 +78,13 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   constructor(props: TimeLayerSliderPanelProps) {
     super(props);
 
-    // this.sunRiseLayer = new SunRiseLayer({
-    //   map: this.props.map
-    // });
-
     this.state = {
-      value: moment("2015-01-01"),
+      value: props.value,
       forceUpdate: 1,
       playbackSpeed: '1',
       autoPlayActive: false,
-      startDate: moment("2006-01-01"),
-      endDate: moment(moment.now())
+      startDate: props.startDate,
+      endDate: props.endDate
     };
 
     this._interval = 1000;
@@ -252,7 +258,9 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   */
   render = () => {
     const {
-      className
+      className,
+      t,
+      dateFormat
     } = this.props;
 
     const {
@@ -267,15 +275,25 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     const startDateString = startDate ? startDate.toISOString() : undefined;
     const endDateString = endDate ? endDate.toISOString() : undefined;
     const valueString = value ? value.toISOString() : undefined;
-    const format = 'YYYY-MM-DD';
     const mid = startDate!.clone().add(endDate!.diff(startDate) / 2);
     const marks = {};
     const futureClass = moment().isBefore(value) ? ' timeslider-in-future' : '';
     const extraCls = className ? className : '';
 
-    marks[startDateString!] = startDate!.format(format);
-    marks[endDateString!] = endDate!.format(format);
-    marks[mid.toISOString()] = mid.format(format);
+    marks[startDateString] = {
+      label: startDate!.format(dateFormat)
+    };
+    marks[endDateString] = {
+      label: endDate!.format(dateFormat),
+      style: {
+        left: 'unset',
+        right: 0,
+        transform: 'translate(50%)'
+      }
+    };
+    marks[mid.toISOString()] = {
+      label: mid.format(dateFormat)
+    };
 
     return (
       <div className="time-layer-slider">
@@ -302,12 +320,12 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
               type="primary"
               icon="refresh"
               onClick={this.setSliderToNow}
-              tooltip={'Auf aktuelle Zeit zentrieren'}
+              tooltip={t('TimeLayerSliderPanel.setToNow')}
             /> : null
         }
         <this._TimeLayerAwareSlider
           className={extraCls + ' timeslider' + futureClass}
-          formatString={format}
+          formatString={dateFormat}
           defaultValue={startDateString}
           min={startDateString}
           max={endDateString}
@@ -339,11 +357,11 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
           <Option value="10">10x</Option>
           <Option value="100">100x</Option>
           <Option value="300">300x</Option>
-          <Option value="hours">hour</Option>
-          <Option value="days">day</Option>
-          <Option value="weeks">week</Option>
-          <Option value="months">month</Option>
-          <Option value="years">year</Option>
+          <Option value="hours">{t('TimeLayerSliderPanel.hours')}</Option>
+          <Option value="days">{t('TimeLayerSliderPanel.days')}</Option>
+          <Option value="weeks">{t('TimeLayerSliderPanel.weeks')}</Option>
+          <Option value="months">{t('TimeLayerSliderPanel.months')}</Option>
+          <Option value="years">{t('TimeLayerSliderPanel.years')}</Option>
         </Select>
       </div>
     );

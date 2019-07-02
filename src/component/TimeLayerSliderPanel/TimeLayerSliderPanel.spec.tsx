@@ -29,5 +29,4 @@ describe('<TimeLayerSliderPanel />', () => {
       expect(wrapper).not.toBe(undefined);
     });
   });
-
 });

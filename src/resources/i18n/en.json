@@ -82,5 +82,13 @@
   "FeatureInfoGrid": {
     "gfiAttributeNameColumnText": "Attribute",
     "gfiAttributeValueColumnText": "Value"
+  },
+  "TimeLayerSliderPanel": {
+    "setToNow": "Set to now",
+    "hours": "Hours",
+    "days": "Days",
+    "weeks": "Weeks",
+    "months": "Months",
+    "years": "Years"
   }
 }

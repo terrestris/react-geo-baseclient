@@ -8,10 +8,7 @@ let localePath =  basePath + 'resources/i18n/{{lng}}.json';
 const appMode = typeof(APP_MODE) != "undefined" ? APP_MODE : undefined;
 const nodeEnv = typeof(process.env.NODE_ENV) != "undefined" ? process.env.NODE_ENV : undefined;
 
-
-if (!nodeEnv || nodeEnv.indexOf('development') > -1) {
-  localePath =  basePath + 'resources/i18n/{{lng}}.json';
-} else if (nodeEnv.indexOf('production') > -1) {
+if (nodeEnv && nodeEnv.indexOf('production') > -1) {
   localePath = buildPath + 'resources/i18n/{{lng}}.json';
 }
 
