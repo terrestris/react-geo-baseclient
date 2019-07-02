@@ -26,7 +26,7 @@ module.exports = {
     '^.+\\.js?$': 'babel-jest'
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!(ol|css-animation|labelgun|mapbox-to-ol-style|ol-mapbox-style|antd|@terrestris|(rc-*[a-z]*))/).*/'
+    '/node_modules/(?!(ol|rc-time-picker|css-animation|labelgun|mapbox-to-ol-style|ol-mapbox-style|antd|@terrestris|(rc-*[a-z]*))/).*/'
   ],
   setupFiles: [
     '<rootDir>/config/jest/spec/setup.js'

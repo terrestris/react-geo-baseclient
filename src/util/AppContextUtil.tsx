@@ -7,6 +7,8 @@ import OlImageLayer from 'ol/layer/Image';
 import OlTileGrid from 'ol/tilegrid/TileGrid';
 import OlLayer from 'ol/layer/Base';
 
+import * as moment from "moment";
+
 const union = require('lodash/union');
 const unionWith = require('lodash/unionWith');
 const isEqual = require('lodash/isEqual');
@@ -136,12 +138,12 @@ class AppContextUtil {
         tileGrids = unionWith(tileGrids, [tileGrid], isEqual);
       }
 
-      if (layerObj.source.type === 'TileWMS') {
-        layers.push(AppContextUtil.parseTileLayer(layerObj, tileGrid));
+      if (layerObj.source.type === 'ImageWMS') {
+        layers.push(AppContextUtil.parseImageLayer(layerObj));
       }
 
-      if (['ImageWMS', 'WMSTime'].indexOf(layerObj.source.type) > -1) {
-        layers.push(AppContextUtil.parseImageLayer(layerObj));
+      if (['TileWMS', 'WMSTime'].indexOf(layerObj.source.type) > -1) {
+        layers.push(AppContextUtil.parseTileLayer(layerObj, tileGrid));
       }
 
     });
@@ -180,7 +182,8 @@ class AppContextUtil {
       params: {
         'LAYERS': layerNames,
         'TILED': requestWithTiled || false,
-        'TRANSPARENT': true
+        'TRANSPARENT': true,
+        'TIME': type === 'WMSTime' ? moment(moment.now()).format(layerObj.timeFormat) : undefined
       },
       crossOrigin: crossOrigin
     });
@@ -198,6 +201,7 @@ class AppContextUtil {
     tileLayer.set('legendUrl', legendUrl);
     tileLayer.set('isBaseLayer', layerObj.isBaseLayer);
     tileLayer.set('topic', layerObj.topic);
+    tileLayer.set('timeFormat', layerObj.source.timeFormat);
 
     return tileLayer;
   }
@@ -263,7 +267,7 @@ class AppContextUtil {
       return;
     }
 
-   return resolutions
+    return resolutions
       .map((res: number) =>
         MapUtil.roundScale(MapUtil.getScaleForResolution(res, projUnit)
         ))
