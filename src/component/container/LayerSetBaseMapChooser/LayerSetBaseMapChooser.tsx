@@ -22,6 +22,7 @@ interface LayerSetBaseMapChooserProps extends Partial<DefaultLayerSetBaseMapChoo
   baseLayerGroup: any;
   topicLayerGroup: any;
   onTopicLayerGroupSelected: (arg: string) => void;
+  overviewMapLayers?: any[]
 }
 
 interface LayerSetBaseMapChooserState {
@@ -33,6 +34,8 @@ interface LayerSetBaseMapChooserState {
  *
  */
 class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps, LayerSetBaseMapChooserState> {
+
+  _overViewControl: OlOverviewMap;
 
   /**
    * The default props of LayerSetBaseMapChooser
@@ -74,18 +77,20 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
    */
   componentDidMount() {
     const {
-      map
+      map,
+      overviewMapLayers
     } = this.props;
 
-    const overviewMap = new OlOverviewMap({
-      collapsible: false,
-      collapsed: false,
-      target: document.getElementById('overview-map')
-    });
-
-    overviewMap.set('className', 'ol-overviewmap layerset-basemap-chooser-overviewmap');
-
-    map.addControl(overviewMap);
+    if (!this._overViewControl) {
+      this._overViewControl = new OlOverviewMap({
+        collapsible: false,
+        collapsed: false,
+        target: document.getElementById('overview-map'),
+        layers: overviewMapLayers
+      });
+      this._overViewControl.set('className', 'ol-overviewmap layerset-basemap-chooser-overviewmap');
+      map.addControl(this._overViewControl);
+    }
   }
 
     /**
