@@ -348,11 +348,6 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
     } = this.state;
 
     const layerVisibilityClassName = this.getLayerVisiblilityClassName(mapLayers);
-    const layerCollapsePanelCls = 'layer-collapse-panel';
-    let finalLayerCollapsePanelCls = layerCollapsePanelCls;
-    if (mapLayers && mapLayers.length) {
-      finalLayerCollapsePanelCls = `${layerCollapsePanelCls} with-padding`;
-    }
 
     return (
       <Collapse
@@ -381,21 +376,18 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
           key="tree"
           className="layerlist-collapse-panel"
         >
-          {
-            mapLayers && mapLayers.length > 0 &&
-            <span
-              className={layerVisibilityClassName}
-              onClick={(event: React.MouseEvent) => {
-                this.onAllLayersVisibleChange(mapLayers);
-                event.preventDefault();
-              }}
-            >
-              <span>{layerVisibilityClassName !== 'fa fa-eye all-layers-handle' ?
-                t('LayerLegendAccordion.activateAllLayersText') :
-                t('LayerLegendAccordion.deactivateAllLayersText')}
-              </span>
+          <span
+            className={layerVisibilityClassName}
+            onClick={(event: React.MouseEvent) => {
+              this.onAllLayersVisibleChange(mapLayers);
+              event.preventDefault();
+            }}
+          >
+            <span>{layerVisibilityClassName !== 'fa fa-eye all-layers-handle' ?
+              t('LayerLegendAccordion.activateAllLayersText') :
+              t('LayerLegendAccordion.deactivateAllLayersText')}
             </span>
-          }
+          </span>
           {
             externalLayerGroup.getLayers().getArray().length > 0 &&
             <Collapse
@@ -407,7 +399,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
               <Panel
                 header={t('LayerLegendAccordion.externalText')}
                 key="theme"
-                className={finalLayerCollapsePanelCls}
+                className="layer-collapse-panel"
               >
                 <LayerTree
                   map={map}
@@ -430,7 +422,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
               <Panel
                 header={t('LayerSetBaseMapChooser.topicText')}
                 key="theme"
-                className={finalLayerCollapsePanelCls}
+                className="layer-collapse-panel"
               >
                 <LayerTree
                   map={map}
@@ -453,7 +445,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
               <Panel
                 header={t('LayerSetBaseMapChooser.baseLayerText')}
                 key="base"
-                className={layerCollapsePanelCls}
+                className="layer-collapse-panel"
               >
                 <LayerTree
                   map={map}
