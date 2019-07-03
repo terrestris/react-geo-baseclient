@@ -1,4 +1,16 @@
 {
+  "AddLayerPanel": {
+    "addAllLayers": "Add all layers",
+    "addSelectedLayers": "Add selected layers",
+    "addWms": "add WMS",
+    "enterUrl": "Enter URL",
+    "url": "Get Capabilities URL"
+  },
+  "General": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "loading": "Loading"
+  },
   "Component": {
     "collapse": "Collapse/Expand",
     "close": "Close"
@@ -72,7 +84,8 @@
     "showLayerTreeTooltipText": "Show layer list / legend",
     "legendPanelTitle": "Legend",
     "activateAllLayersText": "Activate all topic layers",
-    "deactivateAllLayersText": "Deactivate all topic layers"
+    "deactivateAllLayersText": "Deactivate all topic layers",
+    "externalText": "External layers"
   },
   "LayerSetBaseMapChooser": {
     "topicText": "Topics",

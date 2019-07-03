@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 import OlLayerGroup from 'ol/layer/Group';
 
@@ -13,6 +14,7 @@ const Panel = Collapse.Panel;
 
 import LayerTree from '@terrestris/react-geo/dist/LayerTree/LayerTree';
 import Legend from '@terrestris/react-geo/dist/Legend/Legend';
+import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
 
 import {
@@ -22,6 +24,7 @@ import {
 import './LayerLegendAccordion.less';
 
 import LayerLegendAccordionTreeNode from '../../LayerLegendAccordionTreeNode/LayerLegendAccordionTreeNode';
+import { toggleAddLayerWindow } from '../../../state/actions/AppStateAction';
 
 // default props
 interface DefaultLayerLegendAccordionProps {
@@ -29,13 +32,15 @@ interface DefaultLayerLegendAccordionProps {
   treeNodeFilter: (layer: any, index: number, array: any[]) => any;
   extraLegensParams: Object;
   mapLayers: any[];
+  externalLayerGroup: OlLayerGroup;
   baseLayer: any;
   revision: number;
   onTopicLayerDragEnd: () => void;
 }
 
-interface LayerLegendAccordionProps extends Partial<DefaultLayerLegendAccordionProps>{
+interface LayerLegendAccordionProps extends Partial<DefaultLayerLegendAccordionProps> {
   map: any;
+  dispatch: (arg: any) => void;
   t: (arg: string) => {};
 }
 
@@ -44,6 +49,7 @@ interface LayerLegendAccordionState {
   mainAccordionActiveKeys: string[];
   themeLayerActiveKeys: string[];
   baseLayerActiveKeys: string[];
+  externalLayerActiveKeys: string[];
 }
 
 /**
@@ -52,7 +58,7 @@ interface LayerLegendAccordionState {
  * @class LayerLegendAccordion
  * @extends React.Component
  */
-export default class LayerLegendAccordion extends React.Component<LayerLegendAccordionProps, LayerLegendAccordionState> {
+export class LayerLegendAccordion extends React.Component<LayerLegendAccordionProps, LayerLegendAccordionState> {
 
   public static defaultProps: DefaultLayerLegendAccordionProps = {
     title: 'LayerTree',
@@ -61,6 +67,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
       'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
     },
     mapLayers: [],
+    externalLayerGroup: new OlLayerGroup(),
     baseLayer: null,
     revision: 0,
     onTopicLayerDragEnd: () => { }
@@ -81,7 +88,8 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
       loadingQueue: [],
       mainAccordionActiveKeys: ['tree', 'legend'],
       themeLayerActiveKeys: [],
-      baseLayerActiveKeys: []
+      baseLayerActiveKeys: [],
+      externalLayerActiveKeys: []
     };
 
     this._mapLayerGroup = new OlLayerGroup({
@@ -90,7 +98,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
 
     if (props.baseLayer) {
       this._baseLayerGroup = new OlLayerGroup({
-        layers: [ props.baseLayer ]
+        layers: [props.baseLayer]
       });
     }
 
@@ -100,6 +108,8 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     this.onLayerLegendAccordionChange = this.onLayerLegendAccordionChange.bind(this);
     this.onThemeLayerAccordionChange = this.onThemeLayerAccordionChange.bind(this);
     this.onBaseLayerAccordionChange = this.onBaseLayerAccordionChange.bind(this);
+    this.onExternalLayerAccordionChange = this.onExternalLayerAccordionChange.bind(this);
+    this.onAddLayerClick = this.onAddLayerClick.bind(this);
   }
 
   /**
@@ -266,7 +276,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     const filteredLayers = mapLayers.filter(this.props.treeNodeFilter!);
     const layerVisibilityClassName: string = this.getLayerVisiblilityClassName(mapLayers);
     let visibility = false;
-    if (layerVisibilityClassName.indexOf('some-layers') > -1 ) {
+    if (layerVisibilityClassName.indexOf('some-layers') > -1) {
       visibility = true;
     }
     if (layerVisibilityClassName.indexOf('fa-eye-slash') > -1) {
@@ -304,10 +314,26 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
   }
 
   /**
+   * Change handler for external layers accordion.
+   * @param {string[]} externalLayerActiveKeys The panel keys which should be visible afterwards.
+   */
+  onExternalLayerAccordionChange(externalLayerActiveKeys: string[]) {
+    this.setState({ externalLayerActiveKeys });
+  }
+
+  /**
+   *
+   */
+  onAddLayerClick() {
+    this.props.dispatch(toggleAddLayerWindow());
+  }
+
+  /**
    * The render function
    */
   render() {
     const {
+      externalLayerGroup,
       map,
       mapLayers,
       t,
@@ -317,7 +343,8 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     const {
       mainAccordionActiveKeys,
       themeLayerActiveKeys,
-      baseLayerActiveKeys
+      baseLayerActiveKeys,
+      externalLayerActiveKeys
     } = this.state;
 
     const layerVisibilityClassName = this.getLayerVisiblilityClassName(mapLayers);
@@ -337,7 +364,17 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
       >
         <Panel
           header={
-            <Titlebar className="layer-legend-accordion-title">
+            <Titlebar
+              className="layer-legend-accordion-title"
+              tools={[
+                <SimpleButton
+                  icon="plus"
+                  tooltip={t('LayerLegendAccordion.addLayer')}
+                  key="add-layer"
+                  onClick={this.onAddLayerClick}
+                />
+              ]}
+            >
               <span>{t('LayerLegendAccordion.layerTreeTitle')}</span>
             </Titlebar>
           }
@@ -360,6 +397,29 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
             </span>
           }
           {
+            externalLayerGroup.getLayers().getArray().length > 0 &&
+            <Collapse
+              bordered={false}
+              destroyInactivePanel={true}
+              activeKey={externalLayerActiveKeys}
+              onChange={this.onExternalLayerAccordionChange}
+            >
+              <Panel
+                header={t('LayerLegendAccordion.externalText')}
+                key="theme"
+                className={finalLayerCollapsePanelCls}
+              >
+                <LayerTree
+                  map={map}
+                  layerGroup={externalLayerGroup}
+                  nodeTitleRenderer={this.treeNodeTitleRenderer}
+                  filterFunction={this.props.treeNodeFilter}
+                  onDragEnd={onTopicLayerDragEnd}
+                />
+              </Panel>
+            </Collapse>
+          }
+          {
             this._mapLayerGroup.getLayers().getArray().length > 0 &&
             <Collapse
               bordered={false}
@@ -372,15 +432,15 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
                 key="theme"
                 className={finalLayerCollapsePanelCls}
               >
-               <LayerTree
-                 map={map}
-                 layerGroup={this._mapLayerGroup}
-                 nodeTitleRenderer={this.treeNodeTitleRenderer}
-                 filterFunction={this.props.treeNodeFilter}
-                 onDragEnd={onTopicLayerDragEnd}
-               />
+                <LayerTree
+                  map={map}
+                  layerGroup={this._mapLayerGroup}
+                  nodeTitleRenderer={this.treeNodeTitleRenderer}
+                  filterFunction={this.props.treeNodeFilter}
+                  onDragEnd={onTopicLayerDragEnd}
+                />
               </Panel>
-           </Collapse>
+            </Collapse>
           }
           {
             this._baseLayerGroup &&
@@ -408,7 +468,7 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
         <Panel
           header={
             <Titlebar className="layer-legend-accordion-title">
-                <span>{t('LayerLegendAccordion.legendPanelTitle')}</span>
+              <span>{t('LayerLegendAccordion.legendPanelTitle')}</span>
             </Titlebar>
           }
           key="legend"
@@ -420,3 +480,5 @@ export default class LayerLegendAccordion extends React.Component<LayerLegendAcc
     );
   }
 }
+
+export default connect()(LayerLegendAccordion);
