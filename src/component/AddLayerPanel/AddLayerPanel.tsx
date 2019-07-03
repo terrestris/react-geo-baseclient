@@ -108,7 +108,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
 
     if(!targetGroup) {
       targetGroup = new OlLayerGroup();
-      targetGroup.set('name', 'Externe Layer');
+      targetGroup.set('name', 'external_layer_group');
       map.getLayerGroup().getLayers().insertAt(0, targetGroup);
     }
 

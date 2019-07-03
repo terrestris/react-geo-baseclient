@@ -366,7 +366,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
               maxHeight={300}
               x={50}
               y={50}
-              collapseTooltip={t('Component.collapse')}
+              collapseTooltip={t('General.collapse')}
               bounds="#app"
               tools={[
                 <SimpleButton
