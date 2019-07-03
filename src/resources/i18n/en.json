@@ -9,11 +9,8 @@
   "General": {
     "close": "Close",
     "cancel": "Cancel",
-    "loading": "Loading"
-  },
-  "Component": {
-    "collapse": "Collapse/Expand",
-    "close": "Close"
+    "loading": "Loading",
+    "collapse": "Collapse/Expand"
   },
   "LayerTree": "Layers",
   "Legend": "Legend",

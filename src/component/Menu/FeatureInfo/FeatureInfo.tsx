@@ -373,7 +373,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
                   icon="times"
                   key="close-tool"
                   size="small"
-                  tooltip={t('Component.close')}
+                  tooltip={t('General.close')}
                   onClick={this.hideFeatureInfoWindow}
                 />
               ]}

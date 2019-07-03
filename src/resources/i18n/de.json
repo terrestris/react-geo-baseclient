@@ -9,11 +9,8 @@
   "General": {
     "close": "Schließen",
     "cancel": "Abbrechen",
-    "loading": "Lädt"
-  },
-  "Component": {
-    "collapse": "Ein-/Zuklappen",
-    "close": "Schließen"
+    "loading": "Lädt",
+    "collapse": "Ein-/Zuklappen"
   },
   "LayerTree": "Themen",
   "Legend": "Legende",
