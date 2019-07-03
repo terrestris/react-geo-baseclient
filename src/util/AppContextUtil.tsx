@@ -23,10 +23,12 @@ import initialState from '../state/initialState';
 import getOSMLayer from '@terrestris/vectortiles';
 
 import PrintButton from '../component/button/PrintButton/PrintButton';
+import MeasureMenuButton from '../component/button/MeasureMenuButton/MeasureMenuButton';
 import HsiButton from '../component/button/HsiButton/HsiButton';
 
 import ZoomButton from '@terrestris/react-geo/dist/Button/ZoomButton/ZoomButton';
 import ZoomToExtentButton from '@terrestris/react-geo/dist/Button/ZoomToExtentButton/ZoomToExtentButton';
+import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/MeasureButton';
 
 /**
  * This class provides some static methods which can be used with the appContext of SHOGun2.
@@ -278,7 +280,6 @@ class AppContextUtil {
    * TODO: Missing features:
    * "shogun-button-stepback",
    * "shogun-button-stepforward",
-   * "shogun-button-showmeasuretoolspanel"
    * "shogun-button-showredliningtoolspanel"
    * "shogun-button-showworkstatetoolspanel"
    * "shogun-button-addwms"
@@ -355,6 +356,28 @@ class AppContextUtil {
             tooltipPlacement={'right'}
             t={t}
           />);
+          return;
+        case 'shogun-button-measure-menu':
+          if (module.properties.measureTypes.length === 1) {
+            tools.push(<MeasureButton
+              map={map}
+              measureType={module.properties.measureTypes[0]}
+              key="6"
+              tooltip={t('FeatureInfo.tooltip')}
+              tooltipPlacement={'right'}
+              showMeasureInfoOnClickedPoints={true}
+            />);
+          } else {
+            tools.push(<MeasureMenuButton
+              type="primary"
+              shape="circle"
+              map={map}
+              measureTypes={module.properties.measureTypes}
+              key="6"
+              tooltip={t('FeatureInfo.tooltip')}
+              t={t}
+            />);
+          }
           return;
         default:
           return;
