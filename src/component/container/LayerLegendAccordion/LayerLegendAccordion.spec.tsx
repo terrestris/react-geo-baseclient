@@ -1,7 +1,7 @@
 /*eslint-env jest*/
 import TestUtils from '../../../../config/jest/spec/TestUtils';
 
-import LayerLegendAccordion from './LayerLegendAccordion';
+import { LayerLegendAccordion } from './LayerLegendAccordion';
 
 describe('<LayerLegendAccordion />', () => {
   let map;
