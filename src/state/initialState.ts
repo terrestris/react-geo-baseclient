@@ -25,5 +25,8 @@ export default {
   hoverFeatures: {
     isFetching: false,
     features: {}
+  },
+  appState: {
+    addLayerWindowVisible: false
   }
 };

@@ -8,10 +8,14 @@ import SomethingWentWrong from './SomethingWentWrong';
 
 import Map from './component/Map/Map';
 import Toolbar from '@terrestris/react-geo/dist/Toolbar/Toolbar';
+import Window from '@terrestris/react-geo/dist/Window/Window';
+import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 
 import AppContextUtil from './util/AppContextUtil';
 import SiderMenu from './component/SiderMenu/SiderMenu'
 import Footer from './component/container/Footer/Footer';
+import AddLayerPanel from './component/AddLayerPanel/AddLayerPanel';
+import { hideAddLayerWindow } from './state/actions/AppStateAction';
 
 /**
  * mapStateToProps - mapping state to props of Main Component
@@ -26,7 +30,8 @@ const mapStateToProps = (state: any) => {
     appContextLoading: state.asyncInitialState.loading,
     loading: state.loadingQueue.loading,
     appContext: state.appContext,
-    mapScales: state.mapScales
+    mapScales: state.mapScales,
+    addLayerWindowVisible: state.appState.addLayerWindowVisible
   };
 };
 
@@ -36,14 +41,15 @@ export interface DefaultMainProps {
 }
 
 export interface MainProps extends Partial<DefaultMainProps> {
-    dispatch: (arg: any) => void,
-    loading: boolean,
-    map: any,
-    appContext: {},
-    appContextLoading: boolean,
-    activeModules: object[],
-    mapScales: number[],
-    t: (arg: string) => string
+  dispatch: (arg: any) => void,
+  loading: boolean,
+  map: any,
+  appContext: {},
+  appContextLoading: boolean,
+  addLayerWindowVisible: boolean,
+  activeModules: object[],
+  mapScales: number[],
+  t: (arg: string) => string
 }
 
 export interface MainState {
@@ -69,7 +75,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
 
     this.state = {
       hasError: false,
-      error:  null,
+      error: null,
       info: null
     };
   }
@@ -87,6 +93,10 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
     });
   }
 
+  closeAddLayerWindow() {
+    this.props.dispatch(hideAddLayerWindow());
+  }
+
   /**
    *
    */
@@ -96,13 +106,15 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
       appContext,
       t,
       activeModules,
-      mapScales
+      mapScales,
+      addLayerWindowVisible
     } = this.props;
+
     const isMobile = BrowserUtil.isMobile();
     const measureToolsEnabled = AppContextUtil.measureToolsEnabled(activeModules);
     const viewport = (
       <div className="viewport">
-        { isMobile ? null :
+        {isMobile ? null :
           <header>Header</header>
         }
         <div className="main-content">
@@ -117,10 +129,40 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
           />
           <Toolbar
             alignment="vertical"
-            style={isMobile ? {top: '10px'} : null}
+            style={isMobile ? { top: '10px' } : null}
           >
-            { AppContextUtil.getToolsForToolbar(activeModules, map, appContext, t) }
+            {AppContextUtil.getToolsForToolbar(activeModules, map, appContext, t)}
           </Toolbar>
+          {
+            addLayerWindowVisible ?
+              <Window
+                title={t('AddLayerPanel.addWms')}
+                onClose={this.closeAddLayerWindow}
+                onEscape={this.closeAddLayerWindow}
+                width={800}
+                height={400}
+                x={(window.innerWidth / 2 - 400) / 2}
+                y={(window.innerHeight / 2 - 200) / 2}
+                className="add-wms-window"
+                tools={[
+                  <SimpleButton
+                    key="closeButton"
+                    icon="close"
+                    size="small"
+                    tooltip={t('General.close')}
+                    onClick={this.closeAddLayerWindow}
+                  />
+                ]}
+              >
+                <AddLayerPanel
+                  map={map}
+                  onCancel={this.closeAddLayerWindow}
+                >
+                  {t('AddLayerPanel.wmsContent')}
+                </AddLayerPanel>
+              </Window> :
+              null
+          }
         </div>
         <Footer
           map={map}

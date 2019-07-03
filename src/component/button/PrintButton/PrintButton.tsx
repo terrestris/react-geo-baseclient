@@ -95,14 +95,14 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
           y={50}
           x={100}
           enableResizing={false}
-          collapseTooltip={t('Component.collapse')}
+          collapseTooltip={t('General.collapse')}
           bounds="#app"
           tools={[
             <SimpleButton
               icon="times"
               key="close-tool"
               size="small"
-              tooltip={t('Component.close')}
+              tooltip={t('General.close')}
               onClick={this.changeFullPrintWindowVisibility}
             />
           ]}

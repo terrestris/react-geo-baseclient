@@ -1,7 +1,16 @@
 {
-  "Component": {
-    "collapse": "Ein-/Zuklappen",
-    "close": "Schließen"
+  "AddLayerPanel": {
+    "addAllLayers": "Alle Layer hinzufügen",
+    "addSelectedLayers": "Ausgewählte Layer hinzufügen",
+    "addWms": "WMS hinzufügen",
+    "enterUrl": "URL eingeben",
+    "url": "Get Capabilities URL"
+  },
+  "General": {
+    "close": "Schließen",
+    "cancel": "Abbrechen",
+    "loading": "Lädt",
+    "collapse": "Ein-/Zuklappen"
   },
   "LayerTree": "Themen",
   "Legend": "Legende",
@@ -72,7 +81,8 @@
     "showLayerTreeTooltipText": "Layerliste / Legende anzeigen",
     "legendPanelTitle": "Legende",
     "activateAllLayersText": "Alle Themenlayer aktivieren",
-    "deactivateAllLayersText": "Alle Themenlayer deaktivieren"
+    "deactivateAllLayersText": "Alle Themenlayer deaktivieren",
+    "externalText": "Externe Layer"
   },
   "LayerSetBaseMapChooser": {
     "topicText": "Themenkarten",
@@ -92,3 +102,4 @@
     "years": "Jahre"
   }
 }
+
