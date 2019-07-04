@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import OlOverviewMap from 'ol/control/OverviewMap';
+import OlLayer from 'ol/layer/Layer';
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
@@ -22,7 +23,7 @@ interface LayerSetBaseMapChooserProps extends Partial<DefaultLayerSetBaseMapChoo
   baseLayerGroup: any;
   topicLayerGroup: any;
   onTopicLayerGroupSelected: (arg: string) => void;
-  overviewMapLayers?: any[]
+  overviewMapLayers?: OlLayer[]
 }
 
 interface LayerSetBaseMapChooserState {
