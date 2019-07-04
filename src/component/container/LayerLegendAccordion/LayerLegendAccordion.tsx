@@ -324,7 +324,9 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
   /**
    *
    */
-  onAddLayerClick() {
+  onAddLayerClick(evt: React.MouseEvent) {
+    // Avoid collapsing/expanding the Accordion
+    evt.stopPropagation();
     this.props.dispatch(toggleAddLayerWindow());
   }
 
