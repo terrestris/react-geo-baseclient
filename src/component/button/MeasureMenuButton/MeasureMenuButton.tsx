@@ -44,7 +44,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
   public static defaultProps: DefaultMeasureMenuButtonProps = {
     type: 'primary',
     shape: 'circle',
-    menuPlacement: 'left',
+    menuPlacement: 'left'
   };
 
   /**
@@ -63,23 +63,6 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
     this.getToolbarItems = this.getToolbarItems.bind(this);
     this.onToggledToolChange = this.onToggledToolChange.bind(this);
     this.onMenuButtonClick = this.onMenuButtonClick.bind(this);
-  }
-
-  /**
-   *
-   * @param measureType
-   */
-  getButtonIcon(measureType: string) {
-    switch (measureType) {
-      case 'line':
-        return 'ft ft-measure-distance';
-      case 'polygon':
-        return 'ft ft-measure-area';
-      case 'angle':
-        return 'ft ft-redline-draw-line'; // TODO find a better icon
-      default:
-        break;
-    }
   }
 
   /**
@@ -137,7 +120,11 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
       >
         {
           orderedMeasureTypes.map((mt: string) => {
-            const fontIcon = this.getButtonIcon(mt);
+            const fontIcon = mt === 'line'
+              ? 'ft ft-measure-distance'
+              : mt === 'polygon'
+                ? 'ft ft-measure-area'
+                : undefined;
             return <MeasureButton
               key={mt}
               name={mt}
@@ -147,7 +134,9 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
               map={map}
               pressed={activeTool === mt}
               measureType={mt}
-            />
+            >
+              {mt === 'angle' ? '∢' : null}
+            </MeasureButton>
           })
         }
       </ToggleGroup>
