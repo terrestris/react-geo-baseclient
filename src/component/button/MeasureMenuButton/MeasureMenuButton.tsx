@@ -5,14 +5,16 @@ import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleB
 import Toolbar from '@terrestris/react-geo/dist/Toolbar/Toolbar';
 import ToggleGroup from '@terrestris/react-geo/dist/Button/ToggleGroup/ToggleGroup';
 
-import { Menu } from 'antd';
+import OlInteractionDraw from 'ol/interaction/Draw';
+
+import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 import './MeasureMenuButton.less';
 
 interface DefaultMeasureMenuButtonProps {
   type: string,
   shape: string,
-  menuPlacement: any
+  menuPlacement: 'left' | 'right'
 }
 
 interface MeasureMenuButtonProps extends Partial<DefaultMeasureMenuButtonProps> {
@@ -25,8 +27,7 @@ interface MeasureMenuButtonProps extends Partial<DefaultMeasureMenuButtonProps> 
 
 interface MeasureMenuButtonState {
   showToolbar: boolean,
-  activeTool: string,
-  activeToolIcon: string
+  activeTool: string
 }
 
 /**
@@ -43,7 +44,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
   public static defaultProps: DefaultMeasureMenuButtonProps = {
     type: 'primary',
     shape: 'circle',
-    menuPlacement: 'bottomRight'
+    menuPlacement: 'left',
   };
 
   /**
@@ -56,8 +57,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
 
     this.state = {
       showToolbar: false,
-      activeTool: null,
-      activeToolIcon: 'print' // TODO
+      activeTool: null
     }
 
     this.getToolbarItems = this.getToolbarItems.bind(this);
@@ -70,14 +70,13 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
    * @param measureType
    */
   getButtonIcon(measureType: string) {
-    // TODO set meaningful icons
     switch (measureType) {
       case 'line':
-        return 'print';
+        return 'ft ft-measure-distance';
       case 'polygon':
-        return 'info';
+        return 'ft ft-measure-area';
       case 'angle':
-        return 'globe';
+        return 'ft ft-redline-draw-line'; // TODO find a better icon
       default:
         break;
     }
@@ -86,40 +85,19 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
   /**
    *
    */
-  getMenuItems() {
-    const {
-      measureTypes,
-      map,
-      type,
-      shape
-    } = this.props;
-
-    return (
-      <Menu>
-        {
-          measureTypes.map((mt: string) => {
-            const icon = this.getButtonIcon(mt);
-            return <Menu.Item key={mt}>
-              <MeasureButton
-                type={type}
-                shape={shape}
-                icon={icon}
-                map={map}
-                measureType={mt}
-              />
-            </Menu.Item>
-          })
-        }
-      </Menu>
-    );
-  }
-
-  /**
-   *
-   */
   onMenuButtonClick() {
+    const {
+      map
+    } = this.props;
+    const drawInteractions = MapUtil.getInteractionsByClass(map, OlInteractionDraw);
+    const measureLayer = MapUtil.getLayerByName(map, 'react-geo_measure');
+    if (measureLayer) {
+      measureLayer.getSource().clear();
+    }
+    drawInteractions.forEach((drawInteraction: OlInteractionDraw) => drawInteraction.setActive(false));
     this.setState({
-      showToolbar: !this.state.showToolbar
+      showToolbar: !this.state.showToolbar,
+      activeTool: null
     });
   }
 
@@ -129,8 +107,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
   onToggledToolChange(button: any) {
     const pressed = !button.pressed;
       this.setState({
-        activeTool: pressed ? button.name : null,
-        activeToolIcon: pressed ? button.icon : 'print' // TODO adapt icons
+        activeTool: pressed ? button.key : null
       });
   }
 
@@ -142,12 +119,15 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
       measureTypes,
       map,
       type,
-      shape
+      shape,
+      menuPlacement
     } = this.props;
 
     const {
       activeTool
     } = this.state;
+
+    let orderedMeasureTypes = menuPlacement === 'left'? measureTypes : measureTypes.reverse();
 
     return (
       <ToggleGroup
@@ -156,14 +136,14 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
         onChange={this.onToggledToolChange}
       >
         {
-          measureTypes.map((mt: string) => {
-            const icon = this.getButtonIcon(mt);
+          orderedMeasureTypes.map((mt: string) => {
+            const fontIcon = this.getButtonIcon(mt);
             return <MeasureButton
               key={mt}
               name={mt}
               type={type}
               shape={shape}
-              icon={icon}
+              fontIcon={fontIcon}
               map={map}
               pressed={activeTool === mt}
               measureType={mt}
@@ -180,12 +160,12 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
   render() {
     const {
       type,
+      menuPlacement,
       shape
     } = this.props;
 
     const {
-      showToolbar,
-      activeToolIcon
+      showToolbar
     } = this.state;
 
     return (
@@ -195,13 +175,13 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
         <SimpleButton
           type={type}
           shape={shape}
-          icon={activeToolIcon}
+          fontIcon="ft ft-toolgroup-measure"
           onClick={this.onMenuButtonClick}
         />
         {
           showToolbar &&
           <Toolbar
-            className="measure-tb"
+            className={`measure-tb ${menuPlacement}`}
           >
             {this.getToolbarItems()}
           </Toolbar>
