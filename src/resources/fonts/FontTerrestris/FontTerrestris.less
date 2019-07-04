@@ -1,0 +1,283 @@
+/* Copyright © terrestris GmbH & Co. KG, 2016 – present
+ * https://www.terrestris.de, info@terrestris.de
+ *
+ * The 2-Clause BSD License
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+@font-face {
+  font-family: 'FontTerrestris';
+  src: url('./terrestris_icons_05.eot');
+  src: url('./terrestris_icons_05.ttf') format('truetype'),
+    url('./terrestris_icons_05.svg#terrestris_icons_05') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ft {
+  display: inline-block;
+  font-family: FontTerrestris;
+  font-size: 3.5em;
+  line-height: 30px;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ft-select:before {
+  content: "a";
+}
+.ft-zoom-in:before {
+  content: "b";
+}
+.ft-zoom-out:before {
+  content: "c";
+}
+.ft-zoom-max:before {
+  content: "d";
+}
+.ft-pan:before {
+  content: "e";
+}
+.ft-previous:before {
+  content: "f";
+}
+.ft-help:before {
+  content: "g";
+}
+.ft-info:before {
+  content: "h";
+}
+.ft-binoculars:before {
+  content: "i";
+}
+.ft-select-box:before {
+  content: "j";
+}
+.ft-select-polygon:before {
+  content: "k";
+}
+.ft-select-selection:before {
+  content: "l";
+}
+.ft-table:before {
+  content: "m";
+}
+.ft-select-table-f:before {
+  content: "n";
+}
+.ft-select-table-g:before {
+  content: "o";
+}
+.ft-select-gear:before {
+  content: "p";
+}
+.ft-select-cancel:before {
+  content: "q";
+}
+.ft-measure-distance:before {
+  content: "r";
+}
+.ft-measure-area:before {
+  content: "s";
+}
+.ft-measure-area-selected:before {
+  content: "t";
+}
+.ft-measure-elevation-profile:before {
+  content: "u";
+}
+.ft-measure-elevation-point:before {
+  content: "v";
+}
+.ft-measure-coordinate-transformation:before {
+  content: "w";
+}
+.ft-print:before {
+  content: "x";
+}
+.ft-work-print:before {
+  content: "y";
+}
+.ft-stateofwork-save:before {
+  content: "z";
+}
+.ft-stateofwork-load:before {
+  content: "0";
+}
+.ft-redline-select:before {
+  content: "1";
+}
+.ft-redline-draw-point:before {
+  content: "2";
+}
+.ft-redline-draw-line:before {
+  content: "3";
+}
+.ft-redline-draw-polygon:before {
+  content: "4";
+}
+.ft-redline-draw-circle:before {
+  content: "5";
+}
+.ft-redline-draw-rect:before {
+  content: "6";
+}
+.ft-redline-draw-text:before {
+  content: "7";
+}
+.ft-redline-remove-obj:before {
+  content: "8";
+}
+.ft-redline-copy-obj:before {
+  content: "9";
+}
+.ft-redline-remove-layer:before {
+  content: "A";
+  text-transform: uppercase;
+}
+.ft-redline-change-style:before {
+  content: "B";
+  text-transform: uppercase;
+}
+.ft-redline-postit:before {
+  content: "C";
+  text-transform: uppercase;
+}
+.ft-digi-select:before {
+  content: "D";
+  text-transform: uppercase;
+}
+.ft-digi-copy:before {
+  content: "E";
+  text-transform: uppercase;
+}
+.ft-digi-save:before {
+  content: "F";
+  text-transform: uppercase;
+}
+.ft-digi-union:before {
+  content: "G";
+  text-transform: uppercase;
+}
+.ft-layer-import:before {
+  content: "H";
+  text-transform: uppercase;
+}
+.ft-digi-split-multi:before {
+  content: "I";
+  text-transform: uppercase;
+}
+.ft-digi-split-by-line:before {
+  content: "J";
+  text-transform: uppercase;
+}
+.ft-digi-difference:before {
+  content: "K";
+  text-transform: uppercase;
+}
+.ft-digi-shape-upload:before {
+  content: "L";
+  text-transform: uppercase;
+}
+.ft-bis-report:before {
+  content: "M";
+  text-transform: uppercase;
+}
+.ft-bis-archive:before {
+  content: "N";
+  text-transform: uppercase;
+}
+.ft-bis-suche:before {
+  content: "O";
+  text-transform: uppercase;
+}
+.ft-toolgroup-measure:before {
+  content: "P";
+  text-transform: uppercase;
+}
+.ft-digi-constrain:before {
+  content: "Q";
+  text-transform: uppercase;
+}
+.ft-toolgroup-digitization:before {
+  content: "=";
+  text-transform: uppercase;
+}
+.ft-toolgroup-draw:before {
+  content: "R";
+  text-transform: uppercase;
+}
+.ft-toolgroup-style:before {
+  content: "S";
+  text-transform: uppercase;
+}
+.ft-digi-intersect:before {
+  content: "T";
+  text-transform: uppercase;
+}
+.ft-catalog:before {
+  content: "U";
+  text-transform: uppercase;
+}
+.ft-download:before {
+  content: "V";
+  text-transform: uppercase;
+}
+.ft-permalink:before {
+  content: "W";
+  text-transform: uppercase;
+}
+.ft-checked-square:before {
+  content: "X";
+  text-transform: uppercase;
+}
+.ft-unchecked-square:before {
+  content: "Y";
+  text-transform: uppercase;
+}
+.ft-trash:before {
+  content: "Z";
+  text-transform: uppercase;
+}
+.ft-map-marker:before {
+  content: "!";
+}
+.ft-import-export:before {
+  content: "§";
+}
+.ft-upload:before {
+  content: "$";
+}
+.ft-excel-export:before {
+  content: "%";
+}
+.ft-shape-export:before {
+  content: "&";
+}
+.ft-info-circle:before {
+  content: "(";
+}
+.ft-copy:before {
+  content: ")";
+}
