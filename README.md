@@ -18,7 +18,7 @@ and then
     * Set the credentials in `.shogunrc`
     * Start the app with `npm run start-shogun2`
   * When using no backend / a static appContext
-    * Start the app with `npm run start-static`
+    * Start the app with `npm run start:static`
 
 * To start a new project:
   * Create a new folder next to the baseclient package, e.g. "myproject" and add at least a single Main class.
@@ -43,7 +43,7 @@ RESOURCES_PATH='../../src/resources/'
   ...
   "scripts": {
     ...
-    "start": "cd ../baseclient/ && env-cmd ../myproject/.env npm run start-static",
+    "start": "cd ../baseclient/ && env-cmd ../myproject/.env npm run start:static",
     ...
   },
   ...
