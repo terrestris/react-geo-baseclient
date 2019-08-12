@@ -55,8 +55,8 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       mouseDownTime: 0,
       renderTrigger: 0,
       originalBaseLayerOlUid: '',
-      ratio: this.getRatio(),
-      width: this.getWidth()
+      ratio: 1,
+      width: 128
     };
 
     // binds
@@ -73,6 +73,10 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    */
   componentDidMount() {
     this.props.map.on('moveend', this.renderTrigger);
+    this.setState({
+      ratio: this.getRatio(),
+      width: this.getWidth()
+    })
   }
 
   /**

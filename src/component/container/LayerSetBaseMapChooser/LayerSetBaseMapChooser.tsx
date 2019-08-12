@@ -178,7 +178,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     return (
       <div className="layerset-basemap-chooser">
         {
-        showTopicCarousel ?
+        showTopicCarousel && topicLayerGroup && topicLayerGroup.getLayers() ?
           <LayerCarousel
             className="topic-carousel"
             map={map}
@@ -187,7 +187,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
           /> : null
         }
         {
-          showBaseLayerCarousel ?
+          showBaseLayerCarousel && baseLayerGroup && baseLayerGroup.getLayers() ?
             <LayerCarousel
               className="base-layer-carousel"
               map={map}
@@ -207,6 +207,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
           size="small"
           className="show-topic-carousel-toggle"
           pressed={showTopicCarousel}
+          disabled={!topicLayerGroup || topicLayerGroup.getLayers().length === 0}
           onToggle={this.onShowTopicCarouselToggle}
         >
           {t('LayerSetBaseMapChooser.topicText')}
