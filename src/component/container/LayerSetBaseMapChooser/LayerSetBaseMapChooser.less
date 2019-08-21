@@ -1,3 +1,5 @@
+@main-component-color: #4ba9ff;
+
 .layerset-basemap-chooser {
   display: inline-grid;
   width: 100%;
@@ -29,34 +31,37 @@
         width: 200px;
         height: 200px;
       }
+      .ol-overviewmap-box {
+        border: 2px solid darken(@main-component-color, 25%);
+      }
     }
   }
 
   .collapse-btn {
     grid-column: 2;
     grid-row: 2;
-    border: 1px solid darken(#4ba9ff, 25%);
+    border: 1px solid darken(@main-component-color, 25%);
     border-radius: 0 4px 0 0;
   }
 
   .show-topic-carousel-toggle {
     grid-column: 1;
     grid-row: 2;
-    border: 1px solid darken(#4ba9ff, 25%);
+    border: 1px solid darken(@main-component-color, 25%);
   }
 
   .show-baselayer-carousel-toggle {
     grid-column: 2;
     grid-row: 3;
-    border: 1px solid darken(#4ba9ff, 25%);
+    border: 1px solid darken(@main-component-color, 25%);
     >div {
       transform: rotate(-90deg) translate(-20px, 0px);
     }
   }
 
   .base-layer-carousel, .topic-carousel {
-    background: rgba(darken(#4ba9ff, 5%), 75%);
-    border: 1px solid darken(#4ba9ff, 25%);
+    background: rgba(darken(@main-component-color, 5%), 75%);
+    border: 1px solid darken(@main-component-color, 25%);
   }
 
   .topic-carousel {
