@@ -1,12 +1,19 @@
 import * as React from 'react';
 
 import OlOverviewMap from 'ol/control/OverviewMap';
+import OlView from 'ol/View';
 import OlLayer from 'ol/layer/Layer';
+import OlCollection from 'ol/Collection';
+import {
+  get as getProjection,
+} from 'ol/proj.js';
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 
-import { isFunction } from 'lodash';
+const _isFunction = require('lodash/isFunction');
+const _isEqual = require('lodash/isEqual');
+
 
 import './LayerSetBaseMapChooser.less';
 import LayerCarousel from '../../LayerCarousel/LayerCarousel';
@@ -23,7 +30,8 @@ interface LayerSetBaseMapChooserProps extends Partial<DefaultLayerSetBaseMapChoo
   baseLayerGroup: any;
   topicLayerGroup: any;
   onTopicLayerGroupSelected: (arg: string) => void;
-  overviewMapLayers?: OlLayer[]
+  overviewMapLayers?: OlLayer[],
+  projection: string
 }
 
 interface LayerSetBaseMapChooserState {
@@ -87,10 +95,48 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
         collapsible: false,
         collapsed: false,
         target: document.getElementById('overview-map'),
-        layers: overviewMapLayers
+        layers: overviewMapLayers,
+        view: new OlView({
+          projection: getProjection(this.props.projection)
+        })
       });
       this._overViewControl.set('className', 'ol-overviewmap layerset-basemap-chooser-overviewmap');
       map.addControl(this._overViewControl);
+    }
+  }
+
+  /**
+   * The componentDidUpdate lifecycle function
+   *
+   * @param prevProps
+   * @param prevState
+   */
+  componentDidUpdate(prevProps: LayerSetBaseMapChooserProps, prevState: LayerSetBaseMapChooserState) {
+
+    const {
+      projection,
+      map,
+      overviewMapLayers
+    } = this.props;
+    const ovMap = this._overViewControl.getOverviewMap();
+
+    // adapt projection of overview map if map projection was changed
+    if (!_isEqual(prevProps.projection, projection)) {
+      const newProj = getProjection(projection);
+      const center = map.getView().getCenter();
+      const resolution = map.getView().getResolution();
+      const newView =  new OlView({
+        projection: newProj,
+        center: center,
+        resolution: resolution
+      });
+      ovMap.setView(newView);
+    }
+
+    // adapt layers if a new base map was set
+    if (!_isEqual(prevProps.overviewMapLayers, overviewMapLayers)) {
+      const newOverviewLayer = new OlCollection(overviewMapLayers);
+      ovMap.getLayerGroup().setLayers(newOverviewLayer);
     }
   }
 
@@ -140,7 +186,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     } = this.props;
     map.dispatchEvent('updateLayerAccordion');
 
-    if (isFunction(onTopicLayerGroupSelected)) {
+    if (_isFunction(onTopicLayerGroupSelected)) {
       onTopicLayerGroupSelected(layerOlUid);
     }
   }
