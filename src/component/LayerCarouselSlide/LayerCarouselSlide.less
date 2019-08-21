@@ -1,3 +1,5 @@
+
+@main-component-color: #4ba9ff;
 .BrainhubCarouselItem {
   text-align: center;
   border: 1px solid white;
@@ -19,12 +21,12 @@
     margin: 5px 10px 10px 10px;
     max-width: 95%;
     box-sizing: content-box;
-    box-shadow: 0 0 10px 5px darken(#4ba9ff, 15%);
+    box-shadow: 0 0 10px 5px darken(@main-component-color, 15%);
     background: white;
     cursor: pointer;
   }
 
   .title-div {
-    background-color: lighten(#4ba9ff, 25%);
+    background-color: lighten(@main-component-color, 25%);
   }
 }
