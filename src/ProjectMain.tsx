@@ -3,7 +3,6 @@ import './ProjectMain.less';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import i18n from './i18n';
-import BrowserUtil from './util/BrowserUtil';
 import SomethingWentWrong from './SomethingWentWrong';
 
 import Map from './component/Map/Map';
@@ -110,13 +109,10 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
       addLayerWindowVisible
     } = this.props;
 
-    const isMobile = BrowserUtil.isMobile();
     const measureToolsEnabled = AppContextUtil.measureToolsEnabled(activeModules);
     const viewport = (
       <div className="viewport">
-        {isMobile ? null :
-          <header>Header</header>
-        }
+        <header>Header</header>
         <div className="main-content">
           <SiderMenu
             map={map}
@@ -129,7 +125,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
           />
           <Toolbar
             alignment="vertical"
-            style={isMobile ? { top: '10px' } : null}
+            className="tools-tb"
           >
             {AppContextUtil.getToolsForToolbar(activeModules, map, appContext, t)}
           </Toolbar>

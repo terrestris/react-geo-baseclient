@@ -13,6 +13,7 @@ import './Header.less';
 
 // default props
 interface DefaultHeaderProps {
+  className: string;
   title: string;
   loading: boolean;
 }
@@ -48,6 +49,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
   public static defaultProps: DefaultHeaderProps = {
     title: 'react-geo-baseclient',
+    className: 'app-header',
     loading: false
   };
 
@@ -82,6 +84,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       title,
       loading,
       topic,
+      className,
       t
     } = this.props;
 
@@ -91,7 +94,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     }
 
     return (
-      <header className="app-header">
+      <header className={className}>
         <Row>
           <Col
             xs={1}
