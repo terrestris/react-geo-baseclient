@@ -5,7 +5,6 @@ import OlLayerGroup from 'ol/layer/Group';
 
 const _isEqual = require('lodash/isEqual');
 const _groupBy = require('lodash/groupBy');
-const _uniqueId = require('lodash/uniqueId');
 
 import {
   Collapse
@@ -50,6 +49,7 @@ interface LayerLegendAccordionState {
   themeLayerActiveKeys: string[];
   baseLayerActiveKeys: string[];
   externalLayerActiveKeys: string[];
+  legendImageActiveKeys: string[];
 }
 
 /**
@@ -89,7 +89,8 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
       mainAccordionActiveKeys: ['tree', 'legend'],
       themeLayerActiveKeys: [],
       baseLayerActiveKeys: [],
-      externalLayerActiveKeys: []
+      externalLayerActiveKeys: [],
+      legendImageActiveKeys: []
     };
 
     this._mapLayerGroup = new OlLayerGroup({
@@ -109,6 +110,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
     this.onThemeLayerAccordionChange = this.onThemeLayerAccordionChange.bind(this);
     this.onBaseLayerAccordionChange = this.onBaseLayerAccordionChange.bind(this);
     this.onExternalLayerAccordionChange = this.onExternalLayerAccordionChange.bind(this);
+    this.onLegendImageAccordionChange = this.onLegendImageAccordionChange.bind(this);
     this.onAddLayerClick = this.onAddLayerClick.bind(this);
   }
 
@@ -191,6 +193,10 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
       map,
       extraLegensParams
     } = this.props;
+
+    const {
+      legendImageActiveKeys
+    } = this.state;
     if (!map || !mapLayers) {
       return null;
     }
@@ -202,15 +208,19 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
     if (baseLayer) {
       reversed.push(baseLayer);
     }
+
     const legends = reversed.map((l: any) => {
+      const panelKey = l.ol_uid;
       return (
         <Collapse
-          key={_uniqueId('collapse-')}
+          key={panelKey}
           bordered={false}
           destroyInactivePanel={true}
+          activeKey={legendImageActiveKeys}
+          onChange={this.onLegendImageAccordionChange}
         >
           <Panel
-            key={_uniqueId('panel-')}
+            key={panelKey}
             header={l.get('name')}
           >
             <Legend
@@ -319,6 +329,14 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
    */
   onExternalLayerAccordionChange(externalLayerActiveKeys: string[]) {
     this.setState({ externalLayerActiveKeys });
+  }
+
+  /**
+   * Change handler for legend images accordion.
+   * @param {string[]} legendImageActiveKeys The panel keys which should be visible afterwards.
+   */
+  onLegendImageAccordionChange(legendImageActiveKeys: string[]) {
+    this.setState({ legendImageActiveKeys });
   }
 
   /**
