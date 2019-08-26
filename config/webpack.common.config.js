@@ -26,6 +26,7 @@ const commonWebpackConfig = {
     app: [
       '@babel/polyfill',
       'whatwg-fetch',
+      'object-fit-polyfill',
       paths.appIndexJs
     ]
   },
