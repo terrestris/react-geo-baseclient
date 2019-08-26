@@ -203,6 +203,7 @@ class AppContextUtil {
     tileLayer.set('legendUrl', legendUrl);
     tileLayer.set('isBaseLayer', layerObj.isBaseLayer);
     tileLayer.set('topic', layerObj.topic);
+    tileLayer.set('topicImg', layerObj.topicImg);
     tileLayer.set('timeFormat', layerObj.source.timeFormat);
 
     return tileLayer;
@@ -253,6 +254,7 @@ class AppContextUtil {
     imageLayer.set('legendUrl', legendUrl);
     imageLayer.set('isBaseLayer', layerObj.isBaseLayer);
     imageLayer.set('topic', layerObj.topic);
+    imageLayer.set('topicImg', layerObj.topicImg);
 
     return imageLayer;
   }
