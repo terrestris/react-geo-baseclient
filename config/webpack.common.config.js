@@ -26,6 +26,7 @@ const commonWebpackConfig = {
     app: [
       '@babel/polyfill',
       'whatwg-fetch',
+      'object-fit-polyfill',
       paths.appIndexJs
     ]
   },
@@ -117,7 +118,7 @@ const commonWebpackConfig = {
       tslint: paths.appTsLint,
     }),
     new CopyWebpackPlugin([
-      './public/de.png',
+        './public/de.png',
         './public/en.png',
         './public/logo_terrestris.png',
         './public/index.css',
@@ -129,6 +130,9 @@ const commonWebpackConfig = {
         }, {
           from: RESOURCES_PATH + 'i18n/',
           to: './resources/i18n/'
+        }, {
+          from: RESOURCES_PATH + 'img/',
+          to: './resources/img/'
         }
     ]),
     new webpack.DefinePlugin({
