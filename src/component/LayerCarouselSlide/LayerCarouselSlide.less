@@ -29,4 +29,17 @@
   .title-div {
     background-color: lighten(@main-component-color, 25%);
   }
+
+  .layersetentry {
+    display: flex;
+    flex-direction: column;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      min-height: 0;
+      flex: 1;
+      align-self: center;
+      object-fit: contain;
+    }
+  }
 }
