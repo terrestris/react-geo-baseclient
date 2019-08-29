@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export default {
   mapView: {
     present: {
@@ -28,5 +30,9 @@ export default {
   },
   appState: {
     addLayerWindowVisible: false
+  },
+  dataRange: {
+    startDate: moment(moment.now()).subtract(1, 'days'),
+    endDate: moment(moment.now()).add(1, 'days')
   }
 };
