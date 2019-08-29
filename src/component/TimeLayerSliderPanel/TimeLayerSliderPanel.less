@@ -44,4 +44,17 @@
     padding: 0 10px;
     font-weight: bold;
   }
+
+  &.no-layers-available {
+    pointer-events: none;
+    opacity: .8;
+    color: rgba(0, 0, 0, 0.35);
+    .ant-slider-mark span,
+    .ant-select {
+     color: rgba(0, 0, 0, 0.35);
+    }
+    button {
+      opacity: .5;
+    }
+  }
 }

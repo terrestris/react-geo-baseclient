@@ -277,6 +277,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
       dateFormat,
       startDate,
       endDate,
+      timeAwareLayers
     } = this.props;
 
     const {
@@ -293,6 +294,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     const marks = {};
     const futureClass = moment().isBefore(value) ? ' timeslider-in-future' : '';
     const extraCls = className ? className : '';
+    const disabledCls = timeAwareLayers.length < 1 ? 'no-layers-available' : '';
 
     marks[startDateString] = {
       label: startDate!.format(dateFormat)
@@ -310,7 +312,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     };
 
     return (
-      <div className="time-layer-slider">
+      <div className={`time-layer-slider ${disabledCls}`}>
 
         <Popover
           placement="topRight"
