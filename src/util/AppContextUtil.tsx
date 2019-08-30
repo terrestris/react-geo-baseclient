@@ -218,6 +218,7 @@ class AppContextUtil {
       layerNames,
       crossOrigin,
       requestWithTiled,
+      timeFormat,
       type
     } = layerObj.source;
 
@@ -230,6 +231,8 @@ class AppContextUtil {
       legendUrl
     } = layerObj.appearance;
 
+    const defaultFormat = timeFormat || 'YYYY-MM-DD';
+
     const layerSource = new OlTileWMS({
       url: url,
       attributions: attribution,
@@ -238,7 +241,7 @@ class AppContextUtil {
         'LAYERS': layerNames,
         'TILED': requestWithTiled || false,
         'TRANSPARENT': true,
-        'TIME': type === 'WMSTime' ? moment(moment.now()).format(layerObj.timeFormat) : undefined
+        'TIME': type === 'WMSTime' ? moment(moment.now()).format(defaultFormat) : undefined
       },
       crossOrigin: crossOrigin
     });
@@ -258,8 +261,11 @@ class AppContextUtil {
     tileLayer.set('topic', layerObj.topic);
     tileLayer.set('staticImageUrl', layerObj.staticImageUrl);
     tileLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
-    tileLayer.set('timeFormat', layerObj.source.timeFormat);
-
+    tileLayer.set('timeFormat', defaultFormat);
+    if (type === 'WMSTime') {
+      tileLayer.set('startDate', moment(layerObj.startDate).format(defaultFormat));
+      tileLayer.set('endDate', moment(layerObj.endDate).format(defaultFormat));
+    }
     return tileLayer;
   }
 

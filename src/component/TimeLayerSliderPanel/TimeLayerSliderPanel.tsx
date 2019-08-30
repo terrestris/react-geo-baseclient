@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 const _isFinite = require('lodash/isFinite');
+const _isEqual = require('lodash/isEqual');
 
 import {
   TimeSlider,
@@ -47,7 +48,6 @@ export interface TimeLayerSliderPanelProps extends Partial<DefaultTimeLayerSlide
 
 export interface TimeLayerSliderPanelState {
   value: moment.Moment;
-  forceUpdate: number;
   playbackSpeed: string;
   autoPlayActive: boolean;
 };
@@ -98,7 +98,6 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
 
     this.state = {
       value: props.value,
-      forceUpdate: 1,
       playbackSpeed: '1',
       autoPlayActive: false
     };
@@ -110,11 +109,16 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     // binds
     this.onTimeChanged = this.onTimeChanged.bind(this);
     this.autoPlay = this.autoPlay.bind(this);
-    this.onDataRangeOk = this.onDataRangeOk.bind(this);
+    this.updateDataRange = this.updateDataRange.bind(this);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: TimeLayerSliderPanelProps) {
     this.wrapTimeSlider();
+
+    // update range for slider if some another layer set was chosen
+    if (!(_isEqual(prevProps.timeAwareLayers, this.props.timeAwareLayers))) {
+      this.findRangeForLayers();
+    }
   }
 
   /**
@@ -132,6 +136,43 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     // make sure an initial value is set
     this.wmsTimeHandler(this.state.value);
     this._TimeLayerAwareSlider = timeLayerAware(TimeSlider, this._wmsTimeLayers);
+  }
+
+  /**
+   * Updates slider time range depending on chosen layer set.
+   */
+  findRangeForLayers = () => {
+    const {
+      startDate,
+      endDate,
+      timeAwareLayers
+    } = this.props;
+
+    if (timeAwareLayers.length === 0) {
+      return;
+    }
+
+    let newStartDate: moment.Moment;
+    let newEndDate: moment.Moment;
+    let startDatesFromLayers: moment.Moment[] = [];
+    let endDatesFromLayers: moment.Moment[] = [];
+
+    this._wmsTimeLayers.forEach((l: any) => {
+      const sd = moment(l.layer.get('startDate'));
+      const ed = moment(l.layer.get('endDate'));
+      if (sd) {
+        startDatesFromLayers.push(sd);
+      }
+      if (ed) {
+        endDatesFromLayers.push(ed);
+      }
+      newStartDate = moment.min([sd, startDate]);
+      newEndDate = moment.min([ed, endDate]);
+
+    });
+    newStartDate = moment.min(startDatesFromLayers) || startDate;
+    newEndDate = moment.max(endDatesFromLayers) || endDate;
+    this.updateDataRange([newStartDate, newEndDate]);
   }
 
   /**
@@ -248,7 +289,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   /**
   *
   */
-  onDataRangeOk([startDate, endDate]: timeRange) {
+  updateDataRange([startDate, endDate]: timeRange) {
     this.props.dispatch(setStartDate(startDate));
     this.props.dispatch(setEndDate(endDate));
   }
@@ -322,7 +363,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
             <RangePicker
               showTime={{ format: 'HH:mm' }}
               defaultValue={[startDate, endDate]}
-              onOk={this.onDataRangeOk}
+              onOk={this.updateDataRange}
             />
           }
         >
