@@ -116,7 +116,6 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       map
     } = this.props;
 
-    // TODO: slow clicks will be handled as drags....
     if (this.state.mouseDownTime > 180) {
       return;
     }
@@ -210,7 +209,6 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    * @param {Object} evt Event object containing currently clicked layerset.
    */
   onCarouselItemClick(evt: React.MouseEvent) {
-    // TODO: slow clicks will be handled as drags....
     if (this.state.mouseDownTime > 180) {
       return;
     }
@@ -299,6 +297,8 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
         onClick={this.onCarouselItemClick}
         onMouseEnter={this.onCarouselItemHover}
         onMouseLeave={this.onCarouselItemHoverOut}
+        onMouseDown={this.mouseDown}
+        onMouseUp={this.mouseUp}
         layerName={layerName}
         extent={extent}
         width={width}

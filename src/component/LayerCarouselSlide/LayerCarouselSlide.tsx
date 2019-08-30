@@ -17,6 +17,8 @@ export interface LayerCarouselSlideProps extends Partial<DefaultLayerCarouselSli
   onClick: (evt: React.MouseEvent) => void;
   onMouseEnter: (evt: React.MouseEvent) => void;
   onMouseLeave: () => void;
+  onMouseDown: (evt: React.MouseEvent) => void;
+  onMouseUp: (evt: React.MouseEvent) => void;
   staticImageUrl: string;
   layerFt: string,
   requestUrl: string;
@@ -126,6 +128,8 @@ export class LayerCarouselSlide extends React.Component<LayerCarouselSlideProps,
       onClick,
       onMouseEnter,
       onMouseLeave,
+      onMouseDown,
+      onMouseUp,
       width,
       ratio,
       isSelected,
@@ -163,6 +167,8 @@ export class LayerCarouselSlide extends React.Component<LayerCarouselSlideProps,
           onClick={onClick}
           onLoad={this.onLoad}
           onMouseEnter={onMouseEnter}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
           src={src}
           alt={layerName}
         />
