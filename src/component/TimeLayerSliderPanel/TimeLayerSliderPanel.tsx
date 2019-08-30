@@ -317,6 +317,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
         <Popover
           placement="topRight"
           title="Zeitleisten Bereich"
+          trigger="click"
           content={
             <RangePicker
               showTime={{ format: 'HH:mm' }}
