@@ -145,7 +145,6 @@ export class LayerCarouselSlide extends React.Component<LayerCarouselSlideProps,
         className={`layersetentry${isSelected ? ' selected' : ''}`}
         onMouseLeave={onMouseLeave}
         style={{
-          width: `${width}px`,
           height: `${width!/ratio!}px`
         }}
       >
