@@ -277,8 +277,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       const previewImageRequestUrl = layer.get('previewImageRequestUrl');
       let layerFt, requestUrl;
       if (!staticImageUrl) {
-        if (!layer.getSource().getParams && previewImageRequestUrl) {
-          // TODO: enhance check for WMts LAYERS!!
+        if (layer.get('type') === 'WMTS' && previewImageRequestUrl) {
           requestUrl = previewImageRequestUrl;
           layerFt = layer.getSource().getLayer();
         } else {
