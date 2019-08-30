@@ -353,7 +353,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     };
 
     return (
-      <div className={`time-layer-slider ${disabledCls}`}>
+      <div className={`time-layer-slider ${disabledCls}`.trim()}>
 
         <Popover
           placement="topRight"
@@ -382,7 +382,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
             /> : null
         }
         <this._TimeLayerAwareSlider
-          className={extraCls + ' timeslider' + futureClass}
+          className={`${extraCls} timeslider ${futureClass}`.trim()}
           formatString={dateFormat}
           defaultValue={startDateString}
           min={startDateString}
