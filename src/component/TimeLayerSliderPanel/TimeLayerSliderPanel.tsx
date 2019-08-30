@@ -50,6 +50,7 @@ export interface TimeLayerSliderPanelState {
   value: moment.Moment;
   playbackSpeed: string;
   autoPlayActive: boolean;
+  dateFormat: string;
 };
 
 /**
@@ -99,7 +100,8 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     this.state = {
       value: props.value,
       playbackSpeed: '1',
-      autoPlayActive: false
+      autoPlayActive: false,
+      dateFormat: props.dateFormat
     };
 
     this._interval = 1000;
@@ -125,16 +127,26 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   */
   wrapTimeSlider = () => {
     this._wmsTimeLayers = [];
+    let dateFormat: string;
     this.props.timeAwareLayers!.forEach((l: any) => {
       if (l.get('type') === 'WMSTime') {
         this._wmsTimeLayers.push({
           layer: l
         });
+        if (!dateFormat && l.get('timeFormat')) {
+          dateFormat = l.get('timeFormat');
+        }
       }
     });
     // make sure an initial value is set
     this.wmsTimeHandler(this.state.value);
     this._TimeLayerAwareSlider = timeLayerAware(TimeSlider, this._wmsTimeLayers);
+    // update date format
+    if (dateFormat) {
+      this.setState({
+        dateFormat
+      });
+    }
   }
 
   /**
@@ -314,7 +326,6 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     const {
       className,
       t,
-      dateFormat,
       startDate,
       endDate,
       timeAwareLayers
@@ -322,7 +333,8 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
 
     const {
       autoPlayActive,
-      value
+      value,
+      dateFormat
     } = this.state;
 
     const resetVisible = true;
@@ -391,7 +403,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
           onChange={this.onTimeChanged}
         />
         <div className="time-value">
-          {value.format('DD.MM.YYYY HH:mm:ss')}
+          {value.format(dateFormat)}
         </div>
         <ToggleButton
           type="primary"
