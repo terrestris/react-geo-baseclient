@@ -282,11 +282,14 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
           requestUrl = previewImageRequestUrl;
           layerFt = layer.getSource().getLayer();
         } else {
-          layerFt = layer.getSource().getParams().LAYERS;
-          if (layer.getSource().getUrls) {
-            requestUrl = layer.getSource().getUrls()[0];
+          const source = layer.getSource();
+          const params = source.getParams();
+          const layersKey = Object.keys(params).find(p => p.toLowerCase() === 'layers');
+          layerFt = source.getParams()[layersKey];
+          if (source.getUrls) {
+            requestUrl = source.getUrls()[0];
           } else {
-            requestUrl = layer.getSource().getUrl();
+            requestUrl = source.getSource().getUrl();
           }
         }
       }
