@@ -113,10 +113,9 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   }
 
   componentDidUpdate(prevProps: TimeLayerSliderPanelProps) {
-    this.wrapTimeSlider();
-
-    // update range for slider if some another layer set was chosen
     if (!(_isEqual(prevProps.timeAwareLayers, this.props.timeAwareLayers))) {
+      // update slider properties if some another layer set was chosen
+      this.wrapTimeSlider();
       this.findRangeForLayers();
     }
   }
@@ -300,10 +299,10 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   */
   onTimeChanged(val: string) {
     this.setState({
-      value: moment(val)
+      value: moment(val).clone()
     }, () => {
       this.wmsTimeHandler(this.state.value);
-    })
+    });
   }
 
   /**
