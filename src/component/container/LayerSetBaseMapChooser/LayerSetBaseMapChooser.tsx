@@ -2,8 +2,6 @@ import * as React from 'react';
 
 import OlOverviewMap from 'ol/control/OverviewMap';
 import OlView from 'ol/View';
-import OlLayer from 'ol/layer/Layer';
-import OlCollection from 'ol/Collection';
 import {
   get as getProjection,
 } from 'ol/proj.js';
@@ -30,7 +28,6 @@ interface LayerSetBaseMapChooserProps extends Partial<DefaultLayerSetBaseMapChoo
   baseLayerGroup: any;
   topicLayerGroup: any;
   onTopicLayerGroupSelected: (arg: string) => void;
-  overviewMapLayers?: OlLayer[],
   projection: string
 }
 
@@ -87,7 +84,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
   componentDidMount() {
     const {
       map,
-      overviewMapLayers
+      baseLayerGroup
     } = this.props;
 
     if (!this._overViewControl) {
@@ -95,7 +92,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
         collapsible: false,
         collapsed: false,
         target: document.getElementById('overview-map'),
-        layers: overviewMapLayers,
+        layers: baseLayerGroup.getLayers(),
         view: new OlView({
           projection: getProjection(this.props.projection)
         })
@@ -111,12 +108,10 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
    * @param prevProps
    * @param prevState
    */
-  componentDidUpdate(prevProps: LayerSetBaseMapChooserProps, prevState: LayerSetBaseMapChooserState) {
-
+  componentDidUpdate(prevProps: LayerSetBaseMapChooserProps) {
     const {
       projection,
-      map,
-      overviewMapLayers
+      map
     } = this.props;
     const ovMap = this._overViewControl.getOverviewMap();
 
@@ -132,15 +127,9 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
       });
       ovMap.setView(newView);
     }
-
-    // adapt layers if a new base map was set
-    if (!_isEqual(prevProps.overviewMapLayers, overviewMapLayers)) {
-      const newOverviewLayer = new OlCollection(overviewMapLayers);
-      ovMap.getLayerGroup().setLayers(newOverviewLayer);
-    }
   }
 
-    /**
+  /**
    *
    *
    * @param {boolean} pressed
@@ -152,7 +141,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     });
   }
 
-    /**
+  /**
    *
    *
    * @param {boolean} pressed

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
 import OlTileWMS from 'ol/source/TileWMS';
+import OlSourceWMTS from 'ol/source/WMTS.js';
+import OlTileGridWMTS from 'ol/tilegrid/WMTS.js';
 import OlTileLayer from 'ol/layer/Tile';
 import OlImageWMS from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
@@ -103,6 +105,7 @@ class AppContextUtil {
       if ([
         'ImageWMS',
         'TileWMS',
+        'WMTS',
         'WMSTime',
         'OSMVectortiles'
       ].indexOf(layerObj.source.type) < 0) {
@@ -115,6 +118,56 @@ class AppContextUtil {
           vectorLayer.set('visible', false);
         }
         layers.push(vectorLayer);
+      }
+
+      if (layerObj.source.type === 'WMTS') {
+        const {
+          attribution,
+          visible,
+          opacity,
+          hoverable,
+          hoverTemplate,
+          legendUrl
+        } = layerObj.appearance;
+
+        var wmtsTileGrid = new OlTileGridWMTS({
+          origin: layerObj.source.tileGrid.origin,
+          resolutions: layerObj.source.tileGrid.resolutions,
+          matrixIds: layerObj.source.tileGrid.matrixIds
+        });
+
+        var wmtsSource = new OlSourceWMTS({
+          projection: layerObj.source.projection,
+          urls: [
+            layerObj.source.url
+          ],
+          layer: layerObj.source.layerNames,
+          format: layerObj.source.format,
+          matrixSet: layerObj.source.tileMatrixSet,
+          attributions: [attribution],
+          tileGrid: wmtsTileGrid,
+          style: layerObj.source.style,
+          requestEncoding: layerObj.source.requestEncoding
+        });
+
+        const tileLayer = new OlTileLayer({
+          source: wmtsSource,
+          visible: visible,
+          opacity: opacity
+        });
+
+        tileLayer.set('name', layerObj.name);
+        tileLayer.set('hoverable', hoverable);
+        tileLayer.set('hoverTemplate', hoverTemplate);
+        tileLayer.set('type', 'WMTS');
+        tileLayer.set('legendUrl', legendUrl);
+        tileLayer.set('isBaseLayer', layerObj.isBaseLayer);
+        tileLayer.set('topic', layerObj.topic);
+        tileLayer.set('staticImageUrl', layerObj.staticImageUrl);
+        tileLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
+        tileLayer.set('timeFormat', layerObj.source.timeFormat);
+        layers.push(tileLayer);
+        return;
       }
 
       let tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);
@@ -203,7 +256,8 @@ class AppContextUtil {
     tileLayer.set('legendUrl', legendUrl);
     tileLayer.set('isBaseLayer', layerObj.isBaseLayer);
     tileLayer.set('topic', layerObj.topic);
-    tileLayer.set('topicImg', layerObj.topicImg);
+    tileLayer.set('staticImageUrl', layerObj.staticImageUrl);
+    tileLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
     tileLayer.set('timeFormat', layerObj.source.timeFormat);
 
     return tileLayer;
@@ -254,7 +308,7 @@ class AppContextUtil {
     imageLayer.set('legendUrl', legendUrl);
     imageLayer.set('isBaseLayer', layerObj.isBaseLayer);
     imageLayer.set('topic', layerObj.topic);
-    imageLayer.set('topicImg', layerObj.topicImg);
+    imageLayer.set('staticImageUrl', layerObj.staticImageUrl);
 
     return imageLayer;
   }

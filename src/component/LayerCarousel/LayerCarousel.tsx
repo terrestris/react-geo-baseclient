@@ -1,14 +1,11 @@
 import * as React from 'react';
 import OlLayerGroup from 'ol/layer/Group';
-
-const _uniqueId = require('lodash/uniqueId');
-
-import LayerCarouselSlide from '../LayerCarouselSlide/LayerCarouselSlide';
-import './LayerCarousel.less';
-
 import Carousel from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css'
 import { Icon } from 'antd';
+
+import LayerCarouselSlide from '../LayerCarouselSlide/LayerCarouselSlide';
+import './LayerCarousel.less';
 
 interface DefaultLayerCarouselProps {
   map: any;
@@ -76,7 +73,8 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     this.setState({
       ratio: this.getRatio(),
       width: this.getWidth()
-    })
+    });
+    this.renderTrigger();
   }
 
   /**
@@ -86,6 +84,16 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    */
   componentWillUnmount() {
     this.props.map.un('moveend', this.renderTrigger);
+  }
+
+  /**
+   *
+   */
+  shouldComponentUpdate(nextProps: LayerCarouselProps, nextState: LayerCarouselState) {
+    if (this.state.renderTrigger < nextState.renderTrigger) {
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -108,16 +116,12 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       map
     } = this.props;
 
-    // TODO: slow clicks will be handled as drags....
     if (this.state.mouseDownTime > 180) {
       return;
     }
 
     map.getLayers().getArray().forEach((l: any) => l.set('visible', false));
     layer.set('visible', true);
-    this.setState({
-      renderTrigger: this.state.renderTrigger + 1
-    });
   }
 
   /**
@@ -174,7 +178,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
 
     this.setLayersVisible([originalBaseLayerOlUid]);
     this.setState({
-      originalBaseLayerOlUid: ''
+      originalBaseLayerOlUid: undefined
     });
   }
 
@@ -204,8 +208,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    *
    * @param {Object} evt Event object containing currently clicked layerset.
    */
-  onCarouselItemClick (evt: React.MouseEvent){
-    // TODO: slow clicks will be handled as drags....
+  onCarouselItemClick(evt: React.MouseEvent) {
     if (this.state.mouseDownTime > 180) {
       return;
     }
@@ -257,10 +260,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     return 128 * this.getRatio();
   }
 
-  /**
-   * The render function
-   */
-  render() {
+  getLayerSlides() {
     const {
       map
     } = this.props;
@@ -271,23 +271,57 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     } = this.state;
 
     const extent = map.getView().calculateExtent();
-    const carouselClassName = `${this.props.className} carousel-wrapper`.trim();
     const mapProjection = map.getView().getProjection().getCode();
-    const layerSlides = this.props.layers.map((layer: any) =>
-      (
-        <LayerCarouselSlide
-          onClick={this.onCarouselItemClick}
-          onMouseEnter={this.onCarouselItemHover}
-          onMouseLeave={this.onCarouselItemHoverOut}
-          layer={layer}
-          extent={extent}
-          width={width}
-          ratio={ratio}
-          projection={mapProjection}
-          key={_uniqueId('layer-slide-')}
-        />
-      )
-    );
+    return this.props.layers.map((layer: any) => {
+      const staticImageUrl = layer.get('staticImageUrl');
+      const previewImageRequestUrl = layer.get('previewImageRequestUrl');
+      let layerFt, requestUrl;
+      if (!staticImageUrl) {
+        if (layer.get('type') === 'WMTS' && previewImageRequestUrl) {
+          requestUrl = previewImageRequestUrl;
+          layerFt = layer.getSource().getLayer();
+        } else {
+          const source = layer.getSource();
+          const params = source.getParams();
+          const layersKey = Object.keys(params).find(p => p.toLowerCase() === 'layers');
+          layerFt = source.getParams()[layersKey];
+          if (source.getUrls) {
+            requestUrl = source.getUrls()[0];
+          } else {
+            requestUrl = source.getSource().getUrl();
+          }
+        }
+      }
+      const layerName = layer.get('name');
+      const isVisible = layer.getVisible();
+      const olUid = layer.ol_uid;
+      return <LayerCarouselSlide
+        onClick={this.onCarouselItemClick}
+        onMouseEnter={this.onCarouselItemHover}
+        onMouseLeave={this.onCarouselItemHoverOut}
+        onMouseDown={this.mouseDown}
+        onMouseUp={this.mouseUp}
+        layerName={layerName}
+        extent={extent}
+        width={width}
+        ratio={ratio}
+        projection={mapProjection}
+        staticImageUrl={staticImageUrl}
+        layerFt={layerFt}
+        requestUrl={requestUrl}
+        isSelected={isVisible}
+        layerOlUid={olUid}
+        key={olUid}
+      />;
+    });
+  }
+
+  /**
+   * The render function
+   */
+  render() {
+    const carouselClassName = `${this.props.className} carousel-wrapper`.trim();
+    const layerSlides: any[] = this.getLayerSlides();
 
     return (
         <Carousel
