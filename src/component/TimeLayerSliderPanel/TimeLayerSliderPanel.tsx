@@ -407,7 +407,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
           onChange={this.onTimeChanged}
         />
         <div className="time-value">
-          {value.format(dateFormat)}
+          {value.format('DD.MM.YYYY HH:mm:ss')}
         </div>
         <ToggleButton
           type="primary"
