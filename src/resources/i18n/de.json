@@ -99,7 +99,8 @@
     "days": "Tage",
     "weeks": "Wochen",
     "months": "Monate",
-    "years": "Jahre"
+    "years": "Jahre",
+    "dataRange": "Zeitraum auswählen"
   }
 }
 

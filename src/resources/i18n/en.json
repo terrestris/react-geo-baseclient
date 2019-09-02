@@ -99,6 +99,7 @@
     "days": "Days",
     "weeks": "Weeks",
     "months": "Months",
-    "years": "Years"
+    "years": "Years",
+    "dataRange": "Set data range"
   }
 }

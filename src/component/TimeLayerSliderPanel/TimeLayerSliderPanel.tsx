@@ -372,7 +372,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
 
         <Popover
           placement="topRight"
-          title="Zeitleisten Bereich"
+          title={t('TimeLayerSliderPanel.dataRange')}
           trigger="click"
           content={
             <RangePicker
