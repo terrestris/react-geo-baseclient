@@ -115,6 +115,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   }
 
   componentDidUpdate(prevProps: TimeLayerSliderPanelProps) {
+    // TODO this deep check may impact performance..
     if (!(_isEqual(prevProps.timeAwareLayers, this.props.timeAwareLayers))) {
       // update slider properties if some another layer set was chosen
       this.wrapTimeSlider();
