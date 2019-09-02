@@ -123,6 +123,40 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   }
 
   /**
+   *
+   * @param nextProps
+   * @param nextState
+   */
+  shouldComponentUpdate(nextProps: TimeLayerSliderPanelProps, nextState: TimeLayerSliderPanelState) {
+    const {
+      value,
+      autoPlayActive
+    } = this.state;
+    const {
+      startDate,
+      endDate,
+      timeAwareLayers
+    } = this.props;
+
+    if (nextState.value !== value) {
+      return true;
+    }
+    if (nextState.autoPlayActive !== autoPlayActive) {
+      return true;
+    }
+    if (nextProps.startDate !== startDate) {
+      return true;
+    }
+    if (nextProps.endDate !== endDate) {
+      return true;
+    }
+    if (!(_isEqual(nextProps.timeAwareLayers, timeAwareLayers))) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
   * Wraps the TimeSlider component in timeLayerAware.
   */
   wrapTimeSlider = () => {
