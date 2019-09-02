@@ -263,8 +263,10 @@ class AppContextUtil {
     tileLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
     tileLayer.set('timeFormat', defaultFormat);
     if (type === 'WMSTime') {
-      tileLayer.set('startDate', moment(layerObj.startDate).format(defaultFormat));
-      tileLayer.set('endDate', moment(layerObj.endDate).format(defaultFormat));
+      const startDate = layerObj.startDate ? moment(layerObj.startDate).format(defaultFormat) : undefined;
+      const endDate = layerObj.endDate ? moment(layerObj.endDate).format(defaultFormat) : undefined;
+      tileLayer.set('startDate', startDate);
+      tileLayer.set('endDate', endDate);
     }
     return tileLayer;
   }

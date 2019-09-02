@@ -169,20 +169,25 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     let endDatesFromLayers: moment.Moment[] = [];
 
     this._wmsTimeLayers.forEach((l: any) => {
-      const sd = moment(l.layer.get('startDate'));
-      const ed = moment(l.layer.get('endDate'));
-      if (sd) {
-        startDatesFromLayers.push(sd);
+      const startDate = l.layer.get('startDate');
+      const endDate = l.layer.get('endDate');
+      let sdm;
+      let edm;
+      if (startDate) {
+        sdm = moment(l.layer.get('startDate'));
       }
-      if (ed) {
-        endDatesFromLayers.push(ed);
+      if (endDate) {
+        edm = moment(l.layer.get('endDate'));
       }
-      newStartDate = moment.min([sd, startDate]);
-      newEndDate = moment.min([ed, endDate]);
-
+      if (sdm) {
+        startDatesFromLayers.push(sdm);
+      }
+      if (edm) {
+        endDatesFromLayers.push(edm);
+      }
     });
-    newStartDate = moment.min(startDatesFromLayers) || startDate;
-    newEndDate = moment.max(endDatesFromLayers) || endDate;
+    newStartDate = startDatesFromLayers.length > 0 ? moment.min(startDatesFromLayers) : startDate;
+    newEndDate = endDatesFromLayers.length > 0 ? moment.max(endDatesFromLayers) : endDate;
     this.updateDataRange([newStartDate, newEndDate]);
   }
 
