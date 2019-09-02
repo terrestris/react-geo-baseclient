@@ -349,7 +349,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   */
   onTimeChanged(val: string) {
     this.setState({
-      value: moment(val).clone()
+      value: moment(val)
     }, () => {
       this.wmsTimeHandler(this.state.value);
     });
