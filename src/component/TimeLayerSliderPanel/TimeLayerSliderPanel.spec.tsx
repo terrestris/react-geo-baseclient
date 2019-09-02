@@ -9,10 +9,12 @@ describe('<TimeLayerSliderPanel />', () => {
 
   beforeEach(() => {
     map = TestUtils.createMap({});
-    wrapper = TestUtils.mountComponent(TimeLayerSliderPanel, {
+    const defaultProps = {
       t: () => { },
       map: map,
-    }, {});
+      dispatch: jest.fn()
+    };
+    wrapper = TestUtils.shallowConnectedComponentRoot(TimeLayerSliderPanel, defaultProps, null);
   });
 
   afterEach(() => {

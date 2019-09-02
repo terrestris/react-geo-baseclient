@@ -1,23 +1,32 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+
+import moment from 'moment';
+
+const _isFinite = require('lodash/isFinite');
+const _isEqual = require('lodash/isEqual');
+
 import {
   TimeSlider,
   timeLayerAware,
   ToggleButton,
   SimpleButton
 } from '@terrestris/react-geo';
+
 import {
   Select,
   DatePicker,
   Popover
 } from 'antd';
-
 const { RangePicker } = DatePicker;
 const Option = Select.Option;
 
-const _isFinite = require('lodash/isFinite');
+import {
+  setStartDate,
+  setEndDate
+} from '../../state/actions/DataRangeAction';
 
 import './TimeLayerSliderPanel.less';
-import moment from 'moment';
 
 type timeRange = [moment.Moment, moment.Moment];
 
@@ -26,23 +35,35 @@ export interface DefaultTimeLayerSliderPanelProps {
   onChange: (arg: moment.Moment) => void;
   timeAwareLayers: any[];
   value: moment.Moment;
-  startDate: moment.Moment;
-  endDate: moment.Moment;
   t: (arg: string) => {};
   dateFormat: string;
 }
 
 export interface TimeLayerSliderPanelProps extends Partial<DefaultTimeLayerSliderPanelProps> {
   map: any;
+  startDate: moment.Moment;
+  endDate: moment.Moment;
+  dispatch: (arg: any) => void;
 }
 
 export interface TimeLayerSliderPanelState {
   value: moment.Moment;
-  forceUpdate: number;
   playbackSpeed: string;
   autoPlayActive: boolean;
-  startDate: moment.Moment;
-  endDate: moment.Moment;
+  dateFormat: string;
+};
+
+/**
+ * mapStateToProps - mapping state to props of Map Component.
+ *
+ * @param {Object} state current state
+ * @return {Object} mapped props
+ */
+const mapStateToProps = (state: any) => {
+  return {
+    startDate: state.dataRange.startDate,
+    endDate: state.dataRange.endDate
+  };
 };
 
 /**
@@ -66,8 +87,6 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     onChange: () => { },
     timeAwareLayers: [],
     value: moment(moment.now()),
-    startDate: moment(moment.now()).subtract(1, 'days'),
-    endDate: moment(moment.now()).add(1, 'days'),
     t: (arg: string) => arg,
     dateFormat: 'YYYY-MM-DD'
   };
@@ -80,11 +99,9 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
 
     this.state = {
       value: props.value,
-      forceUpdate: 1,
       playbackSpeed: '1',
       autoPlayActive: false,
-      startDate: props.startDate,
-      endDate: props.endDate
+      dateFormat: props.dateFormat
     };
 
     this._interval = 1000;
@@ -94,11 +111,50 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     // binds
     this.onTimeChanged = this.onTimeChanged.bind(this);
     this.autoPlay = this.autoPlay.bind(this);
-    this.onDataRangeOk = this.onDataRangeOk.bind(this);
+    this.updateDataRange = this.updateDataRange.bind(this);
   }
 
-  componentDidUpdate() {
-    this.wrapTimeSlider();
+  componentDidUpdate(prevProps: TimeLayerSliderPanelProps) {
+    // TODO this deep check may impact performance..
+    if (!(_isEqual(prevProps.timeAwareLayers, this.props.timeAwareLayers))) {
+      // update slider properties if some another layer set was chosen
+      this.wrapTimeSlider();
+      this.findRangeForLayers();
+    }
+  }
+
+  /**
+   *
+   * @param nextProps
+   * @param nextState
+   */
+  shouldComponentUpdate(nextProps: TimeLayerSliderPanelProps, nextState: TimeLayerSliderPanelState) {
+    const {
+      value,
+      autoPlayActive
+    } = this.state;
+    const {
+      startDate,
+      endDate,
+      timeAwareLayers
+    } = this.props;
+
+    if (nextState.value !== value) {
+      return true;
+    }
+    if (nextState.autoPlayActive !== autoPlayActive) {
+      return true;
+    }
+    if (nextProps.startDate !== startDate) {
+      return true;
+    }
+    if (nextProps.endDate !== endDate) {
+      return true;
+    }
+    if (!(_isEqual(nextProps.timeAwareLayers, timeAwareLayers))) {
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -106,16 +162,68 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   */
   wrapTimeSlider = () => {
     this._wmsTimeLayers = [];
+    let dateFormat: string;
     this.props.timeAwareLayers!.forEach((l: any) => {
       if (l.get('type') === 'WMSTime') {
         this._wmsTimeLayers.push({
           layer: l
         });
+        if (!dateFormat && l.get('timeFormat')) {
+          dateFormat = l.get('timeFormat');
+        }
       }
     });
     // make sure an initial value is set
     this.wmsTimeHandler(this.state.value);
     this._TimeLayerAwareSlider = timeLayerAware(TimeSlider, this._wmsTimeLayers);
+    // update date format
+    if (dateFormat) {
+      this.setState({
+        dateFormat
+      });
+    }
+  }
+
+  /**
+   * Updates slider time range depending on chosen layer set.
+   */
+  findRangeForLayers = () => {
+    const {
+      startDate,
+      endDate,
+      timeAwareLayers
+    } = this.props;
+
+    if (timeAwareLayers.length === 0) {
+      return;
+    }
+
+    let newStartDate: moment.Moment;
+    let newEndDate: moment.Moment;
+    let startDatesFromLayers: moment.Moment[] = [];
+    let endDatesFromLayers: moment.Moment[] = [];
+
+    this._wmsTimeLayers.forEach((l: any) => {
+      const startDate = l.layer.get('startDate');
+      const endDate = l.layer.get('endDate');
+      let sdm;
+      let edm;
+      if (startDate) {
+        sdm = moment(l.layer.get('startDate'));
+      }
+      if (endDate) {
+        edm = moment(l.layer.get('endDate'));
+      }
+      if (sdm) {
+        startDatesFromLayers.push(sdm);
+      }
+      if (edm) {
+        endDatesFromLayers.push(edm);
+      }
+    });
+    newStartDate = startDatesFromLayers.length > 0 ? moment.min(startDatesFromLayers) : startDate;
+    newEndDate = endDatesFromLayers.length > 0 ? moment.max(endDatesFromLayers) : endDate;
+    this.updateDataRange([newStartDate, newEndDate]);
   }
 
   /**
@@ -168,9 +276,10 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
       this._interval = window.setInterval(() => {
         const {
           endDate
-        } = this.state;
+        } = this.props;
         const {
-          value
+          value,
+          playbackSpeed
         } = this.state;
         if (value >= endDate!) {
           window.clearInterval(this._interval);
@@ -180,14 +289,12 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
           return;
         }
 
-        const valueToAdd = this.state.playbackSpeed;
         let newValue;
-        if (_isFinite(valueToAdd)) {
-          newValue = value.clone().add(valueToAdd, 'seconds');
+        if (_isFinite(parseFloat(playbackSpeed))) {
+          newValue = value.clone().add(playbackSpeed, 'seconds');
         } else {
-          newValue = value.clone().add(1, valueToAdd as moment.DurationInputArg2);
+          newValue = value.clone().add(1, playbackSpeed as moment.DurationInputArg2);
         }
-
         this.timeSliderCustomHandler(newValue);
         this.wmsTimeHandler(newValue);
         // value is handled in timeSliderCustomHandler
@@ -232,11 +339,9 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   /**
   *
   */
-  onDataRangeOk([startDate, endDate]: timeRange) {
-    this.setState({
-      startDate,
-      endDate
-    });
+  updateDataRange([startDate, endDate]: timeRange) {
+    this.props.dispatch(setStartDate(startDate));
+    this.props.dispatch(setEndDate(endDate));
   }
 
   /**
@@ -248,7 +353,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
       value: moment(val)
     }, () => {
       this.wmsTimeHandler(this.state.value);
-    })
+    });
   }
 
   /**
@@ -260,14 +365,15 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     const {
       className,
       t,
-      dateFormat
+      startDate,
+      endDate,
+      timeAwareLayers
     } = this.props;
 
     const {
       autoPlayActive,
       value,
-      startDate,
-      endDate
+      dateFormat
     } = this.state;
 
     const resetVisible = true;
@@ -279,6 +385,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     const marks = {};
     const futureClass = moment().isBefore(value) ? ' timeslider-in-future' : '';
     const extraCls = className ? className : '';
+    const disabledCls = timeAwareLayers.length < 1 ? 'no-layers-available' : '';
 
     marks[startDateString] = {
       label: startDate!.format(dateFormat)
@@ -296,16 +403,17 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     };
 
     return (
-      <div className="time-layer-slider">
+      <div className={`time-layer-slider ${disabledCls}`.trim()}>
 
         <Popover
           placement="topRight"
-          title="Zeitleisten Bereich"
+          title={t('TimeLayerSliderPanel.dataRange')}
+          trigger="click"
           content={
             <RangePicker
               showTime={{ format: 'HH:mm' }}
               defaultValue={[startDate, endDate]}
-              onOk={this.onDataRangeOk}
+              onOk={this.updateDataRange}
             />
           }
         >
@@ -324,7 +432,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
             /> : null
         }
         <this._TimeLayerAwareSlider
-          className={extraCls + ' timeslider' + futureClass}
+          className={`${extraCls} timeslider ${futureClass}`.trim()}
           formatString={dateFormat}
           defaultValue={startDateString}
           min={startDateString}
@@ -368,4 +476,4 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   }
 }
 
-export default TimeLayerSliderPanel;
+export default connect(mapStateToProps)(TimeLayerSliderPanel);

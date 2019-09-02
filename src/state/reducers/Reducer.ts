@@ -9,6 +9,7 @@ import appInfo  from './ApplicationInfoReducer';
 import mapLayers from './MapLayersReducer';
 import activeModules  from './ActiveModulesReducer';
 import fetchRemoteFeaturesOfType  from './RemoteFeatureReducer';
+import dataRange from './DataRangeReducer';
 import appState  from './AppStateReducer';
 
 // We need outerReducer to replace full state as soon as it has loaded
@@ -22,6 +23,7 @@ const baseclientMainReducer = outerReducer(combineReducers({
   appState,
   appContext: (appContext = {}) => appContext,
   hoverFeatures: fetchRemoteFeaturesOfType('HOVER'),
+  dataRange,
   // We need innerReducer to store loading state, i.e. for showing loading spinner
   asyncInitialState: innerReducer
 }));

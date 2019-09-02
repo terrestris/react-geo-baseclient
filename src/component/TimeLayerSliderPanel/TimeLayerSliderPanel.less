@@ -21,9 +21,9 @@
     }
   }
 
-  .timeslider-in-future {
+  :not(.timeslider-in-future) {
     .ant-slider-handle {
-      background-color: #FFFFFF;
+      background-color: #4baeff;
     }
   }
 
@@ -40,8 +40,21 @@
 
   .time-value {
     text-align: center;
-    width: 90px;
+    width: 100px;
     padding: 0 10px;
     font-weight: bold;
+  }
+
+  &.no-layers-available {
+    pointer-events: none;
+    opacity: .8;
+    color: rgba(0, 0, 0, 0.35);
+    .ant-slider-mark span,
+    .ant-select {
+     color: rgba(0, 0, 0, 0.35);
+    }
+    button {
+      opacity: .5;
+    }
   }
 }
