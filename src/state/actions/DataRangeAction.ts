@@ -8,24 +8,24 @@ import {
 /**
  * Sets the set startDate value
  *
- * @param {moment.Moment} date
+ * @param {moment.Moment} startDate
  */
-export function setStartDate(date: moment.Moment) {
+export function setStartDate(startDate: moment.Moment) {
   return {
     type: SET_START_DATE,
-    date
+    startDate
   };
 }
 
 /**
  * Sets the set endDate value
  *
- * @param {moment.Moment} date
+ * @param {moment.Moment} endDate
  */
-export function setEndDate(date: moment.Moment) {
+export function setEndDate(endDate: moment.Moment) {
   return {
     type: SET_END_DATE,
-    date
+    endDate
   };
 }
 
