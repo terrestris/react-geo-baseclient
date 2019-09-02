@@ -255,12 +255,11 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
         }
 
         let newValue;
-        if (_isFinite(playbackSpeed)) {
+        if (_isFinite(parseFloat(playbackSpeed))) {
           newValue = value.clone().add(playbackSpeed, 'seconds');
         } else {
           newValue = value.clone().add(1, playbackSpeed as moment.DurationInputArg2);
         }
-
         this.timeSliderCustomHandler(newValue);
         this.wmsTimeHandler(newValue);
         // value is handled in timeSliderCustomHandler
