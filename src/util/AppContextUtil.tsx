@@ -162,6 +162,7 @@ class AppContextUtil {
         tileLayer.set('type', 'WMTS');
         tileLayer.set('legendUrl', legendUrl);
         tileLayer.set('isBaseLayer', layerObj.isBaseLayer);
+        tileLayer.set('isDefault', layerObj.isDefault);
         tileLayer.set('topic', layerObj.topic);
         tileLayer.set('staticImageUrl', layerObj.staticImageUrl);
         tileLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
@@ -258,6 +259,7 @@ class AppContextUtil {
     tileLayer.set('type', type);
     tileLayer.set('legendUrl', legendUrl);
     tileLayer.set('isBaseLayer', layerObj.isBaseLayer);
+    tileLayer.set('isDefault', layerObj.isDefault);
     tileLayer.set('topic', layerObj.topic);
     tileLayer.set('staticImageUrl', layerObj.staticImageUrl);
     tileLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
@@ -315,6 +317,7 @@ class AppContextUtil {
     imageLayer.set('type', type);
     imageLayer.set('legendUrl', legendUrl);
     imageLayer.set('isBaseLayer', layerObj.isBaseLayer);
+    imageLayer.set('isDefault', layerObj.isDefault);
     imageLayer.set('topic', layerObj.topic);
     imageLayer.set('staticImageUrl', layerObj.staticImageUrl);
 

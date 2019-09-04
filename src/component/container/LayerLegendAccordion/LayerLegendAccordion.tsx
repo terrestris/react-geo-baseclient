@@ -170,11 +170,13 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
    */
   treeNodeTitleRenderer(layer: any) {
     const {
-      t
+      t,
+      map
     } = this.props;
 
     return (
       <LayerLegendAccordionTreeNode
+        map={map}
         t={t}
         layer={layer}
       />
@@ -294,6 +296,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
     }
     // update all layers
     filteredLayers.forEach(l => l.setVisible(visibility));
+    this.props.map.dispatchEvent('nodeVisibilityChanged');
 
     // we need to do this since legend needs to be redrawn
     this.forceUpdate();

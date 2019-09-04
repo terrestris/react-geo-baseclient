@@ -19,6 +19,7 @@ interface DefaultLayerLegendAccordionNodeProps {
 
 interface LayerLegendAccordionNodeProps extends Partial<DefaultLayerLegendAccordionNodeProps>{
   t: (arg: string) => {};
+  map: any;
 }
 
 interface LayerLegendAccordionNodeState {
@@ -163,6 +164,8 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
   onLayerTreeNodeVisibilityChange(layer: any) {
     const nextLayerVisibility = !layer.getVisible();
     layer.setVisible(nextLayerVisibility);
+
+    this.props.map.dispatchEvent('nodeVisibilityChanged');
 
     // we need to do this since legend needs to be redrawn
     this.forceUpdate();
