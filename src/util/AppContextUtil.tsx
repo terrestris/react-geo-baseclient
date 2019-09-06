@@ -117,6 +117,8 @@ class AppContextUtil {
         if (!layerObj.appearance.visible) {
           vectorLayer.set('visible', false);
         }
+        vectorLayer.set('staticImageUrl', layerObj.staticImageUrl);
+        vectorLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
         layers.push(vectorLayer);
       }
 
@@ -320,6 +322,7 @@ class AppContextUtil {
     imageLayer.set('isDefault', layerObj.isDefault);
     imageLayer.set('topic', layerObj.topic);
     imageLayer.set('staticImageUrl', layerObj.staticImageUrl);
+    imageLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
 
     return imageLayer;
   }
