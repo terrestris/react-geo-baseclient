@@ -50,7 +50,6 @@ export interface TimeLayerSliderPanelState {
   value: moment.Moment;
   playbackSpeed: string;
   autoPlayActive: boolean;
-  dateFormat: string;
 };
 
 /**
@@ -98,10 +97,9 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     super(props);
 
     this.state = {
-      value: props.value,
+      value: moment().milliseconds(0),
       playbackSpeed: '1',
-      autoPlayActive: false,
-      dateFormat: props.dateFormat
+      autoPlayActive: false
     };
 
     this._interval = 1000;
@@ -162,26 +160,16 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   */
   wrapTimeSlider = () => {
     this._wmsTimeLayers = [];
-    let dateFormat: string;
     this.props.timeAwareLayers!.forEach((l: any) => {
       if (l.get('type') === 'WMSTime') {
         this._wmsTimeLayers.push({
           layer: l
         });
-        if (!dateFormat && l.get('timeFormat')) {
-          dateFormat = l.get('timeFormat');
-        }
       }
     });
     // make sure an initial value is set
     this.wmsTimeHandler(this.state.value);
     this._TimeLayerAwareSlider = timeLayerAware(TimeSlider, this._wmsTimeLayers);
-    // update date format
-    if (dateFormat) {
-      this.setState({
-        dateFormat
-      });
-    }
   }
 
   /**
@@ -259,7 +247,12 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
         }
         time.set('minute', 0);
         time.set('second', 0);
-        params['TIME'] = time.format(config.layer.get('timeFormat'));
+        const timeFormat = config.layer.get('timeFormat');
+        if (timeFormat.toLowerCase().indexOf('hh') > 0) {
+          params['TIME'] = time.toISOString();
+        } else {
+          params['TIME'] = time.format(timeFormat);
+        }
         config.layer.getSource().updateParams(params);
       }
     });
@@ -367,13 +360,13 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
       t,
       startDate,
       endDate,
-      timeAwareLayers
+      timeAwareLayers,
+      dateFormat
     } = this.props;
 
     const {
       autoPlayActive,
-      value,
-      dateFormat
+      value
     } = this.state;
 
     const resetVisible = true;
