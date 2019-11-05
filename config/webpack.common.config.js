@@ -97,8 +97,7 @@ const commonWebpackConfig = {
     }, {
       test: /\.(jpe?g|png|gif|ico)$/i,
       use: [
-        'file-loader?name=img/[name].[ext]',
-        'image-webpack-loader'
+        'file-loader?name=img/[name].[ext]'
       ]
     }]
   },
