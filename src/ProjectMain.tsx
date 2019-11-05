@@ -153,9 +153,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
                 <AddLayerPanel
                   map={map}
                   onCancel={this.closeAddLayerWindow}
-                >
-                  {t('AddLayerPanel.wmsContent')}
-                </AddLayerPanel>
+                />
               </Window> :
               null
           }
