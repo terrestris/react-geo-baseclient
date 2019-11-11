@@ -364,6 +364,9 @@ class AppContextUtil {
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
 
     activeModules.forEach((module: any) => {
+      if (module.hidden) {
+        return;
+      }
       switch(module.xtype) {
         case 'basigx-button-zoomin':
           tools.push(<ZoomButton
