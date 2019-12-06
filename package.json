@@ -51,7 +51,7 @@
     "@terrestris/base-util": "^0.2.2",
     "@terrestris/mapfish-print-manager": "^5.1.0",
     "@terrestris/ol-util": "^3.0.1",
-    "@terrestris/react-geo": "^11.4.4",
+    "@terrestris/react-geo": "^12.0.0",
     "@terrestris/vectortiles": "^0.3.0",
     "antd": "^3.26.0",
     "i18next": "^19.0.1",
