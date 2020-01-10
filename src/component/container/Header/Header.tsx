@@ -2,12 +2,13 @@ import * as React from 'react';
 import {
   Spin,
   Row,
-  Col,
-  notification
+  Col
 } from 'antd';
 
 import NominatimSearch from '@terrestris/react-geo/dist/Field/NominatimSearch/NominatimSearch';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
+
+import { toggleHelpModal } from '../../../state/actions/AppStateAction';
 
 import './Header.less';
 
@@ -19,6 +20,7 @@ interface DefaultHeaderProps {
 }
 
 interface HeaderProps extends Partial<DefaultHeaderProps>{
+  dispatchFn: (arg: any) => void;
   topic: string;
   map: any;
   i18n: any;
@@ -67,12 +69,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
    * Handler for click action of help button
    */
   onHelpButtonClick() {
-    const { t } = this.props;
-    notification.info({
-      message: t('Header.helpMessage'),
-      description: t('Header.helpDescription'),
-      placement: 'bottomRight'
-    });
+    this.props.dispatchFn(toggleHelpModal());
   }
 
   /**
