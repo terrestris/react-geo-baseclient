@@ -71,8 +71,7 @@
   "Header": {
     "nominatimPlaceHolder": "Ortsname, Straßenname, Stadtteilname, POI usw.",
     "helpButtonTooltip": "Hilfe",
-    "helpMessage": "Hilfe",
-    "helpDescription": "Hier sollte die Hilfe erscheinen."
+    "helpMessage": "Hilfe"
   },
   "LayerLegendAccordion": {
     "toggleVisibilityTooltipText": "Sichtbarkeit",
@@ -101,6 +100,10 @@
     "months": "Monate",
     "years": "Jahre",
     "dataRange": "Zeitraum auswählen"
+  },
+  "Modal": {
+    "Help": {
+      "title": "Hilfe"
+    }
   }
 }
-

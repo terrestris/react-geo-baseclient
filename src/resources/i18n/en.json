@@ -71,8 +71,7 @@
   "Header": {
     "nominatimPlaceHolder": "Municipality, street, district, poi…",
     "helpButtonTooltip": "Help",
-    "helpMessage": "Help",
-    "helpDescription": "This is the content of the react-geo-baseclient help."
+    "helpMessage": "Help"
   },
   "LayerLegendAccordion": {
     "toggleVisibilityTooltipText": "Visibility",
@@ -101,5 +100,10 @@
     "months": "Months",
     "years": "Years",
     "dataRange": "Set data range"
+  },
+  "Modal": {
+    "Help": {
+      "title": "Help"
+    }
   }
 }
