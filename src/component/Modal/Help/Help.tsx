@@ -1,6 +1,4 @@
 import * as React from 'react';
-import Iframe from 'react-iframe';
-
 import { Modal } from 'antd';
 
 import './Help.less';
@@ -42,11 +40,9 @@ export class Help extends React.Component<HelpProps> {
         title={t('Modal.Help.title')}
         onCancel={onCancel}
       >
-        <Iframe
-            url={helpPdf}
+        <iframe
+            src={helpPdf}
             width="100%"
-            display="block"
-            position="relative"
         />
       </Modal>
 
