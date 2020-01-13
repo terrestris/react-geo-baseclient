@@ -6,6 +6,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
+const Logger = commonConfig.logger;
+let customAppConfig;
+try {
+  customAppConfig = require('../../src/config/webpack.config.js');
+} catch (error) {
+  Logger.info("No custom app config provided, using defaults.");
+}
 
 commonWebpackConfig.mode = 'development';
 // prepare the InterpolateHtmlPlugin
@@ -13,6 +20,8 @@ const interpolations = {
   'NODE_ENV': 'development',
   'PUBLIC_URL': ''
 };
+
+const title = customAppConfig && customAppConfig.appTitle || 'react-geo-baseclient';
 
 if (process.env.USE_SOURCEMAP) {
   commonWebpackConfig.devtool = 'inline-source-map';
@@ -30,7 +39,7 @@ const delayedConf = new Promise(function(resolve) {
         removeComments: true
       },
       template: './public/index.html',
-      title: 'react-geo-baseclient'
+      title: title
     }),
     new webpack.ProgressPlugin({ profile: false }),
     new InterpolateHtmlPlugin(interpolations),

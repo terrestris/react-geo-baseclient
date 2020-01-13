@@ -10,6 +10,12 @@ const cheerio = require('cheerio');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
+let customAppConfig;
+try {
+  customAppConfig = require('../../src/config/webpack.config.js');
+} catch (error) {
+  Logger.info("No custom app config provided, using defaults.");
+}
 
 commonWebpackConfig.mode = 'development';
 // prepare the InterpolateHtmlPlugin
@@ -47,6 +53,8 @@ const https = require('https');
 const agent = new https.Agent({
   rejectUnauthorized: false
 });
+
+const title = customAppConfig && customAppConfig.appTitle || 'react-geo-baseclient';
 
 // commonWebpackConfig.devtool = 'inline-source-map';
 
@@ -129,7 +137,7 @@ const delayedConf =
                     removeComments: true
                   },
                   template: './public/index.html',
-                  title: 'react-geo-baseclient'
+                  title: title
                 }),
                 new webpack.ProgressPlugin({ profile: false }),
                 new InterpolateHtmlPlugin(interpolations),
