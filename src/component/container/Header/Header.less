@@ -12,9 +12,19 @@
     }
   }
 
-  .app-logo {
-    height: @header-height;
+  .logo {
+    .app-logo {
+      height: ~"calc(@{header-height} - 10px)";
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    @media screen and (max-width: 1500px) {
+      display: none;
+    }
   }
+
+
 
   .app-title {
     text-align: center;
