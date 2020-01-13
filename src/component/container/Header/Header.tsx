@@ -12,11 +12,17 @@ import { toggleHelpModal } from '../../../state/actions/AppStateAction';
 
 import './Header.less';
 
+type LogoConfig = {
+  src: string,
+  target: string
+};
+
 // default props
 interface DefaultHeaderProps {
   className: string;
   title: string;
   loading: boolean;
+  logoConfig: LogoConfig[];
 }
 
 interface HeaderProps extends Partial<DefaultHeaderProps>{
@@ -52,7 +58,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
   public static defaultProps: DefaultHeaderProps = {
     title: 'react-geo-baseclient',
     className: 'app-header',
-    loading: false
+    loading: false,
+    logoConfig: [{
+      src: 'logo_terrestris.png',
+      target: 'https://www.terrestris.de'
+    }]
   };
 
   /**
@@ -82,6 +92,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       loading,
       topic,
       className,
+      logoConfig,
       t
     } = this.props;
 
@@ -105,12 +116,24 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             />
           </Col>
           <Col
-            xs={2}
-            sm={2}
-            md={2}
-            lg={2}
+            xs={0}
+            sm={0}
+            md={logoConfig.length}
+            lg={logoConfig.length}
           >
-          <img src="logo_terrestris.png" alt="Logo" className="app-logo" />
+          <div className="logo">
+            {
+                logoConfig.map((config, idx) =>
+                  <img
+                    src={config.src}
+                    key={`logo-${idx}`}
+                    alt={config.target}
+                    className="app-logo"
+                    onClick={() => window.open(config.target, '_blank')}
+                  />
+                )
+            }
+          </div>
           </Col>
           <Col
             xs={10}
@@ -129,8 +152,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           <Col
              xs={0}
              sm={0}
-             md={11}
-             lg={11}
+             md={13 - logoConfig.length}
+             lg={13 - logoConfig.length}
           >
             <span className="app-title">{titleString}</span>
           </Col>
