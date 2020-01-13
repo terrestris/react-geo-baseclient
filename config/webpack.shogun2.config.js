@@ -14,7 +14,7 @@ let customAppConfig;
 try {
   customAppConfig = require('../../src/config/webpack.config.js');
 } catch (error) {
-  Logger.info("no custom app config provided, use defaults");
+  Logger.info("No custom app config provided, using defaults.");
 }
 
 commonWebpackConfig.mode = 'development';
