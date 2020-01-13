@@ -4,12 +4,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
+const Logger = commonConfig.logger;
+let customAppConfig;
+try {
+  customAppConfig = require('../../src/config/webpack.config.js');
+} catch (error) {
+  Logger.info("no custom app config provided, use defaults");
+}
 
 // prepare the InterpolateHtmlPlugin
 const interpolations = {
   'NODE_ENV': 'production',
   'PUBLIC_URL': ''
 };
+
+const title = customAppConfig && customAppConfig.appTitle || 'react-geo-baseclient';
 
 commonWebpackConfig.plugins = [
   ...commonWebpackConfig.plugins || [],
@@ -20,7 +29,7 @@ commonWebpackConfig.plugins = [
     APP_MODE: JSON.stringify(commonConfig.TARGET)
   }),
   new HtmlWebpackPlugin({
-    title: 'react-geo-baseclient',
+    title: title,
     filename: 'index.html',
     favicon: './public/favicon.ico',
     template: './public/index.html',
