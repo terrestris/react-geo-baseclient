@@ -87,7 +87,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
     this.state = {
       loadingQueue: [],
       mainAccordionActiveKeys: ['tree', 'legend'],
-      themeLayerActiveKeys: [],
+      themeLayerActiveKeys: ['theme'],
       baseLayerActiveKeys: [],
       externalLayerActiveKeys: [],
       legendImageActiveKeys: []

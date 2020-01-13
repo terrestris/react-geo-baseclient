@@ -17,6 +17,7 @@ export default {
     name: 'React-geo baseclient',
     versionNumber: '0.1 (dev)'
   },
+  defaultTopic: null,
   loadingQueue: {
     queue: [],
     loading: false

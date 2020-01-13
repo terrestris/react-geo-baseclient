@@ -19,6 +19,7 @@ const baseclientMainReducer = outerReducer(combineReducers({
   appInfo,
   mapLayers,
   activeModules,
+  defaultTopic: (state = {}) => state,
   mapScales: (state = {}) => state,
   appState,
   appContext: (appContext = {}) => appContext,

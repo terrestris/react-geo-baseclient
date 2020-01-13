@@ -51,6 +51,7 @@ class AppContextUtil {
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
     const mapLayers = ObjectUtil.getValue('mapLayers', appContext);
     const activeModules = ObjectUtil.getValue('activeTools', appContext);
+    const defaultTopic = ObjectUtil.getValue('defaultTopic', appContext);
 
     // AppInfo
     state.appInfo.name = appContext.name || state.appInfo.name;
@@ -78,6 +79,9 @@ class AppContextUtil {
     state.activeModules = union(state.activeModules, activeModules);
 
     state.appContext = appContext;
+
+    // default topic name
+    state.defaultTopic = defaultTopic;
 
     // map scales
     state.mapScales = AppContextUtil.getMapScales(mapConfig.resolutions);
