@@ -3,7 +3,7 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import './i18n';
-import { LocaleProvider } from 'antd';
+import { ConfigProvider } from 'antd';
 import 'antd/dist/antd.min.css'; // should be working via the loader but it does not..
 import deDE from 'antd/lib/locale-provider/de_DE';
 import { defaults as OlDefaultControls } from 'ol/control/util';
@@ -100,13 +100,13 @@ const MappifiedMain = (mappify)(Main);
 
 render(
   <React.Suspense fallback={<div>Loading...</div>}>
-    <LocaleProvider locale={deDE}>
+    <ConfigProvider locale={deDE}>
       <Provider store={store}>
         <MapProvider map={mapPromise}>
           <MappifiedMain />
         </MapProvider>
       </Provider>
-    </LocaleProvider>
+    </ConfigProvider>
   </React.Suspense>,
   document.getElementById('app')
 );

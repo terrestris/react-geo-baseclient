@@ -171,6 +171,7 @@ class AppContextUtil {
         tileLayer.set('isDefault', layerObj.isDefault);
         tileLayer.set('topic', layerObj.topic);
         tileLayer.set('staticImageUrl', layerObj.staticImageUrl);
+        tileLayer.set('convertFeatureInfoValue', layerObj.convertFeatureInfoValue || false);
         tileLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
         tileLayer.set('timeFormat', layerObj.source.timeFormat);
         layers.push(tileLayer);
@@ -276,6 +277,7 @@ class AppContextUtil {
       tileLayer.set('startDate', startDate);
       tileLayer.set('endDate', endDate);
     }
+    tileLayer.set('convertFeatureInfoValue', layerObj.convertFeatureInfoValue || false);
     return tileLayer;
   }
 
@@ -327,6 +329,7 @@ class AppContextUtil {
     imageLayer.set('topic', layerObj.topic);
     imageLayer.set('staticImageUrl', layerObj.staticImageUrl);
     imageLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
+    imageLayer.set('convertFeatureInfoValue', layerObj.convertFeatureInfoValue || false);
 
     return imageLayer;
   }

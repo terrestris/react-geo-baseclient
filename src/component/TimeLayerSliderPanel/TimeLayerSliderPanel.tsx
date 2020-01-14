@@ -335,6 +335,9 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   updateDataRange([startDate, endDate]: timeRange) {
     this.props.dispatch(setStartDate(startDate));
     this.props.dispatch(setEndDate(endDate));
+    this.setState({
+      value: startDate!.clone().add(endDate!.diff(startDate) / 2)
+    }, () => this.wrapTimeSlider());
   }
 
   /**
