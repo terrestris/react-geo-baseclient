@@ -143,6 +143,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           >
             <NominatimSearch
               placeholder={t('Header.nominatimPlaceHolder')}
+              countrycodes={''}
               map={map}
               style={{
                 width: '100%'
