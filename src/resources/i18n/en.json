@@ -75,7 +75,6 @@
   },
   "LayerLegendAccordion": {
     "toggleVisibilityTooltipText": "Visibility",
-    "layerSettingsTooltipText": "Properties",
     "layerTreeTitle": "Layer list",
     "showLayerTreeTooltipText": "Show layer list / legend",
     "legendPanelTitle": "Legend",
@@ -104,6 +103,13 @@
   "Modal": {
     "Help": {
       "title": "Help"
+    },
+    "LayerDescription": {
+      "title": "Layer description"
     }
+  },
+  "LayerTreeDropdownContextMenu": {
+    "layerInfoText": "Layer description",
+    "layerSettingsTooltipText": "Properties"
   }
 }

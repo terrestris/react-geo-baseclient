@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
-  Tooltip,
-  Dropdown
+  Tooltip
 } from 'antd';
 
 import OlLayerGroup from 'ol/layer/Group';
@@ -9,6 +8,7 @@ import OlTileWmsSource from 'ol/source/TileWMS';
 import OlImageWmsSource from 'ol/source/Image';
 
 import LayerTransparencySlider from '@terrestris/react-geo/dist/Slider/LayerTransparencySlider';
+import LayerTreeDropdownContextMenu from '../container/LayerTreeDropdownContextMenu/LayerTreeDropdownContextMenu';
 
 import './LayerLegendAccordionTreeNode.less';
 
@@ -258,23 +258,11 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
           className={loadingSpanClass}
         />
         {
-          !(layer instanceof OlLayerGroup) ?
-            <Dropdown
-              overlay={<div />} // TODO: make something more senseful here
-              placement="topLeft"
-              trigger={['click']}
-            >
-              <Tooltip
-                title={this.props.t('LayerLegendAccordion.layerSettingsTooltipText')}
-                placement="right"
-                mouseEnterDelay={0.5}
-              >
-                <span
-                  className="fa fa-cog layer-tree-node-title-settings"
-                />
-              </Tooltip>
-            </Dropdown> :
-            null
+          !(layer instanceof OlLayerGroup) &&
+            <LayerTreeDropdownContextMenu
+              map={this.props.map}
+              layer={layer}
+              t={t} />
         }
         </div>
         <LayerTransparencySlider
