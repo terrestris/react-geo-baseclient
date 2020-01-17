@@ -81,7 +81,7 @@
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
-    "@types/expect-puppeteer": "^3.3.3",
+    "@types/expect-puppeteer": "^4.4.0",
     "@types/i18next": "^13.0.0",
     "@types/jest": "^24.0.23",
     "@types/jest-diff": "^24.3.0",
