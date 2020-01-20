@@ -49,7 +49,7 @@
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.10.27",
     "@terrestris/base-util": "^0.2.2",
-    "@terrestris/mapfish-print-manager": "^5.1.0",
+    "@terrestris/mapfish-print-manager": "^6.1.0",
     "@terrestris/ol-util": "^3.0.1",
     "@terrestris/react-geo": "^11.4.4",
     "@terrestris/vectortiles": "^0.3.0",
