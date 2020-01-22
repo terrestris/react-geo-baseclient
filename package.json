@@ -132,7 +132,7 @@
     "jest-fetch-mock": "^3.0.1",
     "jest-matcher-utils": "^24.9.0",
     "jest-puppeteer": "^4.3.0",
-    "jest-snapshot": "^24.9.0",
+    "jest-snapshot": "^25.1.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "loglevel": "^1.6.6",
