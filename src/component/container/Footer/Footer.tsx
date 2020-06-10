@@ -244,7 +244,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
             <a
               href={imprintLink ? imprintLink : 'https://www.terrestris.de/en/impressum'}
             >
-              {imprintText ? imprintText : t('Imprint.title') + ' / ' + t('Imprint.privacypolicy')}</a>
+              {imprintText ? imprintText : `${t('Imprint.title')} / ${t('Imprint.privacypolicy')}`}</a>
           </Col>
         </Row>
       </footer>
