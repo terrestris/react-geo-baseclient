@@ -24,6 +24,8 @@ import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 // default props
 interface DefaultFooterProps {
+  imprintLink: string,
+  imprintText: string
 }
 
 interface FooterProps extends Partial<DefaultFooterProps>{
@@ -73,7 +75,6 @@ export class Footer extends React.Component<FooterProps, FooterState> {
    */
   constructor(props: FooterProps) {
     super(props);
-
     this.setProjection = this.setProjection.bind(this);
   }
 
@@ -194,6 +195,8 @@ export class Footer extends React.Component<FooterProps, FooterState> {
       map,
       mapScales,
       projection,
+      imprintLink,
+      imprintText,
       t
     } = this.props;
 
@@ -238,7 +241,10 @@ export class Footer extends React.Component<FooterProps, FooterState> {
             span={4}
             className="imprint footer-element"
           >
-            <a>{t('Imprint.title')} / {t('Imprint.privacypolicy')}</a>
+            <a
+              href={imprintLink ? imprintLink : 'https://www.terrestris.de/en/impressum'}
+            >
+              {imprintText ? imprintText : `${t('Imprint.title')} / ${t('Imprint.privacypolicy')}`}</a>
           </Col>
         </Row>
       </footer>
