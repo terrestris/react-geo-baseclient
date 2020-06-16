@@ -11,17 +11,26 @@
   }
 
   .scalecombo-col {
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
     float: left;
     > span {
       padding-right: 5px;
     }
 
     .scalecombo {
+      @media only screen and (max-width: 768px) {
+        display: none;
+      }
       width: 150px !important;
     }
   }
 
   .crscombo-col {
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
     padding-left: 5px;
     > span {
       padding-right: 5px;
@@ -33,6 +42,9 @@
   }
 
   .ol-mouse-position {
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
     top: 0;
     right: 0;
     position: inherit;
@@ -41,10 +53,18 @@
 
   .imprint {
     justify-content: center;
+
+    @media only screen and (max-width: 768px) {
+      width: 100%;
+      float: right;
+    }
   }
 }
 
 #mouse-position {
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
   justify-content: flex-start;
   margin-right: 5px;
 }
