@@ -67,7 +67,7 @@
     "redux": "^4.0.4",
     "redux-async-initial-state": "^0.3.0",
     "redux-thunk": "^2.3.0",
-    "redux-undo": "^1.0.0",
+    "redux-undo": "^1.0.1",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
