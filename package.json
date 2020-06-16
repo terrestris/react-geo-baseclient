@@ -55,8 +55,8 @@
     "@terrestris/ol-util": "^3.0.1",
     "@terrestris/react-geo": "^11.4.4",
     "@terrestris/vectortiles": "^0.3.0",
+    "i18next": "^19.4.3",
     "antd": "^3.26.15",
-    "i18next": "^19.0.1",
     "i18next-browser-languagedetector": "^4.1.1",
     "i18next-xhr-backend": "^3.2.2",
     "moment": "^2.24.0",
@@ -69,9 +69,9 @@
     "redux": "^4.0.4",
     "redux-async-initial-state": "^0.3.0",
     "redux-thunk": "^2.3.0",
-    "snyk": "^1.316.1"
+    "snyk": "^1.316.1",
     "redux-undo": "^1.0.1",
-    "tslib": "^1.10.0"
+    "tslib": "^1.11.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
