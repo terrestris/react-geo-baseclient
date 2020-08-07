@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
+import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 
 import OlSourceImageWMS from 'ol/source/ImageWMS';
 import OlSourceTileWMS from 'ol/source/TileWMS';
@@ -12,9 +12,7 @@ import {
   fetchFeatures
 } from '../../../state/actions/RemoteFeatureAction';
 
-interface DefaultHsiButtonProps {
-  type: string,
-  shape: string,
+interface DefaultHsiButtonProps extends ToggleButtonProps {
   icon: string,
   /**
   * Whether the GFI control should requests all layers at a given coordinate
@@ -35,11 +33,6 @@ interface HsiButtonProps extends Partial<DefaultHsiButtonProps> {
    * Button tooltip text
    */
   tooltip: string,
-
-  /**
-   * Tooltip position
-   */
-  tooltipPlacement: string,
 
   /**
    * Translate function
