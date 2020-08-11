@@ -6,7 +6,7 @@ import './i18n';
 import { ConfigProvider } from 'antd';
 import 'antd/dist/antd.min.css'; // should be working via the loader but it does not..
 import deDE from 'antd/lib/locale-provider/de_DE';
-import { defaults as OlDefaultControls } from 'ol/control/util';
+import { defaults as OlDefaultControls } from 'ol/control';
 import OlMap from 'ol/Map';
 import  { get as OlGetProjection } from 'ol/proj';
 
@@ -23,7 +23,7 @@ import { mappify } from '@terrestris/react-geo/dist/HigherOrderComponent/Mappifi
 /**
  * Get the map asynchronoulsy.
  */
-const mapPromise = new Promise((resolve, reject) => {
+const mapPromise: Promise<OlMap> = new Promise((resolve, reject) => {
   const subScription = store.subscribe(() => {
     const state: any = store.getState();
     const errorOnAppContext = state.asyncInitialState.error;
@@ -43,7 +43,7 @@ const mapPromise = new Promise((resolve, reject) => {
     />,
     document.getElementById('app')
   );
-});
+}) as Promise<OlMap>;
 
 /**
    * The setupMap function

@@ -204,6 +204,8 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
 
     return (
       <AgFeatureGrid
+        map={null}
+        width={'auto'}
         className="grid-content"
         height={'auto'}
         columnDefs={this.getColumnDefs()}

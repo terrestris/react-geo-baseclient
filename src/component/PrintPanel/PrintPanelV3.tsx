@@ -16,7 +16,7 @@ import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleB
 import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
 
 import OlLayerGroup from 'ol/layer/Group';
-import OlMap from 'ol/Map';
+import { default as OlMap } from 'ol/Map';
 
 import { MapFishPrintV3Manager } from '@terrestris/mapfish-print-manager';
 

@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
+import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 
-interface DefaultLayerLegendAccordionToggleButtonProps {
-  shape: string,
+interface DefaultLayerLegendAccordionToggleButtonProps extends ToggleButtonProps {
   icon: string,
   className: string
 };
