@@ -139,7 +139,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
     let infoUrlsToCombine: any = {};
     map.forEachLayerAtPixel(pixel, (layer: any) => {
       const layerSource: any = layer.getSource();
-      if(!layerSource.getFeatureInfoUrl) {
+      if (!layerSource.getFeatureInfoUrl) {
         return;
       }
       const featureInfoUrl: string = layerSource.getFeatureInfoUrl(
