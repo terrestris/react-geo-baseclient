@@ -139,8 +139,11 @@ export class HsiButton extends React.Component<HsiButtonProps> {
     let infoUrlsToCombine: any = {};
     map.forEachLayerAtPixel(pixel, (layer: any) => {
       const layerSource: any = layer.getSource();
-      const featureInfoUrl: string = layerSource.getGetFeatureInfoUrl(
-          olEvt.coordinate,
+      if (!layerSource.getFeatureInfoUrl) {
+        return;
+      }
+      const featureInfoUrl: string = layerSource.getFeatureInfoUrl(
+          map.getCoordinateFromPixel(pixel),
           viewResolution,
           viewProjection,
         {
@@ -171,7 +174,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
     if (Object.keys(infoUrlsToCombine).length > 0) {
       Object.keys(infoUrlsToCombine).forEach(key => {
         const url: any = UrlUtil.bundleOgcRequests(infoUrlsToCombine[key], true);
-        featureInfoUrls.push(url);
+        featureInfoUrls = featureInfoUrls.concat(url);
       });
     }
 

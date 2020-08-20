@@ -177,8 +177,7 @@ export class Map extends React.Component<MapProps, MapState> {
    * @param {ol.event} olEvt The ol event.
    */
   checkPointerRest(olEvt: any) {
-    if (olEvt.dragging || !this.state.isMouseOverMapEl ||
-        !(olEvt.target.getRenderer().canvas_)) {
+    if (olEvt.dragging || !this.state.isMouseOverMapEl) {
       return;
     }
 
