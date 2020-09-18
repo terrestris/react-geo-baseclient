@@ -212,7 +212,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
               allowClear={false}
               predefinedCrsDefinitions={this.predefinedCrsDefinitions}
               onSelect={this.setProjection}
-              emptyTextPlaceholderText={t('CoordinateReferenceSystemCombo.emptyTextPlaceholderText')}
+              emptyTextPlaceholderText={t('CoordinateReferenceSystemCombo.emptyTextPlaceholderText') as string}
               value={projection.replace('EPSG:', '')}
             />
           </Col>

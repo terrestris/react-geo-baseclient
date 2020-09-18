@@ -3,6 +3,7 @@ import OlOverlay from 'ol/Overlay';
 const _isEqual = require('lodash/isEqual');
 
 import './FeatureInfo.less';
+import OverlayPositioning from 'ol/OverlayPositioning';
 
 interface DefaultFeatureInfoProps {
 
@@ -83,7 +84,7 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
    * 'top-left', 'top-center', and 'top-right'.
    * @type {String}
    */
-  positioning: string,
+  positioning: OverlayPositioning,
 
   /**
    * Whether the component is loading (and should render a progress cursor)

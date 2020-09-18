@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
+import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 
 import OlSourceImageWMS from 'ol/source/ImageWMS';
 import OlSourceTileWMS from 'ol/source/TileWMS';
@@ -12,9 +12,7 @@ import {
   fetchFeatures
 } from '../../../state/actions/RemoteFeatureAction';
 
-interface DefaultHsiButtonProps {
-  type: string,
-  shape: string,
+interface DefaultHsiButtonProps extends ToggleButtonProps {
   icon: string,
   /**
   * Whether the GFI control should requests all layers at a given coordinate
@@ -35,11 +33,6 @@ interface HsiButtonProps extends Partial<DefaultHsiButtonProps> {
    * Button tooltip text
    */
   tooltip: string,
-
-  /**
-   * Tooltip position
-   */
-  tooltipPlacement: string,
 
   /**
    * Translate function
@@ -146,8 +139,11 @@ export class HsiButton extends React.Component<HsiButtonProps> {
     let infoUrlsToCombine: any = {};
     map.forEachLayerAtPixel(pixel, (layer: any) => {
       const layerSource: any = layer.getSource();
-      const featureInfoUrl: string = layerSource.getGetFeatureInfoUrl(
-          olEvt.coordinate,
+      if (!layerSource.getFeatureInfoUrl) {
+        return;
+      }
+      const featureInfoUrl: string = layerSource.getFeatureInfoUrl(
+          map.getCoordinateFromPixel(pixel),
           viewResolution,
           viewProjection,
         {
@@ -178,7 +174,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
     if (Object.keys(infoUrlsToCombine).length > 0) {
       Object.keys(infoUrlsToCombine).forEach(key => {
         const url: any = UrlUtil.bundleOgcRequests(infoUrlsToCombine[key], true);
-        featureInfoUrls.push(url);
+        featureInfoUrls = featureInfoUrls.concat(url);
       });
     }
 

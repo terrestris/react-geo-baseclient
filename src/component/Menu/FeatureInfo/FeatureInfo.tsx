@@ -366,14 +366,14 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
               maxHeight={300}
               x={50}
               y={50}
-              collapseTooltip={t('General.collapse')}
+              collapseTooltip={t('General.collapse') as unknown as string}
               bounds="#app"
               tools={[
                 <SimpleButton
                   icon="times"
                   key="close-tool"
                   size="small"
-                  tooltip={t('General.close')}
+                  tooltip={t('General.close') as unknown as string}
                   onClick={this.hideFeatureInfoWindow}
                 />
               ]}
