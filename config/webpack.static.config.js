@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'development';
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const InterpolateHtmlPlugin = require('interpolate-html-plugin');
+const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
@@ -42,7 +42,7 @@ const delayedConf = new Promise(function(resolve) {
       title: title
     }),
     new webpack.ProgressPlugin({ profile: false }),
-    new InterpolateHtmlPlugin(interpolations),
+    new InterpolateHtmlPlugin(HtmlWebpackPlugin,interpolations),
     new webpack.DefinePlugin({
       APP_MODE: JSON.stringify(commonConfig.TARGET)
     })
