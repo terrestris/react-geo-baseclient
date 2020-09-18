@@ -16,8 +16,7 @@ import OlLayerVector from 'ol/layer/Vector';
 import OlLayerTile from 'ol/layer/Tile';
 import OlLayerGroup from 'ol/layer/Group';
 import OlCollection from 'ol/Collection';
-import OlPointerEvent from 'ol/pointer/PointerEvent';
-import OlMapBrowserPointerEvent from 'ol/MapBrowserPointerEvent';
+import MapBrowserEvent from 'ol/MapBrowserEvent.js';
 
 /**
  * A set of some useful static helper methods.
@@ -190,12 +189,13 @@ export class TestUtils {
     // Calculated in case body has top < 0 (test runner with small window).
     let position = viewport.getBoundingClientRect();
     let shiftKey = opt_shiftKey !== undefined ? opt_shiftKey : false;
-    let event = new OlPointerEvent(type, {
+    let event = new MapBrowserEvent(type, map, {
       clientX: position.left + x + TestUtils.mapDivWidth / 2,
       clientY: position.top + y + TestUtils.mapDivHeight / 2,
-      shiftKey: shiftKey
+      shiftKey: shiftKey,
+      dragging
     });
-    map.handleMapBrowserEvent(new OlMapBrowserPointerEvent(type, map, event, dragging));
+    map.handleMapBrowserEvent(event);
   }
 
   /**

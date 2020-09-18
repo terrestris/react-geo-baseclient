@@ -431,7 +431,7 @@ class AppContextUtil {
             t={t}
           />);
           return;
-        case 'shogun-button-hsi':
+        case 'basigx-button-hsi':
           tools.push(<HsiButton
             map={map}
             key="5"

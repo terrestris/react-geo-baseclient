@@ -4,17 +4,18 @@ import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleB
 import Window from '@terrestris/react-geo/dist/Window/Window';
 
 import PrintPanelV3, { PrintConfig } from '../../PrintPanel/PrintPanelV3';
+import { TooltipPlacement } from 'antd/lib/tooltip';
 
 interface DefaultPrintButtonProps {
-  type: string,
-  shape: string,
+  type: 'default' | 'primary' | 'ghost' | 'dashed' | 'danger' | 'link',
+  shape: 'circle' | 'circle-outline' | 'round',
   icon: string
 }
 
 interface PrintButtonProps extends Partial<DefaultPrintButtonProps> {
   map: any,
   tooltip: string,
-  tooltipPlacement: string,
+  tooltipPlacement: TooltipPlacement,
   t: (arg: string) => string,
   config: PrintConfig,
   printScales: number[]

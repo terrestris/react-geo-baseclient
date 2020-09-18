@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import MapComponent from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent';
+import MapComponent, { MapComponentProps } from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent';
 
 const isEqual = require('lodash/isEqual');
 const debounce = require('lodash/debounce');
@@ -26,7 +26,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-interface DefaultMapProps {
+interface DefaultMapProps extends MapComponentProps {
   firePointerRest: boolean,
   pointerRestInterval: number,
   pointerRestTolerance: number
@@ -34,7 +34,6 @@ interface DefaultMapProps {
 
 interface MapProps extends Partial<DefaultMapProps> {
   map: any, //OlMap
-  children?: Element,
   dispatch: (arg: any) => void,
   center: number[],
   zoom: number,
@@ -64,6 +63,7 @@ export class Map extends React.Component<MapProps, MapState> {
    * The default properties.
    */
   public static defaultProps: DefaultMapProps = {
+    map: null,
     firePointerRest: true,
     pointerRestInterval: 500,
     pointerRestTolerance: 3
@@ -177,8 +177,7 @@ export class Map extends React.Component<MapProps, MapState> {
    * @param {ol.event} olEvt The ol event.
    */
   checkPointerRest(olEvt: any) {
-    if (olEvt.dragging || !this.state.isMouseOverMapEl ||
-        !(olEvt.target.getRenderer().canvas_)) {
+    if (olEvt.dragging || !this.state.isMouseOverMapEl) {
       return;
     }
 

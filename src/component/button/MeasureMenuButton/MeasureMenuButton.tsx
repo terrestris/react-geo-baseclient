@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/MeasureButton';
+import MeasureButton, { MeasureButtonProps } from '@terrestris/react-geo/dist/Button/MeasureButton/MeasureButton';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Toolbar from '@terrestris/react-geo/dist/Toolbar/Toolbar';
 import ToggleGroup from '@terrestris/react-geo/dist/Button/ToggleGroup/ToggleGroup';
@@ -11,9 +11,7 @@ import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 import './MeasureMenuButton.less';
 
-interface DefaultMeasureMenuButtonProps {
-  type: string,
-  shape: string,
+interface DefaultMeasureMenuButtonProps extends MeasureButtonProps {
   menuPlacement: 'left' | 'right'
 }
 
@@ -42,9 +40,11 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
   * The default properties.
   */
   public static defaultProps: DefaultMeasureMenuButtonProps = {
+    map: null,
     type: 'primary',
     shape: 'circle',
-    menuPlacement: 'left'
+    menuPlacement: 'left',
+    measureType: 'line'
   };
 
   /**
@@ -119,7 +119,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
         onChange={this.onToggledToolChange}
       >
         {
-          orderedMeasureTypes.map((mt: string) => {
+          orderedMeasureTypes.map((mt: 'line' | 'polygon' | 'angle') => {
             const fontIcon = mt === 'line'
               ? 'ft ft-measure-distance'
               : mt === 'polygon'

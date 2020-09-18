@@ -168,7 +168,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               name="helpButtonModule"
               icon="question"
               shape="circle"
-              tooltip={t('Header.helpButtonTooltip')}
+              tooltip={t('Header.helpButtonTooltip') as string}
               onClick={this.onHelpButtonClick}
               tooltipPlacement={'bottom'}
             />
