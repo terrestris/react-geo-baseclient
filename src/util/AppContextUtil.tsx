@@ -385,7 +385,7 @@ class AppContextUtil {
             key="1"
             type="primary"
             shape="circle"
-            icon="plus"
+            iconName="fas fa-plus"
             tooltip={t('ZoomIn.tooltip')}
             tooltipPlacement={'right'}
           />);
@@ -397,7 +397,7 @@ class AppContextUtil {
             key="2"
             type="primary"
             shape="circle"
-            icon="minus"
+            iconName="fas fa-minus"
             tooltip={t('ZoomOut.tooltip')}
             tooltipPlacement={'right'}
           />);
@@ -414,7 +414,7 @@ class AppContextUtil {
             key="3"
             type="primary"
             shape="circle"
-            icon="minus-circle"
+            iconName="fas fa-minus-circle"
           />);
           return;
         case 'shogun-button-print':
@@ -423,7 +423,7 @@ class AppContextUtil {
             key="4"
             type="primary"
             shape="circle"
-            icon="print"
+            iconName="fas fa-print"
             config={config}
             tooltip={t('PrintPanel.windowTitle')}
             tooltipPlacement={'right'}

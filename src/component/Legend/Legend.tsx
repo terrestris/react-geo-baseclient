@@ -61,8 +61,8 @@ export default class Legend extends React.Component<LegendProps, LegendState> {
 
     const extraClassName = this.state.collapsed ? 'collapsed' : '';
     const collapseTool = <ToggleButton
-      icon="chevron-circle-up"
-      pressedIcon="chevron-circle-down"
+      iconName="fas fa-chevron-circle-up"
+      pressedIconName="fas fa-chevron-circle-down"
       key={layer.ol_uid}
       onToggle={this.onToggleCollapse}
       pressed={this.state.collapsed}
