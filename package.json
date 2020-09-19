@@ -47,7 +47,7 @@
     "pretest": "npm run lint && if [ ! \"$CI\" = true ]; then npm run build:static; fi"
   },
   "dependencies": {
-    "@brainhubeu/react-carousel": "^1.18.8",
+    "@brainhubeu/react-carousel": "^1.19.26",
     "@terrestris/base-util": "^0.2.2",
     "@terrestris/mapfish-print-manager": "^6.0.0",
     "@terrestris/ol-util": "^4.0.0",
