@@ -35,7 +35,7 @@ export interface DefaultTimeLayerSliderPanelProps {
   onChange: (arg: moment.Moment) => void;
   timeAwareLayers: any[];
   value: moment.Moment;
-  t: (arg: string) => {};
+  t: (arg: string) => string;
   dateFormat: string;
 }
 
