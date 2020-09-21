@@ -1,7 +1,7 @@
 const commonConfig = require('./webpack.common.config.js');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const InterpolateHtmlPlugin = require('interpolate-html-plugin');
+const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
@@ -46,7 +46,7 @@ commonWebpackConfig.plugins = [
     }
   }),
   new webpack.ProgressPlugin({ profile: false }),
-  new InterpolateHtmlPlugin(interpolations)
+  new InterpolateHtmlPlugin(HtmlWebpackPlugin, interpolations)
 ];
 
 commonWebpackConfig.mode = 'production';

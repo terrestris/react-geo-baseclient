@@ -34,7 +34,7 @@ export default {
     helpModalVisible: false
   },
   dataRange: {
-    startDate: moment(moment.now()).subtract(1, 'days'),
-    endDate: moment(moment.now()).add(1, 'days')
+    startDate: moment().subtract(1, 'days'),
+    endDate: moment().add(1, 'days')
   }
 };

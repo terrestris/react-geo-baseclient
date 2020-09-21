@@ -1,10 +1,11 @@
 module.exports = {
+  verbose: true,
   rootDir: "../../",
   globals: {
     PROJECT_MAIN_PATH: './',
     PROJECT_MAIN_CLASS: 'ProjectMain'
   },
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom-fourteen',
   preset: 'jest-puppeteer',
   moduleFileExtensions: [
     'js',
@@ -26,10 +27,11 @@ module.exports = {
     '^.+\\.js?$': 'babel-jest'
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!(ol|rc-time-picker|css-animation|labelgun|mapbox-to-ol-style|ol-mapbox-style|antd|@terrestris|(rc-*[a-z]*))/).*/'
+    '/node_modules/(?!(ol|rc-time-picker|css-animation|labelgun|mapbox-to-ol-style|ol-mapbox-style|antd|@ant-design|@terrestris|@babel|(rc-*[a-z]*))/).*/'
   ],
   setupFiles: [
-    '<rootDir>/config/jest/spec/setup.js'
+    '<rootDir>/config/jest/spec/setup.js',
+    '<rootDir>/config/jest/spec/__mocks__/matchMediaMock.js',
   ],
   setupFilesAfterEnv: [
     'jest-canvas-mock'

@@ -4,7 +4,7 @@ const path = require('path');
 const fetch = require('node-fetch');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const InterpolateHtmlPlugin = require('interpolate-html-plugin');
+const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const URLSearchParams = require('url-search-params');
 const cheerio = require('cheerio');
 const commonConfig = require('./webpack.common.config.js');
@@ -140,7 +140,7 @@ const delayedConf =
                   title: title
                 }),
                 new webpack.ProgressPlugin({ profile: false }),
-                new InterpolateHtmlPlugin(interpolations),
+                new InterpolateHtmlPlugin(HtmlWebpackPlugin, interpolations),
                 new webpack.DefinePlugin({
                   APP_MODE: JSON.stringify(commonConfig.TARGET)
                 })

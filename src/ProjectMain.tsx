@@ -143,7 +143,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
                 tools={[
                   <SimpleButton
                     key="closeButton"
-                    icon="close"
+                    iconName="fas fa-close"
                     size="small"
                     tooltip={t('General.close')}
                     onClick={this.closeAddLayerWindow}

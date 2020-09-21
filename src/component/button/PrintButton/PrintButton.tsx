@@ -5,14 +5,15 @@ import Window from '@terrestris/react-geo/dist/Window/Window';
 
 import PrintPanelV3, { PrintConfig } from '../../PrintPanel/PrintPanelV3';
 import { TooltipPlacement } from 'antd/lib/tooltip';
+import { ButtonProps } from 'antd/lib/button';
 
 interface DefaultPrintButtonProps {
-  type: 'default' | 'primary' | 'ghost' | 'dashed' | 'danger' | 'link',
-  shape: 'circle' | 'circle-outline' | 'round',
-  icon: string
+  type: 'default' | 'primary' | 'ghost' | 'dashed' | 'danger' | 'link';
+  shape: 'circle' | 'circle-outline' | 'round';
+  iconName: string;
 }
 
-interface PrintButtonProps extends Partial<DefaultPrintButtonProps> {
+interface BaseProps {
   map: any,
   tooltip: string,
   tooltipPlacement: TooltipPlacement,
@@ -24,6 +25,8 @@ interface PrintButtonProps extends Partial<DefaultPrintButtonProps> {
 interface PrintButtonState {
   winVisible: boolean
 }
+
+export type PrintButtonProps = BaseProps & Partial<DefaultPrintButtonProps> & ButtonProps;
 
 /**
  * Class representing the PrintButton.
@@ -63,7 +66,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
       t,
       type,
       shape,
-      icon,
+      iconName,
       map,
       tooltip,
       tooltipPlacement,
@@ -83,7 +86,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
       <SimpleButton
         type={type}
         shape={shape}
-        icon={icon}
+        iconName={iconName}
         tooltip={tooltip}
         tooltipPlacement={tooltipPlacement}
         onClick={this.changeFullPrintWindowVisibility}
@@ -100,7 +103,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
           bounds="#app"
           tools={[
             <SimpleButton
-              icon="times"
+              iconName="fas fa-times"
               key="close-tool"
               size="small"
               tooltip={t('General.close')}

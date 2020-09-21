@@ -13,7 +13,7 @@ import {
 } from '../../../state/actions/RemoteFeatureAction';
 
 interface DefaultHsiButtonProps extends ToggleButtonProps {
-  icon: string,
+  iconName: string,
   /**
   * Whether the GFI control should requests all layers at a given coordinate
   * or just the uppermost one.
@@ -60,7 +60,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
     drillDown: true,
     type: 'primary',
     shape: 'circle',
-    icon: 'info'
+    iconName: 'fas fa-info'
   };
 
   constructor(props: HsiButtonProps) {
@@ -205,7 +205,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
     const {
         type,
         shape,
-        icon,
+        iconName,
         tooltip,
         tooltipPlacement
       } = this.props;
@@ -213,7 +213,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
         <ToggleButton
           type={type}
           shape={shape}
-          icon={icon}
+          iconName={iconName}
           tooltip={tooltip}
           tooltipPlacement={tooltipPlacement}
           onToggle={this.onHsiToggle}

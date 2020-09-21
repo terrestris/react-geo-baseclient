@@ -120,7 +120,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
       >
         {
           orderedMeasureTypes.map((mt: 'line' | 'polygon' | 'angle') => {
-            const fontIcon = mt === 'line'
+            const iconName = mt === 'line'
               ? 'ft ft-measure-distance'
               : mt === 'polygon'
                 ? 'ft ft-measure-area'
@@ -130,7 +130,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
               name={mt}
               type={type}
               shape={shape}
-              fontIcon={fontIcon}
+              iconName={iconName}
               map={map}
               pressed={activeTool === mt}
               measureType={mt}
@@ -164,7 +164,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
         <SimpleButton
           type={type}
           shape={shape}
-          fontIcon="ft ft-toolgroup-measure"
+          iconName="ft ft-toolgroup-measure"
           onClick={this.onMenuButtonClick}
         />
         {

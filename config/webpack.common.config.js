@@ -33,7 +33,7 @@ const commonWebpackConfig = {
 
   output: {
     // Add /* filename */ comments to generated require()s in the output.
-    pathinfo: (TARGET.indexOf('build') > -1) ? false: true,
+    pathinfo: (TARGET.indexOf('build') > -1) ? false : true,
     path: (TARGET.indexOf('start') > -1) ? path.join(__dirname + '/../') : path.join(__dirname + '/../', 'build'),
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
@@ -75,8 +75,10 @@ const commonWebpackConfig = {
         {
           loader: 'less-loader',
           options: {
-            // modifyVars: CustomAntThemeModifyVars(),
-            javascriptEnabled: true
+            lessOptions: {
+              // modifyVars: CustomAntThemeModifyVars(),
+              javascriptEnabled: true
+            }
           }
         }
       ]
@@ -103,20 +105,11 @@ const commonWebpackConfig = {
   },
 
   plugins: [
-    // Moment.js is an extremely popular library that bundles large locale files
-    // by default due to how Webpack interprets its code. This is a practical
-    // solution that requires the user to opt into importing specific locales.
-    // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-    // You can remove this if you don't use Moment.js:
-    // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    // Perform type checking and linting in a separate process to speed up compilation
     new ForkTsCheckerWebpackPlugin({
-      async: false,
-      watch: paths.appSrc,
-      tsconfig: paths.appTsConfig,
-      tslint: paths.appTsLint,
+      async: false
     }),
-    new CopyWebpackPlugin([
+    new CopyWebpackPlugin({
+      patterns: [
         './public/de.png',
         './public/en.png',
         './public/logo_terrestris.png',
@@ -129,14 +122,16 @@ const commonWebpackConfig = {
         }, {
           from: RESOURCES_PATH + 'i18n/',
           to: './resources/i18n/'
-        }, {
-          from: RESOURCES_PATH + 'img/',
-          to: './resources/img/'
-        }, {
-          from: RESOURCES_PATH + 'help/',
-          to: './resources/help/'
         }
-    ]),
+        // , {
+        //   from: RESOURCES_PATH + 'img/',
+        //   to: './resources/img/'
+        // }, {
+        //   from: RESOURCES_PATH + 'help/',
+        //   to: './resources/help/'
+        // }
+      ]
+    }),
     new webpack.DefinePlugin({
       PROJECT_MAIN_PATH: JSON.stringify(PROJECT_MAIN_PATH),
       PROJECT_MAIN_CLASS: new RegExp('^./' + PROJECT_MAIN_CLASS + '\\.(jsx|js|ts|tsx)$'),
@@ -148,8 +143,8 @@ const commonWebpackConfig = {
     extensions: ['.ts', '.tsx', '.js'],
     modules: ['node_modules'],
     alias: {
-       // This is need if working with npm link or while invoking react-geo-baseclient as submodule
-       // in some other project
+      // This is need if working with npm link or while invoking react-geo-baseclient as submodule
+      // in some other project
       '@terrestris/base-util': path.join(__dirname + '/../', 'node_modules', '@terrestris/base-util'),
       '@terrestris/ol-util': path.join(__dirname + '/../', 'node_modules', '@terrestris/ol-util'),
       '@terrestris/react-geo': path.join(__dirname + '/../', 'node_modules', '@terrestris/react-geo'),

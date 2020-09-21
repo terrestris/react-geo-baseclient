@@ -2,7 +2,7 @@ import * as React from 'react';
 import OlLayerGroup from 'ol/layer/Group';
 import Carousel from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css'
-import { Icon } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 import LayerCarouselSlide from '../LayerCarouselSlide/LayerCarouselSlide';
 import './LayerCarousel.less';
@@ -225,7 +225,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    * @param {Object} evt The mouseover/click event
    * @return {OlLayer} layer The clicked/hovered layer object
    */
-  findLayer (evt: any) {
+  findLayer(evt: any) {
     let targetElement = evt.target;
 
     const id = targetElement.getAttribute('data-identifier');
@@ -324,18 +324,18 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     const layerSlides: any[] = this.getLayerSlides();
 
     return (
-        <Carousel
-          className={carouselClassName}
-          arrows={true}
-          infinite={true}
-          centered={true}
-          slidesPerPage={Math.round(window.innerWidth / this.getWidth()) - 1}
-          arrowLeft={<Icon type="left" />}
-          arrowRight={<Icon type="right" />}
-          addArrowClickHandler={true}
-        >
-          {layerSlides}
-        </Carousel>
+      <Carousel
+        className={carouselClassName}
+        arrows={true}
+        infinite={true}
+        centered={true}
+        slidesPerPage={Math.round(window.innerWidth / this.getWidth()) - 1}
+        arrowLeft={<LeftOutlined />}
+        arrowRight={<RightOutlined />}
+        addArrowClickHandler={true}
+      >
+        {layerSlides}
+      </Carousel>
     );
   }
 }

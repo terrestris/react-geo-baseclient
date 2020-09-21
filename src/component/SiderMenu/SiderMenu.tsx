@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu } from 'antd';
+import { FileOutlined, DesktopOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
 import './SiderMenu.less';
 
 import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/MeasureButton';
@@ -87,15 +88,18 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
           <img src="logo_terrestris.png" alt="Logo" />
         </div>
         <div className="sidermenu-language-selection">
-        <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')}/>
-          <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')}/>
+          <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />
+          <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')} />
         </div>
         <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
           <SubMenu
             key="1"
             className="treesubmenu"
             title={
-              <div><Icon type="file" /><span>{t('LayerTree')}</span></div>
+              <div>
+                <FileOutlined />
+                <span>{t('LayerTree')}</span>
+              </div>
             }
           >
             <LayerTree
@@ -106,7 +110,10 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
           <SubMenu
             key="2"
             title={
-              <div><Icon type="desktop" /><span>{t('Legend')}</span></div>
+              <div>
+                <DesktopOutlined />
+                <span>{t('Legend')}</span>
+              </div>
             }
           >
             <LegendContainer
@@ -115,12 +122,15 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
               filterFn={(l: any) => l.getVisible()}
             />
           </SubMenu>
-          { measureToolsEnabled ?
+          {measureToolsEnabled ?
             <SubMenu
               key="sub1"
               className="measuremenu"
               title={
-                <div><Icon type="file" /><span>{t('Measure.title')}</span></div>
+                <div>
+                  <FileOutlined />
+                  <span>{t('Measure.title')}</span>
+                </div>
               }
             >
               <Menu.Item key="5">
@@ -135,7 +145,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
                       measureType="line"
                       multipleDrawing={true}
                     >
-                    {t('Measure.line')}
+                      {t('Measure.line')}
                     </MeasureButton>
                     <MeasureButton
                       name="poly"
@@ -143,14 +153,14 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
                       measureType="polygon"
                       multipleDrawing={true}
                     >
-                    {t('Measure.area')}
+                      {t('Measure.area')}
                     </MeasureButton>
                     <MeasureButton
                       name="angle"
                       map={map}
                       measureType="angle"
                     >
-                    {t('Measure.angle')}
+                      {t('Measure.angle')}
                     </MeasureButton>
                   </ToggleGroup>
                 </div>
@@ -159,13 +169,17 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
           }
           <SubMenu
             key="sub2"
-            title={<span><Icon type="team" /><span>{t('Imprint.title')}</span></span>}
+            title={<span>
+              <TeamOutlined />
+              <span>{t('Imprint.title')}</span>
+            </span>
+            }
           >
             <Menu.Item key="6">{t('Imprint.contact')}</Menu.Item>
             <Menu.Item key="8">{t('Imprint.privacypolicy')}</Menu.Item>
           </SubMenu>
           <Menu.Item key="9">
-            <Icon type="user" />
+            <UserOutlined />
             <span>{t('Logout')}</span>
           </Menu.Item>
         </Menu>
