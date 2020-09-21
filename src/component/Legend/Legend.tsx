@@ -18,6 +18,14 @@ interface LegendState {
   collapsed: boolean;
 }
 
+export type LegendParams = {
+  WIDTH: number;
+  HEIGHT: number;
+  TRANSPARENT: boolean;
+  LEGEND_OPTIONS: string;
+  SCALE?: number;
+};
+
 /**
  * Class representing the Legend.
  *
@@ -73,7 +81,7 @@ export default class Legend extends React.Component<LegendProps, LegendState> {
      *
      */
     const getLegend = () => {
-      let params = {
+      const params: LegendParams = {
         WIDTH: 30 * 1.5,
         HEIGHT: 30,
         TRANSPARENT: true,

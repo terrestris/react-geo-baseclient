@@ -22,7 +22,7 @@ const initialState: any = {
  */
 export function fetchRemoteFeaturesOfType(type: string) {
   return function fetchRemoteFeatures(remoteFeatures = initialState, action: any) {
-    let passThroughOpts = action.passThroughOpts;
+    const passThroughOpts = action.passThroughOpts;
 
     switch (action.type) {
       case `${FETCHING_FEATURES}_${type}`:

@@ -9,8 +9,8 @@ import {
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 
-const _isFunction = require('lodash/isFunction');
-const _isEqual = require('lodash/isEqual');
+const isFunction = require('lodash/isFunction');
+const isEqual = require('lodash/isEqual');
 
 
 import './LayerSetBaseMapChooser.less';
@@ -41,8 +41,6 @@ interface LayerSetBaseMapChooserState {
  */
 class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps, LayerSetBaseMapChooserState> {
 
-  _overViewControl: OlOverviewMap;
-
   /**
    * The default props of LayerSetBaseMapChooser
    *
@@ -54,6 +52,8 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     loading: false,
     onCollapse: () => { }
   };
+
+  _overViewControl: OlOverviewMap;
 
   /**
    * Creates an instance of LayerSetBaseMapChooser.
@@ -116,7 +116,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     const ovMap = this._overViewControl.getOverviewMap();
 
     // adapt projection of overview map if map projection was changed
-    if (!_isEqual(prevProps.projection, projection)) {
+    if (!isEqual(prevProps.projection, projection)) {
       const newProj = getProjection(projection);
       const center = map.getView().getCenter();
       const resolution = map.getView().getResolution();
@@ -175,7 +175,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     } = this.props;
     map.dispatchEvent('updateLayerAccordion');
 
-    if (_isFunction(onTopicLayerGroupSelected)) {
+    if (isFunction(onTopicLayerGroupSelected)) {
       onTopicLayerGroupSelected(layerOlUid);
     }
   }

@@ -167,8 +167,11 @@ describe('MapViewReducer', () => {
       zoom: 0
     });
 
-    const scales = [-1, 0, 1909, 56264.4, 10000000000, {}, 250001, 249999, (50000 + 25000) / 2, undefined, 'Manta', 'Manta1909'];
-    const targetZoomLevels = [0, (mapViewState.resolutions.length - 1), 9, 5, 0, 0, 3, 3, 5, 0, 0 ,0];
+    const scales = [
+      -1, 0, 1909, 56264.4, 10000000000, {}, 250001, 249999,
+      (50000 + 25000) / 2, undefined, 'Manta', 'Manta1909'
+    ];
+    const targetZoomLevels = [0, (mapViewState.resolutions.length - 1), 9, 5, 0, 0, 3, 3, 5, 0, 0, 0];
     expect(scales.length).toBe(targetZoomLevels.length);
 
     for (let i = 0; i < scales.length; i++) {

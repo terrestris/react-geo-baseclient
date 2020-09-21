@@ -47,7 +47,7 @@ class AppContextUtil {
    */
   static appContextToState(appContext: any) {
 
-    let state: any = initialState;
+    const state: any = initialState;
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
     const mapLayers = ObjectUtil.getValue('mapLayers', appContext);
     const activeModules = ObjectUtil.getValue('activeTools', appContext);
@@ -73,7 +73,7 @@ class AppContextUtil {
     state.mapView.present.zoom = mapConfig.zoom;
 
     // mapLayers
-    state.mapLayers = union(state.mapLayers , mapLayers);
+    state.mapLayers = union(state.mapLayers, mapLayers);
     state.mapLayers = AppContextUtil.parseLayers(mapLayers);
 
     state.activeModules = union(state.activeModules, activeModules);
@@ -98,14 +98,14 @@ class AppContextUtil {
    * @return {Array} An array of ol.layer.Layer.
    */
   static parseLayers(mapLayerObjArray: object[]) {
-    let layers: OlLayer[] = [];
+    const layers: OlLayer[] = [];
     let tileGrids: any[] = [];
 
     if (isEmpty(mapLayerObjArray)) {
       return layers;
     }
 
-    mapLayerObjArray.forEach(function(layerObj: any) {
+    mapLayerObjArray.forEach(function (layerObj: any) {
       if ([
         'ImageWMS',
         'TileWMS',
@@ -136,13 +136,13 @@ class AppContextUtil {
           legendUrl
         } = layerObj.appearance;
 
-        var wmtsTileGrid = new OlTileGridWMTS({
+        const wmtsTileGrid = new OlTileGridWMTS({
           origin: layerObj.source.tileGrid.origin,
           resolutions: layerObj.source.tileGrid.resolutions,
           matrixIds: layerObj.source.tileGrid.matrixIds
         });
 
-        var wmtsSource = new OlSourceWMTS({
+        const wmtsSource = new OlSourceWMTS({
           projection: layerObj.source.projection,
           urls: [
             layerObj.source.url
@@ -179,10 +179,10 @@ class AppContextUtil {
         return;
       }
 
-      let tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);
+      const tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);
       let tileGrid;
       if (tileGridObj) {
-        tileGrid = find(tileGrids,function(o: any) {
+        tileGrid = find(tileGrids, function (o: any) {
           return isEqual(o.getTileSize()[0], tileGridObj.tileSize) &&
             isEqual(o.getTileSize()[1], tileGridObj.tileSize);
         });
@@ -369,15 +369,15 @@ class AppContextUtil {
    * @param appContext
    */
   static getToolsForToolbar(activeModules: Array<any>, map: any,
-                            appContext: any, t: (arg: string) => string, config?: any) {
-    let tools: any[] = [];
+    appContext: any, t: (arg: string) => string, config?: any) {
+    const tools: any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
 
     activeModules.forEach((module: any) => {
       if (module.hidden) {
         return;
       }
-      switch(module.xtype) {
+      switch (module.xtype) {
         case 'basigx-button-zoomin':
           tools.push(<ZoomButton
             delta={1}
@@ -471,7 +471,8 @@ class AppContextUtil {
   }
 
   static measureToolsEnabled(activeModules: Array<any>) {
-    return activeModules.map((module: any) => module.xtype === 'shogun-button-showmeasuretoolspanel').indexOf(true) > -1;
+    return activeModules.map((module: any) =>
+      module.xtype === 'shogun-button-showmeasuretoolspanel').indexOf(true) > -1;
   }
 
 }

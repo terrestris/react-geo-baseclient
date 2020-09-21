@@ -1,6 +1,6 @@
 import * as React from 'react';
 import OlOverlay from 'ol/Overlay';
-const _isEqual = require('lodash/isEqual');
+const isEqual = require('lodash/isEqual');
 
 import './FeatureInfo.less';
 import OverlayPositioning from 'ol/OverlayPositioning';
@@ -117,6 +117,21 @@ interface FeatureInfoState {
 export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoState> {
 
   /**
+ * The default properties.
+ */
+  public static defaultProps: DefaultFeatureInfoProps = {
+    width: 200,
+    offset: [0, 0],
+    stopEvent: false,
+    insertFirst: true,
+    autoPan: true,
+    autoPanAnimation: {
+      duration: 250
+    },
+    autoPanMargin: 20
+  };
+
+  /**
    * The root div node rendered inside this component. Will be filled
    * in ref callback and be used as HTML element for the OlOverlay.
    * @type {Element}
@@ -141,21 +156,6 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
    * @type {HTMLDivElement}
    */
   private featureInfoPopup: React.RefObject<HTMLDivElement>;
-
-  /**
-   * The default properties.
-   */
-  public static defaultProps: DefaultFeatureInfoProps = {
-    width: 200,
-    offset: [0, 0],
-    stopEvent: false,
-    insertFirst: true,
-    autoPan: true,
-    autoPanAnimation: {
-      duration: 250
-    },
-    autoPanMargin: 20
-  };
 
   /**
    * The constructor.
@@ -190,7 +190,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
   /**
    *
    */
-  componentDidUpdate(prevProps: FeatureInfoProps, prevState: FeatureInfoState) {
+  componentDidUpdate(prevProps: FeatureInfoProps) {
 
     const {
       position,
@@ -201,7 +201,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       this.featureInfoOverlay.setPositioning(positioning);
     }
 
-    if (!_isEqual(prevProps.position, position)) {
+    if (!isEqual(prevProps.position, position)) {
       this.setState({
         position: position
       });
@@ -255,7 +255,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
    * Creates the overlay that wraps the current component.
    */
   createOverlay() {
-    let featureInfoOverlay = new OlOverlay({
+    const featureInfoOverlay = new OlOverlay({
       element: this.overlayElement,
       offset: this.props.offset,
       positioning: this.props.positioning,

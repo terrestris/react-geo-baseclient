@@ -31,13 +31,13 @@ import PrintUtil from '../../util/PrintUtil/PrintUtil';
 import './PrintPanelV3.less';
 
 interface DefaultPrintPanelV3Props {
-  legendBlackList: string[],
-  printLayerBlackList: string[]
+  legendBlackList: string[];
+  printLayerBlackList: string[];
 }
 
 export interface PrintConfig {
-  printServletPath(): string,
-  getPrintFormats(): string[]
+  printServletPath(): string;
+  getPrintFormats(): string[];
 }
 
 interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
@@ -47,7 +47,7 @@ interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
    *
    * @type {OlMap}
    */
-  map: OlMap,
+  map: OlMap;
 
   /**
    * Function that should be called if the print manager couldn't
@@ -55,7 +55,7 @@ interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
    *
    * @type {Function}
    */
-  onPrintManagerInitFailed?: (message: string) => void
+  onPrintManagerInitFailed?: (msg: string) => void;
 
   /**
    * List of (vector) layers which should be excluded from list of
@@ -64,50 +64,50 @@ interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
    *
    * @type {String[]}
    */
-  legendBlackList: string[],
+  legendBlackList: string[];
 
   /**
    * List of (vector) layers which should be excluded while printing.
    *
    * @type {String[]}
    */
-  printLayerBlackList: string[],
+  printLayerBlackList: string[];
 
   /**
    * Available print scales, which should be shown in print dialog. If not set,
    * fallback values from printCapabilities will be used instead.
    */
-  printScales: number[],
+  printScales: number[];
   /**
    * Configuration object holding relevant print servlet settings.
    *
    * @type {Object}
    */
-  config: PrintConfig,
+  config: PrintConfig;
 
   /**
    * The translate method.
    * @type {Function}
    */
-  t: (arg: string) => string
+  t: (arg: string) => string;
 }
 
 interface PrintPanelV3State {
-  printTitle: string,
-  printDescription: string,
-  layout: string,
-  scale: number | undefined,
-  dpi: number | undefined,
-  outputFormat: string,
-  layouts: [],
-  scales: number[],
-  dpis: number[],
-  outputFormats: string[],
-  previewUrl: string,
-  loadingDownload: boolean,
-  loadingPreview: boolean,
-  printLegend: boolean,
-  legendIds: number[]
+  printTitle: string;
+  printDescription: string;
+  layout: string;
+  scale: number | undefined;
+  dpi: number | undefined;
+  outputFormat: string;
+  layouts: [];
+  scales: number[];
+  dpis: number[];
+  outputFormats: string[];
+  previewUrl: string;
+  loadingDownload: boolean;
+  loadingPreview: boolean;
+  printLegend: boolean;
+  legendIds: number[];
 }
 
 /**
@@ -178,7 +178,8 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       map,
       config,
       t,
-      printScales
+      printScales,
+      printLayerBlackList
     } = this.props;
 
     const printManager = new MapFishPrintV3Manager({
@@ -187,7 +188,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       customPrintScales: printScales,
       timeout: 30000,
       legendFilter: (layer: any) => this.state.legendIds.includes(layer.ol_uid),
-      layerFilter: (layer: any) => !(layer instanceof OlLayerGroup) && !this.props.printLayerBlackList.includes(layer.get('name'))
+      layerFilter: (l: any) => !(l instanceof OlLayerGroup) && !printLayerBlackList.includes(l.get('name'))
     });
 
     this.printManager = printManager;
@@ -238,7 +239,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.setState({
       scale
     });
-  }
+  };
 
   /**
    * Called if print title input field value was changed.
@@ -252,7 +253,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     }, () => {
       this.printManager.customParams.title = this.state.printTitle;
     });
-  }
+  };
 
   /**
    * Called if print description textarea value was changed.
@@ -267,7 +268,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     }, () => {
       this.printManager.customParams.comment = this.state.printDescription;
     });
-  }
+  };
 
   /**
    * Called if print layout value was changed.
@@ -279,7 +280,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.setState({ layout }, () => {
       this.printManager.setLayout(layout);
     });
-  }
+  };
 
   /**
    * Called if print scale value was changed.
@@ -291,7 +292,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.setState({ scale }, () => {
       this.printManager.setScale(scale);
     });
-  }
+  };
 
   /**
    * Called if print dpi value was changed.
@@ -303,7 +304,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.setState({ dpi }, () => {
       this.printManager.setDpi(dpi);
     });
-  }
+  };
 
   /**
    * Called if print output format value was changed.
@@ -315,7 +316,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.setState({ outputFormat }, () => {
       this.printManager.setOutputFormat(outputFormat);
     });
-  }
+  };
 
   /**
    * Called if print legend checkbox value was changed.
@@ -329,7 +330,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     }, () => {
       this.printManager.printLegend = this.state.printLegend;
     });
-  }
+  };
 
   /**
    * OnChange handler for the printLegends selectfield.
@@ -338,7 +339,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
    */
   onPrintLegendsChange = (legendIds: number[]) => {
     this.setState({ legendIds });
-  }
+  };
 
   /**
    * Click handler for print button.
@@ -356,6 +357,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.setCustomMapParams();
 
     this.printManager.print(true)
+      // eslint-disable-next-line
       .then((downloadUrl: string) => {
         this.setState({
           loadingDownload: false
@@ -367,7 +369,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         });
         message.error(t('PrintPanel.printErrorMsg'));
       });
-  }
+  };
 
   /**
    * Click handler for print preview button.
@@ -400,6 +402,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           message.error(t('PrintPanel.printErrorMsg'));
         }
       })
+      // eslint-disable-next-line
       .catch((error: any) => {
         this.setState({
           previewUrl: this.previewPlaceholder,
@@ -410,7 +413,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
 
     this.printManager.setOutputFormat(outputFormat);
     this.printManager.setDpi(dpi);
-  }
+  };
 
   /**
    * Sets the custom print params.
@@ -439,7 +442,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.printManager.customParams.printScalebar = true;
     this.printManager.customParams.attributions =
       PrintUtil.getAttributions(map, this.printManager.extentLayer);
-  }
+  };
 
   /**
    * Sets the custom map params for print.
@@ -470,7 +473,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       outputFormat: '',
       legendIds: []
     });
-  }
+  };
 
   /**
    * Get a SelectField option for every printable layer.
@@ -527,7 +530,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         {format}
       </Option>
     );
-  }
+  };
 
   /**
    * Renders select options for the scale combo box of the print form.
@@ -536,13 +539,13 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
    * @return {React.ReactElement} Option element.
    */
   renderScaleSelectOptions = (scale: number): React.ReactElement<OptionProps> => {
-    const scaleString = `1:${scale.toLocaleString()}`
+    const scaleString = `1:${scale.toLocaleString()}`;
     return (
       <Option key={scale.toString()} value={scale}>
         {scaleString}
       </Option>
     );
-  }
+  };
 
   /**
    * Renders select options for the layout combo box of the print form.
@@ -559,7 +562,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         {layout.name}
       </Option>
     );
-  }
+  };
 
   /**
    * Renders select options for the dpi combo box of the print form.
@@ -576,7 +579,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         {`${dpi} dpi`}
       </Option>
     );
-  }
+  };
 
   /**
    * The render function.
@@ -611,7 +614,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         <Row
           gutter={5}
         >
-          {/*preview column*/}
+          {/* preview column */}
           <Col span={12}>
             <Card className="preview-card">
               <span>{t('PrintPanel.previewCardTitle')}</span>
@@ -624,11 +627,11 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
               }
             </Card>
           </Col>
-          {/*settings column*/}
+          {/* settings column */}
           <Col
             span={12}
           >
-            {/*title and description*/}
+            {/* title and description */}
             <div className="wrapper-settings-col">
               <Card className="common-settings-card">
                 <div className="title-wrapper">
@@ -649,7 +652,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                   onChange={this.onPrintDescriptionChange}
                 />
               </Card>
-              {/*print properties*/}
+              {/* print properties */}
               <Card
                 className="print-settings-card"
               >
@@ -661,7 +664,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                     value={layout}
                     onChange={this.onPrintLayoutChange}
                   >
-                    {layouts.map(layout => this.renderLayoutSelectOptions(layout))}
+                    {layouts.map(l => this.renderLayoutSelectOptions(l))}
                   </Select>
                 </div>
                 <div className="select-div">
@@ -672,7 +675,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                     value={scale}
                     onChange={this.onPrintScaleChange}
                   >
-                    {scales.map(scale => this.renderScaleSelectOptions(scale))}
+                    {scales.map(s => this.renderScaleSelectOptions(s))}
                   </Select>
                 </div>
                 <div className="select-div">
@@ -683,7 +686,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                     value={dpi}
                     onChange={this.onPrintResolutionChange}
                   >
-                    {dpis.map(dpi => this.renderDpiSelectOptions(dpi))}
+                    {dpis.map(d => this.renderDpiSelectOptions(d))}
                   </Select>
                 </div>
                 <div className="select-div">
@@ -694,7 +697,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                     value={outputFormat}
                     onChange={this.onPrintOutputFormatChange}
                   >
-                    {outputFormats.map(outputFormat => this.renderFormatSelectOptions(outputFormat))}
+                    {outputFormats.map(of => this.renderFormatSelectOptions(of))}
                   </Select>
                 </div>
                 <Checkbox

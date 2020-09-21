@@ -15,7 +15,7 @@ import { applyTransform } from 'ol/extent.js';
 import { createStringXY } from 'ol/coordinate.js';
 import OlView from 'ol/View';
 import OlMousePositionControl from 'ol/control/MousePosition';
-
+// eslint-disable-next-line
 import CoordinateReferenceSystemCombo from '@terrestris/react-geo/dist/Field/CoordinateReferenceSystemCombo/CoordinateReferenceSystemCombo';
 import ScaleCombo from '@terrestris/react-geo/dist/Field/ScaleCombo/ScaleCombo';
 
@@ -123,8 +123,8 @@ export class Footer extends React.Component<FooterProps, FooterState> {
         undefinedHTML: '&nbsp;',
         projection
       };
-      const mousePositionControl = new OlMousePositionControl(options);
-      map.addControl(mousePositionControl);
+      const mousePositionCtrl = new OlMousePositionControl(options);
+      map.addControl(mousePositionCtrl);
     }
   };
 
@@ -142,7 +142,8 @@ export class Footer extends React.Component<FooterProps, FooterState> {
     if (!mousePositionControls) {
       return;
     }
-    const crtlToRemove = mousePositionControls.find((ctrl: any) => ctrl.get('name') === this.footerMousePositionControlName);
+    const crtlToRemove = mousePositionControls.find((ctrl: any) =>
+      ctrl.get('name') === this.footerMousePositionControlName);
     if (crtlToRemove) {
       map.removeControl(crtlToRemove);
     }
@@ -165,12 +166,12 @@ export class Footer extends React.Component<FooterProps, FooterState> {
     const fromToTransform = getTransform(currentProjection, newProj);
     const currentExtent = map.getView().calculateExtent(map.getSize());
 
-    var transformedExtent = applyTransform(currentExtent, fromToTransform);
+    const transformedExtent = applyTransform(currentExtent, fromToTransform);
     const resolutions = mapScales
       .map((scale: number) =>
         MapUtil.getResolutionForScale(scale, newProj.getUnits()))
       .reverse();
-    var newView = new OlView({
+    const newView = new OlView({
       projection: newProj,
       resolutions: resolutions
     });

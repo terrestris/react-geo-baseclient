@@ -9,8 +9,8 @@ import AgFeatureGrid from '@terrestris/react-geo/dist/Grid/AgFeatureGrid/AgFeatu
 
 import './FeatureInfoGrid.less';
 
-const _uniqueId = require('lodash/uniqueId');
-const _isEqual = require('lodash/isEqual');
+const uniqueId = require('lodash/uniqueId');
+const isEqual = require('lodash/isEqual');
 
 interface DefaultFeatureInfoGridProps {
 }
@@ -85,14 +85,14 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
       selectedFeat
     } = this.state;
 
-    if (!_isEqual(prevProps.features, features)) {
+    if (!isEqual(prevProps.features, features)) {
       features[0].set('selectedFeat', true);
       this.setState({
         selectedFeat: features[0],
         currentPage: 1
       });
     }
-    if (!_isEqual(prevState.selectedFeat, selectedFeat)) {
+    if (!isEqual(prevState.selectedFeat, selectedFeat)) {
       this.updateVectorLayer(selectedFeat);
     }
   }
@@ -171,7 +171,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
    * @return {Array} Data array.
    */
   getRowData(feat: any): any[] {
-    let rowData: any[] = [];
+    const rowData: any[] = [];
     const featProps = feat.getProperties();
     Object.keys(featProps).forEach(propKey => {
       const prop = featProps[propKey];
@@ -182,7 +182,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
         return;
       }
       rowData.push({
-        id: _uniqueId('propId-'),
+        id: uniqueId('propId-'),
         attr: propKey,
         val: featProps[propKey]
       });

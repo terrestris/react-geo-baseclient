@@ -49,7 +49,7 @@ interface PrintPanelProps extends Partial<DefaultPrintPanelV2Props> {
    *
    * @type {Function}
    */
-  onPrintManagerInitFailed: (message: string) => void;
+  onPrintManagerInitFailed: (msg: string) => void;
 
   /**
    * List of (vector) layers which should be excluded from list of
@@ -450,7 +450,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
    */
   onPrintLegendsChange(value: number[]) {
     this.setState({
-      legendIds: value.map((value: any) => parseInt(value, 10))
+      legendIds: value.map((v: any) => parseInt(v, 10))
     });
   }
 
@@ -615,7 +615,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
                     value={layout}
                     onChange={this.onPrintLayoutChange}
                   >
-                    {layouts.map(layout => this.renderLayoutSelectOptions(layout))}
+                    {layouts.map(l => this.renderLayoutSelectOptions(l))}
                   </Select>
                 </div>
                 <div className="select-div">
@@ -626,7 +626,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
                     value={scale}
                     onChange={this.onPrintScaleChange}
                   >
-                    {scales.map(scale => this.renderSelectOptions(scale))}
+                    {scales.map(s => this.renderSelectOptions(s))}
                   </Select>
                 </div>
                 <div className="select-div">
@@ -637,7 +637,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
                     value={dpi}
                     onChange={this.onPrintResolutionChange}
                   >
-                    {dpis.map(dpi => this.renderDpiSelectOptions(dpi))}
+                    {dpis.map(d => this.renderDpiSelectOptions(d))}
                   </Select>
                 </div>
                 <div className="select-div">
@@ -648,10 +648,14 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
                     value={outputFormat}
                     onChange={this.onPrintOutputFormatChange}
                   >
-                    {outputFormats.map(outputFormat => this.renderSelectOptions(outputFormat))}
+                    {outputFormats.map(of => this.renderSelectOptions(of))}
                   </Select>
                 </div>
-                <span style={{ display: 'none' }} className="switch-label-span">{t('PrintPanel.printLabelLabelText')}</span>
+                <span
+                  style={{ display: 'none' }}
+                  className="switch-label-span">
+                  {t('PrintPanel.printLabelLabelText')}
+                </span>
                 <Switch
                   // style={{display: 'none'}}
                   onChange={this.onPrintLabelSwitchChange}

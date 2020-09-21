@@ -136,7 +136,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
     // dispatch that any running HOVER process should be canceled
     dispatch(abortFetchingFeatures('HOVER'));
 
-    let infoUrlsToCombine: any = {};
+    const infoUrlsToCombine: any = {};
     map.forEachLayerAtPixel(pixel, (layer: any) => {
       const layerSource: any = layer.getSource();
       if (!layerSource.getFeatureInfoUrl) {
@@ -192,7 +192,7 @@ export class HsiButton extends React.Component<HsiButtonProps> {
    * @return {Boolean} Whether the layer is hoverable or not.
    */
   layerFilter(layerCandidate: any) {
-    let source = layerCandidate.getSource();
+    const source = layerCandidate.getSource();
     const isHoverable = layerCandidate.get('hoverable');
     const isWms = source instanceof OlSourceImageWMS || source instanceof OlSourceTileWMS;
     return isHoverable && isWms;

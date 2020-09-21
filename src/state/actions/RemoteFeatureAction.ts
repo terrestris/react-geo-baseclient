@@ -98,7 +98,8 @@ export function abortFetchingFeatures(type: string, passThroughOpts?: any) {
  *                            projection.
  * @return {Function} The thunk.
  */
-export function fetchFeatures(type: string, urls: string[], passThroughOpts: any, fetchOpts?: any, format?: any, readerOpts?: any) {
+export function fetchFeatures(type: string, urls: string[], passThroughOpts: any,
+  fetchOpts?: any, format?: any, readerOpts?: any) {
   let last = 0;
   return function (dispatch: Function, getState: Function) {
     const currentTime = new Date().getTime();
@@ -134,10 +135,11 @@ export function fetchFeatures(type: string, urls: string[], passThroughOpts: any
     };
     readerOpts = Object.assign({}, defaultReaderOpts, readerOpts);
 
-    let dispatcher: any[] = [];
+    const dispatcher: any[] = [];
 
     // Iterate all given URLs and create a dispatcher method for each one.
     urls.forEach((url) => {
+      // eslint-disable-next-line
       dispatcher.push(dispatch(fetchFeaturesFromResource(url, fetchOpts, format, readerOpts)));
     });
 
@@ -149,7 +151,7 @@ export function fetchFeatures(type: string, urls: string[], passThroughOpts: any
       .then(features => {
         // only dispatch if we're not out of date
         if (last === currentTime) {
-          let resultFeatures = {};
+          const resultFeatures = {};
           features.forEach(feat => {
             if (!isEmpty(feat.features)) {
               Object.assign(resultFeatures, feat.features);
@@ -163,7 +165,6 @@ export function fetchFeatures(type: string, urls: string[], passThroughOpts: any
       }).catch(() => {
         return dispatch(fetchedFeatures(type, {}, passThroughOpts));
       });
-    ;
   };
 }
 
@@ -187,11 +188,11 @@ export function fetchFeaturesFromResource(url: string, fetchOpts: any, format: a
       .then(text => {
         let features = format.readFeatures(text, readerOpts);
         features.forEach((feat: any) => {
-          let layerName = FeatureUtil.getFeatureTypeNameFromGetFeatureInfoUrl(url);
+          const layerName = FeatureUtil.getFeatureTypeNameFromGetFeatureInfoUrl(url);
           feat.set('layerName', layerName);
         });
         features = features.reduce((resultFeat: any, currFeat: any) => {
-          let name = currFeat.get('layerName');
+          const name = currFeat.get('layerName');
           (resultFeat[name] || (resultFeat[name] = [])).push(currFeat);
           return resultFeat;
         }, {});

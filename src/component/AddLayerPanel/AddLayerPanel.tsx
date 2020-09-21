@@ -146,8 +146,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
               placeholder={t('AddLayerPanel.enterUrl')}
               value={url}
               onChange={event => {
-                const url = event.target.value;
-                this.setState({url});
+                this.setState({ url: event.target.value });
               }}
               onSearch={this.getCapabilities}
               enterButton={true}

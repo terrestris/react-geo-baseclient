@@ -14,7 +14,7 @@ export function reduce(activeModules: object[] = [], action: any) {
   switch (action.type) {
     case ADD_ACTIVEMODULE: {
       // Create a copy of the existing array of activeTools.
-      let activeModulesCopy = Array.from(activeModules);
+      const activeModulesCopy = Array.from(activeModules);
       // And add the new one.
       activeModulesCopy.push(action.activeModule);
 
@@ -23,7 +23,7 @@ export function reduce(activeModules: object[] = [], action: any) {
     case REMOVE_ACTIVEMODULE: {
       if (action.activeModuleIdx > -1) {
         // Create a copy of the existing array of activeTools.
-        let activeModulesCopy = Array.from(activeModules);
+        const activeModulesCopy = Array.from(activeModules);
         // And remove the provided one.
         activeModulesCopy.splice(action.activeModuleIdx, 1);
 

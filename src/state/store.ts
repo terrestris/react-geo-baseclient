@@ -45,7 +45,7 @@ const loadAppContextStore = () => {
     })
       .then(appContext => {
         appContext = appContext instanceof Array ? appContext[0] : appContext;
-        let state = appContextUtil.appContextToState(appContext);
+        const state = appContextUtil.appContextToState(appContext);
         resolve(state);
       })
       .catch(err => {

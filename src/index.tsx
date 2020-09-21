@@ -20,30 +20,6 @@ import SomethingWentWrong from './SomethingWentWrong';
 import MapProvider from '@terrestris/react-geo/dist/Provider/MapProvider/MapProvider';
 import { mappify } from '@terrestris/react-geo/dist/HigherOrderComponent/MappifiedComponent/MappifiedComponent';
 
-/**
- * Get the map asynchronoulsy.
- */
-const mapPromise: Promise<OlMap> = new Promise((resolve, reject) => {
-  const subScription = store.subscribe(() => {
-    const state: any = store.getState();
-    const errorOnAppContext = state.asyncInitialState.error;
-    if (errorOnAppContext !== null) {
-      reject(errorOnAppContext);
-    }
-    if (state.asyncInitialState.loaded) {
-      const map = setupMap(store.getState());
-      resolve(map);
-      subScription(); // unsubscribe
-    }
-  });
-}).catch(err => {
-  render(
-    <SomethingWentWrong
-      error={err.message}
-    />,
-    document.getElementById('app')
-  );
-}) as Promise<OlMap>;
 
 /**
  * The setupMap function
@@ -95,6 +71,30 @@ const setupMap = (state: any) => {
 
   return map;
 };
+/**
+ * Get the map asynchronoulsy.
+ */
+const mapPromise: Promise<OlMap> = new Promise((resolve, reject) => {
+  const subScription = store.subscribe(() => {
+    const state: any = store.getState();
+    const errorOnAppContext = state.asyncInitialState.error;
+    if (errorOnAppContext !== null) {
+      reject(errorOnAppContext);
+    }
+    if (state.asyncInitialState.loaded) {
+      const map = setupMap(store.getState());
+      resolve(map);
+      subScription(); // unsubscribe
+    }
+  });
+}).catch(err => {
+  render(
+    <SomethingWentWrong
+      error={err.message}
+    />,
+    document.getElementById('app')
+  );
+}) as Promise<OlMap>;
 
 const MappifiedMain = (mappify)(Main);
 

@@ -25,7 +25,7 @@ interface DefaultHeaderProps {
   logoConfig: LogoConfig[];
 }
 
-interface HeaderProps extends Partial<DefaultHeaderProps>{
+interface HeaderProps extends Partial<DefaultHeaderProps> {
   dispatchFn: (arg: any) => void;
   topic: string;
   map: any;
@@ -44,6 +44,16 @@ interface HeaderState {
  */
 export default class Header extends React.Component<HeaderProps, HeaderState> {
 
+  public static defaultProps: DefaultHeaderProps = {
+    title: 'react-geo-baseclient',
+    className: 'app-header',
+    loading: false,
+    logoConfig: [{
+      src: 'logo_terrestris.png',
+      target: 'https://www.terrestris.de'
+    }]
+  };
+
   /**
    * Create the Header.
    *
@@ -54,16 +64,6 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
     this.onHelpButtonClick = this.onHelpButtonClick.bind(this);
   }
-
-  public static defaultProps: DefaultHeaderProps = {
-    title: 'react-geo-baseclient',
-    className: 'app-header',
-    loading: false,
-    logoConfig: [{
-      src: 'logo_terrestris.png',
-      target: 'https://www.terrestris.de'
-    }]
-  };
 
   /**
    * Change handler if language was changed
@@ -180,8 +180,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             lg={1}
           >
             <div className="app-language-selection">
-              <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')}/>
-              <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')}/>
+              <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />
+              <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')} />
             </div>
           </Col>
         </Row>

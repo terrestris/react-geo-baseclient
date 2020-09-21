@@ -16,8 +16,8 @@ const MenuItem = Menu.Item;
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Window from '@terrestris/react-geo/dist/Window/Window';
 
-const _isEqual = require('lodash/isEqual');
-const _isEmpty = require('lodash/isEmpty');
+const isEqual = require('lodash/isEqual');
+const isEmpty = require('lodash/isEmpty');
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import FeatureInfoGrid from '../../FeatureInfoGrid/FeatureInfoGrid';
@@ -71,16 +71,16 @@ interface FeatureInfoState {
 export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoState> {
 
   /**
-   * Vector layer to represent hovered features.
-   */
-  private hoverVectorLayer: any = null;
-
-  /**
    * The default properties.
    */
   public static defaultProps: DefaultFeatureInfoProps = {
     maxMenuItems: 10
   };
+
+  /**
+   * Vector layer to represent hovered features.
+   */
+  private hoverVectorLayer: any = null;
 
   /**
    * The constructor.
@@ -152,9 +152,8 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
    * componentDidUpdate lifecycle function.
    *
    * @param {FeatureInfoProps} prevProps Previous props
-   * @param {FeatureInfoState} prevProps Previous state
    */
-  componentDidUpdate(prevProps: FeatureInfoProps, prevState: FeatureInfoState) {
+  componentDidUpdate(prevProps: FeatureInfoProps) {
     const {
       features,
       map,
@@ -167,7 +166,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       this.initHoverVectorLayer(map);
     }
 
-    if (!_isEqual(features, prevProps.features)) {
+    if (!isEqual(features, prevProps.features)) {
       const hoverFeatures: any[] = [];
       const featureTypes: string[] = Object.keys(features);
       featureTypes.slice(0, maxMenuItems).forEach((featTypeName: string) => {
@@ -180,7 +179,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       hoverVectorSource.addFeatures(hoverFeatures);
     }
 
-    if (!_isEmpty(features) && this.state.menuHidden) {
+    if (!isEmpty(features) && this.state.menuHidden) {
       this.setState({
         menuHidden: false
       });

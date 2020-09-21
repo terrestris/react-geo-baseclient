@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 import ProjectMain from './ProjectMain';
 export interface MainProps {
   map: any;
-  t: (arg: string) => {};
+  t: (arg: string) => string;
 }
 
 export interface MainState {

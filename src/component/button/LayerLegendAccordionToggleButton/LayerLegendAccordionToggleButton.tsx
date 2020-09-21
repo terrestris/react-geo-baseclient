@@ -5,16 +5,15 @@ import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Butt
 interface DefaultLayerLegendAccordionToggleButtonProps extends ToggleButtonProps {
   iconName: string;
   className: string;
-};
+}
 
-interface LayerLegendAccordionToggleButtonProps extends Partial<DefaultLayerLegendAccordionToggleButtonProps>{
+interface LayerLegendAccordionToggleButtonProps extends Partial<DefaultLayerLegendAccordionToggleButtonProps> {
   onToggle: (pressed: boolean) => void;
   tooltip: string;
   pressed: boolean;
 }
 
 interface LayerLegendAccordionToggleButtonState {
-
 }
 
 /**
@@ -22,16 +21,9 @@ interface LayerLegendAccordionToggleButtonState {
  * @class LayerLegendAccordionToggleButton
  * @extends {React.PureComponent<LayerLegendAccordionToggleButtonProps, LayerLegendAccordionToggleButtonState>}
  */
-class LayerLegendAccordionToggleButton extends React.PureComponent<LayerLegendAccordionToggleButtonProps, LayerLegendAccordionToggleButtonState> {
+class LayerLegendAccordionToggleButton extends
+  React.PureComponent<LayerLegendAccordionToggleButtonProps, LayerLegendAccordionToggleButtonState> {
 
-  /**
-   * Create the LayerLegendAccordionToggleButton.
-   *
-   * @constructs LayerLegendAccordionToggleButton
-   */
-  constructor(props: LayerLegendAccordionToggleButtonProps) {
-    super(props);
-  }
 
   /**
    *
@@ -45,6 +37,15 @@ class LayerLegendAccordionToggleButton extends React.PureComponent<LayerLegendAc
     tooltip: '',
     className: 'react-geo-baseclient-layer-toggle-btn'
   };
+
+  /**
+   * Create the LayerLegendAccordionToggleButton.
+   *
+   * @constructs LayerLegendAccordionToggleButton
+   */
+  constructor(props: LayerLegendAccordionToggleButtonProps) {
+    super(props);
+  }
 
   render() {
     const {

@@ -23,7 +23,7 @@ interface LayerLegendAccordionNodeProps extends Partial<DefaultLayerLegendAccord
 }
 
 interface LayerLegendAccordionNodeState {
-  loadingQueue: String[];
+  loadingQueue: string[];
 }
 
 /**
@@ -32,7 +32,8 @@ interface LayerLegendAccordionNodeState {
  * @class LayerLegendAccordionNode
  * @extends React.Component
  */
-export default class LayerLegendAccordionNode extends React.Component<LayerLegendAccordionNodeProps, LayerLegendAccordionNodeState> {
+// eslint-disable-next-line
+ export default class LayerLegendAccordionNode extends React.Component<LayerLegendAccordionNodeProps, LayerLegendAccordionNodeState> {
 
   public static defaultProps: DefaultLayerLegendAccordionNodeProps = {
     layer: null
@@ -226,7 +227,8 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
       );
     }
 
-    const loadingSpanClass = `fa fa-spinner fa-spin layer-tree-node-loading-${loadingQueue.length > 0 ? 'active' : 'inactive'}`;
+    const loadingSpanClass =
+      `fa fa-spinner fa-spin layer-tree-node-loading-${loadingQueue.length > 0 ? 'active' : 'inactive'}`;
 
     return (
       <span

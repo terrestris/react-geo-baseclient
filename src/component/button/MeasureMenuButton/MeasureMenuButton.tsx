@@ -110,7 +110,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
       activeTool
     } = this.state;
 
-    let orderedMeasureTypes = menuPlacement === 'left'? measureTypes : measureTypes.reverse();
+    const orderedMeasureTypes = menuPlacement === 'left'? measureTypes : measureTypes.reverse();
 
     return (
       <ToggleGroup

@@ -3,17 +3,17 @@ import Legend from '../../Legend/Legend';
 
 // default props
 interface DefaultLegendContainerProps {
-  layers: []
+  layers: [];
 }
 interface LegendContainerProps extends Partial<DefaultLegendContainerProps>{
-  layerGroup: any,
-  filterFn?: (l: any) => {},
-  t?: () => {},
-  scale?: number
+  layerGroup: any;
+  filterFn?: (l: any) => {};
+  t?: () => {};
+  scale?: number;
 }
 
 interface LegendContainerState {
-  renderLegendToggle: boolean
+  renderLegendToggle: boolean;
 }
 
 /**

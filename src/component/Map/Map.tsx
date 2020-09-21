@@ -17,7 +17,7 @@ import { setZoom, setCenter, setProjection } from '../../state/actions/MapViewCh
  */
 const mapStateToProps = (state: any) => {
 
-  let presentMapView = state.mapView.present;
+  const presentMapView = state.mapView.present;
 
   return {
     center: presentMapView.center,
@@ -57,11 +57,6 @@ interface MapState {
 export class Map extends React.Component<MapProps, MapState> {
 
   /**
-   *
-   */
-  private debouncedCheckPointerRest: Function | null;
-
-  /**
   * The default properties.
   */
   public static defaultProps: DefaultMapProps = {
@@ -70,6 +65,11 @@ export class Map extends React.Component<MapProps, MapState> {
     pointerRestInterval: 500,
     pointerRestTolerance: 3
   };
+
+  /**
+   *
+   */
+  private debouncedCheckPointerRest: () => void;
 
   /**
    * Create a map.
@@ -102,8 +102,8 @@ export class Map extends React.Component<MapProps, MapState> {
     // register ol-listener to handle user-initiated prop updates
     const map = this.props.map;
     map.setTarget('map');
-    map.on('moveend', this.onMapMoveEnd, this);
-    map.on('change:view', this.onMapViewChange, this);
+    map.on('moveend', this.onMapMoveEnd);
+    map.on('change:view', this.onMapViewChange);
 
     this.initDebouncedCheckPointerRest(this.props.pointerRestInterval);
     this.setFirePointerRest(this.props.firePointerRest);
@@ -183,14 +183,14 @@ export class Map extends React.Component<MapProps, MapState> {
       return;
     }
 
-    let pixel = olEvt.pixel;
-    let tolerance = this.props.pointerRestTolerance;
+    const pixel = olEvt.pixel;
+    const tolerance = this.props.pointerRestTolerance;
 
-    let lastPointerPixel = this.state.lastPointerPixel;
+    const lastPointerPixel = this.state.lastPointerPixel;
 
     if (lastPointerPixel) {
-      let deltaX = Math.abs(lastPointerPixel[0] - pixel[0]);
-      let deltaY = Math.abs(lastPointerPixel[1] - pixel[1]);
+      const deltaX = Math.abs(lastPointerPixel[0] - pixel[0]);
+      const deltaY = Math.abs(lastPointerPixel[1] - pixel[1]);
 
       if (deltaX > tolerance || deltaY > tolerance) {
         this.setState({
@@ -237,9 +237,8 @@ export class Map extends React.Component<MapProps, MapState> {
   /**
    * Sets updated map CRS globally in state after mapView was changed.
    *
-   * @param {Event} evt mapView change event containing updated map.
    */
-  onMapViewChange(evt: any) {
+  onMapViewChange() {
     const {
       map,
       dispatch
