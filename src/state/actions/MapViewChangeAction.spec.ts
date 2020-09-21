@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import * as actions from './MapViewChangeAction';
 import {
   SET_PROJECTION,
@@ -52,7 +52,7 @@ describe('MapViewChangeAction', () => {
 
   it ('dispatches an action on setting zoom out', () => {
     const expectedAction = {
-      type: ZOOM_OUT,
+      type: ZOOM_OUT
     };
     expect(actions.zoomOut()).toEqual(expectedAction);
   });

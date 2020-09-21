@@ -14,16 +14,16 @@ interface DefaultPrintButtonProps {
 }
 
 interface BaseProps {
-  map: any,
-  tooltip: string,
-  tooltipPlacement: TooltipPlacement,
-  t: (arg: string) => string,
-  config: PrintConfig,
-  printScales: number[]
+  map: any;
+  tooltip: string;
+  tooltipPlacement: TooltipPlacement;
+  t: (arg: string) => string;
+  config: PrintConfig;
+  printScales: number[];
 }
 
 interface PrintButtonState {
-  winVisible: boolean
+  winVisible: boolean;
 }
 
 export type PrintButtonProps = BaseProps & Partial<DefaultPrintButtonProps> & ButtonProps;
@@ -45,7 +45,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
     super(props);
     this.state = {
       winVisible: false
-    }
+    };
   }
 
   /**
@@ -56,7 +56,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
     this.setState({
       winVisible: !this.state.winVisible
     });
-  }
+  };
 
   /**
    * The render function
@@ -83,15 +83,15 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
 
     return (
       <div>
-      <SimpleButton
-        type={type}
-        shape={shape}
-        iconName={iconName}
-        tooltip={tooltip}
-        tooltipPlacement={tooltipPlacement}
-        onClick={this.changeFullPrintWindowVisibility}
-      />
-      { winVisible &&
+        <SimpleButton
+          type={type}
+          shape={shape}
+          iconName={iconName}
+          tooltip={tooltip}
+          tooltipPlacement={tooltipPlacement}
+          onClick={this.changeFullPrintWindowVisibility}
+        />
+        { winVisible &&
         <Window
           onEscape={this.changeFullPrintWindowVisibility}
           title={t('PrintPanel.windowTitle')}
@@ -121,7 +121,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
             printScales={printScales}
           />
         </Window>
-      }
+        }
       </div>
     );
   }

@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import OlImageWmsSource from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
 
@@ -13,13 +13,13 @@ describe('<PrintUtil />', () => {
 
   let map: any;
 
-  let printExtentLayer = TestUtils.createTileLayer({});
+  const printExtentLayer = TestUtils.createTileLayer({});
   printExtentLayer.set('name', 'printExtentLayer');
 
-  let reactGeoLayer = TestUtils.createTileLayer({});
+  const reactGeoLayer = TestUtils.createTileLayer({});
   reactGeoLayer.set('name', 'react-geo-test-layer');
 
-  let invisibleLayer = new OlImageLayer({
+  const invisibleLayer = new OlImageLayer({
     source: new OlImageWmsSource({
       url: 'http://url.de',
       params: undefined,
@@ -29,13 +29,13 @@ describe('<PrintUtil />', () => {
   });
   invisibleLayer.set('name', 'I am not visible');
 
-  let printableLayer = new OlImageLayer({
+  const printableLayer = new OlImageLayer({
     source: new OlImageWmsSource({
       url: 'http://url.de',
       attributions: 'abcderf',
       params: undefined,
       projection: undefined
-    }),
+    })
   });
   printableLayer.set('name', 'printMe');
 
@@ -71,7 +71,7 @@ describe('<PrintUtil />', () => {
 
       it ('returns filtered array of printable layers', () => {
 
-        let got = PrintUtil.getPrintableLayers(map, printExtentLayer);
+        const got = PrintUtil.getPrintableLayers(map, printExtentLayer);
 
         expect(got).toBeInstanceOf(Array);
         expect(got.length).toBe(1);
@@ -83,7 +83,7 @@ describe('<PrintUtil />', () => {
 
       it ('returns string containing attribution of printable layers', () => {
 
-        let got = PrintUtil.getAttributions(map, printExtentLayer);
+        const got = PrintUtil.getAttributions(map, printExtentLayer);
 
         expect(got).toBe('abcderf');
       });

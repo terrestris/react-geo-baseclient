@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import TestUtils from '../../../../config/jest/spec/TestUtils';
 
 import LayerSetBaseMapChooser from './LayerSetBaseMapChooser';
@@ -18,7 +18,7 @@ describe('<LayerSetBaseMapChooser />', () => {
       params: {
         'LAYERS': 'ns:ftName',
         'TRANSPARENT': true
-    }
+      }
     }),
     visible: true
   });

@@ -13,8 +13,8 @@ import { toggleHelpModal } from '../../../state/actions/AppStateAction';
 import './Header.less';
 
 type LogoConfig = {
-  src: string,
-  target: string
+  src: string;
+  target: string;
 };
 
 // default props
@@ -25,7 +25,7 @@ interface DefaultHeaderProps {
   logoConfig: LogoConfig[];
 }
 
-interface HeaderProps extends Partial<DefaultHeaderProps>{
+interface HeaderProps extends Partial<DefaultHeaderProps> {
   dispatchFn: (arg: any) => void;
   topic: string;
   map: any;
@@ -44,17 +44,6 @@ interface HeaderState {
  */
 export default class Header extends React.Component<HeaderProps, HeaderState> {
 
-  /**
-   * Create the Header.
-   *
-   * @constructs Header
-   */
-  constructor(props: HeaderProps) {
-    super(props);
-
-    this.onHelpButtonClick = this.onHelpButtonClick.bind(this);
-  }
-
   public static defaultProps: DefaultHeaderProps = {
     title: 'react-geo-baseclient',
     className: 'app-header',
@@ -66,6 +55,17 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
   };
 
   /**
+   * Create the Header.
+   *
+   * @constructs Header
+   */
+  constructor(props: HeaderProps) {
+    super(props);
+
+    this.onHelpButtonClick = this.onHelpButtonClick.bind(this);
+  }
+
+  /**
    * Change handler if language was changed
    * @param {String} lang The chosen language (e.g. 'de' or 'en')
    */
@@ -73,7 +73,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     if (this.props.i18n) {
       this.props.i18n.changeLanguage(lang);
     }
-  }
+  };
 
   /**
    * Handler for click action of help button
@@ -121,8 +121,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             md={logoConfig.length}
             lg={logoConfig.length}
           >
-          <div className="logo">
-            {
+            <div className="logo">
+              {
                 logoConfig.map((config, idx) =>
                   <img
                     src={config.src}
@@ -132,8 +132,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                     onClick={() => window.open(config.target, '_blank')}
                   />
                 )
-            }
-          </div>
+              }
+            </div>
           </Col>
           <Col
             xs={10}
@@ -151,10 +151,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             />
           </Col>
           <Col
-             xs={0}
-             sm={0}
-             md={13 - logoConfig.length}
-             lg={13 - logoConfig.length}
+            xs={0}
+            sm={0}
+            md={13 - logoConfig.length}
+            lg={13 - logoConfig.length}
           >
             <span className="app-title">{titleString}</span>
           </Col>
@@ -180,8 +180,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             lg={1}
           >
             <div className="app-language-selection">
-              <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')}/>
-              <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')}/>
+              <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />
+              <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')} />
             </div>
           </Col>
         </Row>

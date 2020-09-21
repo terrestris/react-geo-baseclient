@@ -10,7 +10,7 @@ import {
 } from 'antd';
 const MenuItem = Menu.Item;
 
-const _isEmpty = require('lodash/isEmpty');
+const isEmpty = require('lodash/isEmpty');
 
 interface LayerTreeDropdownContextMenuProps {
   layer: OlLayerBase;
@@ -29,6 +29,7 @@ interface LayerTreeDropdownContextMenuState {
  * @class LayerTreeDropdownContextMenu
  * @extends React.Component
  */
+// eslint-disable-next-line
 export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropdownContextMenuProps, LayerTreeDropdownContextMenuState> {
 
   /**
@@ -107,7 +108,7 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
         onClick={this.onContextMenuItemClick}
       >
         <MenuItem
-          disabled={_isEmpty(layer.get('description'))}
+          disabled={isEmpty(layer.get('description'))}
           key="info"
         >
           {t('LayerTreeDropdownContextMenu.layerInfoText')}

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import MapComponent, { MapComponentProps } from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent';
+import OlMap from 'ol/Map';
 
 const isEqual = require('lodash/isEqual');
 const debounce = require('lodash/debounce');
@@ -16,7 +17,7 @@ import { setZoom, setCenter, setProjection } from '../../state/actions/MapViewCh
  */
 const mapStateToProps = (state: any) => {
 
-  let presentMapView = state.mapView.present;
+  const presentMapView = state.mapView.present;
 
   return {
     center: presentMapView.center,
@@ -27,23 +28,24 @@ const mapStateToProps = (state: any) => {
 };
 
 interface DefaultMapProps extends MapComponentProps {
-  firePointerRest: boolean,
-  pointerRestInterval: number,
-  pointerRestTolerance: number
+  firePointerRest: boolean;
+  pointerRestInterval: number;
+  pointerRestTolerance: number;
+
 }
 
 interface MapProps extends Partial<DefaultMapProps> {
-  map: any, //OlMap
-  dispatch: (arg: any) => void,
-  center: number[],
-  zoom: number,
-  mapLayers: any[]
-  projection: string
+  map: OlMap;
+  dispatch: (arg: any) => void;
+  center: number[];
+  zoom: number;
+  mapLayers: any[];
+  projection: string;
 }
 
 interface MapState {
-  lastPointerPixel: number[] | null,
-  isMouseOverMapEl: boolean
+  lastPointerPixel: number[] | null;
+  isMouseOverMapEl: boolean;
 }
 
 /**
@@ -55,19 +57,19 @@ interface MapState {
 export class Map extends React.Component<MapProps, MapState> {
 
   /**
-   *
-   */
-  private debouncedCheckPointerRest: Function | null;
-
-  /**
-   * The default properties.
-   */
+  * The default properties.
+  */
   public static defaultProps: DefaultMapProps = {
     map: null,
     firePointerRest: true,
     pointerRestInterval: 500,
     pointerRestTolerance: 3
   };
+
+  /**
+   *
+   */
+  private debouncedCheckPointerRest: () => void;
 
   /**
    * Create a map.
@@ -100,8 +102,8 @@ export class Map extends React.Component<MapProps, MapState> {
     // register ol-listener to handle user-initiated prop updates
     const map = this.props.map;
     map.setTarget('map');
-    map.on('moveend', this.onMapMoveEnd, this);
-    map.on('change:view', this.onMapViewChange, this);
+    map.on('moveend', this.onMapMoveEnd);
+    map.on('change:view', this.onMapViewChange);
 
     this.initDebouncedCheckPointerRest(this.props.pointerRestInterval);
     this.setFirePointerRest(this.props.firePointerRest);
@@ -129,7 +131,7 @@ export class Map extends React.Component<MapProps, MapState> {
    *
    * @param {Boolean} state Whether to enable or disable the listener.
    */
-  setFirePointerRest(state: boolean|undefined) {
+  setFirePointerRest(state: boolean | undefined) {
     if (state) {
       this.props.map.on('pointermove', this.debouncedCheckPointerRest);
     } else {
@@ -181,14 +183,14 @@ export class Map extends React.Component<MapProps, MapState> {
       return;
     }
 
-    let pixel = olEvt.pixel;
-    let tolerance = this.props.pointerRestTolerance;
+    const pixel = olEvt.pixel;
+    const tolerance = this.props.pointerRestTolerance;
 
-    let lastPointerPixel = this.state.lastPointerPixel;
+    const lastPointerPixel = this.state.lastPointerPixel;
 
     if (lastPointerPixel) {
-      let deltaX = Math.abs(lastPointerPixel[0] - pixel[0]);
-      let deltaY = Math.abs(lastPointerPixel[1] - pixel[1]);
+      const deltaX = Math.abs(lastPointerPixel[0] - pixel[0]);
+      const deltaY = Math.abs(lastPointerPixel[1] - pixel[1]);
 
       if (deltaX > tolerance || deltaY > tolerance) {
         this.setState({
@@ -226,18 +228,17 @@ export class Map extends React.Component<MapProps, MapState> {
     const mapZoom = mapView.getZoom();
 
     if ((zoom && zoom !== mapZoom) ||
-        (center && !isEqual(center, mapCenter))) {
-        dispatch(setCenter(mapView.getCenter()));
-        dispatch(setZoom(mapView.getZoom()));
+      (center && !isEqual(center, mapCenter))) {
+      dispatch(setCenter(mapView.getCenter()));
+      dispatch(setZoom(mapView.getZoom()));
     }
   }
 
   /**
    * Sets updated map CRS globally in state after mapView was changed.
    *
-   * @param {Event} evt mapView change event containing updated map.
    */
-  onMapViewChange(evt: any) {
+  onMapViewChange() {
     const {
       map,
       dispatch

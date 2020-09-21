@@ -51,7 +51,7 @@ function removeActiveModuleByIndex(activeModuleIdx: number) {
 export function addActiveModule(activeModule: any) {
   return function(dispatch: any, getState: any) {
     const activeModules = getState().activeModules;
-    let containsModule = activeModules.some((module: any) => module.name === activeModule.name);
+    const containsModule = activeModules.some((module: any) => module.name === activeModule.name);
 
     if (containsModule) {
       Logger.debug('Active module already exists in state.');

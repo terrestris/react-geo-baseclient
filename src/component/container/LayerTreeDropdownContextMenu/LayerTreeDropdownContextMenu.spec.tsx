@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import TestUtils from '../../../../config/jest/spec/TestUtils';
 
 import LayerTreeDropdownContextMenu from './LayerTreeDropdownContextMenu';
@@ -14,7 +14,7 @@ describe('<LayerTreeDropdownContextMenu />', () => {
     wrapper = TestUtils.mountComponent(LayerTreeDropdownContextMenu, {
       t: () => {},
       layer,
-      map,
+      map
     }, {});
   });
 

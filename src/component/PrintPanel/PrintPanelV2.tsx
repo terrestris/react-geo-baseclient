@@ -30,8 +30,8 @@ import PrintUtil from '../../util/PrintUtil/PrintUtil';
 import './PrintPanelV2.less';
 
 interface DefaultPrintPanelV2Props {
-  legendBlackList: string[],
-  printLayerBlackList: string[]
+  legendBlackList: string[];
+  printLayerBlackList: string[];
 }
 
 interface PrintPanelProps extends Partial<DefaultPrintPanelV2Props> {
@@ -41,7 +41,7 @@ interface PrintPanelProps extends Partial<DefaultPrintPanelV2Props> {
    *
    * @type {OlMap}
    */
-  map: OlMap,
+  map: OlMap;
 
   /**
    * Function that should be called if the print manager couldn't
@@ -49,47 +49,47 @@ interface PrintPanelProps extends Partial<DefaultPrintPanelV2Props> {
    *
    * @type {Function}
    */
-  onPrintManagerInitFailed: (message: string) => void,
+  onPrintManagerInitFailed: (msg: string) => void;
 
   /**
    * List of (vector) layers which should be excluded from list of
    * available legends in print dialog.
    */
-  legendBlackList: string[],
+  legendBlackList: string[];
 
   /**
    * List of (vector) layers which should be excluded while printing
    */
-  printLayerBlackList: string[],
+  printLayerBlackList: string[];
 
   /**
    * configuration object holding relevant print servlet URLs
    */
-  config: any,
+  config: any;
 
   /**
    * The translate method.
    * @type {Function}
    */
-  t: (arg: string) => string
+  t: (arg: string) => string;
 }
 
 interface PrintPanelState {
-  printTitle: string,
-  printDescription: string,
-  layout: string,
-  scale: string,
-  dpi: string,
-  outputFormat: string,
-  printLabel: boolean,
-  layouts: string[],
-  scales: string[],
-  dpis: string[],
-  outputFormats: string[],
-  previewUrl: string,
-  loadingDownload: boolean,
-  loadingPreview: boolean,
-  legendIds: number[]
+  printTitle: string;
+  printDescription: string;
+  layout: string;
+  scale: string;
+  dpi: string;
+  outputFormat: string;
+  printLabel: boolean;
+  layouts: string[];
+  scales: string[];
+  dpis: string[];
+  outputFormats: string[];
+  previewUrl: string;
+  loadingDownload: boolean;
+  loadingPreview: boolean;
+  legendIds: number[];
 }
 
 /**
@@ -205,7 +205,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     this.setState({
       scale: scale.name
     });
-  }
+  };
 
   /**
    * Called if print title textarea value was changed. Updates state value for
@@ -219,7 +219,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     }, () => {
       this.printManager.customParams.mapTitle = this.state.printTitle;
     });
-  }
+  };
 
   /**
    * Called if print description textarea value was changed. Updates state
@@ -234,7 +234,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     }, () => {
       this.printManager.customParams.comment = this.state.printDescription;
     });
-  }
+  };
 
   /**
    * Called if print layout value was changed. Updates state value for layout.
@@ -245,7 +245,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     this.setState({ layout }, () => {
       this.printManager.setLayout(layout);
     });
-  }
+  };
 
   /**
    * Called if print scale value was changed. Updates state value for scale.
@@ -256,7 +256,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     this.setState({ scale }, () => {
       this.printManager.setScale(scale);
     });
-  }
+  };
 
   /**
    * Called if print dpi value was changed. Updates state value for dpi.
@@ -267,7 +267,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     this.setState({ dpi }, () => {
       this.printManager.setDpi(dpi);
     });
-  }
+  };
 
   /**
    * Called if print output format value was changed. Updates state value for
@@ -279,7 +279,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     this.setState({ outputFormat }, () => {
       this.printManager.setOutputFormat(outputFormat);
     });
-  }
+  };
 
   /**
    * Called if print label switch value was changed.
@@ -294,7 +294,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     }, () => {
       this.printManager.customParams.printLabelForSelected = newValue;
     });
-  }
+  };
 
   /**
    * Click handler for "print" button.
@@ -324,7 +324,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
         });
         message.error(t('PrintPanel.printErrorMsg'));
       });
-  }
+  };
 
   /**
    * Click handler for "print preview" button.
@@ -364,7 +364,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
 
     this.printManager.setOutputFormat(outputFormat);
     this.printManager.setDpi(dpi);
-  }
+  };
 
   /**
    * Sets the custom print params.
@@ -390,7 +390,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     this.printManager.customParams.showLegendPage = !preview && !isEmpty(legendIds);
     this.printManager.customParams.attributions =
       PrintUtil.getAttributions(map, this.printManager.extentLayer);
-  }
+  };
 
   /**
    * Click handler for "print reset" button. Resets all fields of the print form.
@@ -404,7 +404,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
       // dpi: '',
       outputFormat: ''
     });
-  }
+  };
 
   /**
    * Get a SelectField option for every printable layer.
@@ -450,7 +450,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
    */
   onPrintLegendsChange(value: number[]) {
     this.setState({
-      legendIds: value.map((value: any) => parseInt(value, 10))
+      legendIds: value.map((v: any) => parseInt(v, 10))
     });
   }
 
@@ -479,7 +479,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
         {displayName}
       </Option>
     );
-  }
+  };
 
   /**
    * Renders select options for the layout combo box. Filters unneeded template
@@ -504,7 +504,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
         </Option>
         : null
     );
-  }
+  };
 
   /**
    * Renders select options for the dpi combo box of the print form.
@@ -521,7 +521,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     const { t } = this.props;
     const mappingObject = {
       72: t('PrintPanel.standardResolutionText'),
-      150: t('PrintPanel.highResolutionText'),
+      150: t('PrintPanel.highResolutionText')
     };
 
     return (
@@ -532,7 +532,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
         {mappingObject[value] ? mappingObject[value] : value}
       </Option>
     );
-  }
+  };
 
   /**
    * The render function.
@@ -564,7 +564,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
         <Row
           gutter={8}
         >
-          {/*preview column*/}
+          {/* preview column*/}
           <Col span={12}>
             <Card
               title={t('PrintPanel.previewCardTitle')}
@@ -577,11 +577,11 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
               />
             </Card>
           </Col>
-          {/*settings column*/}
+          {/* settings column*/}
           <Col
             span={12}
           >
-            {/*title and description*/}
+            {/* title and description*/}
             <div className="wrapper-settings-col">
               <Card className="common-settings-card">
                 <span className="label-span">{t('PrintPanel.printTitleLabelText')}:</span>
@@ -603,7 +603,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
                   onChange={this.onPrintDescriptionChange}
                 />
               </Card>
-              {/*print properties*/}
+              {/* print properties*/}
               <Card
                 className="print-settings-card"
               >
@@ -615,7 +615,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
                     value={layout}
                     onChange={this.onPrintLayoutChange}
                   >
-                    {layouts.map(layout => this.renderLayoutSelectOptions(layout))}
+                    {layouts.map(l => this.renderLayoutSelectOptions(l))}
                   </Select>
                 </div>
                 <div className="select-div">
@@ -626,7 +626,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
                     value={scale}
                     onChange={this.onPrintScaleChange}
                   >
-                    {scales.map(scale => this.renderSelectOptions(scale))}
+                    {scales.map(s => this.renderSelectOptions(s))}
                   </Select>
                 </div>
                 <div className="select-div">
@@ -637,7 +637,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
                     value={dpi}
                     onChange={this.onPrintResolutionChange}
                   >
-                    {dpis.map(dpi => this.renderDpiSelectOptions(dpi))}
+                    {dpis.map(d => this.renderDpiSelectOptions(d))}
                   </Select>
                 </div>
                 <div className="select-div">
@@ -648,10 +648,14 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
                     value={outputFormat}
                     onChange={this.onPrintOutputFormatChange}
                   >
-                    {outputFormats.map(outputFormat => this.renderSelectOptions(outputFormat))}
+                    {outputFormats.map(of => this.renderSelectOptions(of))}
                   </Select>
                 </div>
-                <span style={{ display: 'none' }} className="switch-label-span">{t('PrintPanel.printLabelLabelText')}</span>
+                <span
+                  style={{ display: 'none' }}
+                  className="switch-label-span">
+                  {t('PrintPanel.printLabelLabelText')}
+                </span>
                 <Switch
                   // style={{display: 'none'}}
                   onChange={this.onPrintLabelSwitchChange}

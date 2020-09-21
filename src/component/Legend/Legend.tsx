@@ -6,17 +6,25 @@ import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
 
 // default props
 interface DefaultLegendProps {
-  collapsed: boolean
+  collapsed: boolean;
 }
 interface LegendProps extends Partial<DefaultLegendProps>{
-  layer: any,
-  collapsed: boolean,
-  scale?: number
+  layer: any;
+  collapsed: boolean;
+  scale?: number;
 }
 
 interface LegendState {
-  collapsed: boolean
+  collapsed: boolean;
 }
+
+export type LegendParams = {
+  WIDTH: number;
+  HEIGHT: number;
+  TRANSPARENT: boolean;
+  LEGEND_OPTIONS: string;
+  SCALE?: number;
+};
 
 /**
  * Class representing the Legend.
@@ -73,14 +81,14 @@ export default class Legend extends React.Component<LegendProps, LegendState> {
      *
      */
     const getLegend = () => {
-      let params = {
+      const params: LegendParams = {
         WIDTH: 30 * 1.5,
         HEIGHT: 30,
         TRANSPARENT: true,
         LEGEND_OPTIONS: 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
       };
       if (scale) {
-        params["SCALE"] = scale;
+        params.SCALE = scale;
       }
       return (
         <RGLegend

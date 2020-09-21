@@ -1,7 +1,8 @@
 import * as React from 'react';
 import OlLayerGroup from 'ol/layer/Group';
+import OlLayer from 'ol/layer/Base';
 import Carousel from '@brainhubeu/react-carousel';
-import '@brainhubeu/react-carousel/lib/style.css'
+import '@brainhubeu/react-carousel/lib/style.css';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 import LayerCarouselSlide from '../LayerCarouselSlide/LayerCarouselSlide';
@@ -14,15 +15,15 @@ interface DefaultLayerCarouselProps {
 
 interface LayerCarouselProps extends Partial<DefaultLayerCarouselProps> {
   layers: any[];
-  onLayerSelected: (olUid: String) => void;
+  onLayerSelected: (olUid: string) => void;
 }
 
 interface LayerCarouselState {
-  mouseDownTime: number,
-  renderTrigger: number,
-  originalBaseLayerOlUid: string,
-  width: number,
-  ratio: number
+  mouseDownTime: number;
+  renderTrigger: number;
+  originalBaseLayerOlUid: string;
+  width: number;
+  ratio: number;
 }
 
 /**
@@ -159,7 +160,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     const currentlyVisibleLayer = this.props.layers.find(l => l.getVisible());
     this.setState({
       originalBaseLayerOlUid: currentlyVisibleLayer ? currentlyVisibleLayer.ol_uid : undefined
-    })
+    });
     // change visibility
     this.setLayersVisible([layer.ol_uid]);
     if (callback) {
@@ -188,7 +189,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    * @param {String[]} olUidsToSetVisible
    * @memberof LayerCarousel
    */
-  setLayersVisible(olUidsToSetVisible: String[]) {
+  setLayersVisible(olUidsToSetVisible: string[]) {
     const {
       layers
     } = this.props;
@@ -197,7 +198,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       const visibility = olUidsToSetVisible.includes(l.ol_uid);
       l.setVisible(visibility);
       if (l instanceof OlLayerGroup) {
-        l.getLayers().forEach((l: any) => l.setVisible(visibility));
+        l.getLayers().forEach((ll: OlLayer) => ll.setVisible(visibility));
       }
     });
   }
@@ -226,7 +227,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    * @return {OlLayer} layer The clicked/hovered layer object
    */
   findLayer(evt: any) {
-    let targetElement = evt.target;
+    const targetElement = evt.target;
 
     const id = targetElement.getAttribute('data-identifier');
     if (!id) {

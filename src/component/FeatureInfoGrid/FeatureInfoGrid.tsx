@@ -9,8 +9,8 @@ import AgFeatureGrid from '@terrestris/react-geo/dist/Grid/AgFeatureGrid/AgFeatu
 
 import './FeatureInfoGrid.less';
 
-const _uniqueId = require('lodash/uniqueId');
-const _isEqual = require('lodash/isEqual');
+const uniqueId = require('lodash/uniqueId');
+const isEqual = require('lodash/isEqual');
 
 interface DefaultFeatureInfoGridProps {
 }
@@ -19,22 +19,22 @@ interface FeatureInfoGridProps extends Partial<DefaultFeatureInfoGridProps> {
   /**
    * Array of features to be shown inside of grid using pagination
    */
-  features: any[], // OlFeature[]
+  features: any[]; // OlFeature[]
 
   /**
    * Vector layer used for highlighting of currently shown feature.
    */
-  hoverVectorLayer: any, //OlLayerVector
+  hoverVectorLayer: any; // OlLayerVector
 
   /**
  * Translate function
  */
-  t: (arg: any) => void
+  t: (arg: any) => void;
 }
 
 interface FeatureInfoGridState {
-  currentPage: number,
-  selectedFeat: any // OlFeature
+  currentPage: number;
+  selectedFeat: any; // OlFeature
 }
 
 /**
@@ -65,7 +65,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
       currentPage: 1
     };
 
-    //binds
+    // binds
     this.updateSize = this.updateSize.bind(this);
     this.onPaginationChange = this.onPaginationChange.bind(this);
   }
@@ -85,14 +85,14 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
       selectedFeat
     } = this.state;
 
-    if (!_isEqual(prevProps.features, features)) {
+    if (!isEqual(prevProps.features, features)) {
       features[0].set('selectedFeat', true);
       this.setState({
         selectedFeat: features[0],
         currentPage: 1
       });
     }
-    if (!_isEqual(prevState.selectedFeat, selectedFeat)) {
+    if (!isEqual(prevState.selectedFeat, selectedFeat)) {
       this.updateVectorLayer(selectedFeat);
     }
   }
@@ -171,7 +171,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
    * @return {Array} Data array.
    */
   getRowData(feat: any): any[] {
-    let rowData: any[] = [];
+    const rowData: any[] = [];
     const featProps = feat.getProperties();
     Object.keys(featProps).forEach(propKey => {
       const prop = featProps[propKey];
@@ -182,7 +182,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
         return;
       }
       rowData.push({
-        id: _uniqueId('propId-'),
+        id: uniqueId('propId-'),
         attr: propKey,
         val: featProps[propKey]
       });
@@ -200,7 +200,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
     const defaultColDef = {
       sortable: true,
       resizable: true
-    }
+    };
 
     return (
       <AgFeatureGrid
@@ -231,7 +231,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
    */
   render() {
     const {
-      features,
+      features
     } = this.props;
 
     const {
@@ -251,7 +251,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
           total={features.length}
           pageSize={1}
           onChange={this.onPaginationChange}
-          />
+        />
         {this.getFeatureGrid(selectedFeat)}
       </div>
 

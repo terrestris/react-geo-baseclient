@@ -45,7 +45,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
     onCancel: () => {},
     url: 'https://ows.terrestris.de/osm/service?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities',
     t: (arg: string) => arg
-  }
+  };
 
   constructor(props: AddLayerPanelProps) {
     super(props);
@@ -67,7 +67,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
       .then((capabilities: any) => CapabilitiesUtil.getLayersFromWmsCapabilities(capabilities, 'Title'))
       .then((layers: any[]) => {this.setState({layers});})
       .finally(() => {this.setState({fetching: false});});
-  }
+  };
 
   /**
    *
@@ -80,7 +80,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
     this.setState({
       selectedLayers: filteredLayers
     });
-  }
+  };
 
   /**
    *
@@ -88,7 +88,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
   onAddAllLayers = () => {
     const layers = this.state.layers;
     this.addLayers(layers);
-  }
+  };
 
   /**
    *
@@ -96,7 +96,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
   onAddSelectedLayers = () => {
     const layers = this.state.selectedLayers;
     this.addLayers(layers);
-  }
+  };
 
   /**
    *
@@ -121,7 +121,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
         targetGroup.getLayers().push(layer);
       }
     });
-  }
+  };
 
   render() {
     const {
@@ -146,8 +146,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
               placeholder={t('AddLayerPanel.enterUrl')}
               value={url}
               onChange={event => {
-                const url = event.target.value;
-                this.setState({url});
+                this.setState({ url: event.target.value });
               }}
               onSearch={this.getCapabilities}
               enterButton={true}

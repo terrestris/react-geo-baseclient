@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import reducer from './ActiveModulesReducer';
 import {
   ADD_ACTIVEMODULE,

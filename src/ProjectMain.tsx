@@ -11,7 +11,7 @@ import Window from '@terrestris/react-geo/dist/Window/Window';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 
 import AppContextUtil from './util/AppContextUtil';
-import SiderMenu from './component/SiderMenu/SiderMenu'
+import SiderMenu from './component/SiderMenu/SiderMenu';
 import Footer from './component/container/Footer/Footer';
 import AddLayerPanel from './component/AddLayerPanel/AddLayerPanel';
 import { hideAddLayerWindow } from './state/actions/AppStateAction';
@@ -36,25 +36,25 @@ const mapStateToProps = (state: any) => {
 
 // default props
 export interface DefaultMainProps {
-  loading: boolean
+  loading: boolean;
 }
 
 export interface MainProps extends Partial<DefaultMainProps> {
-  dispatch: (arg: any) => void,
-  loading: boolean,
-  map: any,
-  appContext: {},
-  appContextLoading: boolean,
-  addLayerWindowVisible: boolean,
-  activeModules: object[],
-  mapScales: number[],
-  t: (arg: string) => string
+  dispatch: (arg: any) => void;
+  loading: boolean;
+  map: any;
+  appContext: {};
+  appContextLoading: boolean;
+  addLayerWindowVisible: boolean;
+  activeModules: object[];
+  mapScales: number[];
+  t: (arg: string) => string;
 }
 
 export interface MainState {
-  hasError: boolean,
-  error: Error | null,
-  info: object | null
+  hasError: boolean;
+  error: Error | null;
+  info: object | null;
 }
 
 /**

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import OlLayerGroup from 'ol/layer/Group';
 
-const _isEqual = require('lodash/isEqual');
-const _groupBy = require('lodash/groupBy');
+const isEqual = require('lodash/isEqual');
+const groupBy = require('lodash/groupBy');
 
 import {
   Collapse
@@ -124,13 +124,13 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
     if (!this.state.loadingQueue || !prevState.loadingQueue) {
       return;
     }
-    if (!_isEqual(this.state.loadingQueue, prevState.loadingQueue)) {
+    if (!isEqual(this.state.loadingQueue, prevState.loadingQueue)) {
       const groupingFn = (p: string) => `${p.split('_')[1]}-${p.indexOf('tile') > -1 ? 'tile' : 'image'}`;
 
-      const prevGrouped = _groupBy(prevState.loadingQueue, groupingFn);
-      const currentGrouped = _groupBy(this.state.loadingQueue, groupingFn);
+      const prevGrouped = groupBy(prevState.loadingQueue, groupingFn);
+      const currentGrouped = groupBy(this.state.loadingQueue, groupingFn);
 
-      if (!_isEqual(Object.keys(prevGrouped), Object.keys(currentGrouped))) {
+      if (!isEqual(Object.keys(prevGrouped), Object.keys(currentGrouped))) {
         this.props.map.dispatchEvent('moveend');
       }
     }
@@ -141,14 +141,14 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
    * @param prevProps
    */
   getSnapshotBeforeUpdate(prevProps: any): null {
-    if (!_isEqual(prevProps.revision, this.props.revision)) {
+    if (!isEqual(prevProps.revision, this.props.revision)) {
       if (this.props.mapLayers && this.props.mapLayers.length !== 0) {
         const layersCollection = this._mapLayerGroup.getLayers();
         layersCollection.clear();
         layersCollection.extend(this.props.mapLayers);
       }
       if (this.props.baseLayer) {
-        const baseLayerCollection = this._baseLayerGroup.getLayers()
+        const baseLayerCollection = this._baseLayerGroup.getLayers();
         baseLayerCollection.clear();
         baseLayerCollection.extend([this.props.baseLayer]);
       }

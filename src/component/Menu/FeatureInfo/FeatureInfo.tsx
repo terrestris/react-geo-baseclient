@@ -16,8 +16,8 @@ const MenuItem = Menu.Item;
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Window from '@terrestris/react-geo/dist/Window/Window';
 
-const _isEqual = require('lodash/isEqual');
-const _isEmpty = require('lodash/isEmpty');
+const isEqual = require('lodash/isEqual');
+const isEmpty = require('lodash/isEmpty');
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import FeatureInfoGrid from '../../FeatureInfoGrid/FeatureInfoGrid';
@@ -28,7 +28,7 @@ interface DefaultFeatureInfoProps {
    * The maximum number of menu items to display.
    * @type {Number}
    */
-  maxMenuItems: number
+  maxMenuItems: number;
 }
 
 interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
@@ -36,30 +36,30 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
   * The features to render in the menu.
   * @type {Array}
    */
-  features: any,
+  features: any;
 
   /**
    * The ol map.
    * @type {ol.Map}
    */
-  map: any, // OlMap
+  map: any; // OlMap
 
   /**
    * Translate function
    */
-  t: (arg: string) => void,
+  t: (arg: string) => void;
 
   /**
    * Dispatch function
    */
-  dispatch: (arg: any) => void
+  dispatch: (arg: any) => void;
 }
 
 interface FeatureInfoState {
-  menuHidden: boolean,
-  gridWinHidden: boolean,
-  featuresToShow: any[], //OlFeature[]
-  selectedFeatureType: string
+  menuHidden: boolean;
+  gridWinHidden: boolean;
+  featuresToShow: any[]; // OlFeature[]
+  selectedFeatureType: string;
 }
 
 /**
@@ -71,16 +71,16 @@ interface FeatureInfoState {
 export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoState> {
 
   /**
-   * Vector layer to represent hovered features.
-   */
-  private hoverVectorLayer: any = null;
-
-  /**
    * The default properties.
    */
   public static defaultProps: DefaultFeatureInfoProps = {
     maxMenuItems: 10
   };
+
+  /**
+   * Vector layer to represent hovered features.
+   */
+  private hoverVectorLayer: any = null;
 
   /**
    * The constructor.
@@ -134,7 +134,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
         stroke: new OlStyleStroke({
           color: strokeColor,
           width: 3
-        }),
+        })
       })
     });
   }
@@ -152,9 +152,8 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
    * componentDidUpdate lifecycle function.
    *
    * @param {FeatureInfoProps} prevProps Previous props
-   * @param {FeatureInfoState} prevProps Previous state
    */
-  componentDidUpdate(prevProps: FeatureInfoProps, prevState: FeatureInfoState) {
+  componentDidUpdate(prevProps: FeatureInfoProps) {
     const {
       features,
       map,
@@ -167,7 +166,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       this.initHoverVectorLayer(map);
     }
 
-    if (!_isEqual(features, prevProps.features)) {
+    if (!isEqual(features, prevProps.features)) {
       const hoverFeatures: any[] = [];
       const featureTypes: string[] = Object.keys(features);
       featureTypes.slice(0, maxMenuItems).forEach((featTypeName: string) => {
@@ -180,7 +179,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       hoverVectorSource.addFeatures(hoverFeatures);
     }
 
-    if (!_isEmpty(features) && this.state.menuHidden) {
+    if (!isEmpty(features) && this.state.menuHidden) {
       this.setState({
         menuHidden: false
       });
@@ -210,7 +209,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     this.hoverVectorLayer = hoverVectorLayer;
   }
 
-    /**
+  /**
    * Clears the source of the hover vector layer.
    *
    * @param {Boolean} clearSelection Whether the features currently shown in
@@ -225,7 +224,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     }
     hoverFeatures.forEach((hf: any) => {
       source.removeFeature(hf);
-    })
+    });
   }
 
   /**
@@ -263,14 +262,14 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     const layer = MapUtil.getLayerByNameParam(this.props.map, featType);
     const count = this.props.features[featType].length;
     return (
-        <MenuItem
-          key={featType}
-          onMouseEnter={this.onMenuMouseEnter}
-          onMouseLeave={this.onSubMenuMouseLeave}
-        >
-          {`${layer && layer.get('name') || featType} (${count})`}
-        </MenuItem>
-    )
+      <MenuItem
+        key={featType}
+        onMouseEnter={this.onMenuMouseEnter}
+        onMouseLeave={this.onSubMenuMouseLeave}
+      >
+        {`${layer && layer.get('name') || featType} (${count})`}
+      </MenuItem>
+    );
   }
 
   /**

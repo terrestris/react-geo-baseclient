@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import * as actions from './LoadingAction';
 import {
   ENABLE_LOADING,

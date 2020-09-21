@@ -24,7 +24,7 @@ export class PrintUtil {
         && !(layer instanceof OlLayerGroup)
         && layer !== printLayer;
     });
-  }
+  };
 
   /**
    * Creates an string containing all attributions fo the printable layers.
@@ -41,8 +41,8 @@ export class PrintUtil {
         if (attributions) {
           if (typeof attributions === 'function') {
             const attribution = attributions();
-            attribution.forEach((attribution: string, index: number, allAttributions: string[]) => {
-              attributionString += StringUtil.stripHTMLTags(attribution);
+            attribution.forEach((attr: string, index: number, allAttributions: string[]) => {
+              attributionString += StringUtil.stripHTMLTags(attr);
               if (index < (allAttributions.length - 1)) {
                 attributionString += ',\n';
               }

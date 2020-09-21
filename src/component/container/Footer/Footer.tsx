@@ -15,7 +15,7 @@ import { applyTransform } from 'ol/extent.js';
 import { createStringXY } from 'ol/coordinate.js';
 import OlView from 'ol/View';
 import OlMousePositionControl from 'ol/control/MousePosition';
-
+// eslint-disable-next-line
 import CoordinateReferenceSystemCombo from '@terrestris/react-geo/dist/Field/CoordinateReferenceSystemCombo/CoordinateReferenceSystemCombo';
 import ScaleCombo from '@terrestris/react-geo/dist/Field/ScaleCombo/ScaleCombo';
 
@@ -24,15 +24,15 @@ import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 // default props
 interface DefaultFooterProps {
-  imprintLink: string,
-  imprintText: string
+  imprintLink: string;
+  imprintText: string;
 }
 
 interface FooterProps extends Partial<DefaultFooterProps>{
-  map: any,
-  t: (arg: string) => {},
-  mapScales: number[],
-  projection: string
+  map: any;
+  t: (arg: string) => {};
+  mapScales: number[];
+  projection: string;
 }
 
 interface FooterState {
@@ -122,11 +122,11 @@ export class Footer extends React.Component<FooterProps, FooterState> {
         target: document.getElementById('mouse-position'),
         undefinedHTML: '&nbsp;',
         projection
-      }
-      const mousePositionControl = new OlMousePositionControl(options);
-      map.addControl(mousePositionControl);
+      };
+      const mousePositionCtrl = new OlMousePositionControl(options);
+      map.addControl(mousePositionCtrl);
     }
-  }
+  };
 
   /**
    * Removes mouse position control from map
@@ -142,11 +142,12 @@ export class Footer extends React.Component<FooterProps, FooterState> {
     if (!mousePositionControls) {
       return;
     }
-    const crtlToRemove = mousePositionControls.find((ctrl: any) => ctrl.get('name') === this.footerMousePositionControlName);
+    const crtlToRemove = mousePositionControls.find((ctrl: any) =>
+      ctrl.get('name') === this.footerMousePositionControlName);
     if (crtlToRemove) {
       map.removeControl(crtlToRemove);
     }
-  }
+  };
 
   /**
    * Handler to set projection of map - called if coordinate system in
@@ -165,14 +166,14 @@ export class Footer extends React.Component<FooterProps, FooterState> {
     const fromToTransform = getTransform(currentProjection, newProj);
     const currentExtent = map.getView().calculateExtent(map.getSize());
 
-    var transformedExtent = applyTransform(currentExtent, fromToTransform);
+    const transformedExtent = applyTransform(currentExtent, fromToTransform);
     const resolutions = mapScales
       .map((scale: number) =>
         MapUtil.getResolutionForScale(scale, newProj.getUnits()))
       .reverse();
-    var newView = new OlView({
+    const newView = new OlView({
       projection: newProj,
-      resolutions: resolutions,
+      resolutions: resolutions
     });
     map.setView(newView);
     newView.fit(transformedExtent);
@@ -180,7 +181,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
     const mousePositionControl = map.getControls().getArray().find((c: any) => c instanceof OlMousePositionControl);
 
     if (mousePositionControl) {
-      const isWgs84 = map.getView().getProjection().getCode() === "EPSG:4326";
+      const isWgs84 = map.getView().getProjection().getCode() === 'EPSG:4326';
       const wgs84Format = (coordinate: any) => coordinate.map((coord: number) => ProjectionUtil.toDms(coord));
       mousePositionControl.setProjection(newProj);
       mousePositionControl.setCoordinateFormat(isWgs84 ? wgs84Format : createStringXY(2));

@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import * as actions from './MapLayerChangeAction';
 import {
   SET_LAYERS,
@@ -36,6 +36,7 @@ describe('MapLayerChangeAction', () => {
     expect(actions.addLayers([layer])).toEqual(expectedAction);
   });
 
+  // eslint-disable-next-line
   it ('dispatches an action on updating the visibility of a layer tree node to the current map layers state object', () => {
     const shogunId = 1909;
     const visibility = true;
@@ -48,6 +49,7 @@ describe('MapLayerChangeAction', () => {
     expect(actions.changeLayerVisibility(shogunId, visibility)).toEqual(expectedAction);
   });
 
+  // eslint-disable-next-line
   it ('dispatches an action on updating the ordering of layers in the tree / map to the current map layers state object', () => {
     const mapLayers = [{
       id: '1909',

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import OlOverlay from 'ol/Overlay';
-const _isEqual = require('lodash/isEqual');
+const isEqual = require('lodash/isEqual');
 
 import './FeatureInfo.less';
 import OverlayPositioning from 'ol/OverlayPositioning';
@@ -11,7 +11,7 @@ interface DefaultFeatureInfoProps {
    * The width of the popup.
    * @type {Number}
   */
-  width: number,
+  width: number;
 
   /**
    * Offsets in pixels used when positioning the overlay. The first element
@@ -20,7 +20,7 @@ interface DefaultFeatureInfoProps {
    * A positive value shifts the overlay down.
    * @type {Array}
    */
-  offset: number[],
+  offset: number[];
 
   /**
    * Whether event propagation to the map viewport should be stopped. If true
@@ -29,7 +29,7 @@ interface DefaultFeatureInfoProps {
    * the container with CSS class name ol-overlaycontainer.
    * @type {Boolean}
    */
-  stopEvent: boolean,
+  stopEvent: boolean;
 
   /**
    * Whether the overlay is inserted first in the overlay container, or
@@ -38,14 +38,14 @@ interface DefaultFeatureInfoProps {
    * true so the overlay is displayed below the controls.
    * @type {Boolean}
    */
-  insertFirst: boolean,
+  insertFirst: boolean;
 
   /**
    * If set to true the map is panned when calling setPosition, so that the
    * overlay is entirely visible in the current viewport.
    * @type {Boolean}
    */
-  autoPan: boolean,
+  autoPan: boolean;
 
   /**
    * The animation options used to pan the overlay into view. This animation
@@ -53,14 +53,14 @@ interface DefaultFeatureInfoProps {
    * provided to customize the animation.
    * @type {Object}
    */
-  autoPanAnimation: any,
+  autoPanAnimation: any;
 
   /**
    * The margin (in pixels) between the overlay and the borders of the map
    * when autopanning.
    * @type {Number}
    */
-  autoPanMargin: number,
+  autoPanMargin: number;
 }
 
 interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
@@ -69,13 +69,13 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
    * The map this popup/overlay should be bound to.
    * @type {OlMap}
    */
-  map: any, // OlMap
+  map: any; // OlMap
 
   /**
    * The overlay position in map projection.
    * @type {Array}
    */
-  position: number[],
+  position: number[];
 
   /**
    * Defines how the overlay is actually positioned with respect to its
@@ -84,20 +84,20 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
    * 'top-left', 'top-center', and 'top-right'.
    * @type {String}
    */
-  positioning: OverlayPositioning,
+  positioning: OverlayPositioning;
 
   /**
    * Whether the component is loading (and should render a progress cursor)
    * or not.
    * @type {Boolean}
    */
-  isLoading: boolean,
+  isLoading: boolean;
 
   /**
    * The children elements to render inside the popup.
    * @type {Element}
    */
-  children: any
+  children: any;
 }
 
 interface FeatureInfoState {
@@ -105,7 +105,7 @@ interface FeatureInfoState {
    * The overlay position in map projection.
    * @type {Array}
    */
-  position: number[]
+  position: number[];
 }
 
 /**
@@ -115,6 +115,21 @@ interface FeatureInfoState {
  * @extends React.Component
  */
 export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoState> {
+
+  /**
+ * The default properties.
+ */
+  public static defaultProps: DefaultFeatureInfoProps = {
+    width: 200,
+    offset: [0, 0],
+    stopEvent: false,
+    insertFirst: true,
+    autoPan: true,
+    autoPanAnimation: {
+      duration: 250
+    },
+    autoPanMargin: 20
+  };
 
   /**
    * The root div node rendered inside this component. Will be filled
@@ -141,21 +156,6 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
    * @type {HTMLDivElement}
    */
   private featureInfoPopup: React.RefObject<HTMLDivElement>;
-
-  /**
-   * The default properties.
-   */
-  public static defaultProps: DefaultFeatureInfoProps = {
-    width: 200,
-    offset: [0, 0],
-    stopEvent: false,
-    insertFirst: true,
-    autoPan: true,
-    autoPanAnimation: {
-      duration: 250
-    },
-    autoPanMargin: 20
-  };
 
   /**
    * The constructor.
@@ -190,7 +190,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
   /**
    *
    */
-  componentDidUpdate(prevProps: FeatureInfoProps, prevState: FeatureInfoState) {
+  componentDidUpdate(prevProps: FeatureInfoProps) {
 
     const {
       position,
@@ -201,7 +201,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       this.featureInfoOverlay.setPositioning(positioning);
     }
 
-    if (!_isEqual(prevProps.position, position)) {
+    if (!isEqual(prevProps.position, position)) {
       this.setState({
         position: position
       });
@@ -255,7 +255,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
    * Creates the overlay that wraps the current component.
    */
   createOverlay() {
-    let featureInfoOverlay = new OlOverlay({
+    const featureInfoOverlay = new OlOverlay({
       element: this.overlayElement,
       offset: this.props.offset,
       positioning: this.props.positioning,

@@ -1,5 +1,5 @@
 import {
-  ADD_APPINFO,
+  ADD_APPINFO
 } from '../constants/ApplicationInfo';
 
 const initialState = {

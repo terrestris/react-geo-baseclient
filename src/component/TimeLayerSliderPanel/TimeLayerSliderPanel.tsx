@@ -50,7 +50,7 @@ export interface TimeLayerSliderPanelState {
   value: moment.Moment;
   playbackSpeed: string;
   autoPlayActive: boolean;
-};
+}
 
 /**
  * mapStateToProps - mapping state to props of Map Component.
@@ -170,7 +170,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     // make sure an initial value is set
     this.wmsTimeHandler(this.state.value);
     this._TimeLayerAwareSlider = timeLayerAware(TimeSlider, this._wmsTimeLayers);
-  }
+  };
 
   /**
    * Updates slider time range depending on chosen layer set.
@@ -186,20 +186,18 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
       return;
     }
 
-    let newStartDate: moment.Moment;
-    let newEndDate: moment.Moment;
-    let startDatesFromLayers: moment.Moment[] = [];
-    let endDatesFromLayers: moment.Moment[] = [];
+    const startDatesFromLayers: moment.Moment[] = [];
+    const endDatesFromLayers: moment.Moment[] = [];
 
     this._wmsTimeLayers.forEach((l: any) => {
-      const startDate = l.layer.get('startDate');
-      const endDate = l.layer.get('endDate');
+      const sd = l.layer.get('startDate');
+      const ed = l.layer.get('endDate');
       let sdm;
       let edm;
-      if (startDate) {
+      if (sd) {
         sdm = moment(l.layer.get('startDate'));
       }
-      if (endDate) {
+      if (ed) {
         edm = moment(l.layer.get('endDate'));
       }
       if (sdm) {
@@ -209,10 +207,12 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
         endDatesFromLayers.push(edm);
       }
     });
-    newStartDate = startDatesFromLayers.length > 0 ? moment.min(startDatesFromLayers) : startDate;
-    newEndDate = endDatesFromLayers.length > 0 ? moment.max(endDatesFromLayers) : endDate;
+    const newStartDate: moment.Moment =
+      startDatesFromLayers.length > 0 ? moment.min(startDatesFromLayers) : startDate;
+    const newEndDate: moment.Moment =
+      endDatesFromLayers.length > 0 ? moment.max(endDatesFromLayers) : endDate;
     this.updateDataRange([newStartDate, newEndDate]);
-  }
+  };
 
   /**
   * Handler for the time slider change behaviour
@@ -226,7 +226,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     if (this.props.onChange) {
       this.props.onChange(newValue);
     }
-  }
+  };
 
   /**
   * makes sure that the appended time parameter in GetMap calls
@@ -249,14 +249,14 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
         time.set('second', 0);
         const timeFormat = config.layer.get('timeFormat');
         if (timeFormat.toLowerCase().indexOf('hh') > 0) {
-          params['TIME'] = time.toISOString();
+          params.TIME = time.toISOString();
         } else {
-          params['TIME'] = time.format(timeFormat);
+          params.TIME = time.format(timeFormat);
         }
         config.layer.getSource().updateParams(params);
       }
     });
-  }
+  };
 
   /**
   * start or stop auto playback
@@ -314,7 +314,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
         this.autoPlay(true);
       }
     });
-  }
+  };
 
   /**
   * Sets the slider to the current time of the user
@@ -327,7 +327,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
       this.timeSliderCustomHandler(now);
       this.wmsTimeHandler(now);
     });
-  }
+  };
 
   /**
   *
@@ -450,7 +450,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
           pressedIconName="fas fa-pause-circle-o"
         />
         <Select
-          defaultValue={"1"}
+          defaultValue={'1'}
           className={extraCls + ' speed-picker'}
           onChange={this.onPlaybackSpeedChange}
         >
@@ -469,7 +469,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
         </Select>
       </div>
     );
-  }
+  };
 }
 
 export default connect(mapStateToProps)(TimeLayerSliderPanel);

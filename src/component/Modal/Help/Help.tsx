@@ -41,8 +41,8 @@ export class Help extends React.Component<HelpProps> {
         onCancel={onCancel}
       >
         <iframe
-            src={helpPdf}
-            width="100%"
+          src={helpPdf}
+          width="100%"
         />
       </Modal>
 
