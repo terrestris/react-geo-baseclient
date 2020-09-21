@@ -181,7 +181,7 @@ export function fetchFeatures(type: string, urls: string[], passThroughOpts: any
  * @return {Function} The thunk.
  */
 export function fetchFeaturesFromResource(url: string, fetchOpts: any, format: any, readerOpts: any) {
-  return (/*dispatch*/) => {
+  return (/* dispatch*/) => {
     return fetch(url, fetchOpts)
       .then(response => response.text())
       .then(text => {

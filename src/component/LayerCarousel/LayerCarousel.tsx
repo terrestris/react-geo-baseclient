@@ -1,7 +1,7 @@
 import * as React from 'react';
 import OlLayerGroup from 'ol/layer/Group';
 import Carousel from '@brainhubeu/react-carousel';
-import '@brainhubeu/react-carousel/lib/style.css'
+import '@brainhubeu/react-carousel/lib/style.css';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 import LayerCarouselSlide from '../LayerCarouselSlide/LayerCarouselSlide';
@@ -18,11 +18,11 @@ interface LayerCarouselProps extends Partial<DefaultLayerCarouselProps> {
 }
 
 interface LayerCarouselState {
-  mouseDownTime: number,
-  renderTrigger: number,
-  originalBaseLayerOlUid: string,
-  width: number,
-  ratio: number
+  mouseDownTime: number;
+  renderTrigger: number;
+  originalBaseLayerOlUid: string;
+  width: number;
+  ratio: number;
 }
 
 /**
@@ -159,7 +159,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     const currentlyVisibleLayer = this.props.layers.find(l => l.getVisible());
     this.setState({
       originalBaseLayerOlUid: currentlyVisibleLayer ? currentlyVisibleLayer.ol_uid : undefined
-    })
+    });
     // change visibility
     this.setLayersVisible([layer.ol_uid]);
     if (callback) {

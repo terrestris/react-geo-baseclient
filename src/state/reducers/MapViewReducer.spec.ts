@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import { reduce } from './MapViewReducer';
 import {
   SET_PROJECTION,

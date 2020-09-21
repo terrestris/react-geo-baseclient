@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import TestUtils from '../../../config/jest/spec/TestUtils';
 
 import LayerLegendAccordionTreeNode from './LayerLegendAccordionTreeNode';
@@ -11,7 +11,7 @@ describe('<LayerLegendAccordionTreeNode />', () => {
     layer = TestUtils.createTileLayer({});
     wrapper = TestUtils.mountComponent(LayerLegendAccordionTreeNode, {
       t: () => {},
-      layer,
+      layer
     }, {});
   });
 

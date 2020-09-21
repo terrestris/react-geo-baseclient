@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import MapComponent, { MapComponentProps } from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent';
+import OlMap from 'ol/Map';
 
 const isEqual = require('lodash/isEqual');
 const debounce = require('lodash/debounce');
@@ -27,23 +28,24 @@ const mapStateToProps = (state: any) => {
 };
 
 interface DefaultMapProps extends MapComponentProps {
-  firePointerRest: boolean,
-  pointerRestInterval: number,
-  pointerRestTolerance: number
+  firePointerRest: boolean;
+  pointerRestInterval: number;
+  pointerRestTolerance: number;
+
 }
 
 interface MapProps extends Partial<DefaultMapProps> {
-  map: any, //OlMap
-  dispatch: (arg: any) => void,
-  center: number[],
-  zoom: number,
-  mapLayers: any[]
-  projection: string
+  map: OlMap;
+  dispatch: (arg: any) => void;
+  center: number[];
+  zoom: number;
+  mapLayers: any[];
+  projection: string;
 }
 
 interface MapState {
-  lastPointerPixel: number[] | null,
-  isMouseOverMapEl: boolean
+  lastPointerPixel: number[] | null;
+  isMouseOverMapEl: boolean;
 }
 
 /**
@@ -60,8 +62,8 @@ export class Map extends React.Component<MapProps, MapState> {
   private debouncedCheckPointerRest: Function | null;
 
   /**
-   * The default properties.
-   */
+  * The default properties.
+  */
   public static defaultProps: DefaultMapProps = {
     map: null,
     firePointerRest: true,
@@ -129,7 +131,7 @@ export class Map extends React.Component<MapProps, MapState> {
    *
    * @param {Boolean} state Whether to enable or disable the listener.
    */
-  setFirePointerRest(state: boolean|undefined) {
+  setFirePointerRest(state: boolean | undefined) {
     if (state) {
       this.props.map.on('pointermove', this.debouncedCheckPointerRest);
     } else {
@@ -226,9 +228,9 @@ export class Map extends React.Component<MapProps, MapState> {
     const mapZoom = mapView.getZoom();
 
     if ((zoom && zoom !== mapZoom) ||
-        (center && !isEqual(center, mapCenter))) {
-        dispatch(setCenter(mapView.getCenter()));
-        dispatch(setZoom(mapView.getZoom()));
+      (center && !isEqual(center, mapCenter))) {
+      dispatch(setCenter(mapView.getCenter()));
+      dispatch(setZoom(mapView.getZoom()));
     }
   }
 

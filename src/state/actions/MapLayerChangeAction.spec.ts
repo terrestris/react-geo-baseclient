@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import * as actions from './MapLayerChangeAction';
 import {
   SET_LAYERS,

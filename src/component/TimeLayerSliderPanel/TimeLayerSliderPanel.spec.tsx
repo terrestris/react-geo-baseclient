@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import TestUtils from '../../../config/jest/spec/TestUtils';
 
 import TimeLayerSliderPanel from './TimeLayerSliderPanel';

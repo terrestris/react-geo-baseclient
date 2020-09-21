@@ -46,55 +46,55 @@ const mapPromise: Promise<OlMap> = new Promise((resolve, reject) => {
 }) as Promise<OlMap>;
 
 /**
-   * The setupMap function
-   *
-   * Creates the Openlayers map from the initial state.
-   *
-   * @method setupMap
-   * @return {OlMap} The openlayers map.
-   */
-  const setupMap = (state: any) => {
-    ProjectionUtil.initProj4Definitions();
-    ProjectionUtil.initProj4DefinitionMappings();
-    const mapViewConfig = state.mapView.present;
-    const mapLayers = state.mapLayers;
-    const {
-      center,
-      zoom,
-      projection,
-      resolutions,
-      mapExtent
-    } = mapViewConfig;
+ * The setupMap function
+ *
+ * Creates the Openlayers map from the initial state.
+ *
+ * @method setupMap
+ * @return {OlMap} The openlayers map.
+ */
+const setupMap = (state: any) => {
+  ProjectionUtil.initProj4Definitions();
+  ProjectionUtil.initProj4DefinitionMappings();
+  const mapViewConfig = state.mapView.present;
+  const mapLayers = state.mapLayers;
+  const {
+    center,
+    zoom,
+    projection,
+    resolutions,
+    mapExtent
+  } = mapViewConfig;
 
-    let olProjection;
-    if (projection) {
-      olProjection = OlGetProjection(projection);
-      olProjection.setExtent(mapExtent);
-    }
+  let olProjection;
+  if (projection) {
+    olProjection = OlGetProjection(projection);
+    olProjection.setExtent(mapExtent);
+  }
 
-    const mapView = new OlView({
-      center: center,
-      zoom: zoom,
-      projection: olProjection,
-      resolutions: resolutions
-    });
+  const mapView = new OlView({
+    center: center,
+    zoom: zoom,
+    projection: olProjection,
+    resolutions: resolutions
+  });
 
-    const map = new OlMap({
-      view: mapView,
-      keyboardEventTarget: document,
-      controls: OlDefaultControls({
-        zoom: false,
-        attributionOptions: {
-          collapsible: true
-        }
-      }).extend([
-        new OlScaleLine()
-      ]),
-      layers: mapLayers
-    });
+  const map = new OlMap({
+    view: mapView,
+    keyboardEventTarget: document,
+    controls: OlDefaultControls({
+      zoom: false,
+      attributionOptions: {
+        collapsible: true
+      }
+    }).extend([
+      new OlScaleLine()
+    ]),
+    layers: mapLayers
+  });
 
-    return map;
-  };
+  return map;
+};
 
 const MappifiedMain = (mappify)(Main);
 

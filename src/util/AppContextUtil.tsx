@@ -9,7 +9,7 @@ import OlImageLayer from 'ol/layer/Image';
 import OlTileGrid from 'ol/tilegrid/TileGrid';
 import OlLayer from 'ol/layer/Base';
 
-import * as moment from "moment";
+import * as moment from 'moment';
 
 const union = require('lodash/union');
 const unionWith = require('lodash/unionWith');
@@ -65,7 +65,7 @@ class AppContextUtil {
       mapConfig.extent.lowerLeft.x,
       mapConfig.extent.lowerLeft.y,
       mapConfig.extent.upperRight.x,
-      mapConfig.extent.upperRight.y,
+      mapConfig.extent.upperRight.y
     ];
     state.mapView.present.projection = mapConfig.projection.indexOf('EPSG:') < 0
       ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
@@ -369,8 +369,8 @@ class AppContextUtil {
    * @param appContext
    */
   static getToolsForToolbar(activeModules: Array<any>, map: any,
-    appContext: any, t:(arg: string) => string, config?: any) {
-    let tools:any[] = [];
+                            appContext: any, t: (arg: string) => string, config?: any) {
+    let tools: any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
 
     activeModules.forEach((module: any) => {
@@ -391,7 +391,7 @@ class AppContextUtil {
           />);
           return;
         case 'basigx-button-zoomout':
-        tools.push(<ZoomButton
+          tools.push(<ZoomButton
             delta={-1}
             map={map}
             key="2"
@@ -408,7 +408,7 @@ class AppContextUtil {
               mapConfig.extent.lowerLeft.x,
               mapConfig.extent.lowerLeft.y,
               mapConfig.extent.upperRight.x,
-              mapConfig.extent.upperRight.y,
+              mapConfig.extent.upperRight.y
             ]}
             map={map}
             key="3"

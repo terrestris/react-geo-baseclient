@@ -24,15 +24,15 @@ import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 // default props
 interface DefaultFooterProps {
-  imprintLink: string,
-  imprintText: string
+  imprintLink: string;
+  imprintText: string;
 }
 
 interface FooterProps extends Partial<DefaultFooterProps>{
-  map: any,
-  t: (arg: string) => {},
-  mapScales: number[],
-  projection: string
+  map: any;
+  t: (arg: string) => {};
+  mapScales: number[];
+  projection: string;
 }
 
 interface FooterState {
@@ -122,11 +122,11 @@ export class Footer extends React.Component<FooterProps, FooterState> {
         target: document.getElementById('mouse-position'),
         undefinedHTML: '&nbsp;',
         projection
-      }
+      };
       const mousePositionControl = new OlMousePositionControl(options);
       map.addControl(mousePositionControl);
     }
-  }
+  };
 
   /**
    * Removes mouse position control from map
@@ -146,7 +146,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
     if (crtlToRemove) {
       map.removeControl(crtlToRemove);
     }
-  }
+  };
 
   /**
    * Handler to set projection of map - called if coordinate system in
@@ -172,7 +172,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
       .reverse();
     var newView = new OlView({
       projection: newProj,
-      resolutions: resolutions,
+      resolutions: resolutions
     });
     map.setView(newView);
     newView.fit(transformedExtent);
@@ -180,7 +180,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
     const mousePositionControl = map.getControls().getArray().find((c: any) => c instanceof OlMousePositionControl);
 
     if (mousePositionControl) {
-      const isWgs84 = map.getView().getProjection().getCode() === "EPSG:4326";
+      const isWgs84 = map.getView().getProjection().getCode() === 'EPSG:4326';
       const wgs84Format = (coordinate: any) => coordinate.map((coord: number) => ProjectionUtil.toDms(coord));
       mousePositionControl.setProjection(newProj);
       mousePositionControl.setCoordinateFormat(isWgs84 ? wgs84Format : createStringXY(2));

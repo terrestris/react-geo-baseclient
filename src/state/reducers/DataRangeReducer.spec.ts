@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import reducer from './DataRangeReducer';
 import moment from 'moment';
 import {

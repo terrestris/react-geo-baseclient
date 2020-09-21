@@ -3,7 +3,7 @@ import * as React from 'react';
 import OlOverviewMap from 'ol/control/OverviewMap';
 import OlView from 'ol/View';
 import {
-  get as getProjection,
+  get as getProjection
 } from 'ol/proj.js';
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
@@ -28,7 +28,7 @@ interface LayerSetBaseMapChooserProps extends Partial<DefaultLayerSetBaseMapChoo
   baseLayerGroup: any;
   topicLayerGroup: any;
   onTopicLayerGroupSelected: (arg: string) => void;
-  projection: string
+  projection: string;
 }
 
 interface LayerSetBaseMapChooserState {
@@ -66,7 +66,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     this.state = {
       showTopicCarousel: false,
       showBaseLayerCarousel: false
-    }
+    };
 
     // binds
     this.onShowTopicCarouselToggle = this.onShowTopicCarouselToggle.bind(this);
@@ -213,13 +213,13 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
     return (
       <div className="layerset-basemap-chooser">
         {
-        showTopicCarousel && topicLayerGroup && topicLayerGroup.getLayers() ?
-          <LayerCarousel
-            className="topic-carousel"
-            map={map}
-            layers={topicLayerGroup.getLayers().getArray()}
-            onLayerSelected={this.onTopicLayerGroupSelected}
-          /> : null
+          showTopicCarousel && topicLayerGroup && topicLayerGroup.getLayers() ?
+            <LayerCarousel
+              className="topic-carousel"
+              map={map}
+              layers={topicLayerGroup.getLayers().getArray()}
+              onLayerSelected={this.onTopicLayerGroupSelected}
+            /> : null
         }
         {
           showBaseLayerCarousel && baseLayerGroup && baseLayerGroup.getLayers() ?
@@ -258,7 +258,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
             <span className="baselayer-carousel-toggle-text">{t('LayerSetBaseMapChooser.baseLayerText')}</span>
           </div>
         </ToggleButton>
-        </div>
+      </div>
     );
   }
 }

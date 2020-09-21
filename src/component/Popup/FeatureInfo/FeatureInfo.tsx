@@ -11,7 +11,7 @@ interface DefaultFeatureInfoProps {
    * The width of the popup.
    * @type {Number}
   */
-  width: number,
+  width: number;
 
   /**
    * Offsets in pixels used when positioning the overlay. The first element
@@ -20,7 +20,7 @@ interface DefaultFeatureInfoProps {
    * A positive value shifts the overlay down.
    * @type {Array}
    */
-  offset: number[],
+  offset: number[];
 
   /**
    * Whether event propagation to the map viewport should be stopped. If true
@@ -29,7 +29,7 @@ interface DefaultFeatureInfoProps {
    * the container with CSS class name ol-overlaycontainer.
    * @type {Boolean}
    */
-  stopEvent: boolean,
+  stopEvent: boolean;
 
   /**
    * Whether the overlay is inserted first in the overlay container, or
@@ -38,14 +38,14 @@ interface DefaultFeatureInfoProps {
    * true so the overlay is displayed below the controls.
    * @type {Boolean}
    */
-  insertFirst: boolean,
+  insertFirst: boolean;
 
   /**
    * If set to true the map is panned when calling setPosition, so that the
    * overlay is entirely visible in the current viewport.
    * @type {Boolean}
    */
-  autoPan: boolean,
+  autoPan: boolean;
 
   /**
    * The animation options used to pan the overlay into view. This animation
@@ -53,14 +53,14 @@ interface DefaultFeatureInfoProps {
    * provided to customize the animation.
    * @type {Object}
    */
-  autoPanAnimation: any,
+  autoPanAnimation: any;
 
   /**
    * The margin (in pixels) between the overlay and the borders of the map
    * when autopanning.
    * @type {Number}
    */
-  autoPanMargin: number,
+  autoPanMargin: number;
 }
 
 interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
@@ -69,13 +69,13 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
    * The map this popup/overlay should be bound to.
    * @type {OlMap}
    */
-  map: any, // OlMap
+  map: any; // OlMap
 
   /**
    * The overlay position in map projection.
    * @type {Array}
    */
-  position: number[],
+  position: number[];
 
   /**
    * Defines how the overlay is actually positioned with respect to its
@@ -84,20 +84,20 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
    * 'top-left', 'top-center', and 'top-right'.
    * @type {String}
    */
-  positioning: OverlayPositioning,
+  positioning: OverlayPositioning;
 
   /**
    * Whether the component is loading (and should render a progress cursor)
    * or not.
    * @type {Boolean}
    */
-  isLoading: boolean,
+  isLoading: boolean;
 
   /**
    * The children elements to render inside the popup.
    * @type {Element}
    */
-  children: any
+  children: any;
 }
 
 interface FeatureInfoState {
@@ -105,7 +105,7 @@ interface FeatureInfoState {
    * The overlay position in map projection.
    * @type {Array}
    */
-  position: number[]
+  position: number[];
 }
 
 /**

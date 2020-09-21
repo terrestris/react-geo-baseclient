@@ -20,7 +20,7 @@ export interface LayerCarouselSlideProps extends Partial<DefaultLayerCarouselSli
   onMouseDown: (evt: React.MouseEvent) => void;
   onMouseUp: (evt: React.MouseEvent) => void;
   staticImageUrl: string;
-  layerFt: string,
+  layerFt: string;
   requestUrl: string;
   extent: number[];
   projection: string;
@@ -56,7 +56,7 @@ export class LayerCarouselSlide extends React.Component<LayerCarouselSlideProps,
 
     this.state = {
       isLoading: true
-    }
+    };
 
     // bindings
     this.onLoad = this.onLoad.bind(this);
@@ -117,7 +117,7 @@ export class LayerCarouselSlide extends React.Component<LayerCarouselSlideProps,
   onLoad() {
     this.setState({
       isLoading: false
-    })
+    });
   }
 
   /**
@@ -159,8 +159,8 @@ export class LayerCarouselSlide extends React.Component<LayerCarouselSlideProps,
                 <b>{layerName}</b>
               </div>
             </Spin> : <div className="title-div">
-                <b>{layerName}</b>
-              </div>
+              <b>{layerName}</b>
+            </div>
         }
         <img
           data-identifier={layerOlUid}

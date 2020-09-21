@@ -5,14 +5,14 @@ import SomethingWentWrong from './SomethingWentWrong';
 import { withTranslation } from 'react-i18next';
 import ProjectMain from './ProjectMain';
 export interface MainProps {
-    map: any,
-    t: (arg: string) => {}
+  map: any;
+  t: (arg: string) => {};
 }
 
 export interface MainState {
-  hasError: boolean,
-  error: Error | null,
-  info: object | null
+  hasError: boolean;
+  error: Error | null;
+  info: object | null;
 }
 
 /**
@@ -52,7 +52,7 @@ export class Main extends React.Component<MainProps, MainState> {
     context.keys().forEach((filename: any) => {
       const main = context(filename);
       this.main = main.default;
-    })
+    });
   }
 
   /**

@@ -34,15 +34,15 @@ const loadAppContextStore = () => {
     fetch(appContextPath, {
       credentials: 'same-origin'
     }).then(response => {
-        if (response.status === 404) {
-          throw new Error('Application not found for the given id.');
-        }
-        try {
-          return response.json();
-        } catch (err) {
-          throw new Error('Could not parse the application context.');
-        }
-      })
+      if (response.status === 404) {
+        throw new Error('Application not found for the given id.');
+      }
+      try {
+        return response.json();
+      } catch (err) {
+        throw new Error('Could not parse the application context.');
+      }
+    })
       .then(appContext => {
         appContext = appContext instanceof Array ? appContext[0] : appContext;
         let state = appContextUtil.appContextToState(appContext);

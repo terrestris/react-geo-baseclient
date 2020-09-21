@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import TestUtils from '../../../../config/jest/spec/TestUtils';
 
 import { LayerLegendAccordion } from './LayerLegendAccordion';
@@ -11,7 +11,7 @@ describe('<LayerLegendAccordion />', () => {
     map = TestUtils.createMap({});
     wrapper = TestUtils.mountComponent(LayerLegendAccordion, {
       t: () => {},
-      map: map,
+      map: map
     }, {});
   });
 

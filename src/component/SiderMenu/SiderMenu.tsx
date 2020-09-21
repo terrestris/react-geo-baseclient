@@ -14,19 +14,19 @@ const SubMenu = Menu.SubMenu;
 
 // default props
 interface DefaultSiderProps {
-  collapsible?: boolean
+  collapsible?: boolean;
 }
 
 interface SiderProps extends Partial<DefaultSiderProps> {
-  collapsed?: boolean,
-  map: any,
-  t: (arg: string) => {},
-  i18n: any,
-  measureToolsEnabled: boolean
+  collapsed?: boolean;
+  map: any;
+  t: (arg: string) => {};
+  i18n: any;
+  measureToolsEnabled: boolean;
 }
 
 interface SiderState {
-  collapsed: boolean
+  collapsed: boolean;
 }
 
 /**
@@ -62,11 +62,11 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
     window.setTimeout(() => {
       this.props.map.updateSize();
     }, 200);
-  }
+  };
 
   onLanguageChange = (lang: string) => {
     this.props.i18n.changeLanguage(lang);
-  }
+  };
 
   render() {
     const {

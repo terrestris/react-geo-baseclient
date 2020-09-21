@@ -3,14 +3,14 @@ import * as React from 'react';
 import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 
 interface DefaultLayerLegendAccordionToggleButtonProps extends ToggleButtonProps {
-  iconName: string,
-  className: string
+  iconName: string;
+  className: string;
 };
 
 interface LayerLegendAccordionToggleButtonProps extends Partial<DefaultLayerLegendAccordionToggleButtonProps>{
-  onToggle: (pressed: boolean) => void,
-  tooltip: string,
-  pressed: boolean
+  onToggle: (pressed: boolean) => void;
+  tooltip: string;
+  pressed: boolean;
 }
 
 interface LayerLegendAccordionToggleButtonState {

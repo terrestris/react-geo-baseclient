@@ -148,7 +148,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
         layersCollection.extend(this.props.mapLayers);
       }
       if (this.props.baseLayer) {
-        const baseLayerCollection = this._baseLayerGroup.getLayers()
+        const baseLayerCollection = this._baseLayerGroup.getLayers();
         baseLayerCollection.clear();
         baseLayerCollection.extend([this.props.baseLayer]);
       }

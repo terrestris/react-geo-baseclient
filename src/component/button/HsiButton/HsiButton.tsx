@@ -13,13 +13,13 @@ import {
 } from '../../../state/actions/RemoteFeatureAction';
 
 interface DefaultHsiButtonProps extends ToggleButtonProps {
-  iconName: string,
+  iconName: string;
   /**
   * Whether the GFI control should requests all layers at a given coordinate
   * or just the uppermost one.
   * @type {Boolean}
   */
-  drillDown: boolean
+  drillDown: boolean;
 }
 
 interface HsiButtonProps extends Partial<DefaultHsiButtonProps> {
@@ -27,22 +27,22 @@ interface HsiButtonProps extends Partial<DefaultHsiButtonProps> {
    * OlMap this button is bound to.
    * @type {OlMap}
    */
-  map: any,
+  map: any;
 
   /**
    * Button tooltip text
    */
-  tooltip: string,
+  tooltip: string;
 
   /**
    * Translate function
    */
-  t: (arg: string) => void,
+  t: (arg: string) => void;
 
   /**
    * Dispatch function
    */
-  dispatch: (arg: any) => void
+  dispatch: (arg: any) => void;
 }
 
 /**
@@ -143,15 +143,15 @@ export class HsiButton extends React.Component<HsiButtonProps> {
         return;
       }
       const featureInfoUrl: string = layerSource.getFeatureInfoUrl(
-          map.getCoordinateFromPixel(pixel),
-          viewResolution,
-          viewProjection,
+        map.getCoordinateFromPixel(pixel),
+        viewResolution,
+        viewProjection,
         {
-           // TODO add check for json format availability
+          // TODO add check for json format availability
           'INFO_FORMAT': 'application/json',
           'FEATURE_COUNT': 10
         }
-        );
+      );
 
       if (featureInfoUrl.indexOf('geoserver.action') >= 0) {
         const ftName: string = layer.getSource().getParams().LAYERS;
@@ -163,14 +163,14 @@ export class HsiButton extends React.Component<HsiButtonProps> {
       } else {
         featureInfoUrls.push(featureInfoUrl);
       }
-        // stop iteration if drillDown is set to false.
+      // stop iteration if drillDown is set to false.
       if (!drillDown) {
         return true;
       }
     }, this, this.layerFilter);
 
-      // bundle requests depending on namespace before since interceptor currently
-      // can not handle GFI requests containing layers with different namespaces
+    // bundle requests depending on namespace before since interceptor currently
+    // can not handle GFI requests containing layers with different namespaces
     if (Object.keys(infoUrlsToCombine).length > 0) {
       Object.keys(infoUrlsToCombine).forEach(key => {
         const url: any = UrlUtil.bundleOgcRequests(infoUrlsToCombine[key], true);
@@ -203,21 +203,21 @@ export class HsiButton extends React.Component<HsiButtonProps> {
    */
   render() {
     const {
-        type,
-        shape,
-        iconName,
-        tooltip,
-        tooltipPlacement
-      } = this.props;
+      type,
+      shape,
+      iconName,
+      tooltip,
+      tooltipPlacement
+    } = this.props;
     return (
-        <ToggleButton
-          type={type}
-          shape={shape}
-          iconName={iconName}
-          tooltip={tooltip}
-          tooltipPlacement={tooltipPlacement}
-          onToggle={this.onHsiToggle}
-        />
+      <ToggleButton
+        type={type}
+        shape={shape}
+        iconName={iconName}
+        tooltip={tooltip}
+        tooltipPlacement={tooltipPlacement}
+        onToggle={this.onHsiToggle}
+      />
     );
   }
 }

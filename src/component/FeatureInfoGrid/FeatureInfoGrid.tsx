@@ -19,22 +19,22 @@ interface FeatureInfoGridProps extends Partial<DefaultFeatureInfoGridProps> {
   /**
    * Array of features to be shown inside of grid using pagination
    */
-  features: any[], // OlFeature[]
+  features: any[]; // OlFeature[]
 
   /**
    * Vector layer used for highlighting of currently shown feature.
    */
-  hoverVectorLayer: any, //OlLayerVector
+  hoverVectorLayer: any; // OlLayerVector
 
   /**
  * Translate function
  */
-  t: (arg: any) => void
+  t: (arg: any) => void;
 }
 
 interface FeatureInfoGridState {
-  currentPage: number,
-  selectedFeat: any // OlFeature
+  currentPage: number;
+  selectedFeat: any; // OlFeature
 }
 
 /**
@@ -65,7 +65,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
       currentPage: 1
     };
 
-    //binds
+    // binds
     this.updateSize = this.updateSize.bind(this);
     this.onPaginationChange = this.onPaginationChange.bind(this);
   }
@@ -200,7 +200,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
     const defaultColDef = {
       sortable: true,
       resizable: true
-    }
+    };
 
     return (
       <AgFeatureGrid
@@ -231,7 +231,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
    */
   render() {
     const {
-      features,
+      features
     } = this.props;
 
     const {
@@ -251,7 +251,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
           total={features.length}
           pageSize={1}
           onChange={this.onPaginationChange}
-          />
+        />
         {this.getFeatureGrid(selectedFeat)}
       </div>
 

@@ -28,7 +28,7 @@ interface DefaultFeatureInfoProps {
    * The maximum number of menu items to display.
    * @type {Number}
    */
-  maxMenuItems: number
+  maxMenuItems: number;
 }
 
 interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
@@ -36,30 +36,30 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
   * The features to render in the menu.
   * @type {Array}
    */
-  features: any,
+  features: any;
 
   /**
    * The ol map.
    * @type {ol.Map}
    */
-  map: any, // OlMap
+  map: any; // OlMap
 
   /**
    * Translate function
    */
-  t: (arg: string) => void,
+  t: (arg: string) => void;
 
   /**
    * Dispatch function
    */
-  dispatch: (arg: any) => void
+  dispatch: (arg: any) => void;
 }
 
 interface FeatureInfoState {
-  menuHidden: boolean,
-  gridWinHidden: boolean,
-  featuresToShow: any[], //OlFeature[]
-  selectedFeatureType: string
+  menuHidden: boolean;
+  gridWinHidden: boolean;
+  featuresToShow: any[]; // OlFeature[]
+  selectedFeatureType: string;
 }
 
 /**
@@ -134,7 +134,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
         stroke: new OlStyleStroke({
           color: strokeColor,
           width: 3
-        }),
+        })
       })
     });
   }
@@ -210,7 +210,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     this.hoverVectorLayer = hoverVectorLayer;
   }
 
-    /**
+  /**
    * Clears the source of the hover vector layer.
    *
    * @param {Boolean} clearSelection Whether the features currently shown in
@@ -225,7 +225,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     }
     hoverFeatures.forEach((hf: any) => {
       source.removeFeature(hf);
-    })
+    });
   }
 
   /**
@@ -263,14 +263,14 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     const layer = MapUtil.getLayerByNameParam(this.props.map, featType);
     const count = this.props.features[featType].length;
     return (
-        <MenuItem
-          key={featType}
-          onMouseEnter={this.onMenuMouseEnter}
-          onMouseLeave={this.onSubMenuMouseLeave}
-        >
-          {`${layer && layer.get('name') || featType} (${count})`}
-        </MenuItem>
-    )
+      <MenuItem
+        key={featType}
+        onMouseEnter={this.onMenuMouseEnter}
+        onMouseLeave={this.onSubMenuMouseLeave}
+      >
+        {`${layer && layer.get('name') || featType} (${count})`}
+      </MenuItem>
+    );
   }
 
   /**

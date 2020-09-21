@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import OlImageWmsSource from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
 
@@ -35,7 +35,7 @@ describe('<PrintUtil />', () => {
       attributions: 'abcderf',
       params: undefined,
       projection: undefined
-    }),
+    })
   });
   printableLayer.set('name', 'printMe');
 

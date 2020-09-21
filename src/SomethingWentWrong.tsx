@@ -2,7 +2,7 @@ import * as React from 'react';
 import './SomethingWentWrong.css';
 
 export interface DefaultProps {
-  error: string
+  error: string;
 }
 
 /**
@@ -37,11 +37,11 @@ export class SomethingWentWrong extends React.Component<DefaultProps> {
       );
     } else {
       return (
-      <div className="something-went-wrong">
-        <img src="something-went-wrong.png" alt="" />
-        <h1>Sorry, something went wrong.</h1>
+        <div className="something-went-wrong">
+          <img src="something-went-wrong.png" alt="" />
+          <h1>Sorry, something went wrong.</h1>
         Please reload the page
-      </div>
+        </div>
       );
     }
   }

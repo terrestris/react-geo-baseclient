@@ -24,7 +24,7 @@ export class PrintUtil {
         && !(layer instanceof OlLayerGroup)
         && layer !== printLayer;
     });
-  }
+  };
 
   /**
    * Creates an string containing all attributions fo the printable layers.

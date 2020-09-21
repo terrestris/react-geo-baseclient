@@ -12,20 +12,20 @@ import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import './MeasureMenuButton.less';
 
 interface DefaultMeasureMenuButtonProps extends MeasureButtonProps {
-  menuPlacement: 'left' | 'right'
+  menuPlacement: 'left' | 'right';
 }
 
 interface MeasureMenuButtonProps extends Partial<DefaultMeasureMenuButtonProps> {
-  map: any,
-  tooltip: string,
-  measureTypes: string [],
-  key: string,
-  t: (arg: string) => string
+  map: any;
+  tooltip: string;
+  measureTypes: string [];
+  key: string;
+  t: (arg: string) => string;
 }
 
 interface MeasureMenuButtonState {
-  showToolbar: boolean,
-  activeTool: string
+  showToolbar: boolean;
+  activeTool: string;
 }
 
 /**
@@ -58,7 +58,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
     this.state = {
       showToolbar: false,
       activeTool: null
-    }
+    };
 
     this.getToolbarItems = this.getToolbarItems.bind(this);
     this.onToggledToolChange = this.onToggledToolChange.bind(this);
@@ -89,9 +89,9 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
    */
   onToggledToolChange(button: any) {
     const pressed = !button.pressed;
-      this.setState({
-        activeTool: pressed ? button.key : null
-      });
+    this.setState({
+      activeTool: pressed ? button.key : null
+    });
   }
 
   /**
@@ -136,7 +136,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
               measureType={mt}
             >
               {mt === 'angle' ? '∢' : null}
-            </MeasureButton>
+            </MeasureButton>;
           })
         }
       </ToggleGroup>

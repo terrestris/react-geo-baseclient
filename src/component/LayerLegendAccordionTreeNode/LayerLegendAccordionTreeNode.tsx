@@ -14,7 +14,7 @@ import './LayerLegendAccordionTreeNode.less';
 
 // default props
 interface DefaultLayerLegendAccordionNodeProps {
-  layer: any
+  layer: any;
 }
 
 interface LayerLegendAccordionNodeProps extends Partial<DefaultLayerLegendAccordionNodeProps>{
@@ -23,7 +23,7 @@ interface LayerLegendAccordionNodeProps extends Partial<DefaultLayerLegendAccord
 }
 
 interface LayerLegendAccordionNodeState {
-  loadingQueue: String[]
+  loadingQueue: String[];
 }
 
 /**
@@ -128,12 +128,12 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
     if (evt.target instanceof OlTileWmsSource) {
       this.setState(prevState => ({
         loadingQueue: [...prevState.loadingQueue, `tile-${evt.tile.ol_uid}_${layerNames}`]
-      }))
+      }));
     }
     if (evt.target instanceof OlImageWmsSource) {
       this.setState(prevState => ({
         loadingQueue: [...prevState.loadingQueue, `IMAGEWMS_${layerNames}`]
-      }))
+      }));
     }
   }
 
@@ -148,12 +148,12 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
     if (evt.target instanceof OlTileWmsSource) {
       this.setState({
         loadingQueue: loadingQueue.filter((lq: string) => lq !== `tile-${evt.tile.ol_uid}_${layerNames}`)
-      })
+      });
     }
     if (evt.target instanceof OlImageWmsSource) {
       this.setState({
         loadingQueue: loadingQueue.filter((lq: string) => lq !== `IMAGEWMS_${layerNames}`)
-      })
+      });
     }
   }
 
@@ -192,8 +192,8 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
     }
 
     const visibilityClass = layer.getVisible() ?
-    'fa-eye layer-tree-node-title-active' :
-    'fa-eye-slash layer-tree-node-title-inactive';
+      'fa-eye layer-tree-node-title-active' :
+      'fa-eye-slash layer-tree-node-title-inactive';
     const visibilitySpanClass = `fa ${visibilityClass} layer-tree-node-title-visibility`;
 
     if (layer instanceof OlLayerGroup) {
@@ -233,43 +233,43 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
         className="layer-tree-node-list-item"
       >
         <div className="layer-tree-node-title">
-        <Tooltip
-          title={t('LayerLegendAccordion.toggleVisibilityTooltipText')}
-          placement="right"
-          mouseEnterDelay={0.5}
-        >
-          <span
-            className={visibilitySpanClass}
-            onClick={() => this.onLayerTreeNodeVisibilityChange(layer)}
-          />
-        </Tooltip>
-        <Tooltip
-          title={layer.get('name')}
-          placement="top"
-          mouseEnterDelay={0.5}
-        >
-          <span
-            className="layer-tree-node-title-layername"
+          <Tooltip
+            title={t('LayerLegendAccordion.toggleVisibilityTooltipText')}
+            placement="right"
+            mouseEnterDelay={0.5}
           >
-            {layer.get('name')}
-          </span>
-        </Tooltip>
-        <span
-          className={loadingSpanClass}
-        />
-        {
-          !(layer instanceof OlLayerGroup) &&
+            <span
+              className={visibilitySpanClass}
+              onClick={() => this.onLayerTreeNodeVisibilityChange(layer)}
+            />
+          </Tooltip>
+          <Tooltip
+            title={layer.get('name')}
+            placement="top"
+            mouseEnterDelay={0.5}
+          >
+            <span
+              className="layer-tree-node-title-layername"
+            >
+              {layer.get('name')}
+            </span>
+          </Tooltip>
+          <span
+            className={loadingSpanClass}
+          />
+          {
+            !(layer instanceof OlLayerGroup) &&
             <LayerTreeDropdownContextMenu
               map={this.props.map}
               layer={layer}
               t={t} />
-        }
+          }
         </div>
         <LayerTransparencySlider
           layer={layer}
         />
       </span>
-    )
+    );
   }
 
 }

@@ -23,23 +23,23 @@ const initialState: any = {
  */
 export function reduce(loadingQueue: any = initialState, action: any) {
   switch (action.type) {
-  case ENABLE_LOADING: {
-    return Object.assign({}, loadingQueue, {
-      'queue': Array.isArray(loadingQueue.queue) ?
+    case ENABLE_LOADING: {
+      return Object.assign({}, loadingQueue, {
+        'queue': Array.isArray(loadingQueue.queue) ?
           union(loadingQueue.queue, [action.key]) : [action.key],
-      'loading': true
-    });
-  }
-  case DISABLE_LOADING: {
-    return Object.assign({}, loadingQueue, {
-      'queue': Array.isArray(loadingQueue.queue) ?
+        'loading': true
+      });
+    }
+    case DISABLE_LOADING: {
+      return Object.assign({}, loadingQueue, {
+        'queue': Array.isArray(loadingQueue.queue) ?
           without(loadingQueue.queue, action.key) : [],
-      'loading': Array.isArray(loadingQueue.queue) &&
+        'loading': Array.isArray(loadingQueue.queue) &&
           (loadingQueue.queue.length - 1) !== 0
-    });
-  }
-  default:
-    return loadingQueue;
+      });
+    }
+    default:
+      return loadingQueue;
   }
 }
 

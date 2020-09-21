@@ -1,4 +1,4 @@
-/*eslint-env jest*/
+/* eslint-env jest*/
 import * as actions from './DataRangeAction';
 import moment from 'moment';
 import {
