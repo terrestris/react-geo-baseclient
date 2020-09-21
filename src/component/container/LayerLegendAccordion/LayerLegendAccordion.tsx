@@ -386,7 +386,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
               className="layer-legend-accordion-title"
               tools={[
                 <SimpleButton
-                  icon="plus"
+                  iconName="fas fa-plus"
                   tooltip={t('LayerLegendAccordion.addLayer') as string}
                   key="add-layer"
                   onClick={this.onAddLayerClick}

@@ -370,7 +370,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
               bounds="#app"
               tools={[
                 <SimpleButton
-                  icon="times"
+                  iconName="fas fa-times"
                   key="close-tool"
                   size="small"
                   tooltip={t('General.close') as unknown as string}
