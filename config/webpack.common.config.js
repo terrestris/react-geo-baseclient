@@ -83,7 +83,7 @@ const commonWebpackConfig = {
           loader: 'less-loader',
           options: {
             lessOptions: {
-              modifyVars: CustomCssTheme,//require(PROJECT_MAIN_PATH + 'theme/antLessModifyVars'),
+              modifyVars: CustomCssTheme,
               javascriptEnabled: true
             }
           }
