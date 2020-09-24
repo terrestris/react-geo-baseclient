@@ -1,110 +1,30 @@
 import * as React from 'react';
+import OlMap from 'ol/Map';
 import OlOverlay from 'ol/Overlay';
+import OverlayPositioning from 'ol/OverlayPositioning';
+
 const isEqual = require('lodash/isEqual');
 
 import './FeatureInfo.less';
-import OverlayPositioning from 'ol/OverlayPositioning';
 
 interface DefaultFeatureInfoProps {
-
-  /**
-   * The width of the popup.
-   * @type {Number}
-  */
-  width: number;
-
-  /**
-   * Offsets in pixels used when positioning the overlay. The first element
-   * in the array is the horizontal offset. A positive value shifts the
-   * overlay right. The second element in the array is the vertical offset.
-   * A positive value shifts the overlay down.
-   * @type {Array}
-   */
-  offset: number[];
-
-  /**
-   * Whether event propagation to the map viewport should be stopped. If true
-   * the overlay is placed in the same container as that of the controls
-   * (CSS class name ol-overlaycontainer-stopevent); if false it is placed in
-   * the container with CSS class name ol-overlaycontainer.
-   * @type {Boolean}
-   */
+  offset: [number, number];
   stopEvent: boolean;
-
-  /**
-   * Whether the overlay is inserted first in the overlay container, or
-   * appended. If the overlay is placed in the same container as that of the
-   * controls (see the stopEvent option) you will probably set insertFirst to
-   * true so the overlay is displayed below the controls.
-   * @type {Boolean}
-   */
   insertFirst: boolean;
-
-  /**
-   * If set to true the map is panned when calling setPosition, so that the
-   * overlay is entirely visible in the current viewport.
-   * @type {Boolean}
-   */
   autoPan: boolean;
-
-  /**
-   * The animation options used to pan the overlay into view. This animation
-   * is only used when autoPan is enabled. A duration and easing may be
-   * provided to customize the animation.
-   * @type {Object}
-   */
-  autoPanAnimation: any;
-
-  /**
-   * The margin (in pixels) between the overlay and the borders of the map
-   * when autopanning.
-   * @type {Number}
-   */
+  autoPanAnimationDuration: number;
   autoPanMargin: number;
+  positioning: OverlayPositioning;
 }
 
 interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
 
-  /**
-   * The map this popup/overlay should be bound to.
-   * @type {OlMap}
-   */
-  map: any; // OlMap
-
-  /**
-   * The overlay position in map projection.
-   * @type {Array}
-   */
+  map: OlMap;
   position: number[];
-
-  /**
-   * Defines how the overlay is actually positioned with respect to its
-   * position property. Possible values are 'bottom-left', 'bottom-center',
-   * 'bottom-right', 'center-left', 'center-center', 'center-right',
-   * 'top-left', 'top-center', and 'top-right'.
-   * @type {String}
-   */
-  positioning: OverlayPositioning;
-
-  /**
-   * Whether the component is loading (and should render a progress cursor)
-   * or not.
-   * @type {Boolean}
-   */
   isLoading: boolean;
-
-  /**
-   * The children elements to render inside the popup.
-   * @type {Element}
-   */
-  children: any;
 }
 
 interface FeatureInfoState {
-  /**
-   * The overlay position in map projection.
-   * @type {Array}
-   */
   position: number[];
 }
 
@@ -120,36 +40,34 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
  * The default properties.
  */
   public static defaultProps: DefaultFeatureInfoProps = {
-    width: 200,
     offset: [0, 0],
     stopEvent: false,
     insertFirst: true,
     autoPan: true,
-    autoPanAnimation: {
-      duration: 250
-    },
-    autoPanMargin: 20
+    autoPanAnimationDuration: 250,
+    autoPanMargin: 20,
+    positioning: null
   };
 
   /**
    * The root div node rendered inside this component. Will be filled
    * in ref callback and be used as HTML element for the OlOverlay.
-   * @type {Element}
+   * @type {HTMLElement}
    */
-  private overlayElement: any = null;
+  private overlayElement: HTMLElement = null;
 
   /**
    * An invisible, non-disruptive element, that will be used to calculate the
    * height of the children of this component.
-   * @type {Element}
+   * @type {HTMLElement}
    */
-  private overlayHelperElement: any = null;
+  private overlayHelperElement: HTMLElement = null;
 
   /**
    * Feature info overlay element.
    * @type {OlOverlay}
    */
-  private featureInfoOverlay: any = null;
+  private featureInfoOverlay: OlOverlay = null;
 
   /**
    * Reference to feature info popup
@@ -202,12 +120,36 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     }
 
     if (!isEqual(prevProps.position, position)) {
-      this.setState({
-        position: position
-      });
+      this.setState({ position });
       this.setOverlayPosition(position);
     }
+
+    if (!positioning && position) {
+      const optFit = this.getAutoPositioning(position as [number, number]);
+      this.featureInfoOverlay.setPositioning(optFit);
+    }
   }
+
+  /**
+   * Calculates the positioning of the overlay  relative to the olEvt position
+   * inside the map.
+   *
+   * @param {Number[]} position The click coordinate.
+   * @return {String} positioning
+   */
+  getAutoPositioning(position: [number, number]): OverlayPositioning {
+    const {
+      map
+    } = this.props;
+
+    const mapSize = map.getSize();
+    const horizontalPositioning = (mapSize[1] / 2) < position[1] ? 'bottom' : 'top';
+    const verticalPositioning = (mapSize[0] / 2) < position[0] ? 'right' : 'left';
+    const positioning = `${horizontalPositioning}-${verticalPositioning}`;
+
+    return positioning as OverlayPositioning;
+  }
+
 
   /**
    * Called on lifecycle componentWillUnmount.
@@ -262,7 +204,9 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       stopEvent: this.props.stopEvent,
       insertFirst: this.props.insertFirst,
       autoPan: this.props.autoPan,
-      autoPanAnimation: this.props.autoPanAnimation,
+      autoPanAnimation: {
+        duration: this.props.autoPanAnimationDuration
+      },
       autoPanMargin: this.props.autoPanMargin
     });
 
@@ -275,7 +219,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
 
     // If the pointer is over the popup, no pointermove should be fired.
     if (this.overlayElement) {
-      this.overlayElement.onpointermove = (evt: React.MouseEvent) => evt.stopPropagation();
+      this.overlayElement.onpointermove = (evt: Event) => evt.stopPropagation();
     }
 
     this.featureInfoOverlay = featureInfoOverlay;
@@ -297,6 +241,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     if (this.featureInfoOverlay) {
       return this.featureInfoOverlay.getPosition();
     }
+    return null;
   }
 
   /**
@@ -366,9 +311,6 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       <div
         className='feature-info-popup'
         ref={this.featureInfoPopup}
-        style={{
-          width: this.props.width
-        }}
       >
         {children}
       </div>

@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 
 import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 
+import OlMap from 'ol/Map';
 import OlSourceImageWMS from 'ol/source/ImageWMS';
 import OlSourceTileWMS from 'ol/source/TileWMS';
 
-import UrlUtil from '@terrestris/base-util/dist/UrlUtil/UrlUtil';
 import {
   abortFetchingFeatures,
-  fetchFeatures
+  fetchFeatures,
+  clearFeatures
 } from '../../../state/actions/RemoteFeatureAction';
 
 interface DefaultHsiButtonProps extends ToggleButtonProps {
@@ -21,13 +22,16 @@ interface DefaultHsiButtonProps extends ToggleButtonProps {
   */
   drillDown: boolean;
 }
+interface HsiButtonStateProps {
+  pressed: boolean;
+}
 
 interface HsiButtonProps extends Partial<DefaultHsiButtonProps> {
   /**
    * OlMap this button is bound to.
    * @type {OlMap}
    */
-  map: any;
+  map: OlMap;
 
   /**
    * Button tooltip text
@@ -51,7 +55,7 @@ interface HsiButtonProps extends Partial<DefaultHsiButtonProps> {
  * @class HsiButton
  * @extends React.Component
  */
-export class HsiButton extends React.Component<HsiButtonProps> {
+export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStateProps> {
 
   /**
  * The default properties.
@@ -66,15 +70,17 @@ export class HsiButton extends React.Component<HsiButtonProps> {
   constructor(props: HsiButtonProps) {
     super(props);
 
+    this.state = {
+      pressed: false
+    };
+
     // binds
     this.onHsiToggle = this.onHsiToggle.bind(this);
-    this.onPointerMove = this.onPointerMove.bind(this);
-    this.onPointerRest = this.onPointerRest.bind(this);
+    this.onMapClick = this.onMapClick.bind(this);
   }
 
   /**
-   * Toggle handler of the HsiButton. (Un)registers `pointermove` and
-   * `pointerrest` events on map on (un)toggle.
+   * Toggle handler of the HsiButton. (Un)registers `click`event on map on (un)toggle.
    *
    * @param {boolean} toggled Toggled state of the button.
    */
@@ -83,60 +89,45 @@ export class HsiButton extends React.Component<HsiButtonProps> {
       map,
       dispatch
     } = this.props;
+
+    this.setState({
+      pressed: toggled
+    });
     if (toggled) {
-      map.on('pointermove', this.onPointerMove);
-      map.on('pointerrest', this.onPointerRest);
+      map.on('click', this.onMapClick);
     } else {
-      map.un('pointermove', this.onPointerMove);
-      map.un('pointerrest', this.onPointerRest);
+      map.un('click', this.onMapClick);
 
       // remove possible hover artifacts
-      map.getTargetElement().style.cursor = '';
-      dispatch(abortFetchingFeatures('HOVER'));
+      dispatch(clearFeatures('HOVER'));
     }
   }
 
   /**
- * Sets the cursor to `pointer` if the pointer enters a non-oqaque pixel of
- * a hoverable layer.
- *
- * @param {ol.MapEvent} olEvt The `pointermove` event.
- */
-  onPointerMove(olEvt: any) {
-    if (olEvt.dragging) {
-      return;
-    }
-
-    const map: any = this.props.map;
-    const pixel: number[] = map.getEventPixel(olEvt.originalEvent);
-    const hit: boolean = map.forEachLayerAtPixel(pixel, () => true, this, this.layerFilter);
-
-    map.getTargetElement().style.cursor = hit ? 'pointer' : '';
-  }
-
-  /**
-   * Calls a GFI request to all hoverable (or the uppermost only, if `drillDown`
-   * is set to false property) layer(s).
-   *
-   * @param {ol.MapEvent} olEvt The `pointerrest` event.
-   */
-  onPointerRest(olEvt: any) {
+  * Calls a GFI request to all hoverable (or the uppermost only, if `drillDown`
+  * is set to false property) layer(s).
+  *
+  * @param {ol.MapEvent} olEvt The `click` event on the map.
+  */
+  onMapClick (olEvt: any) {
+    const {
+      pixel,
+      map
+    } = olEvt;
 
     const {
-      dispatch,
       drillDown,
-      map
+      dispatch
     } = this.props;
+
     const mapView: any = map.getView();
     const viewResolution: object = mapView.getResolution();
     const viewProjection: object = mapView.getProjection();
-    const pixel: number[] = map.getEventPixel(olEvt.originalEvent);
-    let featureInfoUrls: string[] = [];
+    const featureInfoUrls: string[] = [];
 
     // dispatch that any running HOVER process should be canceled
     dispatch(abortFetchingFeatures('HOVER'));
 
-    const infoUrlsToCombine: any = {};
     map.forEachLayerAtPixel(pixel, (layer: any) => {
       const layerSource: any = layer.getSource();
       if (!layerSource.getFeatureInfoUrl) {
@@ -153,35 +144,17 @@ export class HsiButton extends React.Component<HsiButtonProps> {
         }
       );
 
-      if (featureInfoUrl.indexOf('geoserver.action') >= 0) {
-        const ftName: string = layer.getSource().getParams().LAYERS;
-        const namespace: string = ftName.indexOf(':') > -1 ? ftName.split(':')[0] : ftName;
-        if (!infoUrlsToCombine[namespace]) {
-          infoUrlsToCombine[namespace] = [];
-        }
-        infoUrlsToCombine[namespace].push(featureInfoUrl);
-      } else {
-        featureInfoUrls.push(featureInfoUrl);
-      }
-      // stop iteration if drillDown is set to false.
+      featureInfoUrls.push(featureInfoUrl);
+
       if (!drillDown) {
         return true;
       }
     }, this, this.layerFilter);
 
-    // bundle requests depending on namespace before since interceptor currently
-    // can not handle GFI requests containing layers with different namespaces
-    if (Object.keys(infoUrlsToCombine).length > 0) {
-      Object.keys(infoUrlsToCombine).forEach(key => {
-        const url: any = UrlUtil.bundleOgcRequests(infoUrlsToCombine[key], true);
-        featureInfoUrls = featureInfoUrls.concat(url);
-      });
-    }
-
     map.getTargetElement().style.cursor = featureInfoUrls.length > 0 ? 'wait' : '';
     dispatch(fetchFeatures(
       'HOVER', featureInfoUrls,
-      {olEvt: olEvt}
+      { olEvt: olEvt }
     ));
   }
 
@@ -209,14 +182,17 @@ export class HsiButton extends React.Component<HsiButtonProps> {
       tooltip,
       tooltipPlacement
     } = this.props;
+
     return (
       <ToggleButton
         type={type}
         shape={shape}
         iconName={iconName}
+        pressedIconName={iconName}
         tooltip={tooltip}
         tooltipPlacement={tooltipPlacement}
         onToggle={this.onHsiToggle}
+        pressed={this.state.pressed}
       />
     );
   }

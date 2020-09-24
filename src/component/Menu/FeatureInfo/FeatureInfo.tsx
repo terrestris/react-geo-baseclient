@@ -21,6 +21,7 @@ const isEmpty = require('lodash/isEmpty');
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import FeatureInfoGrid from '../../FeatureInfoGrid/FeatureInfoGrid';
+import { clearFeatures } from '../../../state/actions/RemoteFeatureAction';
 import './FeatureInfo.less';
 
 interface DefaultFeatureInfoProps {
@@ -98,12 +99,10 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     };
 
     // binds
-    this.onPointerMove = this.onPointerMove.bind(this);
     this.onMenuItemClick = this.onMenuItemClick.bind(this);
     this.onMenuMouseEnter = this.onMenuMouseEnter.bind(this);
     this.onSubMenuMouseLeave = this.onSubMenuMouseLeave.bind(this);
     this.hideFeatureInfoWindow = this.hideFeatureInfoWindow.bind(this);
-    this.onPointerMove = this.onPointerMove.bind(this);
 
   }
 
@@ -261,6 +260,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
   getMenuItemForFeatureType(featType: string) {
     const layer = MapUtil.getLayerByNameParam(this.props.map, featType);
     const count = this.props.features[featType].length;
+
     return (
       <MenuItem
         key={featType}
@@ -312,16 +312,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       featuresToShow: []
     });
     this.clearHoverLayerSource(true);
-  }
-
-  /**
-   * Prevent fetching if the pointer is over the info window.
-   */
-  onPointerMove(el: any) {
-    const target = el.target;
-    if (el) {
-      target.onpointermove = (evt: React.MouseEvent) => evt.stopPropagation();
-    }
+    this.props.dispatch(clearFeatures('HOVER'));
   }
 
   /**
@@ -358,11 +349,11 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
           !gridWinHidden && selectedFeatureType &&
             <Window
               onEscape={this.hideFeatureInfoWindow}
-              onPointerMove={this.onPointerMove}
               title={winTitle}
-              width={300}
+              minWidth={300}
+              maxWidth={500}
               height={250}
-              maxHeight={300}
+              maxHeight={500}
               x={50}
               y={50}
               collapseTooltip={t('General.collapse') as unknown as string}
