@@ -9,7 +9,7 @@ let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
 let customAppConfig;
 try {
-  customAppConfig = require('../../src/config/webpack.config.js');
+  customAppConfig = require('../../' + process.env.CUSTOM_WEBPACK_CONFIG);
 } catch (error) {
   Logger.info("No custom app config provided, using defaults.");
 }
@@ -22,6 +22,7 @@ const interpolations = {
 };
 
 const title = customAppConfig && customAppConfig.appTitle || 'react-geo-baseclient';
+const loadingMaskImg = customAppConfig && customAppConfig.loadingMaskImg || 'logo_terrestris.png';
 
 if (process.env.USE_SOURCEMAP) {
   commonWebpackConfig.devtool = 'inline-source-map';
@@ -39,7 +40,8 @@ const delayedConf = new Promise(function(resolve) {
         removeComments: true
       },
       template: './public/index.html',
-      title: title
+      title,
+      loadingMaskImg
     }),
     new webpack.ProgressPlugin({ profile: false }),
     new InterpolateHtmlPlugin(HtmlWebpackPlugin,interpolations),
