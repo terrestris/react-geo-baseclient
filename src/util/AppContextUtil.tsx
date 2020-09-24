@@ -414,7 +414,7 @@ class AppContextUtil {
             key="3"
             type="primary"
             shape="circle"
-            iconName="fas fa-minus-circle"
+            iconName="fas fa-expand"
           />);
           return;
         case 'shogun-button-print':
@@ -467,7 +467,15 @@ class AppContextUtil {
       }
 
     });
-    return tools;
+    return tools.sort((a, b) => {
+      if (a.key < b.key) {
+        return -1;
+      }
+      if (a.key > b.key) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   static measureToolsEnabled(activeModules: Array<any>) {
