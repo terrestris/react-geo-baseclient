@@ -121,11 +121,11 @@ const commonWebpackConfig = {
         }, {
           from: RESOURCES_PATH + 'i18n/',
           to: './resources/i18n/'
+        }, {
+          from: RESOURCES_PATH + 'img/',
+          to: './resources/img/'
         }
         // , {
-        //   from: RESOURCES_PATH + 'img/',
-        //   to: './resources/img/'
-        // }, {
         //   from: RESOURCES_PATH + 'help/',
         //   to: './resources/help/'
         // }
