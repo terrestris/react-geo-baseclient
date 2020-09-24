@@ -41,6 +41,7 @@ interface MapProps extends Partial<DefaultMapProps> {
   zoom: number;
   mapLayers: any[];
   projection: string;
+  children?: any;
 }
 
 interface MapState {
