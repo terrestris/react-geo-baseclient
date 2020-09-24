@@ -5,7 +5,6 @@ const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-// const CustomAntThemeModifyVars = require('./src/theme/antLessModifyVars.js');
 const TARGET = process.env.npm_lifecycle_event;
 const PROJECT_MAIN_PATH = process.env.PROJECT_MAIN_PATH || './';
 const PROJECT_MAIN_CLASS = process.env.PROJECT_MAIN_CLASS || 'ProjectMain';
@@ -76,7 +75,7 @@ const commonWebpackConfig = {
           loader: 'less-loader',
           options: {
             lessOptions: {
-              // modifyVars: CustomAntThemeModifyVars(),
+              modifyVars: require(PROJECT_MAIN_PATH + 'theme/antLessModifyVars'),
               javascriptEnabled: true
             }
           }
