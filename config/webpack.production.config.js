@@ -7,7 +7,7 @@ let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
 let customAppConfig;
 try {
-  customAppConfig = require('../../src/config/webpack.config.js');
+  customAppConfig = require('../../' + process.env.CUSTOM_WEBPACK_CONFIG);
 } catch (error) {
   Logger.info("No custom app config provided, using defaults.");
 }
@@ -19,6 +19,7 @@ const interpolations = {
 };
 
 const title = customAppConfig && customAppConfig.appTitle || 'react-geo-baseclient';
+const loadingMaskImg = customAppConfig && customAppConfig.loadingMaskImg || 'logo_terrestris.png';
 
 commonWebpackConfig.plugins = [
   ...commonWebpackConfig.plugins || [],
@@ -33,6 +34,7 @@ commonWebpackConfig.plugins = [
     filename: 'index.html',
     favicon: './public/favicon.ico',
     template: './public/index.html',
+    loadingMaskImg: loadingMaskImg,
     files: {
       css: [],
       csrfToken: '${_csrf.token}',

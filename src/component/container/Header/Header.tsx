@@ -118,8 +118,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           <Col
             xs={0}
             sm={0}
-            md={logoConfig.length}
-            lg={logoConfig.length}
+            md={6}
+            lg={6}
           >
             <div className="logo">
               {
@@ -138,8 +138,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           <Col
             xs={10}
             sm={10}
-            md={8}
-            lg={8}
+            md={6}
+            lg={6}
           >
             <NominatimSearch
               placeholder={t('Header.nominatimPlaceHolder')}
@@ -153,16 +153,16 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           <Col
             xs={0}
             sm={0}
-            md={13 - logoConfig.length}
-            lg={13 - logoConfig.length}
+            md={6}
+            lg={6}
           >
             <span className="app-title">{titleString}</span>
           </Col>
           <Col
             xs={1}
             sm={1}
-            md={1}
-            lg={1}
+            md={3}
+            lg={3}
           >
             <SimpleButton
               name="helpButtonModule"
@@ -176,8 +176,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           <Col
             xs={1}
             sm={1}
-            md={1}
-            lg={1}
+            md={2}
+            lg={2}
           >
             <div className="app-language-selection">
               <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />

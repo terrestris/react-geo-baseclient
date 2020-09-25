@@ -5,11 +5,18 @@ const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-// const CustomAntThemeModifyVars = require('./src/theme/antLessModifyVars.js');
 const TARGET = process.env.npm_lifecycle_event;
 const PROJECT_MAIN_PATH = process.env.PROJECT_MAIN_PATH || './';
 const PROJECT_MAIN_CLASS = process.env.PROJECT_MAIN_CLASS || 'ProjectMain';
 const RESOURCES_PATH = process.env.RESOURCES_PATH || './src/resources/';
+
+let CustomCssTheme;
+
+if (process.env.PROJECT_MAIN_PATH)  {
+  CustomCssTheme = require(PROJECT_MAIN_PATH + 'theme/antLessModifyVars');
+} else {
+  CustomCssTheme = path.resolve(PROJECT_MAIN_PATH + 'src/theme/antLessModifyVars');
+}
 
 const Logger = winston.createLogger({
   format: winston.format.simple(),
@@ -76,7 +83,7 @@ const commonWebpackConfig = {
           loader: 'less-loader',
           options: {
             lessOptions: {
-              // modifyVars: CustomAntThemeModifyVars(),
+              modifyVars: CustomCssTheme,
               javascriptEnabled: true
             }
           }
@@ -122,11 +129,11 @@ const commonWebpackConfig = {
         }, {
           from: RESOURCES_PATH + 'i18n/',
           to: './resources/i18n/'
+        }, {
+          from: RESOURCES_PATH + 'img/',
+          to: './resources/img/'
         }
         // , {
-        //   from: RESOURCES_PATH + 'img/',
-        //   to: './resources/img/'
-        // }, {
         //   from: RESOURCES_PATH + 'help/',
         //   to: './resources/help/'
         // }
