@@ -204,7 +204,7 @@ interface LayerLegendAccordionNodeState {
         >
           <Tooltip
             title={t('LayerLegendAccordion.toggleVisibilityTooltipText')}
-            placement="right"
+            placement="top"
             mouseEnterDelay={0.5}
           >
             <span
@@ -237,7 +237,7 @@ interface LayerLegendAccordionNodeState {
         <div className="layer-tree-node-title">
           <Tooltip
             title={t('LayerLegendAccordion.toggleVisibilityTooltipText')}
-            placement="right"
+            placement="top"
             mouseEnterDelay={0.5}
           >
             <span
