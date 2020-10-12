@@ -60,7 +60,7 @@
     "i18next": "^19.8.0",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-xhr-backend": "^3.2.2",
-    "moment": "^2.28.0",
+    "moment": "^2.29.0",
     "object-fit-polyfill": "^0.1.0",
     "ol": "^6.4.3",
     "react": "^16.13.1",
