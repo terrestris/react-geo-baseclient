@@ -2,7 +2,7 @@ const basePath = window.location.origin +
   window.location.pathname.match(/^\/[\w-]*\/?/)[0];
 const buildPath = window.location.origin +
   window.location.pathname.match(/^(\/[\w-]*)*\/\/?/)[0];
-const shogun2Path = basePath + 'rest/applications/';
+const shogun2Path = basePath + 'rest/projectapps/';
 let staticPath = basePath + 'resources/appContext.json';
 let localePath =  basePath + 'resources/i18n/{{lng}}.json';
 const appMode = typeof(APP_MODE) != "undefined" ? APP_MODE : undefined;
