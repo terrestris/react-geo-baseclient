@@ -14,6 +14,7 @@ import {
 } from '../../../state/actions/RemoteFeatureAction';
 
 interface DefaultHsiButtonProps extends ToggleButtonProps {
+  dataRange: any;
   iconName: string;
   /**
   * Whether the GFI control should requests all layers at a given coordinate
@@ -50,6 +51,18 @@ interface HsiButtonProps extends Partial<DefaultHsiButtonProps> {
 }
 
 /**
+ * mapStateToProps - mapping state to props of HsiButton Component.
+ *
+ * @param {Object} state current state
+ * @return {Object} mapped props
+ */
+const mapStateToProps = (state: any) => {
+  return {
+    dataRange: state.dataRange
+  };
+};
+
+/**
  * Class representing the HsiButton.
  *
  * @class HsiButton
@@ -61,6 +74,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
  * The default properties.
  */
   public static defaultProps: DefaultHsiButtonProps = {
+    dataRange: {},
     drillDown: true,
     type: 'primary',
     shape: 'circle',
@@ -117,7 +131,8 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
 
     const {
       drillDown,
-      dispatch
+      dispatch,
+      dataRange
     } = this.props;
 
     const mapView: any = map.getView();
@@ -133,16 +148,38 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
       if (!layerSource.getFeatureInfoUrl) {
         return;
       }
-      const featureInfoUrl: string = layerSource.getFeatureInfoUrl(
-        map.getCoordinateFromPixel(pixel),
-        viewResolution,
-        viewProjection,
-        {
-          // TODO add check for json format availability
-          'INFO_FORMAT': 'application/json',
-          'FEATURE_COUNT': 10
-        }
-      );
+
+      const featureInfoUrl: string =
+        layer.get('type') === 'WMSTime'
+          ? layerSource
+            .getFeatureInfoUrl(
+              map.getCoordinateFromPixel(pixel),
+              viewResolution,
+              viewProjection,
+              {
+                // TODO add check for json format availability
+                INFO_FORMAT: 'application/json',
+                FEATURE_COUNT: 999999999
+              }
+            )
+            .replace(
+              new RegExp('TIME=.*?&'),
+              `TIME=${escape(
+                dataRange.startDate.format(layer.get('timeFormat')) +
+                '/' +
+                dataRange.endDate.format(layer.get('timeFormat'))
+              )}&`
+            )
+          : layerSource.getFeatureInfoUrl(
+            map.getCoordinateFromPixel(pixel),
+            viewResolution,
+            viewProjection,
+            {
+              // TODO add check for json format availability
+              INFO_FORMAT: 'application/json',
+              FEATURE_COUNT: 10
+            }
+          );
 
       featureInfoUrls.push(featureInfoUrl);
 
@@ -198,4 +235,4 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
   }
 }
 
-export default connect(null)(HsiButton);
+export default connect(mapStateToProps)(HsiButton);
