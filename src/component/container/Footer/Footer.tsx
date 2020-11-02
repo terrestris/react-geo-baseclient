@@ -33,6 +33,7 @@ interface FooterProps extends Partial<DefaultFooterProps>{
   t: (arg: string) => {};
   mapScales: number[];
   projection: string;
+  disableCrsSelection: boolean;
 }
 
 interface FooterState {
@@ -196,6 +197,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
       map,
       mapScales,
       projection,
+      disableCrsSelection,
       imprintLink,
       imprintText,
       t
@@ -215,6 +217,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
               onSelect={this.setProjection}
               emptyTextPlaceholderText={t('CoordinateReferenceSystemCombo.emptyTextPlaceholderText') as string}
               value={projection.replace('EPSG:', '')}
+              disabled={disableCrsSelection || false}
             />
           </Col>
           <Col
