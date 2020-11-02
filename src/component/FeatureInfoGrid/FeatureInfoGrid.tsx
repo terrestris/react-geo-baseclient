@@ -181,7 +181,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
     const columnDefs: any[] = [];
 
     Object.keys(selectedFeat.getProperties()).forEach(featureColumnKey => {
-      const prop = selectedFeat.getProperties()[featureColumnKey];
+      const prop = selectedFeat.get(featureColumnKey);
       if (
         prop instanceof OlGeomGeometry ||
         (typeof prop !== 'string' && typeof prop !== 'number')
@@ -248,7 +248,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
     filterFeatures.forEach(filterFeature => {
       const colData = {};
       Object.keys(filterFeature.getProperties()).forEach(propKey => {
-        const prop = filterFeature.getProperties()[propKey];
+        const prop = filterFeature.get(propKey);
         if (
           prop instanceof OlGeomGeometry ||
           (typeof prop !== 'string' && typeof prop !== 'number')
@@ -258,7 +258,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
         if (propKey === 'layerName') {
           return;
         }
-        colData[propKey] = filterFeature.getProperties()[propKey];
+        colData[propKey] = filterFeature.get(propKey);
       });
       rowData.push(colData);
     });
