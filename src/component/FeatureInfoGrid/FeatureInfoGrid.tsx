@@ -26,6 +26,8 @@ interface FeatureInfoGridProps extends Partial<DefaultFeatureInfoGridProps> {
    */
   hoverVectorLayer: any; // OlLayerVector
 
+  isTimeLayer: boolean; // Boolean
+
   /**
  * Translate function
  */
@@ -68,6 +70,8 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
     // binds
     this.updateSize = this.updateSize.bind(this);
     this.onPaginationChange = this.onPaginationChange.bind(this);
+    this.getTimeFeatureColumnDefs = this.getTimeFeatureColumnDefs.bind(this);
+    this.getTimeFeatureRowData = this.getTimeFeatureRowData.bind(this);
   }
 
   /**
@@ -166,6 +170,38 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
   }
 
   /**
+   * Returns column definition for feature grid of time interval based
+   * features.
+   */
+  getTimeFeatureColumnDefs(): any[] {
+    const {
+      selectedFeat
+    } = this.state;
+
+    const columnDefs: any[] = [];
+
+    Object.keys(selectedFeat.getProperties()).forEach(featureColumnKey => {
+      const prop = selectedFeat.get(featureColumnKey);
+      if (
+        prop instanceof OlGeomGeometry ||
+        (typeof prop !== 'string' && typeof prop !== 'number')
+      ) {
+        return;
+      }
+      if (featureColumnKey === 'layerName') {
+        return;
+      }
+      columnDefs.push({
+        headerName: featureColumnKey,
+        field: featureColumnKey,
+        minWidth: 100
+      });
+    });
+
+    return columnDefs;
+  }
+
+  /**
    * Filters feature properties and returns prepared row data for the grid.
    * @param {OlFeature} feat Feature which properties should be shown in grid.
    * @return {Array} Data array.
@@ -191,6 +227,45 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
   }
 
   /**
+   * Filters time-based feature properties and returns prepared row data for
+   * the grid.
+   * @param {OlFeature} feat Feature whose time-based properties should be
+   * displayed in the grid.
+   * @return {Array} Data array.
+   */
+  getTimeFeatureRowData(feat: any): any[] {
+    const {
+      features
+    } = this.props;
+
+    const rowData: any[] = [];
+
+    const featureLayerName: string = feat.get('layerName');
+    const filterFeatures: any[] = features.filter(f => {
+      return f.get('layerName') === featureLayerName;
+    });
+
+    filterFeatures.forEach(filterFeature => {
+      const colData = {};
+      Object.keys(filterFeature.getProperties()).forEach(propKey => {
+        const prop = filterFeature.get(propKey);
+        if (
+          prop instanceof OlGeomGeometry ||
+          (typeof prop !== 'string' && typeof prop !== 'number')
+        ) {
+          return;
+        }
+        if (propKey === 'layerName') {
+          return;
+        }
+        colData[propKey] = filterFeature.get(propKey);
+      });
+      rowData.push(colData);
+    });
+    return rowData;
+  }
+
+  /**
    * Returns `AgFeatureGrid` component for provided feature.
    *
    * @param {OlFeature} feat OlFeature which properties should be shown in grid.
@@ -202,18 +277,26 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
       resizable: true
     };
 
+    const {
+      isTimeLayer
+    } = this.props;
+
     return (
       <AgFeatureGrid
         map={null}
         width={'auto'}
         className="grid-content"
         height={'auto'}
-        columnDefs={this.getColumnDefs()}
+        columnDefs={
+          isTimeLayer ? this.getTimeFeatureColumnDefs() : this.getColumnDefs()
+        }
         onGridIsReady={this.updateSize}
         onGridSizeChanged={this.updateSize}
         defaultColDef={defaultColDef}
         suppressHorizontalScroll={true}
-        rowData={this.getRowData(feat)}
+        rowData={
+          isTimeLayer ? this.getTimeFeatureRowData(feat) : this.getRowData(feat)
+        }
         selectable={false}
       />
     );
@@ -231,7 +314,8 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
    */
   render() {
     const {
-      features
+      features,
+      isTimeLayer
     } = this.props;
 
     const {
@@ -241,17 +325,19 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
 
     return (
       <div className='feature-grid-wrapper'>
-        <Pagination
-          key="pagination"
-          simple={true}
-          hideOnSinglePage={true}
-          size="small"
-          current={currentPage}
-          defaultCurrent={1}
-          total={features.length}
-          pageSize={1}
-          onChange={this.onPaginationChange}
-        />
+        {!isTimeLayer &&
+          <Pagination
+            key="pagination"
+            simple={true}
+            hideOnSinglePage={true}
+            size="small"
+            current={currentPage}
+            defaultCurrent={1}
+            total={features.length}
+            pageSize={1}
+            onChange={this.onPaginationChange}
+          />
+        }
         {this.getFeatureGrid(selectedFeat)}
       </div>
 

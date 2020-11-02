@@ -338,8 +338,9 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     } = this.state;
 
     let winTitle;
+    let layerToShow;
     if (selectedFeatureType) {
-      const layerToShow = MapUtil.getLayerByNameParam(map, selectedFeatureType);
+      layerToShow = MapUtil.getLayerByNameParam(map, selectedFeatureType);
       winTitle = layerToShow.get('name') || selectedFeatureType;
     }
 
@@ -369,6 +370,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
               ]}
             >
               <FeatureInfoGrid
+                isTimeLayer={layerToShow && layerToShow.get('type') === 'WMSTime'}
                 features={featuresToShow}
                 hoverVectorLayer={this.hoverVectorLayer}
                 t={t}
