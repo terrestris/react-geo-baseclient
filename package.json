@@ -55,6 +55,8 @@
     "@terrestris/ol-util": "^4.0.1",
     "@terrestris/react-geo": "^14.1.0",
     "@terrestris/vectortiles": "^0.3.0",
+    "@ag-grid-community/client-side-row-model": "^23.0.0",
+    "@ag-grid-community/csv-export": "^23.0.0",
     "antd": "^4.6.4",
     "es-abstract": "^1.18.0-next.0",
     "i18next": "^19.8.2",

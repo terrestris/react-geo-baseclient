@@ -10,7 +10,8 @@
     "close": "Schließen",
     "cancel": "Abbrechen",
     "loading": "Lädt",
-    "collapse": "Ein-/Zuklappen"
+    "collapse": "Ein-/Zuklappen",
+    "downloadData": "Daten als CSV laden"
   },
   "LayerTree": "Themen",
   "Legend": "Legende",

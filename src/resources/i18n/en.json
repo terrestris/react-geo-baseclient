@@ -10,7 +10,8 @@
     "close": "Close",
     "cancel": "Cancel",
     "loading": "Loading",
-    "collapse": "Collapse/Expand"
+    "collapse": "Collapse/Expand",
+    "downloadData": "Download as CSV"
   },
   "LayerTree": "Layers",
   "Legend": "Legend",

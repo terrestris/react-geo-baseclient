@@ -6,6 +6,8 @@ import {
 } from 'antd';
 
 import AgFeatureGrid from '@terrestris/react-geo/dist/Grid/AgFeatureGrid/AgFeatureGrid';
+import { CsvExportModule } from '@ag-grid-community/csv-export';
+import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 
 import './FeatureInfoGrid.less';
 
@@ -28,6 +30,8 @@ interface FeatureInfoGridProps extends Partial<DefaultFeatureInfoGridProps> {
 
   isTimeLayer: boolean; // Boolean
 
+  downloadGridData: any; // Property to download grid data
+
   /**
  * Translate function
  */
@@ -37,6 +41,7 @@ interface FeatureInfoGridProps extends Partial<DefaultFeatureInfoGridProps> {
 interface FeatureInfoGridState {
   currentPage: number;
   selectedFeat: any; // OlFeature
+  gridApi: any;
 }
 
 /**
@@ -64,7 +69,8 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
 
     this.state = {
       selectedFeat: props.features[0],
-      currentPage: 1
+      currentPage: 1,
+      gridApi: {}
     };
 
     // binds
@@ -72,6 +78,8 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
     this.onPaginationChange = this.onPaginationChange.bind(this);
     this.getTimeFeatureColumnDefs = this.getTimeFeatureColumnDefs.bind(this);
     this.getTimeFeatureRowData = this.getTimeFeatureRowData.bind(this);
+    this.downloadData = this.downloadData.bind(this);
+    this.onGridIsReady = this.onGridIsReady.bind(this);
   }
 
   /**
@@ -82,7 +90,8 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
    */
   componentDidUpdate(prevProps: FeatureInfoGridProps, prevState: FeatureInfoGridState) {
     const {
-      features
+      features,
+      downloadGridData
     } = this.props;
 
     const {
@@ -98,6 +107,10 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
     }
     if (!isEqual(prevState.selectedFeat, selectedFeat)) {
       this.updateVectorLayer(selectedFeat);
+    }
+
+    if (!isEqual(prevProps.downloadGridData, downloadGridData)) {
+      this.downloadData();
     }
   }
 
@@ -266,6 +279,16 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
   }
 
   /**
+   * Provides a function to download the grid data.
+   * Only active when time-based layer is selected for FeatureRequest.
+   */
+  downloadData() {
+    if (Object.keys(this.state.gridApi).length) {
+      this.state.gridApi.exportDataAsCsv();
+    }
+  }
+
+  /**
    * Returns `AgFeatureGrid` component for provided feature.
    *
    * @param {OlFeature} feat OlFeature which properties should be shown in grid.
@@ -290,7 +313,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
         columnDefs={
           isTimeLayer ? this.getTimeFeatureColumnDefs() : this.getColumnDefs()
         }
-        onGridIsReady={this.updateSize}
+        onGridIsReady={this.onGridIsReady}
         onGridSizeChanged={this.updateSize}
         defaultColDef={defaultColDef}
         suppressHorizontalScroll={true}
@@ -298,8 +321,19 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
           isTimeLayer ? this.getTimeFeatureRowData(feat) : this.getRowData(feat)
         }
         selectable={false}
+        modules={[ClientSideRowModelModule, CsvExportModule]}
       />
     );
+  }
+
+  /**
+   * Will be executed, when the grid is ready.
+   */
+  onGridIsReady(featureGrid: any) {
+    this.updateSize(featureGrid);
+    this.setState({
+      gridApi: featureGrid.api
+    });
   }
 
   /**
