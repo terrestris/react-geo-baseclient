@@ -61,6 +61,7 @@ interface FeatureInfoState {
   gridWinHidden: boolean;
   featuresToShow: any[]; // OlFeature[]
   selectedFeatureType: string;
+  downloadGridData: boolean;
 }
 
 /**
@@ -95,7 +96,8 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       menuHidden: false,
       gridWinHidden: true,
       featuresToShow: [],
-      selectedFeatureType: null
+      selectedFeatureType: null,
+      downloadGridData: false
     };
 
     // binds
@@ -103,6 +105,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     this.onMenuMouseEnter = this.onMenuMouseEnter.bind(this);
     this.onSubMenuMouseLeave = this.onSubMenuMouseLeave.bind(this);
     this.hideFeatureInfoWindow = this.hideFeatureInfoWindow.bind(this);
+    this.handleDownloadButton = this.handleDownloadButton.bind(this);
 
   }
 
@@ -315,6 +318,16 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     this.props.dispatch(clearFeatures('HOVER'));
   }
 
+  handleDownloadButton() {
+    const {
+      downloadGridData
+    } = this.state;
+
+    this.setState({
+      downloadGridData: !downloadGridData
+    });
+  }
+
   /**
    * The render method.
    *
@@ -334,8 +347,11 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       menuHidden,
       gridWinHidden,
       selectedFeatureType,
-      featuresToShow
+      featuresToShow,
+      downloadGridData
     } = this.state;
+
+    const tools = [];
 
     let winTitle;
     let layerToShow;
@@ -343,6 +359,28 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       layerToShow = MapUtil.getLayerByNameParam(map, selectedFeatureType);
       winTitle = layerToShow.get('name') || selectedFeatureType;
     }
+
+    if (layerToShow && layerToShow.get('type') === 'WMSTime') {
+      tools.push(
+        <SimpleButton
+          iconName="fas fa-save"
+          key="download-tool"
+          size="small"
+          tooltip={t('General.downloadData') as unknown as string}
+          onClick={this.handleDownloadButton}
+        />
+      );
+    }
+
+    tools.push(
+      <SimpleButton
+        iconName="fas fa-times"
+        key="close-tool"
+        size="small"
+        tooltip={t('General.close') as unknown as string}
+        onClick={this.hideFeatureInfoWindow}
+      />
+    );
 
     return (
       <div>
@@ -359,20 +397,13 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
               y={50}
               collapseTooltip={t('General.collapse') as unknown as string}
               bounds="#app"
-              tools={[
-                <SimpleButton
-                  iconName="fas fa-times"
-                  key="close-tool"
-                  size="small"
-                  tooltip={t('General.close') as unknown as string}
-                  onClick={this.hideFeatureInfoWindow}
-                />
-              ]}
+              tools={tools}
             >
               <FeatureInfoGrid
                 isTimeLayer={layerToShow && layerToShow.get('type') === 'WMSTime'}
                 features={featuresToShow}
                 hoverVectorLayer={this.hoverVectorLayer}
+                downloadGridData={downloadGridData}
                 t={t}
               />
 
