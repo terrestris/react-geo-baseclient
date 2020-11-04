@@ -32,9 +32,11 @@ interface FeatureInfoGridProps extends Partial<DefaultFeatureInfoGridProps> {
 
   downloadGridData: any; // Property to download grid data
 
+  onPaginationChange?: (idx: number) => void;
+
   /**
- * Translate function
- */
+   * Translate function
+   */
   t: (arg: any) => void;
 }
 
@@ -144,6 +146,9 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
       selectedFeat,
       currentPage: newIdx
     });
+    if (this.props.onPaginationChange) {
+      this.props.onPaginationChange(newIdx);
+    }
   }
 
   /**
