@@ -147,7 +147,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
       currentPage: newIdx
     });
     if (this.props.onPaginationChange) {
-        this.props.onPaginationChange(newIdx);
+      this.props.onPaginationChange(newIdx);
     }
   }
 
