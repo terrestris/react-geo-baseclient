@@ -328,7 +328,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.setState({
       printLegend: evt.target.checked
     }, () => {
-      this.printManager.printLegend = this.state.printLegend;
+      this.printManager.customParams.printLegend = this.state.printLegend;
     });
   };
 
@@ -438,7 +438,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       printTitle : preview ? t('PrintPanel.previewPrintTitle') : '';
     this.printManager.customParams.comment = printDescription ?
       printDescription : preview ? t('PrintPanel.previewPrintDescription') : '';
-    this.printManager.customParams.printLegend = !preview && printLegend && !isEmpty(legendIds);
+    this.printManager.customParams.printLegend = printLegend && !isEmpty(legendIds);
     this.printManager.customParams.printScalebar = true;
     this.printManager.customParams.attributions =
       PrintUtil.getAttributions(map, this.printManager.extentLayer);
