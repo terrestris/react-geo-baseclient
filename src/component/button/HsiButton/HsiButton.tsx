@@ -13,6 +13,8 @@ import {
   clearFeatures
 } from '../../../state/actions/RemoteFeatureAction';
 
+import UrlUtil from '@terrestris/base-util/dist/UrlUtil/UrlUtil';
+
 interface DefaultHsiButtonProps extends ToggleButtonProps {
   dataRange: any;
   iconName: string;
@@ -22,6 +24,11 @@ interface DefaultHsiButtonProps extends ToggleButtonProps {
   * @type {Boolean}
   */
   drillDown: boolean;
+  /**
+   * Boolean to indicate that we do not want to hover but use click to retrieve
+   * feature information
+   */
+  getInfoByClick: boolean;
 }
 interface HsiButtonStateProps {
   pressed: boolean;
@@ -78,7 +85,8 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
     drillDown: true,
     type: 'primary',
     shape: 'circle',
-    iconName: 'fas fa-info'
+    iconName: 'fas fa-info',
+    getInfoByClick: false
   };
 
   constructor(props: HsiButtonProps) {
@@ -90,7 +98,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
 
     // binds
     this.onHsiToggle = this.onHsiToggle.bind(this);
-    this.onMapClick = this.onMapClick.bind(this);
+    this.getInfo = this.getInfo.bind(this);
   }
 
   /**
@@ -101,16 +109,25 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
   onHsiToggle(toggled: boolean) {
     const {
       map,
-      dispatch
+      dispatch,
+      getInfoByClick
     } = this.props;
 
     this.setState({
       pressed: toggled
     });
     if (toggled) {
-      map.on('click', this.onMapClick);
+      if (getInfoByClick) {
+        map.on('click', this.getInfo);
+      } else {
+        map.on('pointerrest', this.getInfo);
+      }
     } else {
-      map.un('click', this.onMapClick);
+      if (getInfoByClick) {
+        map.un('click', this.getInfo);
+      } else {
+        map.un('pointerrest', this.getInfo);
+      }
 
       // remove possible hover artifacts
       dispatch(clearFeatures('HOVER'));
@@ -118,37 +135,39 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
   }
 
   /**
-  * Calls a GFI request to all hoverable (or the uppermost only, if `drillDown`
-  * is set to false property) layer(s).
-  *
-  * @param {ol.MapEvent} olEvt The `click` event on the map.
-  */
-  onMapClick (olEvt: any) {
+   * Calls a GFI request to all hoverable (or the uppermost only, if `drillDown`
+   * is set to false property) layer(s).
+   *
+   * @param {ol.MapEvent} olEvt The `pointerrest` event.
+   */
+  getInfo(olEvt: any) {
     const {
-      pixel,
-      map
-    } = olEvt;
-
-    const {
-      drillDown,
       dispatch,
-      dataRange
+      drillDown,
+      map,
+      dataRange,
+      getInfoByClick
     } = this.props;
-
     const mapView: any = map.getView();
     const viewResolution: object = mapView.getResolution();
     const viewProjection: object = mapView.getProjection();
-    const featureInfoUrls: string[] = [];
+    let pixel: number[];
+    if (getInfoByClick) {
+      pixel = olEvt.pixel;
+    } else {
+      pixel = map.getEventPixel(olEvt.originalEvent);
+    }
+    let featureInfoUrls: string[] = [];
 
     // dispatch that any running HOVER process should be canceled
     dispatch(abortFetchingFeatures('HOVER'));
 
-    map.forEachLayerAtPixel(pixel, (layer: any) => {
+    const infoUrlsToCombine: any = {};
+    olEvt.map.forEachLayerAtPixel(pixel, (layer: any) => {
       const layerSource: any = layer.getSource();
       if (!layerSource.getFeatureInfoUrl) {
         return;
       }
-
       const featureInfoUrl: string =
         layer.get('type') === 'WMSTime'
           ? layerSource
@@ -181,17 +200,35 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
             }
           );
 
-      featureInfoUrls.push(featureInfoUrl);
-
+      if (featureInfoUrl.indexOf('geoserver.action') >= 0) {
+        const ftName: string = layer.getSource().getParams().LAYERS;
+        const namespace: string = ftName.indexOf(':') > -1 ? ftName.split(':')[0] : ftName;
+        if (!infoUrlsToCombine[namespace]) {
+          infoUrlsToCombine[namespace] = [];
+        }
+        infoUrlsToCombine[namespace].push(featureInfoUrl);
+      } else {
+        featureInfoUrls.push(featureInfoUrl);
+      }
+      // stop iteration if drillDown is set to false.
       if (!drillDown) {
         return true;
       }
     }, this, this.layerFilter);
 
+    // bundle requests depending on namespace before since interceptor currently
+    // can not handle GFI requests containing layers with different namespaces
+    if (Object.keys(infoUrlsToCombine).length > 0) {
+      Object.keys(infoUrlsToCombine).forEach(key => {
+        const url: any = UrlUtil.bundleOgcRequests(infoUrlsToCombine[key], true);
+        featureInfoUrls = featureInfoUrls.concat(url);
+      });
+    }
+
     map.getTargetElement().style.cursor = featureInfoUrls.length > 0 ? 'wait' : '';
     dispatch(fetchFeatures(
       'HOVER', featureInfoUrls,
-      { olEvt: olEvt }
+      {olEvt: olEvt}
     ));
   }
 
