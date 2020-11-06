@@ -112,5 +112,8 @@
   "LayerTreeDropdownContextMenu": {
     "layerInfoText": "Layerbeschreibung",
     "layerSettingsTooltipText": "Eigenschaften"
+  },
+  "LayerTreeApplyTimeInterval": {
+    "setTimeLineToLayerInterval": "Zeitraum des Layers anwenden"
   }
 }
