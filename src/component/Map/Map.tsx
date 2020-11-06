@@ -47,6 +47,7 @@ interface MapProps extends Partial<DefaultMapProps> {
 interface MapState {
   lastPointerPixel: number[] | null;
   isMouseOverMapEl: boolean;
+  mouseEvt: MouseEvent;
 }
 
 /**
@@ -87,6 +88,7 @@ export class Map extends React.Component<MapProps, MapState> {
     this.onMouseOver = this.onMouseOver.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
     this.checkPointerRest = this.checkPointerRest.bind(this);
+    this.trackMousePosition = this.trackMousePosition.bind(this);
   }
 
   /**
@@ -108,6 +110,7 @@ export class Map extends React.Component<MapProps, MapState> {
 
     this.initDebouncedCheckPointerRest(this.props.pointerRestInterval);
     this.setFirePointerRest(this.props.firePointerRest);
+    document.addEventListener('mousemove', this.trackMousePosition);
   }
 
   /**
@@ -125,6 +128,25 @@ export class Map extends React.Component<MapProps, MapState> {
     if (!isEqual(firePointerRest, prevProps.firePointerRest)) {
       this.setFirePointerRest(firePointerRest);
     }
+  }
+
+  /**
+   * Called on lifecycle componentWillUnmount.
+   */
+  componentWillUnmount() {
+    const map = this.props.map;
+    map.un('moveend', this.onMapMoveEnd);
+    map.un('change:view', this.onMapViewChange);
+    document.removeEventListener('mousemove', this.trackMousePosition);
+  }
+
+  /**
+   * Track mouse position for comparison purposes
+   */
+  trackMousePosition(evt: MouseEvent) {
+    this.setState({
+      mouseEvt: evt
+    });
   }
 
   /**
@@ -181,6 +203,19 @@ export class Map extends React.Component<MapProps, MapState> {
    */
   checkPointerRest(olEvt: any) {
     if (olEvt.dragging || !this.state.isMouseOverMapEl) {
+      return;
+    }
+
+    const mouseX = this.state.mouseEvt.clientX;
+    const mouseY = this.state.mouseEvt.clientY;
+    const olX = olEvt.originalEvent.clientX;
+    const olY = olEvt.originalEvent.clientY;
+
+    // cancel if we have a diff between openlayers event coordinates and
+    // browser coordinates. This may happen when moving the mouse on a feature
+    // info window, where openlayers will trigger a mouseout event at the
+    // border of the window and falsely indicate a hover event
+    if (mouseX !== olX || mouseY !== olY) {
       return;
     }
 
