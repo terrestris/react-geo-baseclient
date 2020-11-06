@@ -64,7 +64,11 @@ const setupMap = (state: any) => {
         collapsible: true
       }
     }).extend([
-      new OlScaleLine()
+      new OlScaleLine({
+        bar: true,
+        steps: 4,
+        minWidth: 140
+      })
     ]),
     layers: mapLayers
   });
