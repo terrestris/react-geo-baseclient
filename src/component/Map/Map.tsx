@@ -134,6 +134,20 @@ export class Map extends React.Component<MapProps, MapState> {
   }
 
   /**
+   * Called on lifecycle componentWillUnmount.
+   */
+  componentWillUnmount() {
+    const map = this.props.map;
+    map.un('moveend', this.onMapMoveEnd);
+    map.un('change:view', this.onMapViewChange);
+    document.removeEventListener('mousemove', (evt) => {
+      this.setState({
+        mouseEvt: evt
+      });
+    });
+  }
+
+  /**
    * (Un-)Registers the debouncedCheckPointerRest method on `pointermove`.
    *
    * @param {Boolean} state Whether to enable or disable the listener.
