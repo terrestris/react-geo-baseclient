@@ -88,6 +88,7 @@ export class Map extends React.Component<MapProps, MapState> {
     this.onMouseOver = this.onMouseOver.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
     this.checkPointerRest = this.checkPointerRest.bind(this);
+    this.trackMousePosition = this.trackMousePosition.bind(this);
   }
 
   /**
@@ -109,11 +110,7 @@ export class Map extends React.Component<MapProps, MapState> {
 
     this.initDebouncedCheckPointerRest(this.props.pointerRestInterval);
     this.setFirePointerRest(this.props.firePointerRest);
-    document.addEventListener('mousemove', (evt) => {
-      this.setState({
-        mouseEvt: evt
-      });
-    });
+    document.addEventListener('mousemove', this.trackMousePosition);
   }
 
   /**
@@ -140,10 +137,15 @@ export class Map extends React.Component<MapProps, MapState> {
     const map = this.props.map;
     map.un('moveend', this.onMapMoveEnd);
     map.un('change:view', this.onMapViewChange);
-    document.removeEventListener('mousemove', (evt) => {
-      this.setState({
-        mouseEvt: evt
-      });
+    document.removeEventListener('mousemove', this.trackMousePosition);
+  }
+
+  /**
+   * Track mouse position for comparison purposes
+   */
+  trackMousePosition(evt: MouseEvent) {
+    this.setState({
+      mouseEvt: evt
     });
   }
 
