@@ -13,8 +13,6 @@ import {
   clearFeatures
 } from '../../../state/actions/RemoteFeatureAction';
 
-import UrlUtil from '@terrestris/base-util/dist/UrlUtil/UrlUtil';
-
 interface DefaultHsiButtonProps extends ToggleButtonProps {
   dataRange: any;
   iconName: string;
@@ -162,7 +160,6 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
     // dispatch that any running HOVER process should be canceled
     dispatch(abortFetchingFeatures('HOVER'));
 
-    const infoUrlsToCombine: any = {};
     olEvt.map.forEachLayerAtPixel(pixel, (layer: any) => {
       const layerSource: any = layer.getSource();
       if (!layerSource.getFeatureInfoUrl) {
@@ -200,30 +197,12 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
             }
           );
 
-      if (featureInfoUrl.indexOf('geoserver.action') >= 0) {
-        const ftName: string = layer.getSource().getParams().LAYERS;
-        const namespace: string = ftName.indexOf(':') > -1 ? ftName.split(':')[0] : ftName;
-        if (!infoUrlsToCombine[namespace]) {
-          infoUrlsToCombine[namespace] = [];
-        }
-        infoUrlsToCombine[namespace].push(featureInfoUrl);
-      } else {
-        featureInfoUrls.push(featureInfoUrl);
-      }
+      featureInfoUrls.push(featureInfoUrl);
       // stop iteration if drillDown is set to false.
       if (!drillDown) {
         return true;
       }
     }, this, this.layerFilter);
-
-    // bundle requests depending on namespace before since interceptor currently
-    // can not handle GFI requests containing layers with different namespaces
-    if (Object.keys(infoUrlsToCombine).length > 0) {
-      Object.keys(infoUrlsToCombine).forEach(key => {
-        const url: any = UrlUtil.bundleOgcRequests(infoUrlsToCombine[key], true);
-        featureInfoUrls = featureInfoUrls.concat(url);
-      });
-    }
 
     map.getTargetElement().style.cursor = featureInfoUrls.length > 0 ? 'wait' : '';
     dispatch(fetchFeatures(
