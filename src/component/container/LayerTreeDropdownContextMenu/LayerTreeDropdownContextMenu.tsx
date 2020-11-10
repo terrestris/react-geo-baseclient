@@ -2,6 +2,8 @@ import React from 'react';
 
 import OlLayerBase from 'ol/layer/Base';
 
+import Metadata from '../../Modal/Metadata/Metadata';
+
 import {
   Menu,
   Dropdown,
@@ -21,6 +23,7 @@ interface LayerTreeDropdownContextMenuProps {
 interface LayerTreeDropdownContextMenuState {
   infoModalVisible: boolean;
   menuHidden: boolean;
+  metaDataModalVisible: boolean;
 }
 
 /**
@@ -47,6 +50,7 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
 
     this.state = {
       infoModalVisible: false,
+      metaDataModalVisible: false,
       menuHidden: true
     };
   }
@@ -60,6 +64,9 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
     const key = evt.key;
     switch(key) {
       case 'info':
+        this.changeInfoModalVisibility();
+        break;
+      case 'metadata':
         this.changeInfoModalVisibility();
         break;
       default:
@@ -87,6 +94,16 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
     });
   }
 
+  /**
+   * Opens the metadata window for the current layer.
+   */
+  changeMetadataModalVisibility() {
+    this.setState({
+      metaDataModalVisible: !this.state.metaDataModalVisible,
+      menuHidden: true
+    });
+  }
+
 
   /**
    * The render function.
@@ -99,7 +116,8 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
 
     const {
       infoModalVisible,
-      menuHidden
+      menuHidden,
+      metaDataModalVisible
     } = this.state;
 
     const settingsMenu = (
@@ -112,6 +130,12 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
           key="info"
         >
           {t('LayerTreeDropdownContextMenu.layerInfoText')}
+        </MenuItem>
+        <MenuItem
+          disabled={false}
+          key="metadata"
+        >
+          {t('LayerTreeDropdownContextMenu.layerSettingsTooltipText')}
         </MenuItem>
       </Menu>
     );
@@ -144,6 +168,12 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
             />
           </Tooltip>
         </Dropdown>
+        {metaDataModalVisible ? 
+          <Metadata
+            layer={layer}
+            t={t}
+            onCancel={() => this.changeMetadataModalVisibility()} >
+          </Metadata> : null}
       </div>
     );
   }
