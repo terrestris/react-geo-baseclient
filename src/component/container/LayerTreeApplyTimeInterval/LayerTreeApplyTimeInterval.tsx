@@ -64,17 +64,17 @@ LayerTreeApplyTimeIntervalState
    */
   setTimeIntervalToTimeLine(layer: any) {
     const { dispatch } = this.props;
-    const layerDescription = layer.get('description') || undefined;
+    const layerTimeDimension = layer.get('timeDimension') || undefined;
     let timeDimension: any = [];
-    if (layerDescription) {
-      timeDimension = layerDescription.match(
+    if (layerTimeDimension) {
+      timeDimension = layerTimeDimension.match(
         new RegExp(/([^\s]*)[/]([^\s]*)[/]([^\s]*)/)
       );
 
       // check if timeDimension may be a list
       if (!timeDimension) {
         timeDimension = [];
-        const dimensionListText = layerDescription.match(
+        const dimensionListText = layerTimeDimension.match(
           new RegExp(/([^\s]*[,])([^\s]*)/)
         );
 
