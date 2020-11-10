@@ -132,11 +132,10 @@ const commonWebpackConfig = {
         }, {
           from: RESOURCES_PATH + 'img/',
           to: './resources/img/'
+        }, {
+          from: RESOURCES_PATH + 'help/',
+          to: './resources/help/'
         }
-        // , {
-        //   from: RESOURCES_PATH + 'help/',
-        //   to: './resources/help/'
-        // }
       ]
     }),
     new webpack.DefinePlugin({
