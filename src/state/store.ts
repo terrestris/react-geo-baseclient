@@ -12,9 +12,11 @@ import appContextUtil from '../util/AppContextUtil';
 import config from '../config/config';
 import Logger from '@terrestris/base-util/dist/Logger';
 
-const loggerMiddleware = createLogger({
+const env = process.env.NODE_ENV;
+
+const loggerMiddleware = env === 'development' ? createLogger({
   collapsed: true
-});
+}) : middleware();
 
 /**
  * Load loadAppContextStore function
