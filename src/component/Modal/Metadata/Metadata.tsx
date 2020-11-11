@@ -57,9 +57,7 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
           metadata: metaData
         });
       })
-      .catch(error => {
-        // eslint-disable-next-line no-console
-        console.error(error);
+      .catch(() => {
         this.setState({
           error: 'Error on fetching metadata'
         });
