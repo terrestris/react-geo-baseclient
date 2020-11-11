@@ -107,11 +107,15 @@
     },
     "LayerDescription": {
       "title": "Layer description"
+    },
+    "Metadata": {
+      "title": "Metadata Records"
     }
   },
   "LayerTreeDropdownContextMenu": {
     "layerInfoText": "Layer description",
-    "layerSettingsTooltipText": "Properties"
+    "layerSettingsTooltipText": "Properties",
+    "layerMetadataText": "Display metadata"
   },
   "LayerTreeApplyTimeInterval": {
     "setTimeLineToLayerInterval": "Apply time interval of the layer"
