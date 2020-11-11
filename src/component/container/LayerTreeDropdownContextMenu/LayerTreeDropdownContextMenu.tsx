@@ -67,7 +67,7 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
         this.changeInfoModalVisibility();
         break;
       case 'metadata':
-        this.changeInfoModalVisibility();
+        this.changeMetadataModalVisibility();
         break;
       default:
         break;
@@ -132,10 +132,10 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
           {t('LayerTreeDropdownContextMenu.layerInfoText')}
         </MenuItem>
         <MenuItem
-          disabled={false}
+          disabled={isEmpty(layer.get('metadataIdentifier'))}
           key="metadata"
         >
-          {t('LayerTreeDropdownContextMenu.layerSettingsTooltipText')}
+          {t('LayerTreeDropdownContextMenu.layerMetadataText')}
         </MenuItem>
       </Menu>
     );
@@ -168,7 +168,7 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
             />
           </Tooltip>
         </Dropdown>
-        {metaDataModalVisible ? 
+        {metaDataModalVisible ?
           <Metadata
             layer={layer}
             t={t}
