@@ -4,6 +4,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import XHR from 'i18next-xhr-backend';
 import config from './config/config';
 
+const env = process.env.NODE_ENV;
+
 i18n
   .use(XHR)
   .use(LanguageDetector)
@@ -13,7 +15,7 @@ i18n
       loadPath: config.locale
     },
     fallbackLng: 'de',
-    debug: true,
+    debug: env === 'development' ? true : false,
 
     interpolation: {
       escapeValue: false // not needed for react!!
