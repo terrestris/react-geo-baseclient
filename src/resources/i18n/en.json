@@ -109,7 +109,27 @@
       "title": "Layer description"
     },
     "Metadata": {
-      "title": "Metadata Records"
+      "modalTitle": "Metadata Records",
+      "title": "Title",
+      "abstract": "Abstract",
+      "topic": "Topic",
+      "referenceDate": "Reference Date",
+      "spatialRepresentationType": "Spatial Representation Type",
+      "legalConstraints": "Legal Constraints",
+      "metadataConstraints": "Metadata Constraints",
+      "onlineResource": "Online Resource",
+      "orgName": "Organisation Name",
+      "orgWebsite": "Organisation Website",
+      "addressDeliveryPoint": "Address Delivery Point",
+      "addressPostalCode": "Address Postal Code",
+      "addressCity": "Address City",
+      "addressCountry": "Address Country",
+      "personName": "Person Name",
+      "personEmail": "Person Email",
+      "status": "Status",
+      "timeExtentStart": "Time Extent Start",
+      "timeExtentEnd": "Time Extent End",
+      "extent": "Geographical Extent"
     }
   },
   "LayerTreeDropdownContextMenu": {
