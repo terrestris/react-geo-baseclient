@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Modal } from 'antd';
 
-import './Help.less';
-
 interface HelpProps {
   helpPdf: string;
   onCancel: (arg: any) => void;

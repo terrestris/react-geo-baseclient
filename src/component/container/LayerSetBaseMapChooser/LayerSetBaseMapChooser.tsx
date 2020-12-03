@@ -12,8 +12,6 @@ import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleB
 const isFunction = require('lodash/isFunction');
 const isEqual = require('lodash/isEqual');
 
-
-import './LayerSetBaseMapChooser.less';
 import LayerCarousel from '../../LayerCarousel/LayerCarousel';
 
 // default props

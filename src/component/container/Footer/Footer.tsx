@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import './Footer.less';
-
 import {
   Row,
   Col

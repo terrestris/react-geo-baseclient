@@ -1,5 +1,6 @@
 @header-height: 50px;
 @footer-height: 35px;
+@toolbarColor: white;
 
 .viewport {
   display: flex;
@@ -10,7 +11,7 @@
 
 header {
   height: @header-height;
-  background-color: white;
+  background-color: @toolbarColor;
 }
 
 .main-content {
@@ -44,3 +45,4 @@ header {
   bottom: 78px;
 }
 
+@import './src/**/*.less';

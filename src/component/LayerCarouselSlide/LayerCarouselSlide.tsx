@@ -2,8 +2,6 @@ import * as React from 'react';
 
 import { Spin } from 'antd';
 
-import './LayerCarouselSlide.less';
-
 // default props
 export interface DefaultLayerCarouselSlideProps {
   width: number;

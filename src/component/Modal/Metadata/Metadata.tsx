@@ -4,8 +4,6 @@ import { Modal, Descriptions } from 'antd';
 import MetadataParser from '../../../util/MetadataParser';
 import config from '../../../config/config';
 
-import './Metadata.less';
-
 const isEmpty = require('lodash/isEmpty');
 
 interface MetadataProps {

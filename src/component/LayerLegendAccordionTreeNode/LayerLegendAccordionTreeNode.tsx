@@ -11,8 +11,6 @@ import LayerTransparencySlider from '@terrestris/react-geo/dist/Slider/LayerTran
 import LayerTreeDropdownContextMenu from '../container/LayerTreeDropdownContextMenu/LayerTreeDropdownContextMenu';
 import LayerTreeApplyTimeInterval from '../container/LayerTreeApplyTimeInterval/LayerTreeApplyTimeInterval';
 
-import './LayerLegendAccordionTreeNode.less';
-
 // default props
 interface DefaultLayerLegendAccordionNodeProps {
   layer: any;

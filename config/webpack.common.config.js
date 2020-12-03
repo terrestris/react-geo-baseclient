@@ -4,6 +4,7 @@ const paths = require('./paths.js');
 const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const lessPluginGlob = require('less-plugin-glob');
 
 const TARGET = process.env.npm_lifecycle_event;
 const PROJECT_MAIN_PATH = process.env.PROJECT_MAIN_PATH || './';
@@ -84,7 +85,9 @@ const commonWebpackConfig = {
           options: {
             lessOptions: {
               modifyVars: CustomCssTheme,
-              javascriptEnabled: true
+              javascriptEnabled: true,
+              plugins: [lessPluginGlob],
+              paths: [PROJECT_MAIN_PATH]
             }
           }
         }

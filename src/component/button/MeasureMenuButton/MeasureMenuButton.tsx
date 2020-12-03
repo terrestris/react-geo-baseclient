@@ -9,8 +9,6 @@ import OlInteractionDraw from 'ol/interaction/Draw';
 
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
-import './MeasureMenuButton.less';
-
 interface DefaultMeasureMenuButtonProps extends MeasureButtonProps {
   menuPlacement: 'left' | 'right';
 }

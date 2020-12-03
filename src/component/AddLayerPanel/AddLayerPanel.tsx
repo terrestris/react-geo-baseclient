@@ -15,8 +15,6 @@ import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import CapabilitiesUtil from '@terrestris/ol-util/dist/CapabilitiesUtil/CapabilitiesUtil';
 
-import './AddLayerPanel.less';
-
 // default props
 interface DefaultAddLayerPanelProps {
   onCancel: () => any;
