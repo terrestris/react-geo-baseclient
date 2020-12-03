@@ -14,7 +14,7 @@ import './Header.less';
 
 type LogoConfig = {
   src: string;
-  target: string;
+  target?: string;
 };
 
 // default props
@@ -48,10 +48,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     title: 'react-geo-baseclient',
     className: 'app-header',
     loading: false,
-    logoConfig: [{
-      src: 'logo_terrestris.png',
-      target: 'https://www.terrestris.de'
-    }]
+    logoConfig: undefined
   };
 
   /**
@@ -123,16 +120,16 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           >
             <div className="logo">
               {
-                logoConfig.map((config, idx) =>
+                logoConfig ? logoConfig.map((config, idx) =>
                   <img
                     src={config.src}
                     key={`logo-${idx}`}
                     alt={config.target}
-                    className="app-logo"
-                    onClick={() => window.open(config.target, '_blank')}
+                    className={config.target ? 'app-logo with-link' : 'app-logo'}
+                    onClick={config.target ? () => window.open(config.target, '_blank') : () => {}}
                   />
                 )
-              }
+                  : null}
             </div>
           </Col>
           <Col
