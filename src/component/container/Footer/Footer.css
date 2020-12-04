@@ -1,0 +1,86 @@
+.footer {
+  height: var(--footer-height);
+}
+
+.footer .footer-element {
+  height: var(--footer-height);
+  display: flex;
+  padding: 0px 5px 0px 5px;
+  align-items: center;
+}
+
+.footer .scalecombo-col {
+    float: left;
+}
+
+.footer .scalecombo-col > span {
+  padding-right: 5px;
+}
+
+.footer .scalecombo-col .scalecombo {
+  width: 150px !important;
+}
+
+@media only screen and (max-width: 768px) {
+  .footer .scalecombo-col {
+    display: none;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .footer .scalecombo-col .scalecombo {
+    display: none;
+  }
+}
+
+.footer .crscombo-col {
+    padding-left: 5px;
+}
+
+.footer .crscombo-col > span {
+  padding-right: 5px;
+}
+
+.footer .crscombo-col .react-geo-coordinatereferencesystemcombo {
+  width: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+  .footer .crscombo-col {
+    display: none;
+  }
+}
+
+.footer .ol-mouse-position {
+  top: 0;
+  right: 0;
+  position: inherit;
+  padding-left: 5px;
+}
+
+@media only screen and (max-width: 768px) {
+  .footer .ol-mouse-position {
+    display: none;
+  }
+}
+
+.footer .imprint {
+    justify-content: center;
+}
+
+@media only screen and (max-width: 768px) {
+  .footer .imprint {
+    width: 100%;
+    float: right;
+  }
+}
+
+.footer #mouse-position {
+  justify-content: flex-start;
+  margin-right: 5px;
+}
+
+@media only screen and (max-width: 768px) {
+  .footer #mouse-position {
+    display: none;
+  }
+}

@@ -1,0 +1,25 @@
+.feature-grid-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-grid-wrapper .grid-content {
+  flex: 1;
+}
+
+.feature-grid-wrapper .ag-center-cols-viewport {
+  overflow-x: hidden;
+}
+.feature-grid-wrapper .ant-pagination {
+  align-self: center;
+  margin: 5px;
+}
+
+.feature-grid-wrapper .ant-pagination >li.ant-pagination-disabled {
+  opacity: .65;
+}
+
+.feature-grid-wrapper .ant-pagination >li>input {
+  margin: 0;
+}

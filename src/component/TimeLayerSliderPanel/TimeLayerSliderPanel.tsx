@@ -26,7 +26,7 @@ import {
   setEndDate
 } from '../../state/actions/DataRangeAction';
 
-import './TimeLayerSliderPanel.less';
+import './TimeLayerSliderPanel.css';
 
 type timeRange = [moment.Moment, moment.Moment];
 

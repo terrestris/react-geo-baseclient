@@ -1,7 +1,5 @@
 # react-geo-baseclient #
 
-
-
 ## FAQ
 
 * How to install?
@@ -15,7 +13,7 @@ and then
 * How to start the application?
 
   * When using shogun2 as backend
-    * Set the credentials in `.shogunrc`
+    * Set the credentials in `.env` (see below)
     * Start the app with `npm run start-shogun2`
   * When using no backend / a static appContext
     * Start the app with `npm run start:static`
@@ -33,10 +31,14 @@ USE_SOURCEMAP=true
 PROJECT_MAIN_CLASS=ProjectMain
 
 # The paths !!! relative to Main Component in react-geo-baseclient/packages/baseclient/src/Main.tsx !!!
-PROJECT_MAIN_PATH='../../../src/Main/'
+PROJECT_MAIN_PATH='../../myproject/'
 
 # resources path relative to webpack config in react-geo-baseclient/packages/baseclient/config
-RESOURCES_PATH='../../src/resources/'
+RESOURCES_PATH='../myproject/resources/'
+
+SHOGUN_BACKEND_URL=http://localhost:9876/shogun2-webapp
+SHOGUN_USER=admin
+SHOGUN_PASS=
 ```
   * Place an project `package.json` which uses previously configured `.env` file using [`env-cmd`](https://www.npmjs.com/package/env-cmd), e.g.
 ```
@@ -54,3 +56,5 @@ RESOURCES_PATH='../../src/resources/'
 * When working with react-geo linked make sure to configure the alias for `ol`
   in the webpack.commmon.config.
 
+* Styling is done through CSS, do not use LESS, as it cannot be changed dynamically
+  * When using variables, look at or append your new variables to the `Theme.css` file in the `src` folder
