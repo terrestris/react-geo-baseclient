@@ -1,0 +1,23 @@
+@import url('../../../resources/fonts/FontTerrestris/FontTerrestris.css');
+
+.measure-tools-wrapper {
+  position: relative;
+}
+
+.measure-tools-wrapper .measure-tb {
+  width: 110px;
+  position: absolute;
+  top: 0;
+}
+
+.measure-tools-wrapper .measure-tb .left {
+  left: 45px;
+}
+
+.measure-tools-wrapper .measure-tb .right {
+  right: 45px;
+}
+
+.measure-tools-wrapper .measure-tb .react-geo-togglegroup {
+  width: 100%;
+}

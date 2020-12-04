@@ -1,0 +1,91 @@
+.react-geo-layertree .ant-tree-treenode {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+  padding: 0 !important;
+  height: var(--layer-tree-node-height);
+}
+
+/* let settings icon never be transparent
+  (even if layer is out of scale or inactive) */
+.react-geo-layertree .ant-tree-treenode .out-off-range {
+  opacity: 1;
+}
+
+.react-geo-layertree .ant-tree-treenode .out-off-range.layer-tree-node-title-filter,
+  .out-off-range.layer-tree-node-title-filter,
+  .out-off-range.layer-tree-node-title-active,
+  .out-off-range.layer-tree-node-title-layername,
+  .out-off-range.layer-tree-node-title-visibility,
+  .out-off-range.layer-tree-node-title-inactive
+  {
+    opacity: .5;
+}
+
+.react-geo-layertree .ant-tree-treenode .ant-tree-switcher {
+  display: none !important;
+}
+
+.react-geo-layertree .ant-tree-treenode span.ant-tree-checkbox {
+  display: none !important;
+}
+
+.react-geo-layertree .ant-tree-treenode .ant-tree-node-content-wrapper {
+  flex: 1;
+  overflow: hidden;
+  height: var(--layer-tree-node-height) !important;
+}
+
+.react-geo-layertree .ant-tree-treenode .ant-tree-node-content-wrapper
+  .layer-tree-node-list-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.react-geo-layertree .ant-tree-treenode .ant-tree-node-content-wrapper
+  .layer-tree-node-list-item .ant-slider {
+  flex: 1;
+  margin: 5px 7px 5px;
+}
+
+.react-geo-layertree .ant-tree-treenode .ant-tree-node-content-wrapper
+  .layer-tree-node-title {
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+
+.react-geo-layertree .ant-tree-treenode .ant-tree-node-content-wrapper
+  .layer-tree-node-title .layer-tree-node-title-layername {
+    margin: 0 12px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.react-geo-layertree .ant-tree-treenode .ant-tree-node-content-wrapper
+  .layer-tree-node-title
+  .layer-tree-node-title-visibility.layer-tree-node-title-inactive {
+    opacity: 0.5;
+}
+
+.react-geo-layertree .ant-tree-treenode .ant-tree-node-content-wrapper
+  .layer-tree-node-title .layer-tree-node-title-settings {
+    margin-right: 12px;
+    width: 12px;
+}
+
+.react-geo-layertree .ant-tree-treenode .ant-tree-node-content-wrapper
+  .layer-tree-node-title .layer-tree-node-loading-active {
+    margin-right: 12px;
+    width: 12px;
+}
+
+.react-geo-layertree .ant-tree-treenode .ant-tree-node-content-wrapper
+  .layer-tree-node-title .layer-tree-node-loading-inactive {
+  margin-right: 12px;
+  width: 12px;
+  display: none;
+}

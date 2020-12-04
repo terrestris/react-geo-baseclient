@@ -1,0 +1,47 @@
+.app-header {
+  border-bottom: 1px solid lightgray;
+  background-color: var(--toolbarColor);
+}
+
+.app-header .ant-row {
+  width: 100%;
+}
+
+.app-header .ant-row .ant-col{
+  height: var(--header-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-header .logo .app-logo {
+  height: calc(var(--header-height) - 10px);
+}
+.app-header .logo .app-logo.with-link:hover {
+  cursor: pointer;
+}
+@media screen and (max-width: 1500px) {
+  .app-header .logo {
+    display: none;
+  }
+}
+
+.app-header .react-geo-nominatimsearch {
+  width: 100%;
+}
+
+.app-header .app-language-selection {
+  display: block;
+  width: 42px;
+}
+
+.app-header .app-language-selection > img {
+  padding-right: 5px;
+}
+
+.app-header .app-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--textColor);
+}

@@ -1,0 +1,77 @@
+.full-print-panel {
+  height: 100%;
+}
+
+.full-print-panel .ant-row-flex {
+  padding: 5px;
+}
+
+.full-print-panel .preview-card,
+  .common-settings-card,
+  .print-settings-card {
+    border: solid 1px var(--print-panel-v2-primary-color);
+}
+
+.full-print-panel .common-settings-card,
+  .print-settings-card {
+    padding-right: 5px;
+}
+
+.full-print-panel .common-settings-card {
+  flex: 0 1 auto;
+  margin-bottom: 5px;
+}
+
+.full-print-panel .print-settings-card {
+  flex: 1 1 auto;
+  position: relative;
+}
+
+.full-print-panel .common-settings-card .label-span {
+  display: block;
+  padding: 5px 0;
+}
+
+.full-print-panel .print-settings-card .select-div {
+  display: block;
+  width: 100%;
+  padding-top: 5px;
+}
+
+.full-print-panel .print-settings-card .select-div .label-span {
+  padding-right: 5px;
+  display: inline-block;
+  width: 90px;
+}
+
+.full-print-panel .print-settings-card .select-div .ant-select-selection {
+  background-color: white;
+}
+
+.full-print-panel .print-settings-card .switch-label-span {
+  display: inline-block;
+  padding: 10px 5px 0 0;
+}
+
+.full-print-panel .preview-card {
+  height: 100%;
+}
+
+.full-print-panel .preview-card img {
+  width: 85%;
+  display: block;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid var(--print-panel-v2-primary-color);
+  box-shadow: 3px 3px 4px var(--print-panel-v2-primary-color);
+}
+
+.full-print-panel .wrapper-settings-col {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.full-print-panel .common-settings-textarea {
+  resize: none;
+}

@@ -5,7 +5,7 @@ import OverlayPositioning from 'ol/OverlayPositioning';
 
 const isEqual = require('lodash/isEqual');
 
-import './FeatureInfo.less';
+import './FeatureInfo.css';
 
 interface DefaultFeatureInfoProps {
   /**

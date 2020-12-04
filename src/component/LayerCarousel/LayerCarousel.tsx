@@ -6,7 +6,7 @@ import '@brainhubeu/react-carousel/lib/style.css';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 import LayerCarouselSlide from '../LayerCarouselSlide/LayerCarouselSlide';
-import './LayerCarousel.less';
+import './LayerCarousel.css';
 
 interface DefaultLayerCarouselProps {
   map: any;

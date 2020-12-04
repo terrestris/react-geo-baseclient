@@ -9,7 +9,7 @@ import AgFeatureGrid from '@terrestris/react-geo/dist/Grid/AgFeatureGrid/AgFeatu
 import { CsvExportModule } from '@ag-grid-community/csv-export';
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 
-import './FeatureInfoGrid.less';
+import './FeatureInfoGrid.css';
 
 const uniqueId = require('lodash/uniqueId');
 const isEqual = require('lodash/isEqual');

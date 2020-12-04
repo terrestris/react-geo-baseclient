@@ -10,7 +10,7 @@ import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleB
 
 import { toggleHelpModal } from '../../../state/actions/AppStateAction';
 
-import './Header.less';
+import './Header.css';
 
 type LogoConfig = {
   src: string;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Layout, Menu } from 'antd';
 import { FileOutlined, DesktopOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
-import './SiderMenu.less';
+import './SiderMenu.css';
 
 import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/MeasureButton';
 import ToggleGroup from '@terrestris/react-geo/dist/Button/ToggleGroup/ToggleGroup';

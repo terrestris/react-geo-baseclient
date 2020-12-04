@@ -1,0 +1,103 @@
+.layer-legend-collapse-icon {
+  position: relative;
+  right: 15px;
+  z-index: 10;
+  padding: 12px 0px 12px 0px;
+}
+
+.layer-legend-accordion {
+  top: var(--header-height);
+  width: var(--layerlegendaccordion-accordion-width);
+  max-height: calc(100% - var(--header-height) - var(--footer-height));
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  position: absolute;
+  right: 0;
+  z-index: 5;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+}
+
+@media only screen and (max-width: 768px) {
+  .layer-legend-accordion {
+    width: 250px;
+    top: 0px;
+    max-height: calc(100% - var(--footer-height));
+  }
+}
+
+.layer-legend-accordion .ant-collapse-borderless {
+  background-color: var(--layerlegendaccordion-collapse-bckgr-color);
+}
+
+.layer-legend-accordion .ant-collapse-header {
+  background-color: #e6e6e6;
+}
+
+.layer-legend-accordion .layer-legend-accordion-title span.fa {
+  float: right;
+  vertical-align: middle;
+}
+
+.layer-legend-accordion .layer-legend-accordion-title .fa.fa-eye.some-layers,.fa.fa-eye-slash {
+  opacity: 0.5;
+}
+
+.layer-legend-accordion .all-layers-handle {
+  height: 1.5em;
+  padding-left: 5px;
+}
+
+.layer-legend-accordion .all-layers-handle span {
+  font: 14px sans-serif;
+  margin-left: 15px;
+}
+
+.layer-legend-accordion .all-layers-handle:hover {
+  cursor: pointer;
+}
+
+.layer-legend-accordion .legend-collapse-panel .ant-collapse-content-box,
+  .layerlist-collapse-panel .react-geo-layertree {
+    background-color: var(--layerlegendaccordion-collapse-bckgr-color);
+}
+
+.layer-legend-accordion .legend-collapse-panel .ant-collapse-content-box,
+  .layer-collapse-panel .ant-collapse-header {
+    line-height: 30px;
+    padding: 0px 0px 0px 30px;
+    background-color: var(--layerlegendaccordion-collapse-bckgr-color);
+    color: rgba(0, 0, 0, 0.65);
+}
+.layer-legend-accordion .legend-collapse-panel .ant-collapse-content-box,
+  .layer-collapse-panel i.ant-collapse-arrow {
+    left: 5px;
+}
+
+.layer-legend-accordion .layer-collapse-panel .ant-collapse-header {
+  font-weight: bold;
+}
+
+.layer-legend-accordion .layer-collapse-panel .with-padding {
+  padding-top: 1.5em;
+}
+
+.layer-legend-accordion .layerlist-collapse-panel,
+  .legend-collapse-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.layer-legend-accordion .layerlist-collapse-panel,
+  .legend-collapse-panel .ant-collapse-content {
+    overflow: auto;
+    flex: 1;
+}
+
+.layer-legend-accordion .layerlist-collapse-panel,
+  .legend-collapse-panel .ant-collapse-content >.ant-collapse-content-box {
+    padding: 0 5px 5px 5px;
+}

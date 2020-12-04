@@ -28,7 +28,7 @@ import { MapFishPrintV3Manager } from '@terrestris/mapfish-print-manager';
 
 import PrintUtil from '../../util/PrintUtil/PrintUtil';
 
-import './PrintPanelV3.less';
+import './PrintPanelV3.css';
 
 interface DefaultPrintPanelV3Props {
   legendBlackList: string[];

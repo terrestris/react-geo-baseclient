@@ -1,0 +1,59 @@
+.time-layer-slider {
+  position: absolute;
+  bottom: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid lightgray;
+}
+
+.time-layer-slider button {
+  margin-left: 5px;
+}
+
+.time-layer-slider .timeslider {
+  flex: 1;
+  margin: 10px;
+}
+
+.time-layer-slider .timeslider .ant-slider-with-marks {
+  margin: 10px 60px 20px 60px;
+}
+
+.time-layer-slider :not(.timeslider-in-future) .ant-slider-handle {
+  background-color: #4baeff;
+}
+
+.time-layer-slider .playback {
+  border-radius: 2px 0 0 2px;
+}
+
+.time-layer-slider .ant-select-selection {
+  background-color: white;
+  width: 150px;
+  margin-right: 5px;
+  border-radius: 0 4px 4px 0;
+}
+
+.time-layer-slider .time-value {
+  text-align: center;
+  width: 100px;
+  padding: 0 10px;
+  font-weight: bold;
+}
+
+.time-layer-slider .no-layers-available {
+  pointer-events: none;
+  opacity: .8;
+  color: rgba(0, 0, 0, 0.35);
+}
+
+.time-layer-slider .no-layers-available .ant-slider-mark span, .ant-select {
+  color: rgba(0, 0, 0, 0.35);
+}
+
+.time-layer-slider .no-layers-available button {
+  opacity: .5;
+}

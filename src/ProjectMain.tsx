@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './ProjectMain.less';
+import './ProjectMain.css';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import i18n from './i18n';
