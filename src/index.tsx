@@ -58,6 +58,7 @@ const setupMap = (state: any) => {
   const map = new OlMap({
     view: mapView,
     keyboardEventTarget: document,
+    maxTilesLoading: 128,
     controls: OlDefaultControls({
       zoom: false,
       attributionOptions: {
