@@ -1,6 +1,6 @@
 import * as React from 'react';
 import OlMap from 'ol/Map';
-import OlFeature from 'ol/Map';
+import OlFeature from 'ol/Feature';
 import OlGeomGeometry from 'ol/geom/Geometry';
 
 import {
