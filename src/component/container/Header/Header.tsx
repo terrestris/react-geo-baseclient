@@ -23,6 +23,7 @@ interface DefaultHeaderProps {
   title: string;
   loading: boolean;
   logoConfig: LogoConfig[];
+  showHelpButton: false;
 }
 
 interface HeaderProps extends Partial<DefaultHeaderProps> {
@@ -48,7 +49,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     title: 'react-geo-baseclient',
     className: 'app-header',
     loading: false,
-    logoConfig: undefined
+    logoConfig: undefined,
+    showHelpButton: false
   };
 
   /**
@@ -90,6 +92,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       topic,
       className,
       logoConfig,
+      showHelpButton,
       t
     } = this.props;
 
@@ -161,6 +164,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             md={3}
             lg={3}
           >
+            {showHelpButton &&
             <SimpleButton
               name="helpButtonModule"
               iconName="fas fa-question"
@@ -169,6 +173,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               onClick={this.onHelpButtonClick}
               tooltipPlacement={'bottom'}
             />
+            }
           </Col>
           <Col
             xs={1}
