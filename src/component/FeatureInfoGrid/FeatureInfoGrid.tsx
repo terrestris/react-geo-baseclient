@@ -345,7 +345,8 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
     };
 
     const {
-      isTimeLayer
+      isTimeLayer,
+      t
     } = this.props;
 
     return (
@@ -365,6 +366,9 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
           isTimeLayer ? this.getTimeFeatureRowData(feat) : this.getRowData(feat)
         }
         selectable={false}
+        localeText={{
+          noRowsToShow: t('FeatureInfoGrid.noDataFoundText')
+        }}
         modules={[ClientSideRowModelModule, CsvExportModule]}
       />
     );

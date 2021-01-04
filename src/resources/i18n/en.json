@@ -90,7 +90,8 @@
   },
   "FeatureInfoGrid": {
     "gfiAttributeNameColumnText": "Attribute",
-    "gfiAttributeValueColumnText": "Value"
+    "gfiAttributeValueColumnText": "Value",
+    "noDataFoundText": "No data found!"
   },
   "TimeLayerSliderPanel": {
     "setToNow": "Set to now",
