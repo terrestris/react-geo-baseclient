@@ -1,4 +1,6 @@
 import * as React from 'react';
+import OlMap from 'ol/Map';
+import OlFeature from 'ol/Map';
 import OlGeomGeometry from 'ol/geom/Geometry';
 
 import {
@@ -6,13 +8,16 @@ import {
 } from 'antd';
 
 import AgFeatureGrid from '@terrestris/react-geo/dist/Grid/AgFeatureGrid/AgFeatureGrid';
+import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import { CsvExportModule } from '@ag-grid-community/csv-export';
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 
 import './FeatureInfoGrid.css';
 
-const uniqueId = require('lodash/uniqueId');
-const isEqual = require('lodash/isEqual');
+import _isEqual from 'lodash/isEqual';
+import _isEmpty from 'lodash/isEmpty';
+import _uniqueId from 'lodash/uniqueId';
+import _upperFirst from 'lodash/upperFirst';
 
 interface DefaultFeatureInfoGridProps {
 }
@@ -21,7 +26,12 @@ interface FeatureInfoGridProps extends Partial<DefaultFeatureInfoGridProps> {
   /**
    * Array of features to be shown inside of grid using pagination
    */
-  features: any[]; // OlFeature[]
+  features: OlFeature[];
+
+  /**
+   * OL map
+   */
+  map: OlMap;
 
   /**
    * Vector layer used for highlighting of currently shown feature.
@@ -42,7 +52,7 @@ interface FeatureInfoGridProps extends Partial<DefaultFeatureInfoGridProps> {
 
 interface FeatureInfoGridState {
   currentPage: number;
-  selectedFeat: any; // OlFeature
+  selectedFeat: OlFeature;
   gridApi: any;
 }
 
@@ -100,18 +110,18 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
       selectedFeat
     } = this.state;
 
-    if (!isEqual(prevProps.features, features)) {
+    if (!_isEqual(prevProps.features, features)) {
       features[0].set('selectedFeat', true);
       this.setState({
         selectedFeat: features[0],
         currentPage: 1
       });
     }
-    if (!isEqual(prevState.selectedFeat, selectedFeat)) {
+    if (!_isEqual(prevState.selectedFeat, selectedFeat)) {
       this.updateVectorLayer(selectedFeat);
     }
 
-    if (!isEqual(prevProps.downloadGridData, downloadGridData)) {
+    if (!_isEqual(prevProps.downloadGridData, downloadGridData)) {
       this.downloadData();
     }
   }
@@ -121,13 +131,13 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
    *
    * @param {OlFeature} newFeat Feature to update.
    */
-  updateVectorLayer(newFeat: any) {
+  updateVectorLayer(newFeat: OlFeature) {
     const {
       hoverVectorLayer
     } = this.props;
     const source = hoverVectorLayer.getSource();
     const oldRenderFeat = source.getFeatures().find(
-      (f: any) => f.get('selectedFeat') === true);
+      (f: OlFeature) => f.get('selectedFeat') === true);
     if (oldRenderFeat) {
       source.removeFeature(oldRenderFeat);
     }
@@ -220,24 +230,58 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
   }
 
   /**
-   * Filters feature properties and returns prepared row data for the grid.
+   * Prepare attribute configuration by filtering of some special non string based
+   * values (e.g. geometry). Also consider possibly configured visible attribute
+   * configuration set on certain layer.
+   */
+  getDisplayedAttributeConfiguration(feat: OlFeature): any {
+    const featProps = feat.getProperties();
+    let propKeys = Object.keys(featProps);
+    const layerName = feat.get('layerName');
+    const layer = MapUtil.getLayerByNameParam(this.props.map, layerName);
+    const displayColumns = layer && layer.get('displayColumns');
+    const lang = window?.localStorage?.i18nextLng?.toLowerCase() || 'de';
+    const attrAliases = layer && layer.get(`columnAliases${_upperFirst(lang)}`);
+
+    // remove geometry prop as well as all non string based or non numeric props
+    propKeys = propKeys.filter((propKey: string) => {
+      const prop = featProps[propKey];
+      if (prop instanceof OlGeomGeometry || (typeof prop !== 'string' && typeof prop !== 'number')) {
+        return false;
+      }
+      if (propKey === 'layerName') {
+        return false;
+      }
+      return true;
+    });
+
+    // take possibly configured displayed columns into account
+    if (!_isEmpty(displayColumns)) {
+      propKeys = propKeys.filter(prop => displayColumns.includes(prop));
+    }
+    return {
+      propKeys,
+      attrAliases
+    };
+  }
+
+  /**
+   * Returns prepared row data for the grid.
    * @param {OlFeature} feat Feature which properties should be shown in grid.
    * @return {Array} Data array.
    */
-  getRowData(feat: any): any[] {
+  getRowData(feat: OlFeature): any[] {
     const rowData: any[] = [];
     const featProps = feat.getProperties();
-    Object.keys(featProps).forEach(propKey => {
-      const prop = featProps[propKey];
-      if (prop instanceof OlGeomGeometry || (typeof prop !== 'string' && typeof prop !== 'number')) {
-        return;
-      }
-      if (propKey === 'layerName') {
-        return;
-      }
+    const {
+      propKeys,
+      attrAliases
+    } = this.getDisplayedAttributeConfiguration(feat);
+
+    propKeys.forEach((propKey: string) => {
       rowData.push({
-        id: uniqueId('propId-'),
-        attr: propKey,
+        id: _uniqueId('propId-'),
+        attr: attrAliases && attrAliases[propKey] ? attrAliases[propKey] : propKey,
         val: featProps[propKey]
       });
     });
@@ -245,8 +289,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
   }
 
   /**
-   * Filters time-based feature properties and returns prepared row data for
-   * the grid.
+   * Returns prepared row data for the grid for all time-based features.
    * @param {OlFeature} feat Feature whose time-based properties should be
    * displayed in the grid.
    * @return {Array} Data array.
@@ -263,19 +306,12 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
       return f.get('layerName') === featureLayerName;
     });
 
-    filterFeatures.forEach(filterFeature => {
+    filterFeatures.forEach((filterFeature: OlFeature) => {
       const colData = {};
-      Object.keys(filterFeature.getProperties()).forEach(propKey => {
-        const prop = filterFeature.get(propKey);
-        if (
-          prop instanceof OlGeomGeometry ||
-          (typeof prop !== 'string' && typeof prop !== 'number')
-        ) {
-          return;
-        }
-        if (propKey === 'layerName') {
-          return;
-        }
+      const {
+        propKeys
+      } = this.getDisplayedAttributeConfiguration(filterFeature);
+      propKeys.forEach((propKey: string) => {
         colData[propKey] = filterFeature.get(propKey);
       });
       rowData.push(colData);

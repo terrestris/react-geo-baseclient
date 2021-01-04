@@ -400,6 +400,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
               tools={tools}
             >
               <FeatureInfoGrid
+                map={map}
                 isTimeLayer={layerToShow && layerToShow.get('type') === 'WMSTime'}
                 features={featuresToShow}
                 hoverVectorLayer={this.hoverVectorLayer}
