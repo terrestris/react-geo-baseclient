@@ -168,7 +168,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
    * @param {String} text Attribute value
    * @return {ReactElement|String} Hyperlink element or original attribute value
    */
-  getColumnText(text: any): string|React.ReactElement {
+  getColumnText(text: any): string | React.ReactElement {
     const colText = text.value;
     if (colText && colText.toString().toLowerCase().indexOf('http') > -1) {
       return `<a href=${colText} target='_blank'>Link</a>`;
@@ -338,7 +338,10 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
 
     const defaultColDef = {
       sortable: true,
-      resizable: true
+      resizable: true,
+      wrapText: true,
+      autoHeight: true,
+      cellClass: 'cell-wrap-text'
     };
 
     const {
@@ -415,7 +418,6 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
         }
         {this.getFeatureGrid(selectedFeat)}
       </div>
-
     );
   }
 }
