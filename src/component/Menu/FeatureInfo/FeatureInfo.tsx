@@ -389,10 +389,10 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
             <Window
               onEscape={this.hideFeatureInfoWindow}
               title={winTitle}
-              minWidth={300}
-              maxWidth={500}
-              height={250}
-              maxHeight={500}
+              minWidth={500}
+              maxWidth={1000}
+              height={300}
+              maxHeight={1000}
               x={50}
               y={50}
               collapseTooltip={t('General.collapse') as unknown as string}
