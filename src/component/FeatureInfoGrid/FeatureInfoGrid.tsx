@@ -1,4 +1,6 @@
 import * as React from 'react';
+import i18n from '../../i18n';
+
 import OlMap from 'ol/Map';
 import OlFeature from 'ol/Feature';
 import OlGeomGeometry from 'ol/geom/Geometry';
@@ -240,7 +242,8 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
     const layerName = feat.get('layerName');
     const layer = MapUtil.getLayerByNameParam(this.props.map, layerName);
     const displayColumns = layer && layer.get('displayColumns');
-    const lang = window?.localStorage?.i18nextLng?.toLowerCase() || 'de';
+    const i18nLang = i18n.language;
+    const lang = i18nLang || window?.localStorage?.i18nextLng?.toLowerCase() || 'de';
     const attrAliases = layer && layer.get(`columnAliases${_upperFirst(lang)}`);
 
     // remove geometry prop as well as all non string based or non numeric props
