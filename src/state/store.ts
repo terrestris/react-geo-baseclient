@@ -15,7 +15,8 @@ import Logger from '@terrestris/base-util/dist/Logger';
 const env = process.env.NODE_ENV;
 
 const loggerMiddleware = env === 'development' ? createLogger({
-  collapsed: true
+  collapsed: true,
+  predicate: (getState, action) => !action.type.endsWith('_LOADING')
 }) : middleware();
 
 /**
