@@ -9,4 +9,8 @@ html {
   --layer-tree-node-height: 48px;
   --print-panel-v2-primary-color: #ffffff;
   --print-panel-v3-primary-color: #ffffff;
+
+  --textColor: #171717;
+  --baseColor: #c7c7c7;
+  --toolbarColor: #eaeaea;
 }
