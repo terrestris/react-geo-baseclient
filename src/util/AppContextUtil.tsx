@@ -179,6 +179,7 @@ class AppContextUtil {
         tileLayer.set('displayColumns', layerObj.displayColumns);
         tileLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
         tileLayer.set('columnAliasesEn', layerObj.columnAliasesEn);
+        tileLayer.set('legendUrl', layerObj.legendUrl);
         layers.push(tileLayer);
         return;
       }
@@ -280,6 +281,8 @@ class AppContextUtil {
     tileLayer.set('displayColumns', layerObj.displayColumns);
     tileLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
     tileLayer.set('columnAliasesEn', layerObj.columnAliasesEn);
+    tileLayer.set('legendUrl', layerObj.legendUrl);
+
     if (type === 'WMSTime') {
       const startDate = layerObj.startDate ? moment(layerObj.startDate).format(defaultFormat) : undefined;
       const endDate = layerObj.endDate ? moment(layerObj.endDate).format(defaultFormat) : undefined;
@@ -345,6 +348,7 @@ class AppContextUtil {
     imageLayer.set('displayColumns', layerObj.displayColumns);
     imageLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
     imageLayer.set('columnAliasesEn', layerObj.columnAliasesEn);
+    imageLayer.set('legendUrl', layerObj.legendUrl);
 
     return imageLayer;
   }
