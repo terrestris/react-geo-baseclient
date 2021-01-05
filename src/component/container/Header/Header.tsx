@@ -23,7 +23,8 @@ interface DefaultHeaderProps {
   title: string;
   loading: boolean;
   logoConfig: LogoConfig[];
-  showHelpButton: false;
+  showHelpButton: boolean;
+  showLanguageSelection: boolean;
 }
 
 interface HeaderProps extends Partial<DefaultHeaderProps> {
@@ -50,7 +51,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     className: 'app-header',
     loading: false,
     logoConfig: undefined,
-    showHelpButton: false
+    showHelpButton: false,
+    showLanguageSelection: true
   };
 
   /**
@@ -93,6 +95,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       className,
       logoConfig,
       showHelpButton,
+      showLanguageSelection,
       t
     } = this.props;
 
@@ -181,10 +184,12 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             md={2}
             lg={2}
           >
-            <div className="app-language-selection">
-              <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />
-              <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')} />
-            </div>
+            {showLanguageSelection &&
+              <div className="app-language-selection">
+                <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />
+                <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')} />
+              </div>
+            }
           </Col>
         </Row>
       </header>
