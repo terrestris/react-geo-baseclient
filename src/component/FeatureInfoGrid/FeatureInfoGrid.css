@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+.feature-grid-wrapper .cell-wrap-text {
+    white-space: normal !important;
+}
+
 .feature-grid-wrapper .grid-content {
   flex: 1;
 }

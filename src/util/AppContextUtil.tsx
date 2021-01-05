@@ -176,6 +176,9 @@ class AppContextUtil {
         tileLayer.set('timeFormat', layerObj.source.timeFormat);
         tileLayer.set('description', layerObj.description);
         tileLayer.set('metadataIdentifier', layerObj.metadataIdentifier);
+        tileLayer.set('displayColumns', layerObj.displayColumns);
+        tileLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
+        tileLayer.set('columnAliasesEn', layerObj.columnAliasesEn);
         layers.push(tileLayer);
         return;
       }
@@ -274,6 +277,9 @@ class AppContextUtil {
     tileLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
     tileLayer.set('timeFormat', defaultFormat);
     tileLayer.set('description', layerObj.description);
+    tileLayer.set('displayColumns', layerObj.displayColumns);
+    tileLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
+    tileLayer.set('columnAliasesEn', layerObj.columnAliasesEn);
     if (type === 'WMSTime') {
       const startDate = layerObj.startDate ? moment(layerObj.startDate).format(defaultFormat) : undefined;
       const endDate = layerObj.endDate ? moment(layerObj.endDate).format(defaultFormat) : undefined;
@@ -336,6 +342,9 @@ class AppContextUtil {
     imageLayer.set('convertFeatureInfoValue', layerObj.convertFeatureInfoValue || false);
     imageLayer.set('description', layerObj.description);
     imageLayer.set('metadataIdentifier', layerObj.metadataIdentifier);
+    imageLayer.set('displayColumns', layerObj.displayColumns);
+    imageLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
+    imageLayer.set('columnAliasesEn', layerObj.columnAliasesEn);
 
     return imageLayer;
   }
