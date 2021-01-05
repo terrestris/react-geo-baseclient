@@ -518,7 +518,12 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       map, this.printManager.extentLayer
     );
 
-    return layers.filter((l: any) => legendBlackList.indexOf(l.get('name')) === -1);
+    return layers.filter((l: OlLayer) => legendBlackList.indexOf(l.get('name')) === -1)
+      .map((l: OlLayer) => {
+        l.set('customPrintLegendParams', { 'SCALE': this.state.scale });
+        return l;
+      });
+
   }
 
   /**
