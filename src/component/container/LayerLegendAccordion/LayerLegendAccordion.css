@@ -101,3 +101,7 @@
   .legend-collapse-panel .ant-collapse-content >.ant-collapse-content-box {
     padding: 0 5px 5px 5px;
 }
+
+.layer-legend-accordion .legend-collapse-panel .ant-collapse-content .react-geo-legend>img {
+  max-width: 90%;
+}
