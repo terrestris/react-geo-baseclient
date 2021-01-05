@@ -6,3 +6,32 @@ body {
   font-family: sans-serif;
   overflow: hidden;
 }
+
+/**
+ * Make most of the text elements use the defined text color.
+ * This list may be incomplete
+ */
+p, b, h1, h2, h3, h4, h5, em, span:not(.fa), div, a, li {
+  color: var(--textColor) !important;
+}
+
+/**
+ * Brighten placeholder text
+ */
+span.ant-select-selection-placeholder {
+  filter: opacity(0.5);
+}
+
+/**
+ * Always underline the imprint text to indicate href
+ */
+div.imprint.footer-element {
+  text-decoration: underline;
+}
+
+/**
+ * Apply the baseColor to various elements
+ */
+button, .ant-collapse-header, .react-geo-titlebar {
+  background-color: var(--baseColor) !important;
+}
