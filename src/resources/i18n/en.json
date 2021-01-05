@@ -81,7 +81,8 @@
     "legendPanelTitle": "Legend",
     "activateAllLayersText": "Activate all topic layers",
     "deactivateAllLayersText": "Deactivate all topic layers",
-    "externalText": "External layers"
+    "externalText": "External layers",
+    "addLayer": "Add layer"
   },
   "LayerSetBaseMapChooser": {
     "topicText": "Topics",
