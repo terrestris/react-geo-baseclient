@@ -64,7 +64,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "moment": "^2.29.1",
     "object-fit-polyfill": "^0.1.0",
-    "ol": "^6.4.3",
+    "ol": "^6.5.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.7.3",
