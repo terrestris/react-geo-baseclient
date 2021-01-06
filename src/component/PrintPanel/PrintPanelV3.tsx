@@ -187,8 +187,11 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       map: map,
       customPrintScales: printScales,
       timeout: 30000,
-      legendFilter: (layer: any) => this.state.legendIds.includes(layer.ol_uid),
-      layerFilter: (l: any) => !(l instanceof OlLayerGroup) && !printLayerBlackList.includes(l.get('name'))
+      layerFilter: (l: OlLayer) => {
+        const layerName = l.get('name');
+        return layerName && !printLayerBlackList.includes(layerName) &&
+          l.getVisible() && !(l instanceof OlLayerGroup);
+      }
     });
 
     this.printManager = printManager;
@@ -442,6 +445,10 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.printManager.customParams.printScalebar = true;
     this.printManager.customParams.attributions =
       PrintUtil.getAttributions(map, this.printManager.extentLayer);
+
+    // update the legends to be shown
+    this.printManager.legendFilter = (layer: any) => printLegend && legendIds.includes(layer.ol_uid);
+
   };
 
   /**
@@ -511,7 +518,12 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       map, this.printManager.extentLayer
     );
 
-    return layers.filter((l: any) => legendBlackList.indexOf(l.get('name')) === -1);
+    return layers.filter((l: OlLayer) => legendBlackList.indexOf(l.get('name')) === -1)
+      .map((l: OlLayer) => {
+        l.set('customPrintLegendParams', { 'SCALE': this.state.scale });
+        return l;
+      });
+
   }
 
   /**

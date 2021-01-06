@@ -254,11 +254,14 @@ class AppContextUtil {
       params: {
         'LAYERS': layerNames,
         'TILED': requestWithTiled || false,
-        'TRANSPARENT': true,
-        'TIME': type === 'WMSTime' ? moment(moment.now()).format(defaultFormat) : undefined
+        'TRANSPARENT': true
       },
       crossOrigin: crossOrigin
     });
+
+    if (type === 'WMSTime') {
+      layerSource.getParams().TIME = moment(moment.now()).format(defaultFormat);
+    }
 
     const tileLayer = new OlTileLayer({
       source: layerSource,

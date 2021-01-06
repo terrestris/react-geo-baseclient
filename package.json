@@ -53,7 +53,7 @@
     "@ant-design/icons": "^4.2.2",
     "@brainhubeu/react-carousel": "^1.19.26",
     "@terrestris/base-util": "^0.2.4",
-    "@terrestris/mapfish-print-manager": "^6.2.0",
+    "@terrestris/mapfish-print-manager": "^6.3.1",
     "@terrestris/ol-util": "^4.0.1",
     "@terrestris/react-geo": "^14.1.0",
     "@terrestris/vectortiles": "^0.3.0",
