@@ -1,42 +1,39 @@
 .app-header {
   border-bottom: 1px solid lightgray;
   background-color: var(--toolbarColor);
-}
-
-.app-header .ant-row {
-  width: 100%;
-}
-
-.app-header .ant-row .ant-col{
   height: var(--header-height);
   display: flex;
-  justify-content: center;
   align-items: center;
+}
+
+.app-header .app-loading-indicator {
+  max-width: 150px;
+  position: relative;
+  padding: 0 5px 0 5px;
+  display: block !important;
+}
+@media screen and (max-width: 576px) {
+  .app-header .app-loading-indicator {
+    display: none !important;;
+  }
 }
 
 .app-header .logo .app-logo {
   height: calc(var(--header-height) - 10px);
+  padding-right: 5px;
 }
 .app-header .logo .app-logo.with-link:hover {
   cursor: pointer;
 }
-@media screen and (max-width: 1500px) {
-  .app-header .logo {
-    display: none;
-  }
-}
 
-.app-header .react-geo-nominatimsearch {
+.app-header .search {
   width: 100%;
+  justify-content: center;
+  display: flex;
 }
 
-.app-header .app-language-selection {
-  display: block;
-  width: 42px;
-}
-
-.app-header .app-language-selection > img {
-  padding-right: 5px;
+.app-header .search .react-geo-nominatimsearch {
+  max-width: 500px;
 }
 
 .app-header .app-title {
@@ -44,4 +41,22 @@
   font-weight: bold;
   font-size: 20px;
   color: var(--textColor);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 150px;
+}
+
+@media screen and (max-width: 576px) {
+  .app-header .app-title {
+    display: none;
+  }
+}
+
+.app-header .app-language-selection {
+  display: flex;
+}
+
+.app-header .app-language-selection > img {
+  padding: 0 5px 0 5px;
+  cursor: pointer;
 }

@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import './Footer.css';
 
 import {
-  Row,
-  Col
-} from 'antd';
-import {
   get as getProjection,
   getTransform
 } from 'ol/proj.js';
@@ -203,51 +199,35 @@ export class Footer extends React.Component<FooterProps, FooterState> {
 
     return (
       <footer className="footer">
-        <Row>
-          <Col
-            className="crscombo-col footer-element"
-            span={6}
+        <div className="crscombo-col footer-element">
+          <span>{t('CoordinateReferenceSystemCombo.label')}</span>
+          <CoordinateReferenceSystemCombo
+            allowClear={false}
+            dropdownClassName="crs-dropdown"
+            predefinedCrsDefinitions={this.predefinedCrsDefinitions}
+            onSelect={this.setProjection}
+            emptyTextPlaceholderText={t('CoordinateReferenceSystemCombo.emptyTextPlaceholderText') as string}
+            value={projection.replace('EPSG:', '')}
+          />
+        </div>
+        <div className="scalecombo-col footer-element">
+          <span>{t('ScaleComboLabel')}</span>
+          <ScaleCombo
+            className="scalecombo"
+            map={map}
+            scales={mapScales}
+          />
+        </div>
+        <div className="ol-mouse-position footer-element">
+          <span>{t('MousePositionLabel')}: </span>
+          <div id="mouse-position"/>
+        </div>
+        <div className="imprint footer-element">
+          <a
+            href={imprintLink ? imprintLink : 'https://www.terrestris.de/en/impressum'}
           >
-            <span>{t('CoordinateReferenceSystemCombo.label')}</span>
-            <CoordinateReferenceSystemCombo
-              allowClear={false}
-              predefinedCrsDefinitions={this.predefinedCrsDefinitions}
-              onSelect={this.setProjection}
-              emptyTextPlaceholderText={t('CoordinateReferenceSystemCombo.emptyTextPlaceholderText') as string}
-              value={projection.replace('EPSG:', '')}
-            />
-          </Col>
-          <Col
-            className="scalecombo-col footer-element"
-            span={4}
-          >
-            <span>{t('ScaleComboLabel')}</span>
-            <ScaleCombo
-              className="scalecombo"
-              map={map}
-              scales={mapScales}
-            />
-          </Col>
-          <Col
-            span={8}
-            className="ol-mouse-position footer-element"
-          >
-            <span>{t('MousePositionLabel')}: </span>
-            <div id="mouse-position"/>
-          </Col>
-          <Col span={2}>
-            <div />
-          </Col>
-          <Col
-            span={4}
-            className="imprint footer-element"
-          >
-            <a
-              href={imprintLink ? imprintLink : 'https://www.terrestris.de/en/impressum'}
-            >
-              {imprintText ? imprintText : `${t('Imprint.title')} / ${t('Imprint.privacypolicy')}`}</a>
-          </Col>
-        </Row>
+            {imprintText ? imprintText : `${t('Imprint.title')} / ${t('Imprint.privacypolicy')}`}</a>
+        </div>
       </footer>
     );
   }
