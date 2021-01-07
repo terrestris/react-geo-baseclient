@@ -223,8 +223,8 @@ export class Footer extends React.Component<FooterProps, FooterState> {
         {imprint &&
           <div className="footer footer-element">
             {imprint ? <div dangerouslySetInnerHTML={{ __html: imprint }} /> :
-            <a href="https://www.terrestris.de/de/impressum">
-              {`${t('Imprint.title')} / ${t('Imprint.privacypolicy')}`}</a>}
+              <a href="https://www.terrestris.de/de/impressum">
+                {`${t('Imprint.title')} / ${t('Imprint.privacypolicy')}`}</a>}
           </div>
         }
       </footer>
