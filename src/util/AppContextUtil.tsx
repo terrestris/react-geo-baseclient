@@ -423,12 +423,11 @@ class AppContextUtil {
           return;
         case 'shogun-button-zoomtoextent':
           tools.push(<ZoomToExtentButton
-            extent={[
-              mapConfig.extent.lowerLeft.x,
-              mapConfig.extent.lowerLeft.y,
-              mapConfig.extent.upperRight.x,
-              mapConfig.extent.upperRight.y
+            center={[
+              mapConfig.center.x,
+              mapConfig.center.y
             ]}
+            zoom={mapConfig.zoom}
             map={map}
             key="3"
             type="primary"
