@@ -221,12 +221,12 @@ export class Footer extends React.Component<FooterProps, FooterState> {
           <div id="mouse-position"/>
         </div>
         <div className="imprint footer-element">
-        {imprint ?
-          <div dangerouslySetInnerHTML={{ __html: imprint }} /> :
+          {imprint ?
+            <div dangerouslySetInnerHTML={{ __html: imprint }} /> :
             <a href="https://www.terrestris.de/de/impressum">
               {`${t('Imprint.title')} / ${t('Imprint.privacypolicy')}`}
             </a>
-        }
+          }
         </div>
       </footer>
     );
