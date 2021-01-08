@@ -104,6 +104,7 @@ class AppContextUtil {
       if (node.leaf === true) {
         // layer
         node.layer.name = node.text;
+        node.layer.appearance.visible = node.checked;
         collection.push(this.parseLayers([node.layer])[0]);
       } else {
         // folder
