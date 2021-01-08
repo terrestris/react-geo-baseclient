@@ -8,6 +8,7 @@
 	"open": true,
 	"active": true,
 	"url": null,
+	"imprint": "<a href='https://www.terrestris.de/en/impressum'>Imprint / Privacy</a>",
 	"viewport": {
 		"id": 62,
 		"name": "Viewport with Border Layout",

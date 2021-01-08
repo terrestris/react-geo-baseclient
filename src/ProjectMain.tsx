@@ -180,6 +180,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
           map={map}
           t={t}
           mapScales={mapScales}
+          imprint={appContext.imprint}
         />
       </div>
     );
