@@ -220,7 +220,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
           <span>{t('MousePositionLabel')}: </span>
           <div id="mouse-position"/>
         </div>
-        <div className="footer footer-element">
+        <div className="imprint footer-element">
         {imprint ?
           <div dangerouslySetInnerHTML={{ __html: imprint }} /> :
             <a href="https://www.terrestris.de/de/impressum">
