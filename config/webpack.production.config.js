@@ -18,7 +18,6 @@ const interpolations = {
   'PUBLIC_URL': ''
 };
 
-const title = customAppConfig && customAppConfig.appTitle || 'react-geo-baseclient';
 const loadingMaskImg = customAppConfig && customAppConfig.loadingMaskImg || 'logo_terrestris.png';
 
 commonWebpackConfig.plugins = [
@@ -30,7 +29,6 @@ commonWebpackConfig.plugins = [
     APP_MODE: JSON.stringify(commonConfig.TARGET)
   }),
   new HtmlWebpackPlugin({
-    title: title,
     filename: 'index.html',
     favicon: './public/favicon.ico',
     template: './public/index.html',
