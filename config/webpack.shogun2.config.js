@@ -54,7 +54,6 @@ const agent = new https.Agent({
   rejectUnauthorized: false
 });
 
-const title = customAppConfig && customAppConfig.appTitle || 'react-geo-baseclient';
 const loadingMaskImg = customAppConfig && customAppConfig.loadingMaskImg || 'logo_terrestris.png';
 
 // commonWebpackConfig.devtool = 'inline-source-map';
@@ -138,7 +137,6 @@ const delayedConf =
                     removeComments: true
                   },
                   template: './public/index.html',
-                  title: title,
                   loadingMaskImg: loadingMaskImg
                 }),
                 new webpack.ProgressPlugin({ profile: false }),
