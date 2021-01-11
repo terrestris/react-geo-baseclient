@@ -8,6 +8,7 @@ import OlImageWMS from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
 import OlTileGrid from 'ol/tilegrid/TileGrid';
 import OlLayer from 'ol/layer/Base';
+import OlLayerGroup from 'ol/layer/Group';
 
 import * as moment from 'moment';
 
@@ -49,14 +50,14 @@ class AppContextUtil {
 
     const state: any = initialState;
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
-    const mapLayers = ObjectUtil.getValue('mapLayers', appContext);
     const activeModules = ObjectUtil.getValue('activeTools', appContext);
     const defaultTopic = ObjectUtil.getValue('defaultTopic', appContext);
+    const layerTree = appContext.layerTree;
 
-    // AppInfo
+    // appInfo
     state.appInfo.name = appContext.name || state.appInfo.name;
 
-    // MapView
+    // mapView
     state.mapView.present.center = [
       mapConfig.center.x,
       mapConfig.center.y
@@ -73,20 +74,53 @@ class AppContextUtil {
     state.mapView.present.zoom = mapConfig.zoom;
 
     // mapLayers
-    state.mapLayers = union(state.mapLayers, mapLayers);
-    state.mapLayers = AppContextUtil.parseLayers(mapLayers);
+    state.mapLayers = AppContextUtil.parseLayertree(layerTree);
 
+    // activeModules
     state.activeModules = union(state.activeModules, activeModules);
+
+    // defaultTopic
+    state.defaultTopic = defaultTopic;
+
+    // mapScales
+    state.mapScales = AppContextUtil.getMapScales(mapConfig.resolutions);
 
     state.appContext = appContext;
 
-    // default topic name
-    state.defaultTopic = defaultTopic;
-
-    // map scales
-    state.mapScales = AppContextUtil.getMapScales(mapConfig.resolutions);
-
     return state;
+  }
+
+  static parseLayertree(folder: any) {
+    const tree = new OlLayerGroup({
+      layers: this.parseNodes(folder.children).reverse(),
+      visible: folder.checked,
+    });
+    return tree;
+  }
+
+  static parseNodes(nodes: []) {
+    const collection: any[] = [];
+    nodes.forEach((node: any) => {
+      if (node.leaf === true) {
+        // layer
+        node.layer.name = node.text;
+        node.layer.appearance.visible = node.checked;
+        collection.push(this.parseLayers([node.layer])[0]);
+      } else {
+        // folder
+        collection.push(this.parseFolder(node));
+      }
+    });
+    return collection;
+  }
+
+  static parseFolder(el: any) {
+    const folder = new OlLayerGroup({
+      layers: this.parseNodes(el.children).reverse(),
+      visible: el.checked
+    });
+    folder.set('name', el.text);
+    return folder;
   }
 
   /**
@@ -423,12 +457,11 @@ class AppContextUtil {
           return;
         case 'shogun-button-zoomtoextent':
           tools.push(<ZoomToExtentButton
-            extent={[
-              mapConfig.extent.lowerLeft.x,
-              mapConfig.extent.lowerLeft.y,
-              mapConfig.extent.upperRight.x,
-              mapConfig.extent.upperRight.y
+            center={[
+              mapConfig.center.x,
+              mapConfig.center.y
             ]}
+            zoom={mapConfig.zoom}
             map={map}
             key="3"
             type="primary"

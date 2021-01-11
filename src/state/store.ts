@@ -48,6 +48,15 @@ const loadAppContextStore = () => {
     })
       .then(appContext => {
         appContext = appContext instanceof Array ? appContext[0] : appContext;
+        // set app name as document title
+        document.title = appContext.name || 'react-geo-baseclient';
+        // set favicon
+        const faviconEl = document.querySelector('link[rel~="icon"]');
+        const faviconUrl =
+          appContext.favicon ? `${config.getBasePath()}${appContext.favicon}`
+            : 'favicon.ico';
+        faviconEl.setAttribute('href', faviconUrl);
+
         const state = appContextUtil.appContextToState(appContext);
         resolve(state);
       })

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import {
-  Spin,
-  Row,
-  Col
+  Spin
 } from 'antd';
 
 import NominatimSearch from '@terrestris/react-geo/dist/Field/NominatimSearch/NominatimSearch';
@@ -105,93 +103,51 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     }
 
     return (
-      <header className={className}>
-        <Row>
-          <Col
-            xs={1}
-            sm={1}
-            md={1}
-            lg={1}
-          >
-            <Spin
-              spinning={loading}
-              className="app-loading-indicator"
-            />
-          </Col>
-          <Col
-            xs={0}
-            sm={0}
-            md={6}
-            lg={6}
-          >
-            <div className="logo">
-              {
-                logoConfig ? logoConfig.map((config, idx) =>
-                  <img
-                    src={config.src}
-                    key={`logo-${idx}`}
-                    alt={config.target}
-                    className={config.target ? 'app-logo with-link' : 'app-logo'}
-                    onClick={config.target ? () => window.open(config.target, '_blank') : () => {}}
-                  />
-                )
-                  : null}
-            </div>
-          </Col>
-          <Col
-            xs={10}
-            sm={10}
-            md={6}
-            lg={6}
-          >
-            <NominatimSearch
-              placeholder={t('Header.nominatimPlaceHolder')}
-              countrycodes={''}
-              map={map}
-              style={{
-                width: '100%'
-              }}
-            />
-          </Col>
-          <Col
-            xs={0}
-            sm={0}
-            md={6}
-            lg={6}
-          >
-            <span className="app-title">{titleString}</span>
-          </Col>
-          <Col
-            xs={1}
-            sm={1}
-            md={3}
-            lg={3}
-          >
-            {showHelpButton &&
-            <SimpleButton
-              name="helpButtonModule"
-              iconName="fas fa-question"
-              shape="circle"
-              tooltip={t('Header.helpButtonTooltip') as string}
-              onClick={this.onHelpButtonClick}
-              tooltipPlacement={'bottom'}
-            />
-            }
-          </Col>
-          <Col
-            xs={1}
-            sm={1}
-            md={2}
-            lg={2}
-          >
-            {showLanguageSelection &&
-              <div className="app-language-selection">
-                <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />
-                <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')} />
-              </div>
-            }
-          </Col>
-        </Row>
+      <header className={'app-header ' + className}>
+        <Spin
+          spinning={loading}
+          className="app-loading-indicator"
+        />
+        <div className="logo">
+          {
+            logoConfig ? logoConfig.map((config, idx) =>
+              <img
+                src={config.src}
+                key={`logo-${idx}`}
+                alt={config.target}
+                className={config.target ? 'app-logo with-link' : 'app-logo'}
+                onClick={config.target ? () => window.open(config.target, '_blank') : () => {}}
+              />
+            )
+              : null}
+        </div>
+        <div className="search">
+          <NominatimSearch
+            placeholder={t('Header.nominatimPlaceHolder')}
+            countrycodes={''}
+            map={map}
+            style={{
+              width: '100%'
+            }}
+          />
+        </div>
+        <span className="app-title">{titleString}</span>
+        {showHelpButton &&
+        <SimpleButton
+          name="helpButtonModule"
+          iconName="fas fa-question"
+          shape="circle"
+          tooltip={t('Header.helpButtonTooltip') as string}
+          onClick={this.onHelpButtonClick}
+          tooltipPlacement={'bottom'}
+        />
+        }
+        {showLanguageSelection &&
+        <div className="app-language-selection">
+          <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />
+          <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')} />
+        </div>
+        }
       </header>
     );
   }

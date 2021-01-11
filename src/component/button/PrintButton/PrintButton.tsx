@@ -9,7 +9,7 @@ import { ButtonProps } from 'antd/lib/button';
 
 interface DefaultPrintButtonProps {
   type: 'default' | 'primary' | 'ghost' | 'dashed' | 'danger' | 'link';
-  shape: 'circle' | 'circle-outline' | 'round';
+  shape: 'circle' | 'round';
   iconName: string;
 }
 
