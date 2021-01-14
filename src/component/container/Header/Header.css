@@ -36,6 +36,12 @@
   max-width: 500px;
 }
 
+.app-header .multisearch {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
 .app-header .app-title {
   text-align: center;
   font-weight: bold;

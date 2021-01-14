@@ -214,6 +214,8 @@ class AppContextUtil {
         tileLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
         tileLayer.set('columnAliasesEn', layerObj.columnAliasesEn);
         tileLayer.set('legendUrl', layerObj.legendUrl);
+        tileLayer.set('searchable', layerObj.searchable);
+        tileLayer.set('searchConfig', layerObj.searchConfig);
         layers.push(tileLayer);
         return;
       }
@@ -319,6 +321,8 @@ class AppContextUtil {
     tileLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
     tileLayer.set('columnAliasesEn', layerObj.columnAliasesEn);
     tileLayer.set('legendUrl', layerObj.legendUrl);
+    tileLayer.set('searchable', layerObj.searchable);
+    tileLayer.set('searchConfig', layerObj.searchConfig);
 
     if (type === 'WMSTime') {
       const startDate = layerObj.startDate ? moment(layerObj.startDate).format(defaultFormat) : undefined;
@@ -386,6 +390,8 @@ class AppContextUtil {
     imageLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
     imageLayer.set('columnAliasesEn', layerObj.columnAliasesEn);
     imageLayer.set('legendUrl', layerObj.legendUrl);
+    imageLayer.set('searchable', layerObj.searchable);
+    imageLayer.set('searchConfig', layerObj.searchConfig);
 
     return imageLayer;
   }
