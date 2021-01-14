@@ -3,12 +3,12 @@ import {
   Spin
 } from 'antd';
 
-import NominatimSearch from '@terrestris/react-geo/dist/Field/NominatimSearch/NominatimSearch';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 
 import { toggleHelpModal } from '../../../state/actions/AppStateAction';
 
 import './Header.css';
+import Multisearch from '../../../component/Multisearch/Multisearch';
 
 type LogoConfig = {
   src: string;
@@ -23,6 +23,8 @@ interface DefaultHeaderProps {
   logoConfig: LogoConfig[];
   showHelpButton: boolean;
   showLanguageSelection: boolean;
+  showMultiSearch: boolean;
+  showNominatimSearch: boolean;
 }
 
 interface HeaderProps extends Partial<DefaultHeaderProps> {
@@ -50,7 +52,9 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     loading: false,
     logoConfig: undefined,
     showHelpButton: false,
-    showLanguageSelection: true
+    showLanguageSelection: true,
+    showMultiSearch: true,
+    showNominatimSearch: true
   };
 
   /**
@@ -94,6 +98,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       logoConfig,
       showHelpButton,
       showLanguageSelection,
+      showMultiSearch,
+      showNominatimSearch,
       t
     } = this.props;
 
@@ -121,16 +127,15 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             )
               : null}
         </div>
-        <div className="search">
-          <NominatimSearch
-            placeholder={t('Header.nominatimPlaceHolder')}
-            countrycodes={''}
+        {showMultiSearch &&
+          <Multisearch
             map={map}
-            style={{
-              width: '100%'
-            }}
+            useNominatim={showNominatimSearch}
+            useWfs={true}
+            nominatimSearchTitle={t('Multisearch.nominatimSearchTitle') as string}
+            placeHolder={t('Multisearch.placeHolder') as string}
           />
-        </div>
+        }
         <span className="app-title">{titleString}</span>
         {showHelpButton &&
         <SimpleButton

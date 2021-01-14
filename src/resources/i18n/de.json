@@ -134,6 +134,10 @@
       "extent": "Geographische Ausdehnung"
     }
   },
+  "Multisearch": {
+    "placeHolder": "Orte und Daten suchen",
+    "nominatimSearchTitle": "Ortssuche"
+  },
   "LayerTreeDropdownContextMenu": {
     "layerInfoText": "Layerbeschreibung",
     "layerSettingsTooltipText": "Eigenschaften",
