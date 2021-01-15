@@ -33,6 +33,7 @@ interface HeaderProps extends Partial<DefaultHeaderProps> {
   map: any;
   i18n: any;
   t: (arg: string) => {};
+  wfsSearchBaseUrl?: string;
 }
 
 interface HeaderState {
@@ -100,6 +101,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       showLanguageSelection,
       showMultiSearch,
       showNominatimSearch,
+      wfsSearchBaseUrl,
       t
     } = this.props;
 
@@ -132,6 +134,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             map={map}
             useNominatim={showNominatimSearch}
             useWfs={true}
+            wfsSearchBaseUrl={wfsSearchBaseUrl}
             nominatimSearchTitle={t('Multisearch.nominatimSearchTitle') as string}
             placeHolder={t('Multisearch.placeHolder') as string}
           />

@@ -24,6 +24,7 @@ interface DefaultMultisearchProps {
 
 interface MultisearchProps extends Partial<DefaultMultisearchProps> {
   map: any;
+  wfsSearchBaseUrl?: string;
 }
 
 interface MultisearchState {
@@ -65,6 +66,10 @@ export default class Multisearch extends
    */
   constructor(props: MultisearchProps) {
     super(props);
+
+    if (this.props.useWfs && !this.props.wfsSearchBaseUrl) {
+      console.warn('You need to configure a base URL for the WFS search');
+    }
 
     const searchLayers = MapUtil.getLayersByProperty(
       this.props.map, 'searchable', true);
@@ -288,6 +293,7 @@ export default class Multisearch extends
       className,
       useNominatim,
       useWfs,
+      wfsSearchBaseUrl,
       minChars,
       placeHolder
     } = this.props;
@@ -332,7 +338,7 @@ export default class Multisearch extends
            <WfsSearchInput
              map={map}
              minChars={minChars}
-             baseUrl='/geoserver.action'
+             baseUrl={wfsSearchBaseUrl}
              featureTypes={Object.keys(searchConfig)}
              onFetchSuccess={this.wfsSearchSuccess.bind(this)}
              onFetchError={this.onFetchError.bind(this)}
