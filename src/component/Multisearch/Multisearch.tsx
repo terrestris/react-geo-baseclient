@@ -1,8 +1,5 @@
 import * as React from 'react';
 
-import { WfsSearchInput, NominatimSearch } from '@terrestris/react-geo';
-
-import './Multisearch.css';
 import { AutoComplete } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -10,7 +7,16 @@ import { transformExtent } from 'ol/proj';
 import OlFormatGeoJSON from 'ol/format/GeoJSON';
 import OlLayer from 'ol/layer/Base';
 
+import {
+  WfsSearchInput,
+  NominatimSearch
+} from '@terrestris/react-geo';
+
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
+
+import CsrfUtil from '@terrestris/base-util/dist/CsrfUtil/CsrfUtil';
+
+import './Multisearch.css';
 
 // default props
 interface DefaultMultisearchProps {
@@ -345,6 +351,9 @@ export default class Multisearch extends
              searchAttributes={searchAttributes}
              visible={false}
              searchTerm={searchTerm}
+             additionalFetchOptions={{
+               headers: CsrfUtil.getHeaderObject()
+             }}
            />
         }
       </div>
