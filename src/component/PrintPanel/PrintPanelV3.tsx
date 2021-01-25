@@ -94,6 +94,7 @@ interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
 
 interface PrintPanelV3State {
   printTitle: string;
+  legendTitle: string;
   printDescription: string;
   layout: string;
   scale: number | undefined;
@@ -145,6 +146,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.state = {
       printTitle: t('PrintPanel.defaultPrintTitle'),
       printDescription: t('PrintPanel.defaultPrintComment'),
+      legendTitle: t('PrintPanel.legendTitleText'),
       layout: '',
       scale: undefined,
       dpi: undefined,
@@ -432,6 +434,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
 
     const {
       printTitle,
+      legendTitle,
       printDescription,
       legendIds,
       printLegend
@@ -442,6 +445,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.printManager.customParams.comment = printDescription ?
       printDescription : preview ? t('PrintPanel.previewPrintDescription') : '';
     this.printManager.customParams.printLegend = printLegend && !isEmpty(legendIds);
+    this.printManager.customParams.legendTitle = legendTitle;
     this.printManager.customParams.printScalebar = true;
     this.printManager.customParams.attributions =
       PrintUtil.getAttributions(map, this.printManager.extentLayer);
@@ -490,14 +494,14 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
   getOptionsForLegendSelect(): React.ReactElement<OptionProps>[] {
     return this.getFilteredLegendLayers()
       .map((layer: any) =>
-        (
-          <Option
-            key={layer.ol_uid}
-            value={layer.ol_uid}
-          >
-            {layer.get('name')}
-          </Option>
-        )
+      (
+        <Option
+          key={layer.ol_uid}
+          value={layer.ol_uid}
+        >
+          {layer.get('name')}
+        </Option>
+      )
       );
   }
 
@@ -719,18 +723,16 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                   {t('PrintPanel.printLegendCbLabel')}
                 </Checkbox>
                 {
-                  printLegend && <div className="select-div">
-                    <span className="label-span">{t('PrintPanel.printLegendsLabelText')}</span>
-                    <Select
-                      style={{ width: 250 }}
-                      maxTagCount={3}
-                      mode="multiple"
-                      value={legendIds}
-                      onChange={this.onPrintLegendsChange}
-                    >
-                      {this.getOptionsForLegendSelect()}
-                    </Select>
-                  </div>
+                  printLegend &&
+                  <Select
+                    className="legend-select"
+                    maxTagCount={3}
+                    mode="multiple"
+                    value={legendIds}
+                    onChange={this.onPrintLegendsChange}
+                  >
+                    {this.getOptionsForLegendSelect()}
+                  </Select>
                 }
               </Card>
             </div>

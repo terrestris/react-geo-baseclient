@@ -27,6 +27,11 @@
   position: relative;
 }
 
+.full-print-panel .print-settings-card .legend-select {
+    width: 100%;
+    padding-right: 5px;
+}
+
 .full-print-panel .common-settings-card .label-span {
   display: block;
   padding: 5px 0;
