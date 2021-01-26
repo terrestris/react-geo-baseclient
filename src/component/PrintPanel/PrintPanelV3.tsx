@@ -494,14 +494,14 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
   getOptionsForLegendSelect(): React.ReactElement<OptionProps>[] {
     return this.getFilteredLegendLayers()
       .map((layer: any) =>
-      (
-        <Option
-          key={layer.ol_uid}
-          value={layer.ol_uid}
-        >
-          {layer.get('name')}
-        </Option>
-      )
+        (
+          <Option
+            key={layer.ol_uid}
+            value={layer.ol_uid}
+          >
+            {layer.get('name')}
+          </Option>
+        )
       );
   }
 
