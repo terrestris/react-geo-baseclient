@@ -41,6 +41,11 @@
   padding-top: 5px;
 }
 
+.print-panel .print-settings-card .legend-select {
+  width: 100%;
+  padding-right: 5px;
+}
+
 .print-panel .print-settings-card .select-div {
   display: flex;
   align-items: center;

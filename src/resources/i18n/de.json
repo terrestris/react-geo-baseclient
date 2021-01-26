@@ -58,7 +58,7 @@
     "workPrintTemplateTitle": "Arbeitsausdruck",
     "printFormatLabelText": "Bildformat",
     "printLabelLabelText": "Label drucken?",
-    "printLegendsLabelText": "Legenden",
+    "legendTitleText": "Legende",
     "printBtnText": "Drucken",
     "resetBtnText": "Zurücksetzen",
     "previewPrintTitle": "Vorschau",
