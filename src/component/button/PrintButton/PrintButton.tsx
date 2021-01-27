@@ -7,6 +7,8 @@ import PrintPanelV3, { PrintConfig } from '../../PrintPanel/PrintPanelV3';
 import { TooltipPlacement } from 'antd/lib/tooltip';
 import { ButtonProps } from 'antd/lib/button';
 
+import DeviceDetector from '../../../util/DeviceDetector';
+
 interface DefaultPrintButtonProps {
   type: 'default' | 'primary' | 'ghost' | 'dashed' | 'danger' | 'link';
   shape: 'circle' | 'round';
@@ -77,6 +79,8 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
       winVisible
     } = this.state;
 
+    const isMobile = DeviceDetector.isMobileDevice();
+
     if (!config) {
       return <div />;
     }
@@ -95,9 +99,9 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
         <Window
           onEscape={this.changeFullPrintWindowVisibility}
           title={t('PrintPanel.windowTitle')}
-          width={750}
+          width={isMobile ? 'auto' : 750}
           y={50}
-          x={100}
+          x={isMobile ? 0 : 100}
           enableResizing={false}
           collapseTooltip={t('General.collapse')}
           bounds="#app"
