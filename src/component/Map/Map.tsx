@@ -27,14 +27,13 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-interface DefaultMapProps extends MapComponentProps {
+interface DefaultMapProps extends Omit<MapComponentProps, 'map'> {
   firePointerRest: boolean;
   pointerRestInterval: number;
   pointerRestTolerance: number;
-
 }
 
-interface MapProps extends Partial<DefaultMapProps> {
+interface OwnMapProps extends Partial<DefaultMapProps> {
   map: OlMap;
   dispatch: (arg: any) => void;
   center: number[];
@@ -43,6 +42,8 @@ interface MapProps extends Partial<DefaultMapProps> {
   projection: string;
   children?: any;
 }
+
+declare type MapProps =  DefaultMapProps & OwnMapProps;
 
 interface MapState {
   lastPointerPixel: number[] | null;
@@ -62,7 +63,6 @@ export class Map extends React.Component<MapProps, MapState> {
   * The default properties.
   */
   public static defaultProps: DefaultMapProps = {
-    map: null,
     firePointerRest: true,
     pointerRestInterval: 500,
     pointerRestTolerance: 3
