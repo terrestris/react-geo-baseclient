@@ -1,20 +1,18 @@
 import * as React from 'react';
 import {
-  Spin,
-  Row,
-  Col
+  Spin
 } from 'antd';
 
-import NominatimSearch from '@terrestris/react-geo/dist/Field/NominatimSearch/NominatimSearch';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 
 import { toggleHelpModal } from '../../../state/actions/AppStateAction';
 
-import './Header.less';
+import './Header.css';
+import Multisearch from '../../../component/Multisearch/Multisearch';
 
 type LogoConfig = {
   src: string;
-  target: string;
+  target?: string;
 };
 
 // default props
@@ -23,6 +21,10 @@ interface DefaultHeaderProps {
   title: string;
   loading: boolean;
   logoConfig: LogoConfig[];
+  showHelpButton: boolean;
+  showLanguageSelection: boolean;
+  showMultiSearch: boolean;
+  showNominatimSearch: boolean;
 }
 
 interface HeaderProps extends Partial<DefaultHeaderProps> {
@@ -31,6 +33,7 @@ interface HeaderProps extends Partial<DefaultHeaderProps> {
   map: any;
   i18n: any;
   t: (arg: string) => {};
+  wfsSearchBaseUrl?: string;
 }
 
 interface HeaderState {
@@ -48,10 +51,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     title: 'react-geo-baseclient',
     className: 'app-header',
     loading: false,
-    logoConfig: [{
-      src: 'logo_terrestris.png',
-      target: 'https://www.terrestris.de'
-    }]
+    logoConfig: undefined,
+    showHelpButton: false,
+    showLanguageSelection: true,
+    showMultiSearch: true,
+    showNominatimSearch: true
   };
 
   /**
@@ -93,6 +97,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       topic,
       className,
       logoConfig,
+      showHelpButton,
+      showLanguageSelection,
+      showMultiSearch,
+      showNominatimSearch,
+      wfsSearchBaseUrl,
       t
     } = this.props;
 
@@ -102,89 +111,51 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     }
 
     return (
-      <header className={className}>
-        <Row>
-          <Col
-            xs={1}
-            sm={1}
-            md={1}
-            lg={1}
-          >
-            <Spin
-              spinning={loading}
-              className="app-loading-indicator"
-            />
-          </Col>
-          <Col
-            xs={0}
-            sm={0}
-            md={6}
-            lg={6}
-          >
-            <div className="logo">
-              {
-                logoConfig.map((config, idx) =>
-                  <img
-                    src={config.src}
-                    key={`logo-${idx}`}
-                    alt={config.target}
-                    className="app-logo"
-                    onClick={() => window.open(config.target, '_blank')}
-                  />
-                )
-              }
-            </div>
-          </Col>
-          <Col
-            xs={10}
-            sm={10}
-            md={6}
-            lg={6}
-          >
-            <NominatimSearch
-              placeholder={t('Header.nominatimPlaceHolder')}
-              countrycodes={''}
-              map={map}
-              style={{
-                width: '100%'
-              }}
-            />
-          </Col>
-          <Col
-            xs={0}
-            sm={0}
-            md={6}
-            lg={6}
-          >
-            <span className="app-title">{titleString}</span>
-          </Col>
-          <Col
-            xs={1}
-            sm={1}
-            md={3}
-            lg={3}
-          >
-            <SimpleButton
-              name="helpButtonModule"
-              iconName="fas fa-question"
-              shape="circle"
-              tooltip={t('Header.helpButtonTooltip') as string}
-              onClick={this.onHelpButtonClick}
-              tooltipPlacement={'bottom'}
-            />
-          </Col>
-          <Col
-            xs={1}
-            sm={1}
-            md={2}
-            lg={2}
-          >
-            <div className="app-language-selection">
-              <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />
-              <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')} />
-            </div>
-          </Col>
-        </Row>
+      <header className={'app-header ' + className}>
+        <Spin
+          spinning={loading}
+          className="app-loading-indicator"
+        />
+        <div className="logo">
+          {
+            logoConfig ? logoConfig.map((config, idx) =>
+              <img
+                src={config.src}
+                key={`logo-${idx}`}
+                alt={config.target}
+                className={config.target ? 'app-logo with-link' : 'app-logo'}
+                onClick={config.target ? () => window.open(config.target, '_blank') : () => {}}
+              />
+            )
+              : null}
+        </div>
+        {showMultiSearch &&
+          <Multisearch
+            map={map}
+            useNominatim={showNominatimSearch}
+            useWfs={true}
+            wfsSearchBaseUrl={wfsSearchBaseUrl}
+            nominatimSearchTitle={t('Multisearch.nominatimSearchTitle') as string}
+            placeHolder={t('Multisearch.placeHolder') as string}
+          />
+        }
+        <span className="app-title">{titleString}</span>
+        {showHelpButton &&
+        <SimpleButton
+          name="helpButtonModule"
+          iconName="fas fa-question"
+          shape="circle"
+          tooltip={t('Header.helpButtonTooltip') as string}
+          onClick={this.onHelpButtonClick}
+          tooltipPlacement={'bottom'}
+        />
+        }
+        {showLanguageSelection &&
+        <div className="app-language-selection">
+          <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />
+          <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')} />
+        </div>
+        }
       </header>
     );
   }

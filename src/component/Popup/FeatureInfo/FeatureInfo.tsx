@@ -5,15 +5,59 @@ import OverlayPositioning from 'ol/OverlayPositioning';
 
 const isEqual = require('lodash/isEqual');
 
-import './FeatureInfo.less';
+import './FeatureInfo.css';
 
 interface DefaultFeatureInfoProps {
-  offset: [number, number];
+  /**
+   * The width of the popup.
+   * @type {Number}
+   */
+  width: number;
+
+  /**
+   * Offsets in pixels used when positioning the overlay. The first element
+   * in the array is the horizontal offset. A positive value shifts the
+   * overlay right. The second element in the array is the vertical offset.
+   * A positive value shifts the overlay down.
+   * @type {Array}
+   */
+  offset: number[];
+
+  /**
+   * Whether event propagation to the map viewport should be stopped. If true
+   * the overlay is placed in the same container as that of the controls
+   * (CSS class name ol-overlaycontainer-stopevent); if false it is placed in
+   * the container with CSS class name ol-overlaycontainer.
+   * @type {Boolean}
+   */
   stopEvent: boolean;
+
+  /**
+   * Whether the overlay is inserted first in the overlay container, or
+   * appended. If the overlay is placed in the same container as that of the
+   * controls (see the stopEvent option) you will probably set insertFirst to
+   * true so the overlay is displayed below the controls.
+   * @type {Boolean}
+   */
   insertFirst: boolean;
+
+  /**
+   * If set to true the map is panned when calling setPosition, so that the
+   * overlay is entirely visible in the current viewport.
+   * @type {Boolean}
+   */
   autoPan: boolean;
+
+  /**
+   * The animation options used to pan the overlay into view. This animation
+   * is only used when autoPan is enabled. A duration and easing may be
+   * provided to customize the animation.
+   * @type {Object}
+   */
   autoPanAnimationDuration: number;
+
   autoPanMargin: number;
+
   positioning: OverlayPositioning;
 }
 
@@ -21,10 +65,34 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
 
   map: OlMap;
   position: number[];
+  /**
+   * Defines how the overlay is actually positioned with respect to its
+   * position property. Possible values are 'bottom-left', 'bottom-center',
+   * 'bottom-right', 'center-left', 'center-center', 'center-right',
+   * 'top-left', 'top-center', and 'top-right'.
+   * @type {String}
+   */
+  positioning: OverlayPositioning;
+
+  /**
+   * Whether the component is loading (and should render a progress cursor)
+   * or not.
+   * @type {Boolean}
+   */
   isLoading: boolean;
+
+  /**
+   * The children elements to render inside the popup.
+   * @type {Element}
+   */
+  children: any;
 }
 
 interface FeatureInfoState {
+  /**
+   * The overlay position in map projection.
+   * @type {Array}
+   */
   position: number[];
 }
 
@@ -40,6 +108,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
  * The default properties.
  */
   public static defaultProps: DefaultFeatureInfoProps = {
+    width: 200,
     offset: [0, 0],
     stopEvent: false,
     insertFirst: true,
@@ -311,6 +380,9 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       <div
         className='feature-info-popup'
         ref={this.featureInfoPopup}
+        style={{
+          width: this.props.width
+        }}
       >
         {children}
       </div>

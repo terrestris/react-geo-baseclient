@@ -58,13 +58,18 @@ const setupMap = (state: any) => {
   const map = new OlMap({
     view: mapView,
     keyboardEventTarget: document,
+    maxTilesLoading: 128,
     controls: OlDefaultControls({
       zoom: false,
       attributionOptions: {
         collapsible: true
       }
     }).extend([
-      new OlScaleLine()
+      new OlScaleLine({
+        bar: true,
+        steps: 4,
+        minWidth: 140
+      })
     ]),
     layers: mapLayers
   });

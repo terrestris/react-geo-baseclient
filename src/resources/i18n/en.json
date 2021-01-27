@@ -10,7 +10,8 @@
     "close": "Close",
     "cancel": "Cancel",
     "loading": "Loading",
-    "collapse": "Collapse/Expand"
+    "collapse": "Collapse/Expand",
+    "downloadData": "Download as CSV"
   },
   "LayerTree": "Layers",
   "Legend": "Legend",
@@ -57,7 +58,7 @@
     "workPrintTemplateTitle": "Workprint",
     "printFormatLabelText": "Image format",
     "printLabelLabelText": "Print labels?",
-    "printLegendsLabelText": "Legends",
+    "legendTitleText": "Legend",
     "printBtnText": "Print",
     "resetBtnText": "Reset",
     "previewPrintTitle": "Preview",
@@ -80,7 +81,8 @@
     "legendPanelTitle": "Legend",
     "activateAllLayersText": "Activate all topic layers",
     "deactivateAllLayersText": "Deactivate all topic layers",
-    "externalText": "External layers"
+    "externalText": "External layers",
+    "addLayer": "Add layer"
   },
   "LayerSetBaseMapChooser": {
     "topicText": "Topics",
@@ -89,7 +91,8 @@
   },
   "FeatureInfoGrid": {
     "gfiAttributeNameColumnText": "Attribute",
-    "gfiAttributeValueColumnText": "Value"
+    "gfiAttributeValueColumnText": "Value",
+    "noDataFoundText": "No data found!"
   },
   "TimeLayerSliderPanel": {
     "setToNow": "Set to now",
@@ -106,10 +109,41 @@
     },
     "LayerDescription": {
       "title": "Layer description"
+    },
+    "Metadata": {
+      "modalTitle": "Metadata Records",
+      "title": "Title",
+      "abstract": "Abstract",
+      "topic": "Topic",
+      "referenceDate": "Reference Date",
+      "spatialRepresentationType": "Spatial Representation Type",
+      "legalConstraints": "Legal Constraints",
+      "metadataConstraints": "Metadata Constraints",
+      "onlineResource": "Online Resource",
+      "orgName": "Organisation Name",
+      "orgWebsite": "Organisation Website",
+      "addressDeliveryPoint": "Address Delivery Point",
+      "addressPostalCode": "Address Postal Code",
+      "addressCity": "Address City",
+      "addressCountry": "Address Country",
+      "personName": "Person Name",
+      "personEmail": "Person Email",
+      "status": "Status",
+      "timeExtentStart": "Time Extent Start",
+      "timeExtentEnd": "Time Extent End",
+      "extent": "Geographical Extent"
     }
+  },
+  "Multisearch": {
+    "placeHolder": "Search location or data",
+    "nominatimSearchTitle": "Location search"
   },
   "LayerTreeDropdownContextMenu": {
     "layerInfoText": "Layer description",
-    "layerSettingsTooltipText": "Properties"
+    "layerSettingsTooltipText": "Properties",
+    "layerMetadataText": "Display metadata"
+  },
+  "LayerTreeApplyTimeInterval": {
+    "setTimeLineToLayerInterval": "Apply time interval of the layer"
   }
 }

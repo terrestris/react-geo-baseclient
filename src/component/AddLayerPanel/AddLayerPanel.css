@@ -1,0 +1,40 @@
+.add-layer-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-layer-panel .add-layer-panel-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.add-layer-panel .add-layer-panel-body .get-capabilities-url {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-layer-panel .add-layer-panel-body .get-capabilities-url .ant-select-selection {
+  background-color: white;
+}
+
+.add-layer-panel .add-layer-panel-body .ant-checkbox-group {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.add-layer-panel .add-layer-panel-body .ant-checkbox-group .add-layer-checkbox-line {
+  min-height: 32px;
+  padding: 5px;
+  margin: 1px;
+  display: flex;
+  background: transparent;
+  flex: 1;
+  align-items: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

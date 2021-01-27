@@ -13,7 +13,7 @@ const isFunction = require('lodash/isFunction');
 const isEqual = require('lodash/isEqual');
 
 
-import './LayerSetBaseMapChooser.less';
+import './LayerSetBaseMapChooser.css';
 import LayerCarousel from '../../LayerCarousel/LayerCarousel';
 
 // default props

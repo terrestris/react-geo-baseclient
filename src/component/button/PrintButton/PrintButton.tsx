@@ -9,7 +9,7 @@ import { ButtonProps } from 'antd/lib/button';
 
 interface DefaultPrintButtonProps {
   type: 'default' | 'primary' | 'ghost' | 'dashed' | 'danger' | 'link';
-  shape: 'circle' | 'circle-outline' | 'round';
+  shape: 'circle' | 'round';
   iconName: string;
 }
 
@@ -116,8 +116,14 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
             key="5"
             t={t}
             config={config}
-            legendBlackList={[]}
-            printLayerBlackList={[]}
+            legendBlackList={[
+              'react-geo_measure',
+              'hoverVectorLayer'
+            ]}
+            printLayerBlackList={[
+              'react-geo_measure',
+              'hoverVectorLayer'
+            ]}
             printScales={printScales}
           />
         </Window>

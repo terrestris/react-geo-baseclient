@@ -22,7 +22,7 @@ const isEmpty = require('lodash/isEmpty');
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import FeatureInfoGrid from '../../FeatureInfoGrid/FeatureInfoGrid';
 import { clearFeatures } from '../../../state/actions/RemoteFeatureAction';
-import './FeatureInfo.less';
+import './FeatureInfo.css';
 
 interface DefaultFeatureInfoProps {
   /**
@@ -61,6 +61,7 @@ interface FeatureInfoState {
   gridWinHidden: boolean;
   featuresToShow: any[]; // OlFeature[]
   selectedFeatureType: string;
+  downloadGridData: boolean;
 }
 
 /**
@@ -95,7 +96,8 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       menuHidden: false,
       gridWinHidden: true,
       featuresToShow: [],
-      selectedFeatureType: null
+      selectedFeatureType: null,
+      downloadGridData: false
     };
 
     // binds
@@ -103,6 +105,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     this.onMenuMouseEnter = this.onMenuMouseEnter.bind(this);
     this.onSubMenuMouseLeave = this.onSubMenuMouseLeave.bind(this);
     this.hideFeatureInfoWindow = this.hideFeatureInfoWindow.bind(this);
+    this.handleDownloadButton = this.handleDownloadButton.bind(this);
 
   }
 
@@ -315,6 +318,16 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     this.props.dispatch(clearFeatures('HOVER'));
   }
 
+  handleDownloadButton() {
+    const {
+      downloadGridData
+    } = this.state;
+
+    this.setState({
+      downloadGridData: !downloadGridData
+    });
+  }
+
   /**
    * The render method.
    *
@@ -334,14 +347,40 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       menuHidden,
       gridWinHidden,
       selectedFeatureType,
-      featuresToShow
+      featuresToShow,
+      downloadGridData
     } = this.state;
 
+    const tools = [];
+
     let winTitle;
+    let layerToShow;
     if (selectedFeatureType) {
-      const layerToShow = MapUtil.getLayerByNameParam(map, selectedFeatureType);
+      layerToShow = MapUtil.getLayerByNameParam(map, selectedFeatureType);
       winTitle = layerToShow.get('name') || selectedFeatureType;
     }
+
+    if (layerToShow && layerToShow.get('type') === 'WMSTime') {
+      tools.push(
+        <SimpleButton
+          iconName="fas fa-save"
+          key="download-tool"
+          size="small"
+          tooltip={t('General.downloadData') as unknown as string}
+          onClick={this.handleDownloadButton}
+        />
+      );
+    }
+
+    tools.push(
+      <SimpleButton
+        iconName="fas fa-times"
+        key="close-tool"
+        size="small"
+        tooltip={t('General.close') as unknown as string}
+        onClick={this.hideFeatureInfoWindow}
+      />
+    );
 
     return (
       <div>
@@ -350,27 +389,22 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
             <Window
               onEscape={this.hideFeatureInfoWindow}
               title={winTitle}
-              minWidth={300}
-              maxWidth={500}
-              height={250}
-              maxHeight={500}
+              minWidth={500}
+              maxWidth={1000}
+              height={300}
+              maxHeight={1000}
               x={50}
               y={50}
               collapseTooltip={t('General.collapse') as unknown as string}
               bounds="#app"
-              tools={[
-                <SimpleButton
-                  iconName="fas fa-times"
-                  key="close-tool"
-                  size="small"
-                  tooltip={t('General.close') as unknown as string}
-                  onClick={this.hideFeatureInfoWindow}
-                />
-              ]}
+              tools={tools}
             >
               <FeatureInfoGrid
+                map={map}
+                isTimeLayer={layerToShow && layerToShow.get('type') === 'WMSTime'}
                 features={featuresToShow}
                 hoverVectorLayer={this.hoverVectorLayer}
+                downloadGridData={downloadGridData}
                 t={t}
               />
 

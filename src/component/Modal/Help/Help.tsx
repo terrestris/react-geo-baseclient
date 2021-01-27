@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Modal } from 'antd';
 
-import './Help.less';
+import './Help.css';
 
 interface HelpProps {
   helpPdf: string;

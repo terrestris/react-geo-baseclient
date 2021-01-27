@@ -12,9 +12,12 @@ import appContextUtil from '../util/AppContextUtil';
 import config from '../config/config';
 import Logger from '@terrestris/base-util/dist/Logger';
 
-const loggerMiddleware = createLogger({
-  collapsed: true
-});
+const env = process.env.NODE_ENV;
+
+const loggerMiddleware = env === 'development' ? createLogger({
+  collapsed: true,
+  predicate: (getState, action) => !action.type.endsWith('_LOADING')
+}) : middleware();
 
 /**
  * Load loadAppContextStore function
@@ -45,6 +48,15 @@ const loadAppContextStore = () => {
     })
       .then(appContext => {
         appContext = appContext instanceof Array ? appContext[0] : appContext;
+        // set app name as document title
+        document.title = appContext.name || 'react-geo-baseclient';
+        // set favicon
+        const faviconEl = document.querySelector('link[rel~="icon"]');
+        const faviconUrl =
+          appContext.favicon ? `${config.getBasePath()}${appContext.favicon}`
+            : 'favicon.ico';
+        faviconEl.setAttribute('href', faviconUrl);
+
         const state = appContextUtil.appContextToState(appContext);
         resolve(state);
       })

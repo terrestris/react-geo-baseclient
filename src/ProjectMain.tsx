@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './ProjectMain.less';
+import './ProjectMain.css';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import i18n from './i18n';
@@ -43,7 +43,7 @@ export interface MainProps extends Partial<DefaultMainProps> {
   dispatch: (arg: any) => void;
   loading: boolean;
   map: any;
-  appContext: {};
+  appContext: any;
   appContextLoading: boolean;
   addLayerWindowVisible: boolean;
   activeModules: object[];
@@ -77,6 +77,8 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
       error: null,
       info: null
     };
+
+    this.applyStyle();
   }
 
   /**
@@ -90,6 +92,22 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
       error,
       info
     });
+  }
+
+  /**
+   * apply custom style from app context
+   */
+  applyStyle() {
+    const style = this.props.appContext?.style;
+    if (style) {
+      // set all keys and vals from backend response as CSS custom variables
+      Object.keys(style).forEach((key) => {
+        document.documentElement.style.setProperty(
+          '--' + key,
+          '#' + style[key]
+        );
+      });
+    }
   }
 
   closeAddLayerWindow() {
@@ -162,6 +180,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
           map={map}
           t={t}
           mapScales={mapScales}
+          imprint={appContext.imprint}
         />
       </div>
     );

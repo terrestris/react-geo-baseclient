@@ -28,7 +28,7 @@ import { MapFishPrintV3Manager } from '@terrestris/mapfish-print-manager';
 
 import PrintUtil from '../../util/PrintUtil/PrintUtil';
 
-import './PrintPanelV3.less';
+import './PrintPanelV3.css';
 
 interface DefaultPrintPanelV3Props {
   legendBlackList: string[];
@@ -94,6 +94,7 @@ interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
 
 interface PrintPanelV3State {
   printTitle: string;
+  legendTitle: string;
   printDescription: string;
   layout: string;
   scale: number | undefined;
@@ -145,6 +146,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.state = {
       printTitle: t('PrintPanel.defaultPrintTitle'),
       printDescription: t('PrintPanel.defaultPrintComment'),
+      legendTitle: t('PrintPanel.legendTitleText'),
       layout: '',
       scale: undefined,
       dpi: undefined,
@@ -187,8 +189,11 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       map: map,
       customPrintScales: printScales,
       timeout: 30000,
-      legendFilter: (layer: any) => this.state.legendIds.includes(layer.ol_uid),
-      layerFilter: (l: any) => !(l instanceof OlLayerGroup) && !printLayerBlackList.includes(l.get('name'))
+      layerFilter: (l: OlLayer) => {
+        const layerName = l.get('name');
+        return layerName && !printLayerBlackList.includes(layerName) &&
+          l.getVisible() && !(l instanceof OlLayerGroup);
+      }
     });
 
     this.printManager = printManager;
@@ -328,7 +333,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.setState({
       printLegend: evt.target.checked
     }, () => {
-      this.printManager.printLegend = this.state.printLegend;
+      this.printManager.customParams.printLegend = this.state.printLegend;
     });
   };
 
@@ -429,6 +434,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
 
     const {
       printTitle,
+      legendTitle,
       printDescription,
       legendIds,
       printLegend
@@ -438,10 +444,15 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       printTitle : preview ? t('PrintPanel.previewPrintTitle') : '';
     this.printManager.customParams.comment = printDescription ?
       printDescription : preview ? t('PrintPanel.previewPrintDescription') : '';
-    this.printManager.customParams.printLegend = !preview && printLegend && !isEmpty(legendIds);
+    this.printManager.customParams.printLegend = printLegend && !isEmpty(legendIds);
+    this.printManager.customParams.legendTitle = legendTitle;
     this.printManager.customParams.printScalebar = true;
     this.printManager.customParams.attributions =
       PrintUtil.getAttributions(map, this.printManager.extentLayer);
+
+    // update the legends to be shown
+    this.printManager.legendFilter = (layer: any) => printLegend && legendIds.includes(layer.ol_uid);
+
   };
 
   /**
@@ -511,7 +522,12 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       map, this.printManager.extentLayer
     );
 
-    return layers.filter((l: any) => legendBlackList.indexOf(l.get('name')) === -1);
+    return layers.filter((l: OlLayer) => legendBlackList.indexOf(l.get('name')) === -1)
+      .map((l: OlLayer) => {
+        l.set('customPrintLegendParams', { 'SCALE': this.state.scale });
+        return l;
+      });
+
   }
 
   /**
@@ -707,18 +723,16 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                   {t('PrintPanel.printLegendCbLabel')}
                 </Checkbox>
                 {
-                  printLegend && <div className="select-div">
-                    <span className="label-span">{t('PrintPanel.printLegendsLabelText')}</span>
-                    <Select
-                      style={{ width: 250 }}
-                      maxTagCount={3}
-                      mode="multiple"
-                      value={legendIds}
-                      onChange={this.onPrintLegendsChange}
-                    >
-                      {this.getOptionsForLegendSelect()}
-                    </Select>
-                  </div>
+                  printLegend &&
+                  <Select
+                    className="legend-select"
+                    maxTagCount={3}
+                    mode="multiple"
+                    value={legendIds}
+                    onChange={this.onPrintLegendsChange}
+                  >
+                    {this.getOptionsForLegendSelect()}
+                  </Select>
                 }
               </Card>
             </div>

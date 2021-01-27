@@ -14,6 +14,7 @@ import {
 } from '../../../state/actions/RemoteFeatureAction';
 
 interface DefaultHsiButtonProps extends ToggleButtonProps {
+  dataRange: any;
   iconName: string;
   /**
   * Whether the GFI control should requests all layers at a given coordinate
@@ -21,6 +22,11 @@ interface DefaultHsiButtonProps extends ToggleButtonProps {
   * @type {Boolean}
   */
   drillDown: boolean;
+  /**
+   * Boolean to indicate that we do not want to hover but use click to retrieve
+   * feature information
+   */
+  getInfoByClick: boolean;
 }
 interface HsiButtonStateProps {
   pressed: boolean;
@@ -50,6 +56,18 @@ interface HsiButtonProps extends Partial<DefaultHsiButtonProps> {
 }
 
 /**
+ * mapStateToProps - mapping state to props of HsiButton Component.
+ *
+ * @param {Object} state current state
+ * @return {Object} mapped props
+ */
+const mapStateToProps = (state: any) => {
+  return {
+    dataRange: state.dataRange
+  };
+};
+
+/**
  * Class representing the HsiButton.
  *
  * @class HsiButton
@@ -61,10 +79,12 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
  * The default properties.
  */
   public static defaultProps: DefaultHsiButtonProps = {
+    dataRange: {},
     drillDown: true,
     type: 'primary',
     shape: 'circle',
-    iconName: 'fas fa-info'
+    iconName: 'fas fa-info',
+    getInfoByClick: false
   };
 
   constructor(props: HsiButtonProps) {
@@ -76,7 +96,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
 
     // binds
     this.onHsiToggle = this.onHsiToggle.bind(this);
-    this.onMapClick = this.onMapClick.bind(this);
+    this.getInfo = this.getInfo.bind(this);
   }
 
   /**
@@ -87,16 +107,25 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
   onHsiToggle(toggled: boolean) {
     const {
       map,
-      dispatch
+      dispatch,
+      getInfoByClick
     } = this.props;
 
     this.setState({
       pressed: toggled
     });
     if (toggled) {
-      map.on('click', this.onMapClick);
+      if (getInfoByClick) {
+        map.on('click', this.getInfo);
+      } else {
+        map.on('pointerrest', this.getInfo);
+      }
     } else {
-      map.un('click', this.onMapClick);
+      if (getInfoByClick) {
+        map.un('click', this.getInfo);
+      } else {
+        map.un('pointerrest', this.getInfo);
+      }
 
       // remove possible hover artifacts
       dispatch(clearFeatures('HOVER'));
@@ -104,48 +133,72 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
   }
 
   /**
-  * Calls a GFI request to all hoverable (or the uppermost only, if `drillDown`
-  * is set to false property) layer(s).
-  *
-  * @param {ol.MapEvent} olEvt The `click` event on the map.
-  */
-  onMapClick (olEvt: any) {
+   * Calls a GFI request to all hoverable (or the uppermost only, if `drillDown`
+   * is set to false property) layer(s).
+   *
+   * @param {ol.MapEvent} olEvt The `pointerrest` event.
+   */
+  getInfo(olEvt: any) {
     const {
-      pixel,
-      map
-    } = olEvt;
-
-    const {
+      dispatch,
       drillDown,
-      dispatch
+      map,
+      dataRange,
+      getInfoByClick
     } = this.props;
-
     const mapView: any = map.getView();
     const viewResolution: object = mapView.getResolution();
     const viewProjection: object = mapView.getProjection();
+    let pixel: number[];
+    if (getInfoByClick) {
+      pixel = olEvt.pixel;
+    } else {
+      pixel = map.getEventPixel(olEvt.originalEvent);
+    }
     const featureInfoUrls: string[] = [];
 
     // dispatch that any running HOVER process should be canceled
     dispatch(abortFetchingFeatures('HOVER'));
 
-    map.forEachLayerAtPixel(pixel, (layer: any) => {
+    olEvt.map.forEachLayerAtPixel(pixel, (layer: any) => {
       const layerSource: any = layer.getSource();
       if (!layerSource.getFeatureInfoUrl) {
         return;
       }
-      const featureInfoUrl: string = layerSource.getFeatureInfoUrl(
-        map.getCoordinateFromPixel(pixel),
-        viewResolution,
-        viewProjection,
-        {
-          // TODO add check for json format availability
-          'INFO_FORMAT': 'application/json',
-          'FEATURE_COUNT': 10
-        }
-      );
+      const featureInfoUrl: string =
+        layer.get('type') === 'WMSTime'
+          ? layerSource
+            .getFeatureInfoUrl(
+              map.getCoordinateFromPixel(pixel),
+              viewResolution,
+              viewProjection,
+              {
+                // TODO add check for json format availability
+                INFO_FORMAT: 'application/json',
+                FEATURE_COUNT: 999999999
+              }
+            )
+            .replace(
+              new RegExp('TIME=.*?&'),
+              `TIME=${escape(
+                dataRange.startDate.format(layer.get('timeFormat')) +
+                '/' +
+                dataRange.endDate.format(layer.get('timeFormat'))
+              )}&`
+            )
+          : layerSource.getFeatureInfoUrl(
+            map.getCoordinateFromPixel(pixel),
+            viewResolution,
+            viewProjection,
+            {
+              // TODO add check for json format availability
+              INFO_FORMAT: 'application/json',
+              FEATURE_COUNT: 10
+            }
+          );
 
       featureInfoUrls.push(featureInfoUrl);
-
+      // stop iteration if drillDown is set to false.
       if (!drillDown) {
         return true;
       }
@@ -154,7 +207,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
     map.getTargetElement().style.cursor = featureInfoUrls.length > 0 ? 'wait' : '';
     dispatch(fetchFeatures(
       'HOVER', featureInfoUrls,
-      { olEvt: olEvt }
+      {olEvt: olEvt}
     ));
   }
 
@@ -198,4 +251,4 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
   }
 }
 
-export default connect(null)(HsiButton);
+export default connect(mapStateToProps)(HsiButton);

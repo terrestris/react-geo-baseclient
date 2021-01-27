@@ -1,0 +1,30 @@
+.multisearch .ant-select {
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.multi-search-result-layer-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    font-style: oblique;
+}
+
+.multi-search-result-layer-title > div {
+    float: right;
+    font-weight: bold;
+}
+
+.multi-search-result-entry {
+    display: flex;
+    justify-content: space-between;
+}
+
+.multisearch .loader {
+    margin-left: -50px;
+    padding-top: 5px;
+    z-index: 0;
+}
+
+.multisearch .loader.hidden {
+    z-index: -1;
+}

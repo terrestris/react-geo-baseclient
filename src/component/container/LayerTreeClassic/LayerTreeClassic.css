@@ -1,0 +1,49 @@
+.layer-tree-classic .react-geo-layertree {
+  top: var(--header-height);
+  width: var(--layerlegendaccordion-accordion-width);
+  max-height: calc(100% - var(--header-height) - var(--footer-height));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 2px;
+  z-index: 5;
+  border: 1px solid lightgray;
+  background-color: #fffffff0;
+}
+
+.layer-tree-classic .ant-tree-title {
+  font-size: 14px;
+}
+
+.layer-tree-classic .ant-tree-title .react-geo-legend>img {
+    max-width: 90%;
+}
+
+@media only screen and (max-width: 768px) {
+  .layer-tree-classic .ant-tree-title {
+    font-size: 20px;
+  }
+}
+
+.layer-tree-classic .react-geo-layertree .ant-tree-node-content-wrapper {
+  background-color: unset;
+}
+
+.layer-transparency {
+    display: flex;
+    padding-top: 10px;
+}
+.layer-transparency .ant-slider {
+    bottom: 5px;
+    left: 5px;
+    width: 100px;
+}
+
+.layer-transparency .ant-slider .ant-slider-step {
+  background-color: var(--baseColor)
+}
+
+.layer-transparency .ant-slider .ant-slider-handle {
+  border-color: var(--baseColor)
+}

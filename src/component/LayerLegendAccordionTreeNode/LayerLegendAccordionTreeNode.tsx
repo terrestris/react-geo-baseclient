@@ -9,8 +9,9 @@ import OlImageWmsSource from 'ol/source/Image';
 
 import LayerTransparencySlider from '@terrestris/react-geo/dist/Slider/LayerTransparencySlider/LayerTransparencySlider';
 import LayerTreeDropdownContextMenu from '../container/LayerTreeDropdownContextMenu/LayerTreeDropdownContextMenu';
+import LayerTreeApplyTimeInterval from '../container/LayerTreeApplyTimeInterval/LayerTreeApplyTimeInterval';
 
-import './LayerLegendAccordionTreeNode.less';
+import './LayerLegendAccordionTreeNode.css';
 
 // default props
 interface DefaultLayerLegendAccordionNodeProps {
@@ -265,6 +266,13 @@ interface LayerLegendAccordionNodeState {
               map={this.props.map}
               layer={layer}
               t={t} />
+          }
+          {(layer.get('type') === 'WMSTime') &&
+            <LayerTreeApplyTimeInterval
+              map={this.props.map}
+              layer={layer}
+              t={t}
+            />
           }
         </div>
         <LayerTransparencySlider

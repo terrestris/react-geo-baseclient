@@ -20,7 +20,7 @@ import {
   MapUtil
 } from '@terrestris/ol-util';
 
-import './LayerLegendAccordion.less';
+import './LayerLegendAccordion.css';
 
 import LayerLegendAccordionTreeNode from '../../LayerLegendAccordionTreeNode/LayerLegendAccordionTreeNode';
 import { toggleAddLayerWindow } from '../../../state/actions/AppStateAction';

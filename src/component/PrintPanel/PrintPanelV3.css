@@ -1,0 +1,94 @@
+.print-panel {
+  height: 100%;
+}
+
+.print-panel .ant-row-flex {
+  padding: 5px;
+}
+
+.print-panel .ant-card-body {
+  padding: 5px 10px;
+}
+
+.print-panel .preview-card, .common-settings-card, .print-settings-card {
+  border: solid 1px var(--print-panel-v3-primary-color);
+}
+
+.print-panel .common-settings-card, .print-settings-card {
+  padding-right: 5px;
+}
+
+.print-panel .common-settings-card {
+  flex: 0 1 auto;
+}
+
+.print-panel .print-settings-card {
+  flex: 1 1 auto;
+  position: relative;
+}
+
+.print-panel .common-settings-card .title-wrapper {
+  display: flex;
+  padding-bottom: 5px;
+}
+
+.print-panel .common-settings-card .title-wrapper .label-span {
+  display: block;
+  padding: 5px 5px 5px 0;
+}
+
+.print-panel .print-settings-card .legend-cb {
+  padding-top: 5px;
+}
+
+.print-panel .print-settings-card .legend-select {
+  width: 100%;
+  padding-right: 5px;
+}
+
+.print-panel .print-settings-card .select-div {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-top: 5px;
+}
+.print-panel .print-settings-card .select-div .label-span {
+  padding-right: 5px;
+  display: inline-block;
+  width: 90px;
+}
+
+.print-panel .print-settings-card .select-div .ant-select-selection {
+  background-color: white;
+}
+
+.print-panel .preview-card {
+  height: 100%;
+}
+
+.print-panel .preview-card span {
+  padding: 5px;
+}
+
+.print-panel .preview-card img {
+  width: 85%;
+  display: block;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid var(--print-panel-v3-primary-color);
+  box-shadow:3px 3px 4px var(--print-panel-v3-primary-color);
+}
+
+.print-panel .wrapper-settings-col {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.print-panel .common-settings-textarea {
+  resize: none;
+}
+
+.print-panel span.react-geo-simplebutton {
+  background-color: transparent;
+}

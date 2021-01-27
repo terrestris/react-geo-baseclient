@@ -27,7 +27,7 @@ import { MapFishPrintV2Manager } from '@terrestris/mapfish-print-manager';
 
 import PrintUtil from '../../util/PrintUtil/PrintUtil';
 
-import './PrintPanelV2.less';
+import './PrintPanelV2.css';
 
 interface DefaultPrintPanelV2Props {
   legendBlackList: string[];
@@ -76,6 +76,7 @@ interface PrintPanelProps extends Partial<DefaultPrintPanelV2Props> {
 
 interface PrintPanelState {
   printTitle: string;
+  legendTitle: string;
   printDescription: string;
   layout: string;
   scale: string;
@@ -121,6 +122,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
 
     this.state = {
       printTitle: t('PrintPanel.defaultPrintTitle'),
+      legendTitle: t('PrintPanel.legendTitleText'),
       printDescription: t('PrintPanel.defaultPrintComment'),
       layout: 'A4 Hochformat',
       scale: '',
@@ -379,12 +381,14 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
 
     const {
       printTitle,
+      legendTitle,
       printDescription,
       legendIds
     } = this.state;
 
     this.printManager.customParams.mapTitle = printTitle ?
       printTitle : preview ? t('PrintPanel.previewPrintTitle') : '';
+    this.printManager.customParams.legendTitle = legendTitle;
     this.printManager.customParams.comment = printDescription ?
       printDescription : preview ? t('PrintPanel.previewPrintDescription') : '';
     this.printManager.customParams.showLegendPage = !preview && !isEmpty(legendIds);
@@ -660,19 +664,16 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
                   // style={{display: 'none'}}
                   onChange={this.onPrintLabelSwitchChange}
                 />
-                <div className="select-div">
-                  <span className="label-span">{t('PrintPanel.printLegendsLabelText')}</span>
-                  <Select
-                    style={{ width: 250 }}
-                    maxTagCount={3}
-                    mode="multiple"
-                    value={legendIds}
-                    disabled={isEmpty(legendIds)}
-                    onChange={this.onPrintLegendsChange}
-                  >
-                    {this.getOptionsForLegendSelect()}
-                  </Select>
-                </div>
+                <Select
+                  className="legend-select"
+                  maxTagCount={3}
+                  mode="multiple"
+                  value={legendIds}
+                  disabled={isEmpty(legendIds)}
+                  onChange={this.onPrintLegendsChange}
+                >
+                  {this.getOptionsForLegendSelect()}
+                </Select>
               </Card>
             </div>
           </Col>

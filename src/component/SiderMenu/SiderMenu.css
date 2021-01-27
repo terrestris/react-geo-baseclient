@@ -1,0 +1,42 @@
+.sidermenu-logo > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+/**
+ * fixup tree drag and drop when in vertical submenu
+ */
+.treesubmenu:before {
+  content: none;
+}
+
+.sidermenu-language-selection {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 42px;
+}
+
+.sidermenu-language-selection > img {
+  padding-right: 5px;
+}
+
+.measuremenu .ant-menu-sub {
+  height: 100%;
+}
+
+.measuremenu .ant-menu-sub .ant-menu-item {
+  height: 100%;
+}
+
+.measuregroup {
+  margin: 5px;
+  padding: 0;
+}
+
+.react-geo-measurebutton {
+  width: 100%;
+  margin-bottom: 2px;
+}

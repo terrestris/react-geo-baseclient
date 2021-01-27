@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Spin } from 'antd';
 
-import './LayerCarouselSlide.less';
+import './LayerCarouselSlide.css';
 
 // default props
 export interface DefaultLayerCarouselSlideProps {
