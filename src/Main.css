@@ -35,3 +35,10 @@ div.imprint.footer-element {
 button, .ant-collapse-header, .react-geo-titlebar {
   background-color: var(--baseColor) !important;
 }
+
+@media only screen and (max-width: 768px) {
+  .react-geo-panel {
+      width: 100% !important;
+      transform: translate(0, 100px) !important;
+  }
+}

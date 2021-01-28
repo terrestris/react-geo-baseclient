@@ -631,8 +631,11 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           gutter={5}
         >
           {/* preview column */}
-          <Col span={12}>
-            <Card className="preview-card">
+          <Col
+            flex={1}
+            className={'preview-card-col'}
+          >
+            <Card className='preview-card'>
               <span>{t('PrintPanel.previewCardTitle')}</span>
               {
                 loadingPreview ? <Skeleton active={true} /> :
@@ -645,7 +648,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           </Col>
           {/* settings column */}
           <Col
-            span={12}
+            flex={1}
           >
             {/* title and description */}
             <div className="wrapper-settings-col">
@@ -742,6 +745,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           <SimpleButton
             size="small"
             key="preview-button"
+            className="preview-button"
             type="primary"
             loading={loadingPreview}
             disabled={printDisabled}
