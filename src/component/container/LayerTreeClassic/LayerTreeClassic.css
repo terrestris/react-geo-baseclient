@@ -47,3 +47,16 @@
 .layer-transparency .ant-slider .ant-slider-handle {
   border-color: var(--baseColor)
 }
+
+.layer-tree-classic-close-button {
+  z-index: 10;
+  position: absolute;
+  right: 5px;
+  top: 52px;
+}
+
+@media only screen and (min-width: 768px) {
+  .layer-tree-classic-close-button {
+    display: none;
+  }
+}

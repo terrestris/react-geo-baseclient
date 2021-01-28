@@ -5,6 +5,7 @@ import OlLayerGroup from 'ol/layer/Group';
 import LayerTree from '@terrestris/react-geo/dist/LayerTree/LayerTree';
 import Legend from '@terrestris/react-geo/dist/Legend/Legend';
 import LayerTransparencySlider from '@terrestris/react-geo/dist/Slider/LayerTransparencySlider/LayerTransparencySlider';
+import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 
 import {MapUtil} from '@terrestris/ol-util';
 
@@ -12,6 +13,7 @@ import './LayerTreeClassic.css';
 
 interface DefaultLayerTreeClassicProps {
   extraLegendParams: {};
+  hideLayerTree: (value: void) => any;
 }
 
 interface LayerTreeClassicProps extends Partial<DefaultLayerTreeClassicProps> {
@@ -31,7 +33,8 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
   public static defaultProps: DefaultLayerTreeClassicProps = {
     extraLegendParams: {
       'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
-    }
+    },
+    hideLayerTree: undefined
   };
 
   /**
@@ -98,16 +101,25 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
   render() {
     const {
       map,
+      hideLayerTree
     } = this.props;
 
     return (
-      <div className='layer-tree-classic'>
-        <LayerTree
-          map={map}
-          nodeTitleRenderer={this.treeNodeTitleRenderer.bind(this)}
-          filterFunction={this.props.treeNodeFilter}
+        <div className='layer-tree-classic'>
+        <SimpleButton
+          iconName="fas-fa-times"
+          shape="circle"
+          className="layer-tree-classic-close-button"
+          size="small"
+          onClick={hideLayerTree.bind(this)}
         />
-      </div>
+          <LayerTree
+            map={map}
+            nodeTitleRenderer={this.treeNodeTitleRenderer.bind(this)}
+            filterFunction={this.props.treeNodeFilter}>
+            
+            </LayerTree>
+        </div>
     );
   }
 }
