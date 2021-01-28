@@ -57,7 +57,7 @@
     "@terrestris/ol-util": "^4.0.2",
     "@terrestris/react-geo": "^14.2.3",
     "@terrestris/vectortiles": "^0.3.0",
-    "antd": "^4.6.4",
+    "antd": "^4.11.2",
     "es-abstract": "^1.18.0-next.0",
     "i18next": "^19.8.4",
     "i18next-browser-languagedetector": "^6.0.1",
