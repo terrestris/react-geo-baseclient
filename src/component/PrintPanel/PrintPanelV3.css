@@ -92,3 +92,10 @@
 .print-panel span.react-geo-simplebutton {
   background-color: transparent;
 }
+
+@media only screen and (max-width: 768px) {
+  /* hide print preview for mobile clients */
+  .preview-card-col, .preview-button {
+    display: none;
+  }
+}

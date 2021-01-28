@@ -27,7 +27,6 @@ import OlLayer from 'ol/layer/Layer';
 import { MapFishPrintV3Manager } from '@terrestris/mapfish-print-manager';
 
 import PrintUtil from '../../util/PrintUtil/PrintUtil';
-import DeviceDetector from '../../util/DeviceDetector';
 
 import './PrintPanelV3.css';
 
@@ -626,29 +625,27 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
 
     const printDisabled = !outputFormat || !dpi || !scale || !layout;
 
-    const isMobile = DeviceDetector.isMobileDevice();
-    
     return (
       <div className="print-panel">
         <Row
           gutter={5}
         >
           {/* preview column */}
-           {
-              !isMobile ?
-                <Col span={12}>
-                  <Card className="preview-card">
-                    <span>{t('PrintPanel.previewCardTitle')}</span>
-                    {
-                      loadingPreview ? <Skeleton active={true} /> :
-                        <img
-                          alt="preview"
-                          src={previewUrl}
-                        />
-                    }
-                  </Card>
-                </Col> : null 
-            }
+          <Col
+            span={12}
+            className={'preview-card-col'}
+          >
+            <Card className='preview-card'>
+              <span>{t('PrintPanel.previewCardTitle')}</span>
+              {
+                loadingPreview ? <Skeleton active={true} /> :
+                  <img
+                    alt="preview"
+                    src={previewUrl}
+                  />
+              }
+            </Card>
+          </Col>
           {/* settings column */}
           <Col
             span={12}
@@ -746,9 +743,9 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         </Row>
         <Titlebar tools={[
           <SimpleButton
-            hidden={isMobile}
             size="small"
             key="preview-button"
+            className="preview-button"
             type="primary"
             loading={loadingPreview}
             disabled={printDisabled}
