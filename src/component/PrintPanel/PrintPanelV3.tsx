@@ -648,7 +648,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           </Col>
           {/* settings column */}
           <Col
-            flex={2}
+            flex={1}
           >
             {/* title and description */}
             <div className="wrapper-settings-col">
