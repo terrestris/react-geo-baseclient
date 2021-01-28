@@ -632,7 +632,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         >
           {/* preview column */}
           <Col
-            span={12}
+            flex={1}
             className={'preview-card-col'}
           >
             <Card className='preview-card'>
@@ -648,7 +648,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           </Col>
           {/* settings column */}
           <Col
-            span={12}
+            flex={2}
           >
             {/* title and description */}
             <div className="wrapper-settings-col">
