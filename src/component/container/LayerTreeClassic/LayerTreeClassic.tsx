@@ -100,7 +100,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
   }
 
   onHideLayerTree() {
-    this.props.dispatch(hideLayerTree())
+    this.props.dispatch(hideLayerTree());
   }
 
   /**
