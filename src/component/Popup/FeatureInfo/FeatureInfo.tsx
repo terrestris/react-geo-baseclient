@@ -287,8 +287,10 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     });
 
     // If the pointer is over the popup, no pointermove should be fired.
+    // Onpointerdown covers the mobile mode event propagation.
     if (this.overlayElement) {
       this.overlayElement.onpointermove = (evt: Event) => evt.stopPropagation();
+      this.overlayElement.onpointerdown = (evt: Event) => evt.stopPropagation();
     }
 
     this.featureInfoOverlay = featureInfoOverlay;

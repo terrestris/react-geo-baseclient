@@ -33,7 +33,7 @@ import ZoomButton from '@terrestris/react-geo/dist/Button/ZoomButton/ZoomButton'
 import ZoomToExtentButton from '@terrestris/react-geo/dist/Button/ZoomToExtentButton/ZoomToExtentButton';
 import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/MeasureButton';
 
-import isMobile from "is-mobile";
+import isMobile from 'is-mobile';
 
 /**
  * This class provides some static methods which can be used with the appContext of SHOGun2.
