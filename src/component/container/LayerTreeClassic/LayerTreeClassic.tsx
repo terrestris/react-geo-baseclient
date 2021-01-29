@@ -105,21 +105,22 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     } = this.props;
 
     return (
-        <div className='layer-tree-classic'>
+      <div className='layer-tree-classic'>
+        {hideLayerTree &&
         <SimpleButton
-          iconName="fas-fa-times"
+          iconName="fas fa-times"
           shape="circle"
           className="layer-tree-classic-close-button"
           size="small"
           onClick={hideLayerTree.bind(this)}
         />
-          <LayerTree
-            map={map}
-            nodeTitleRenderer={this.treeNodeTitleRenderer.bind(this)}
-            filterFunction={this.props.treeNodeFilter}>
-            
-            </LayerTree>
-        </div>
+        }
+        <LayerTree
+          map={map}
+          nodeTitleRenderer={this.treeNodeTitleRenderer.bind(this)}
+          filterFunction={this.props.treeNodeFilter}
+        />
+      </div>
     );
   }
 }
