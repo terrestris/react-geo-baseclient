@@ -11,9 +11,11 @@ import {MapUtil} from '@terrestris/ol-util';
 
 import './LayerTreeClassic.css';
 
+import { hideLayerTree } from '../../../state/actions/AppStateAction';
+
 interface DefaultLayerTreeClassicProps {
   extraLegendParams: {};
-  hideLayerTree: (value: void) => any;
+  dispatch: (arg: any) => void;
 }
 
 interface LayerTreeClassicProps extends Partial<DefaultLayerTreeClassicProps> {
@@ -34,7 +36,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     extraLegendParams: {
       'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
     },
-    hideLayerTree: undefined
+    dispatch: undefined
   };
 
   /**
@@ -42,6 +44,8 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
    */
   constructor(props: LayerTreeClassicProps) {
     super(props);
+
+    this.onHideLayerTree = this.onHideLayerTree.bind(this);
   }
 
   /**
@@ -95,26 +99,27 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     }
   }
 
+  onHideLayerTree() {
+    this.props.dispatch(hideLayerTree())
+  }
+
   /**
    * The render function
    */
   render() {
     const {
-      map,
-      hideLayerTree
+      map
     } = this.props;
 
     return (
       <div className='layer-tree-classic'>
-        {hideLayerTree &&
         <SimpleButton
           iconName="fas fa-times"
           shape="circle"
           className="layer-tree-classic-close-button"
           size="small"
-          onClick={hideLayerTree.bind(this)}
+          onClick={this.onHideLayerTree}
         />
-        }
         <LayerTree
           map={map}
           nodeTitleRenderer={this.treeNodeTitleRenderer.bind(this)}

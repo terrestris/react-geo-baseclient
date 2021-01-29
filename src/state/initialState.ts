@@ -31,7 +31,8 @@ export default {
   },
   appState: {
     addLayerWindowVisible: false,
-    helpModalVisible: false
+    helpModalVisible: false,
+    layerTreeVisible: false
   },
   dataRange: {
     startDate: moment().subtract(1, 'days'),
