@@ -33,6 +33,8 @@ import ZoomButton from '@terrestris/react-geo/dist/Button/ZoomButton/ZoomButton'
 import ZoomToExtentButton from '@terrestris/react-geo/dist/Button/ZoomToExtentButton/ZoomToExtentButton';
 import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/MeasureButton';
 
+import isMobile from 'is-mobile';
+
 /**
  * This class provides some static methods which can be used with the appContext of SHOGun2.
  *
@@ -431,6 +433,7 @@ class AppContextUtil {
     appContext: any, t: (arg: string) => string, config?: any) {
     const tools: any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
+    const isMobileClient = isMobile();
 
     activeModules.forEach((module: any) => {
       if (module.hidden) {
@@ -496,6 +499,7 @@ class AppContextUtil {
             tooltip={t('FeatureInfo.tooltip')}
             tooltipPlacement={'right'}
             t={t}
+            getInfoByClick={isMobileClient}
           />);
           return;
         case 'shogun-button-measure-menu':
