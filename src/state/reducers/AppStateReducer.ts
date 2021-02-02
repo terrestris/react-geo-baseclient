@@ -2,7 +2,9 @@ import {
   HIDE_ADDLAYERWINDOW,
   SHOW_ADDLAYERWINDOW,
   TOGGLE_ADDLAYERWINDOW,
-  TOGGLE_HELPMODAL
+  TOGGLE_HELPMODAL,
+  SHOW_LAYERTREE,
+  HIDE_LAYERTREE
 } from '../constants/AppState';
 
 import initialState from '../initialState';
@@ -37,6 +39,16 @@ export function reduce(appState = initialState.appState, action: any) {
     case TOGGLE_HELPMODAL: {
       return Object.assign({}, appState, {
         helpModalVisible: !appState.helpModalVisible
+      });
+    }
+    case SHOW_LAYERTREE: {
+      return Object.assign({}, appState, {
+        layerTreeVisible: true
+      });
+    }
+    case HIDE_LAYERTREE: {
+      return Object.assign({}, appState, {
+        layerTreeVisible: false
       });
     }
     default:
