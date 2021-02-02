@@ -36,7 +36,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     extraLegendParams: {
       'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
     },
-    dispatch: undefined
+    dispatch: () => {}
   };
 
   /**
