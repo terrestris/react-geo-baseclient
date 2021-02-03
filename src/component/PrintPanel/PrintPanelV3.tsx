@@ -629,6 +629,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       <div className="print-panel">
         <Row
           gutter={5}
+          wrap={false}
         >
           {/* preview column */}
           <Col
