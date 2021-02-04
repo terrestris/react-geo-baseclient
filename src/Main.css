@@ -40,5 +40,6 @@ button, .ant-collapse-header, .react-geo-titlebar {
   .react-geo-panel {
       width: 100% !important;
       transform: translate(0, 100px) !important;
+      min-width: unset !important;
   }
 }
