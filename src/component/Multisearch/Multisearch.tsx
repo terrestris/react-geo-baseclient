@@ -317,7 +317,7 @@ export default class Multisearch extends
       <div className={'multisearch ' + className}>
         <AutoComplete
           allowClear={true}
-          dropdownMatchSelectWidth={500}
+          dropdownClassName="multisearch-dropdown"
           onChange={this.onUpdateInput.bind(this)}
           onSearch={this.onUpdateInput.bind(this)}
           options={nominatimResults.concat(wfsResults)}

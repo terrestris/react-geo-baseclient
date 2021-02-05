@@ -1,6 +1,13 @@
 .multisearch .ant-select {
     min-width: 300px;
-    max-width: 500px;
+    max-width: 100%;
+}
+
+@media screen and (max-width: 576px) {
+    .multisearch-dropdown {
+        width: 100% !important;
+        left: unset !important;
+    }
 }
 
 .multi-search-result-layer-title {
@@ -17,6 +24,7 @@
 .multi-search-result-entry {
     display: flex;
     justify-content: space-between;
+    white-space: pre-line;
 }
 
 .multisearch .loader {
