@@ -139,7 +139,6 @@ const delayedConf =
                   template: './public/index.html',
                   loadingMaskImg: loadingMaskImg
                 }),
-                new webpack.ProgressPlugin({ profile: false }),
                 new InterpolateHtmlPlugin(HtmlWebpackPlugin, interpolations),
                 new webpack.DefinePlugin({
                   APP_MODE: JSON.stringify(commonConfig.TARGET)
