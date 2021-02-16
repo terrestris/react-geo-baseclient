@@ -29,6 +29,11 @@ const Logger = winston.createLogger({
 });
 
 const commonWebpackConfig = {
+  performance: {
+    hints: false,
+    maxEntrypointSize: 6291456,
+    maxAssetSize: 6291456
+  },
   entry: {
     app: [
       '@babel/polyfill',
