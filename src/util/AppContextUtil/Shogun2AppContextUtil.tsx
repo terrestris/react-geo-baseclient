@@ -37,8 +37,6 @@ import BaseAppContextUtil, { AppContextUtil } from './BaseAppContextUtil';
 
 /**
  * This class provides some methods which can be used with the appContext of SHOGun2.
- *
- * @class AppContextUtil
  */
 class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil {
 

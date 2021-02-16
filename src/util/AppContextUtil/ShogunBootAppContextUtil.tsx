@@ -36,9 +36,7 @@ import BaseAppContextUtil, { AppContextUtil } from './BaseAppContextUtil';
 const layerService = new LayerService();
 
 /**
- * This class provides some methods which can be used with the appContext of SHOGun2.
- *
- * @class AppContextUtil
+ * This class provides some methods which can be used with the appContext of SHOGun-Boot.
  */
 class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextUtil {
 
