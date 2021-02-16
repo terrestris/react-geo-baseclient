@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _isNil from 'lodash/isNil';
 import moment, { Moment } from 'moment';
 
 export interface BaseEntityArgs {
@@ -14,7 +14,7 @@ export default class BaseEntity {
 
   constructor({id, created, modified}: BaseEntityArgs) {
     this.id = id;
-    this.created = _.isNil(created) ? created : moment(created);
-    this.modified = _.isNil(modified) ? modified : moment(modified);
+    this.created = _isNil(created) ? created : moment(created);
+    this.modified = _isNil(modified) ? modified : moment(modified);
   }
 }
