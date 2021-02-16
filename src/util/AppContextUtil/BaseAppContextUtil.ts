@@ -7,7 +7,7 @@ export interface AppContextUtil {
   parseTileLayer: (layer: any) => {};
   parseImageLayer: (layer: any) => {};
   getToolsForToolbar: (activeModules: any[], map: any, appContext: any, t: (arg: string) => string, config?: any) => {};
-  measureToolsEnabled: (activeModules: any[]) => {};
+  measureToolsEnabled: (activeModules: any[]) => boolean;
 }
 
 /**
