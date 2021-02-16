@@ -143,6 +143,7 @@ const delayedConf =
           context: [
             '/**/*.action',
             '/applications/**',
+            '/layers/**',
             '/config/**',
             '/files/**',
             '/imagefiles/**',
@@ -153,6 +154,7 @@ const delayedConf =
           ...proxyCommonConf,
           context: [
             '/applications',
+            '/layers',
             '/files',
             '/imagefiles',
             '/users'
