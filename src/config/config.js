@@ -14,20 +14,24 @@ if (nodeEnv && nodeEnv.indexOf('production') > -1) {
 }
 
 let appContextPath;
+let layerPath;
 if (appMode === 'start:shogun2') {
   appContextPath = shogun2Path;
+  layerPath = basePath + 'rest/layers';
 }
 if (appMode === 'start:static') {
   appContextPath = staticPath;
+  layerPath = basePath + 'rest/layers';
 }
 if (appMode === 'start:boot') {
   appContextPath = shogunBootPath;
+  layerPath = basePath + 'layers';
 }
 
 export default {
-  appContextPath: appContextPath,
-  layerPath: basePath + 'rest/layers',
-  locale:  localePath,
+  appContextPath,
+  layerPath,
+  locale: localePath,
   getBasePath: function (){
     return basePath;
   },
@@ -35,4 +39,5 @@ export default {
   printCreateUrlAction: `${basePath}print/createUrl.action`,
   printUrlAction: `${basePath}print/doPrint.action`,
   printGetResultAction: `${basePath}print/getPrintResult.action`
+
 };
