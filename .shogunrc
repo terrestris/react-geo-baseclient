@@ -2,6 +2,6 @@
 SHOGUN_BACKEND_URL=http://localhost:9876/shogun2-webapp
 SHOGUN_USER=admin
 SHOGUN_PASS=🔑
-KEYCLOAK_URL=https://192.168.178.29/auth/
+KEYCLOAK_URL=https://<<YOUR_LOCAL_IP>>/auth/
 KEYCLOAK_REALM=SpringBootKeycloak
 KEYCLOAK_CLIENT_ID=shogun-app
