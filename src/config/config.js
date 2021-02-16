@@ -21,7 +21,6 @@ if (appMode === 'start:shogun2') {
 }
 if (appMode === 'start:static') {
   appContextPath = staticPath;
-  layerPath = basePath + 'rest/layers';
 }
 if (appMode === 'start:boot') {
   appContextPath = shogunBootPath;
