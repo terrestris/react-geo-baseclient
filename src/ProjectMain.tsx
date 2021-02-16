@@ -10,7 +10,7 @@ import Toolbar from '@terrestris/react-geo/dist/Toolbar/Toolbar';
 import Window from '@terrestris/react-geo/dist/Window/Window';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 
-import AppContextUtil from './util/AppContextUtil';
+import { getAppContextUtil } from './util/getAppContextUtil';
 import SiderMenu from './component/SiderMenu/SiderMenu';
 import Footer from './component/container/Footer/Footer';
 import AddLayerPanel from './component/AddLayerPanel/AddLayerPanel';
@@ -127,7 +127,8 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
       addLayerWindowVisible
     } = this.props;
 
-    const measureToolsEnabled = AppContextUtil.measureToolsEnabled(activeModules);
+    const appContextUtil = getAppContextUtil();
+    const measureToolsEnabled = appContextUtil.measureToolsEnabled(activeModules);
     const viewport = (
       <div className="viewport">
         <header>Header</header>
@@ -145,7 +146,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
             alignment="vertical"
             className="tools-tb"
           >
-            {AppContextUtil.getToolsForToolbar(activeModules, map, appContext, t)}
+            {appContextUtil.getToolsForToolbar(activeModules, map, appContext, t)}
           </Toolbar>
           {
             addLayerWindowVisible ?

@@ -8,7 +8,7 @@ import { createLogger } from 'redux-logger';
 import { middleware } from 'redux-async-initial-state';
 
 import baseclientMainReducer from './reducers/Reducer';
-import appContextUtil from '../util/AppContextUtil';
+import { getAppContextUtil } from '../util/getAppContextUtil';
 import config from '../config/config';
 import Logger from '@terrestris/base-util/dist/Logger';
 
@@ -57,7 +57,7 @@ const loadAppContextStore = () => {
             : 'favicon.ico';
         faviconEl.setAttribute('href', faviconUrl);
 
-        const state = appContextUtil.appContextToState(appContext);
+        const state = getAppContextUtil().appContextToState(appContext);
         resolve(state);
       })
       .catch(err => {
