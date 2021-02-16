@@ -45,7 +45,6 @@ commonWebpackConfig.plugins = [
       collapseWhitespace: true
     }
   }),
-  new webpack.ProgressPlugin({ profile: false }),
   new InterpolateHtmlPlugin(HtmlWebpackPlugin, interpolations)
 ];
 

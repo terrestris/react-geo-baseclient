@@ -3,6 +3,7 @@ const winston = require('winston');
 const paths = require('./paths.js');
 const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const SimpleProgressWebpackPlugin = require('simple-progress-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
@@ -147,7 +148,10 @@ const commonWebpackConfig = {
       PROJECT_MAIN_PATH: JSON.stringify(PROJECT_MAIN_PATH),
       PROJECT_MAIN_CLASS: new RegExp('^./' + PROJECT_MAIN_CLASS + '\\.(jsx|js|ts|tsx)$'),
       ___TEST___: JSON.stringify(TARGET.indexOf('test') > -1)
-    })
+    }),
+    new SimpleProgressWebpackPlugin({
+      format: 'compact'
+    }),
   ],
 
   resolve: {
