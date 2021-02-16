@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
+
 import OlTileWMS from 'ol/source/TileWMS';
 import OlSourceWMTS from 'ol/source/WMTS.js';
 import OlTileGridWMTS from 'ol/tilegrid/WMTS.js';
@@ -13,34 +13,38 @@ import OlLayerGroup from 'ol/layer/Group';
 import * as moment from 'moment';
 
 const union = require('lodash/union');
-const unionWith = require('lodash/unionWith');
-const isEqual = require('lodash/isEqual');
-const find = require('lodash/find');
 const isEmpty = require('lodash/isEmpty');
 const reverse = require('lodash/reverse');
 
-import Logger from '@terrestris/base-util/dist/Logger';
-import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
-
-import initialState from '../state/initialState';
-import getOSMLayer from '@terrestris/vectortiles';
-
-import PrintButton from '../component/button/PrintButton/PrintButton';
-import MeasureMenuButton from '../component/button/MeasureMenuButton/MeasureMenuButton';
-import HsiButton from '../component/button/HsiButton/HsiButton';
+import isMobile from 'is-mobile';
 
 import ZoomButton from '@terrestris/react-geo/dist/Button/ZoomButton/ZoomButton';
 import ZoomToExtentButton from '@terrestris/react-geo/dist/Button/ZoomToExtentButton/ZoomToExtentButton';
 import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/MeasureButton';
 
-import isMobile from 'is-mobile';
+import Logger from '@terrestris/base-util/dist/Logger';
+import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
+
+import getOSMLayer from '@terrestris/vectortiles';
+
+import initialState from '../../state/initialState';
+
+import PrintButton from '../../component/button/PrintButton/PrintButton';
+import MeasureMenuButton from '../../component/button/MeasureMenuButton/MeasureMenuButton';
+import HsiButton from '../../component/button/HsiButton/HsiButton';
+
+import BaseAppContextUtil, { AppContextUtil } from './BaseAppContextUtil';
 
 /**
- * This class provides some static methods which can be used with the appContext of SHOGun2.
- *
- * @class AppContextUtil
+ * This class provides some methods which can be used with the appContext of SHOGun2.
  */
-class AppContextUtil {
+class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil {
+
+  canReadCurrentAppContext() {
+    const appMode = typeof(APP_MODE) != 'undefined' ? APP_MODE : undefined;
+
+    return appMode === 'start:shogun2' || appMode === 'start:static';
+  }
 
   /**
    * This method parses an appContext object as delivered by SHOGun2 and returns
@@ -48,7 +52,7 @@ class AppContextUtil {
    * @param {Object} appContext The appContext.
    * @return {Object} The initialState used by the store.
    */
-  static appContextToState(appContext: any) {
+  async appContextToState(appContext: any) {
 
     const state: any = initialState;
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
@@ -76,7 +80,7 @@ class AppContextUtil {
     state.mapView.present.zoom = mapConfig.zoom;
 
     // mapLayers
-    state.mapLayers = AppContextUtil.parseLayertree(layerTree);
+    state.mapLayers = await this.parseLayertree(layerTree);
 
     // activeModules
     state.activeModules = union(state.activeModules, activeModules);
@@ -85,14 +89,14 @@ class AppContextUtil {
     state.defaultTopic = defaultTopic;
 
     // mapScales
-    state.mapScales = AppContextUtil.getMapScales(mapConfig.resolutions);
+    state.mapScales = this.getMapScales(mapConfig.resolutions);
 
     state.appContext = appContext;
 
     return state;
   }
 
-  static parseLayertree(folder: any) {
+  parseLayertree(folder: any) {
     const tree = new OlLayerGroup({
       layers: this.parseNodes(folder.children).reverse(),
       visible: folder.checked,
@@ -100,7 +104,7 @@ class AppContextUtil {
     return tree;
   }
 
-  static parseNodes(nodes: []) {
+  parseNodes(nodes: []) {
     const collection: any[] = [];
     nodes.forEach((node: any) => {
       if (node.leaf === true) {
@@ -116,7 +120,7 @@ class AppContextUtil {
     return collection;
   }
 
-  static parseFolder(el: any) {
+  parseFolder(el: any) {
     const folder = new OlLayerGroup({
       layers: this.parseNodes(el.children).reverse(),
       visible: el.checked
@@ -125,134 +129,113 @@ class AppContextUtil {
     return folder;
   }
 
+  parseLayer(layer: any) {
+    if ([
+      'ImageWMS',
+      'TileWMS',
+      'WMTS',
+      'WMSTime',
+      'OSMVectortiles'
+    ].indexOf(layer.source.type) < 0) {
+      Logger.warn('Currently only TileWMS, ImageWMS, WMSTime and OSMVectortiles layers are supported.');
+    }
+
+    if (layer.source.type === 'OSMVectortiles') {
+      const vectorLayer = getOSMLayer();
+      if (!layer.appearance.visible) {
+        vectorLayer.set('visible', false);
+      }
+      vectorLayer.set('staticImageUrl', layer.staticImageUrl);
+      vectorLayer.set('previewImageRequestUrl', layer.previewImageRequestUrl);
+
+      return vectorLayer;
+    }
+
+    if (layer.source.type === 'WMTS') {
+      const {
+        attribution,
+        visible,
+        opacity,
+        hoverable,
+        hoverTemplate,
+        legendUrl
+      } = layer.appearance;
+
+      const wmtsTileGrid = new OlTileGridWMTS({
+        origin: layer.source.tileGrid.origin,
+        resolutions: layer.source.tileGrid.resolutions,
+        matrixIds: layer.source.tileGrid.matrixIds
+      });
+
+      const wmtsSource = new OlSourceWMTS({
+        projection: layer.source.projection,
+        urls: [
+          layer.source.url
+        ],
+        layer: layer.source.layerNames,
+        format: layer.source.format,
+        matrixSet: layer.source.tileMatrixSet,
+        attributions: [attribution],
+        tileGrid: wmtsTileGrid,
+        style: layer.source.style,
+        requestEncoding: layer.source.requestEncoding
+      });
+
+      const tileLayer = new OlTileLayer({
+        source: wmtsSource,
+        visible: visible,
+        opacity: opacity
+      });
+
+      tileLayer.set('name', layer.name);
+      tileLayer.set('hoverable', hoverable);
+      tileLayer.set('hoverTemplate', hoverTemplate);
+      tileLayer.set('type', 'WMTS');
+      tileLayer.set('legendUrl', legendUrl);
+      tileLayer.set('isBaseLayer', layer.isBaseLayer);
+      tileLayer.set('isDefault', layer.isDefault);
+      tileLayer.set('topic', layer.topic);
+      tileLayer.set('staticImageUrl', layer.staticImageUrl);
+      tileLayer.set('convertFeatureInfoValue', layer.convertFeatureInfoValue || false);
+      tileLayer.set('previewImageRequestUrl', layer.previewImageRequestUrl);
+      tileLayer.set('timeFormat', layer.source.timeFormat);
+      tileLayer.set('description', layer.description);
+      tileLayer.set('metadataIdentifier', layer.metadataIdentifier);
+      tileLayer.set('displayColumns', layer.displayColumns);
+      tileLayer.set('columnAliasesDe', layer.columnAliasesDe);
+      tileLayer.set('columnAliasesEn', layer.columnAliasesEn);
+      tileLayer.set('legendUrl', layer.legendUrl);
+      tileLayer.set('searchable', layer.searchable);
+      tileLayer.set('searchConfig', layer.searchConfig);
+
+      return tileLayer;
+    }
+
+    if (layer.source.type === 'ImageWMS') {
+      return this.parseImageLayer(layer);
+    }
+
+    if (['TileWMS', 'WMSTime'].indexOf(layer.source.type) > -1) {
+      return this.parseTileLayer(layer);
+    }
+  }
+
   /**
    * Parses an array of maplayer objects and returns an array of ol.layer.Layers.
    *
-   * @static
    * @param {Array} mapLayerObjArray An array of layerObjects like we get them
    *                                 from the backend.
    * @return {Array} An array of ol.layer.Layer.
    */
-  static parseLayers(mapLayerObjArray: object[]) {
+  parseLayers(mapLayerObjArray: object[]) {
     const layers: OlLayer[] = [];
-    let tileGrids: any[] = [];
 
     if (isEmpty(mapLayerObjArray)) {
       return layers;
     }
 
-    mapLayerObjArray.forEach(function (layerObj: any) {
-      if ([
-        'ImageWMS',
-        'TileWMS',
-        'WMTS',
-        'WMSTime',
-        'OSMVectortiles'
-      ].indexOf(layerObj.source.type) < 0) {
-        Logger.warn('Currently only TileWMS, ImageWMS, WMSTime and OSMVectortiles layers are supported.');
-      }
-
-      if (layerObj.source.type === 'OSMVectortiles') {
-        const vectorLayer = getOSMLayer();
-        if (!layerObj.appearance.visible) {
-          vectorLayer.set('visible', false);
-        }
-        vectorLayer.set('staticImageUrl', layerObj.staticImageUrl);
-        vectorLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
-        layers.push(vectorLayer);
-      }
-
-      if (layerObj.source.type === 'WMTS') {
-        const {
-          attribution,
-          visible,
-          opacity,
-          hoverable,
-          hoverTemplate,
-          legendUrl
-        } = layerObj.appearance;
-
-        const wmtsTileGrid = new OlTileGridWMTS({
-          origin: layerObj.source.tileGrid.origin,
-          resolutions: layerObj.source.tileGrid.resolutions,
-          matrixIds: layerObj.source.tileGrid.matrixIds
-        });
-
-        const wmtsSource = new OlSourceWMTS({
-          projection: layerObj.source.projection,
-          urls: [
-            layerObj.source.url
-          ],
-          layer: layerObj.source.layerNames,
-          format: layerObj.source.format,
-          matrixSet: layerObj.source.tileMatrixSet,
-          attributions: [attribution],
-          tileGrid: wmtsTileGrid,
-          style: layerObj.source.style,
-          requestEncoding: layerObj.source.requestEncoding
-        });
-
-        const tileLayer = new OlTileLayer({
-          source: wmtsSource,
-          visible: visible,
-          opacity: opacity
-        });
-
-        tileLayer.set('name', layerObj.name);
-        tileLayer.set('hoverable', hoverable);
-        tileLayer.set('hoverTemplate', hoverTemplate);
-        tileLayer.set('type', 'WMTS');
-        tileLayer.set('legendUrl', legendUrl);
-        tileLayer.set('isBaseLayer', layerObj.isBaseLayer);
-        tileLayer.set('isDefault', layerObj.isDefault);
-        tileLayer.set('topic', layerObj.topic);
-        tileLayer.set('staticImageUrl', layerObj.staticImageUrl);
-        tileLayer.set('convertFeatureInfoValue', layerObj.convertFeatureInfoValue || false);
-        tileLayer.set('previewImageRequestUrl', layerObj.previewImageRequestUrl);
-        tileLayer.set('timeFormat', layerObj.source.timeFormat);
-        tileLayer.set('description', layerObj.description);
-        tileLayer.set('metadataIdentifier', layerObj.metadataIdentifier);
-        tileLayer.set('displayColumns', layerObj.displayColumns);
-        tileLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
-        tileLayer.set('columnAliasesEn', layerObj.columnAliasesEn);
-        tileLayer.set('legendUrl', layerObj.legendUrl);
-        tileLayer.set('searchable', layerObj.searchable);
-        tileLayer.set('searchConfig', layerObj.searchConfig);
-        layers.push(tileLayer);
-        return;
-      }
-
-      const tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);
-      let tileGrid;
-      if (tileGridObj) {
-        tileGrid = find(tileGrids, function (o: any) {
-          return isEqual(o.getTileSize()[0], tileGridObj.tileSize) &&
-            isEqual(o.getTileSize()[1], tileGridObj.tileSize);
-        });
-      }
-
-      if (!tileGrid && tileGridObj) {
-        tileGrid = new OlTileGrid({
-          resolutions: tileGridObj.tileGridResolutions,
-          tileSize: [tileGridObj.tileSize, tileGridObj.tileSize],
-          extent: [
-            tileGridObj.tileGridExtent.lowerLeft.x,
-            tileGridObj.tileGridExtent.lowerLeft.y,
-            tileGridObj.tileGridExtent.upperRight.x,
-            tileGridObj.tileGridExtent.upperRight.y
-          ]
-        });
-        tileGrids = unionWith(tileGrids, [tileGrid], isEqual);
-      }
-
-      if (layerObj.source.type === 'ImageWMS') {
-        layers.push(AppContextUtil.parseImageLayer(layerObj));
-      }
-
-      if (['TileWMS', 'WMSTime'].indexOf(layerObj.source.type) > -1) {
-        layers.push(AppContextUtil.parseTileLayer(layerObj, tileGrid));
-      }
-
+    mapLayerObjArray.forEach((layerObj: any) => {
+      layers.push(this.parseLayer(layerObj));
     });
 
     reverse(layers);
@@ -264,7 +247,7 @@ class AppContextUtil {
    * Parse and create a tile layer.
    * @return {ol.layer.Tile} the new layer
    */
-  static parseTileLayer(layerObj: any, tileGrid: any) {
+  parseTileLayer(layerObj: any) {
     const {
       url,
       layerNames,
@@ -284,6 +267,22 @@ class AppContextUtil {
     } = layerObj.appearance;
 
     const defaultFormat = timeFormat || 'YYYY-MM-DD';
+
+    const tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);
+
+    let tileGrid;
+    if (tileGridObj) {
+      tileGrid = new OlTileGrid({
+        resolutions: tileGridObj.tileGridResolutions,
+        tileSize: [tileGridObj.tileSize, tileGridObj.tileSize],
+        extent: [
+          tileGridObj.tileGridExtent.lowerLeft.x,
+          tileGridObj.tileGridExtent.lowerLeft.y,
+          tileGridObj.tileGridExtent.upperRight.x,
+          tileGridObj.tileGridExtent.upperRight.y
+        ]
+      });
+    }
 
     const layerSource = new OlTileWMS({
       url: url,
@@ -341,7 +340,7 @@ class AppContextUtil {
    * Parse and create a single tile WMS layer.
    * @return {ol.layer.Image} the new layer
    */
-  static parseImageLayer(layerObj: any) {
+  parseImageLayer(layerObj: any) {
     const {
       url,
       layerNames,
@@ -399,25 +398,6 @@ class AppContextUtil {
   }
 
   /**
-   * Return map scales depending on map resolutions.
-   *
-   * @param {Array} resolutions Resolutions array to obtain map scales from.
-   * @param {string} projUnit Projection unit. Default to 'm'
-   * @return {Array} Array of computed map scales.
-   */
-  static getMapScales(resolutions: number[], projUnit: string = 'm'): number[] {
-    if (!resolutions) {
-      return;
-    }
-
-    return resolutions
-      .map((res: number) =>
-        MapUtil.roundScale(MapUtil.getScaleForResolution(res, projUnit)
-        ))
-      .reverse();
-  }
-
-  /**
    * TODO: Missing features:
    * "shogun-button-stepback",
    * "shogun-button-stepforward",
@@ -429,7 +409,7 @@ class AppContextUtil {
    * @param map
    * @param appContext
    */
-  static getToolsForToolbar(activeModules: Array<any>, map: any,
+  getToolsForToolbar(activeModules: Array<any>, map: any,
     appContext: any, t: (arg: string) => string, config?: any) {
     const tools: any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
@@ -540,11 +520,11 @@ class AppContextUtil {
     });
   }
 
-  static measureToolsEnabled(activeModules: Array<any>) {
+  measureToolsEnabled(activeModules: Array<any>) {
     return activeModules.map((module: any) =>
       module.xtype === 'shogun-button-showmeasuretoolspanel').indexOf(true) > -1;
   }
 
 }
 
-export default AppContextUtil;
+export default Shogun2AppContextUtil;

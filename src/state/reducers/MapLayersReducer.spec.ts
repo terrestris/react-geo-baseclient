@@ -121,7 +121,6 @@ describe('MapViewReducer', () => {
     }
   ];
   const firstLayer = testLayers[0];
-  // const testLayersAsOlLayers = AppContextUtil.parseLayers(testLayers).reverse();
 
   it('returns the initial state if an empty action is supplied', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
@@ -170,31 +169,4 @@ describe('MapViewReducer', () => {
     const mapLayersAfter = reducer([firstLayer], changeLayersVisibilityAction);
     expect(mapLayersAfter[0].appearance.visible).toBe(visibilityToBeSet);
   });
-
-  // it('handles UPDATE_LAYER_ORDERING', () => {
-  //   const updateLayerOrderingAction = {
-  //     type: actions.UPDATE_LAYER_ORDERING,
-  //     mapLayers: testLayersAsOlLayers
-  //   };
-  //   const mapLayersAfter = testLayers.map(t=>t).reverse();
-  //   expect(reducer(testLayers, updateLayerOrderingAction)).toEqual(mapLayersAfter);
-  // });
-
-  // it('handles REMOVE_LAYERS for empty map layers array', () => {
-  //   const updateLayerOrderingAction = {
-  //     type: REMOVE_LAYERS,
-  //     layers: AppContextUtil.parseLayers([firstLayer])
-  //   };
-  //   const mapLayersAfter: any[] = [];
-  //   expect(reducer([], updateLayerOrderingAction)).toEqual(mapLayersAfter);
-  // });
-
-  // it('handles REMOVE_LAYERS for filled map layers array', () => {
-  //   const updateLayerOrderingAction = {
-  //     type: actions.REMOVE_LAYERS,
-  //     layers: AppContextUtil.parseLayers([firstLayer])
-  //   };
-  //   const mapLayersToBefore = [firstLayer, ...testLayers];
-  //   expect(reducer(mapLayersToBefore, updateLayerOrderingAction)).toEqual(testLayers);
-  // });
 });
