@@ -6,8 +6,8 @@ const shogun2Path = basePath + 'rest/projectapps/';
 const shogunBootPath = basePath + 'applications/';
 let staticPath = basePath + 'resources/appContext.json';
 let localePath =  basePath + 'resources/i18n/{{lng}}.json';
-const appMode = typeof(APP_MODE) != "undefined" ? APP_MODE : undefined;
-const nodeEnv = typeof(process.env.NODE_ENV) != "undefined" ? process.env.NODE_ENV : undefined;
+const appMode = typeof(APP_MODE) != 'undefined' ? APP_MODE : '';
+const nodeEnv = typeof(process.env.NODE_ENV) != 'undefined' ? process.env.NODE_ENV : undefined;
 
 if (nodeEnv && nodeEnv.indexOf('production') > -1) {
   localePath = buildPath + 'resources/i18n/{{lng}}.json';
