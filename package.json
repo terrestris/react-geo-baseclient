@@ -43,6 +43,7 @@
     "start:boot": "webpack-dev-server --config config/webpack.shogun-boot.config.js --hot",
     "build:static": "node scripts/build.js",
     "build:shogun2": "node scripts/build.js",
+    "build:boot": "node scripts/build.js",
     "test": "node scripts/test.js --config config/jest/jest.config.js --runInBand --no-colors",
     "lint": "eslint -c .eslintrc.js --ext .ts,tsx src/ && tsc --noEmit --project tsconfig.json",
     "lint:fix": "eslint -c .eslintrc.js --ext .ts,tsx src/ --fix",
