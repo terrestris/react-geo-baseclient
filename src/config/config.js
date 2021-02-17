@@ -15,9 +15,11 @@ if (nodeEnv && nodeEnv.indexOf('production') > -1) {
 
 let appContextPath;
 let layerPath;
+let userPath;
 if (appMode.indexOf('shogun2') > -1) {
   appContextPath = shogun2Path;
   layerPath = basePath + 'rest/layers';
+  userPath = basePath + 'rest/users';
 }
 if (appMode.indexOf('static') > -1) {
   appContextPath = staticPath;
@@ -25,15 +27,19 @@ if (appMode.indexOf('static') > -1) {
 if (appMode.indexOf('boot') > -1) {
   appContextPath = shogunBootPath;
   layerPath = basePath + 'layers';
+  userPath = basePath + 'users';
 }
 
 export default {
   appContextPath,
   layerPath,
+  userPath,
+  appInfoPath: `${basePath}info/app`,
   locale: localePath,
   getBasePath: function (){
     return basePath;
   },
+  logoutUrl: `${basePath}sso/logout`,
   printAction: `${basePath}print/print`,
   printCreateUrlAction: `${basePath}print/createUrl.action`,
   printUrlAction: `${basePath}print/doPrint.action`,
