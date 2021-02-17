@@ -17,6 +17,7 @@ const baseclientMainReducer = outerReducer(combineReducers({
   mapView,
   loadingQueue,
   appInfo,
+  userInfo: (state = {}) => state,
   mapLayers,
   activeModules,
   defaultTopic: (state = {}) => state,

@@ -6,8 +6,8 @@ const shogun2Path = basePath + 'rest/projectapps/';
 const shogunBootPath = basePath + 'applications/';
 let staticPath = basePath + 'resources/appContext.json';
 let localePath =  basePath + 'resources/i18n/{{lng}}.json';
-const appMode = typeof(APP_MODE) != "undefined" ? APP_MODE : undefined;
-const nodeEnv = typeof(process.env.NODE_ENV) != "undefined" ? process.env.NODE_ENV : undefined;
+const appMode = typeof(APP_MODE) != 'undefined' ? APP_MODE : undefined;
+const nodeEnv = typeof(process.env.NODE_ENV) != 'undefined' ? process.env.NODE_ENV : undefined;
 
 if (nodeEnv && nodeEnv.indexOf('production') > -1) {
   localePath = buildPath + 'resources/i18n/{{lng}}.json';
@@ -15,9 +15,11 @@ if (nodeEnv && nodeEnv.indexOf('production') > -1) {
 
 let appContextPath;
 let layerPath;
+let userPath;
 if (appMode === 'start:shogun2') {
   appContextPath = shogun2Path;
   layerPath = basePath + 'rest/layers';
+  userPath = basePath + 'rest/users';
 }
 if (appMode === 'start:static') {
   appContextPath = staticPath;
@@ -25,15 +27,19 @@ if (appMode === 'start:static') {
 if (appMode === 'start:boot') {
   appContextPath = shogunBootPath;
   layerPath = basePath + 'layers';
+  userPath = basePath + 'users';
 }
 
 export default {
   appContextPath,
   layerPath,
+  userPath,
+  appInfoPath: `${basePath}info/app`,
   locale: localePath,
   getBasePath: function (){
     return basePath;
   },
+  logoutUrl: `${basePath}sso/logout`,
   printAction: `${basePath}print/print`,
   printCreateUrlAction: `${basePath}print/createUrl.action`,
   printUrlAction: `${basePath}print/doPrint.action`,

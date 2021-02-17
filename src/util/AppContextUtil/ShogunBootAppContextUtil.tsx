@@ -30,10 +30,14 @@ import Application from '../../model/Application';
 import Layer from '../../model/Layer';
 
 import LayerService from '../../service/LayerSerivce/LayerService';
+import AppInfoService from '../../service/AppInfoService/AppInfoService';
+import UserService from '../../service/UserService/UserService';
 
 import BaseAppContextUtil, { AppContextUtil } from './BaseAppContextUtil';
 
 const layerService = new LayerService();
+const appInfoService = new AppInfoService();
+const userService = new UserService();
 
 /**
  * This class provides some methods which can be used with the appContext of SHOGun-Boot.
@@ -61,7 +65,10 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     const layerTree = appContext.layerTree;
 
     // appInfo
-    state.appInfo.name = appContext.name || state.appInfo.name;
+    state.appInfo = await appInfoService.getAppInfo();
+
+    // userInfo
+    state.userInfo = await userService.findOne(state.appInfo.userId);
 
     // mapView
     state.mapView.present.center = [
