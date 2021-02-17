@@ -6,6 +6,9 @@ import OlImageWMS from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
 import OlLayer from 'ol/layer/Base';
 import OlLayerGroup from 'ol/layer/Group';
+import OlLayerTile from 'ol/layer/Tile';
+import OlSourceStamen from 'ol/source/Stamen';
+import OlSourceOsm from 'ol/source/OSM';
 
 import * as moment from 'moment';
 
@@ -45,7 +48,7 @@ const userService = new UserService();
 class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextUtil {
 
   canReadCurrentAppContext() {
-    const appMode = typeof(APP_MODE) != 'undefined' ? APP_MODE : '';
+    const appMode = typeof (APP_MODE) != 'undefined' ? APP_MODE : '';
 
     return appMode.indexOf('boot') > -1;
   }
@@ -103,6 +106,22 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     return state;
   }
 
+  /**
+   * TODO add config file for background layers
+   */
+  getBackgroundLayers(): OlLayerTile[] {
+    return [
+      new OlLayerTile({
+        source: new OlSourceOsm()
+      }),
+      new OlLayerTile({
+        source: new OlSourceStamen({
+          layer: 'watercolor'
+        })
+      })
+    ];
+  }
+
   async parseLayertree(folder: any) {
     const nodes = await this.parseNodes(folder.children);
     const tree = new OlLayerGroup({
@@ -112,7 +131,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     return tree;
   }
 
-  async parseNodes (nodes: any[]) {
+  async parseNodes(nodes: any[]) {
     const collection: OlLayer[] = [];
 
     for (const node of nodes) {
