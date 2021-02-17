@@ -147,8 +147,8 @@ const delayedConf =
             '/config/**',
             '/files/**',
             '/imagefiles/**',
-            '/info/app/**',
-            '/users/**'
+            '/users/**',
+            '/sso/**'
           ]
         }, {
           ...proxyCommonConf,
@@ -157,7 +157,8 @@ const delayedConf =
             '/layers',
             '/files',
             '/imagefiles',
-            '/users'
+            '/users',
+            '/info/app'
           ]
         }],
         publicPath: 'https://localhost:9090/'
