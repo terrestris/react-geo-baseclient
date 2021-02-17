@@ -14,12 +14,14 @@ if (nodeEnv && nodeEnv.indexOf('production') > -1) {
 }
 
 let appContextPath;
+let applicationPath;
 let layerPath;
 let userPath;
 if (appMode.indexOf('shogun2') > -1) {
   appContextPath = shogun2Path;
   layerPath = basePath + 'rest/layers';
   userPath = basePath + 'rest/users';
+  applicationPath = basePath + 'rest/applications';
 }
 if (appMode.indexOf('static') > -1) {
   appContextPath = staticPath;
@@ -28,12 +30,14 @@ if (appMode.indexOf('boot') > -1) {
   appContextPath = shogunBootPath;
   layerPath = basePath + 'layers';
   userPath = basePath + 'users';
+  applicationPath = basePath + 'applications';
 }
 
 export default {
   appContextPath,
   layerPath,
   userPath,
+  applicationPath,
   appInfoPath: `${basePath}info/app`,
   locale: localePath,
   getBasePath: function (){
