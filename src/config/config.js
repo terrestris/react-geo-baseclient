@@ -15,14 +15,14 @@ if (nodeEnv && nodeEnv.indexOf('production') > -1) {
 
 let appContextPath;
 let layerPath;
-if (appMode === 'start:shogun2') {
+if (appMode.indexOf('shogun2') > -1) {
   appContextPath = shogun2Path;
   layerPath = basePath + 'rest/layers';
 }
-if (appMode === 'start:static') {
+if (appMode.indexOf('static') > -1) {
   appContextPath = staticPath;
 }
-if (appMode === 'start:boot') {
+if (appMode.indexOf('boot') > -1) {
   appContextPath = shogunBootPath;
   layerPath = basePath + 'layers';
 }

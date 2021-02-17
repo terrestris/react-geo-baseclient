@@ -43,7 +43,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
   canReadCurrentAppContext() {
     const appMode = typeof(APP_MODE) != 'undefined' ? APP_MODE : undefined;
 
-    return appMode === 'start:boot';
+    return appMode.indexOf('boot') > -1;
   }
 
   /**
