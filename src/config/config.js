@@ -38,6 +38,7 @@ export default {
   layerPath,
   userPath,
   applicationPath,
+  geoserverActionPath: `${basePath}geoserver.action`,
   appInfoPath: `${basePath}info/app`,
   locale: localePath,
   getBasePath: function (){
