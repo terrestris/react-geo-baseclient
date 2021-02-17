@@ -28,11 +28,10 @@
 }
 
 .multisearch .loader {
-    margin-left: -50px;
     padding-top: 5px;
-    z-index: 0;
+    display: block;
 }
 
 .multisearch .loader.hidden {
-    z-index: -1;
+    display: none;
 }
