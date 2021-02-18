@@ -75,6 +75,7 @@ const setupMap = (state: any) => {
 
   return map;
 };
+
 /**
  * Get the map asynchronoulsy.
  */

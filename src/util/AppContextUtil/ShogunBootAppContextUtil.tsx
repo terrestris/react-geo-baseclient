@@ -62,10 +62,6 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
   async appContextToState(appContext: Application) {
 
     const state: any = initialState;
-    const mapConfig = appContext.clientConfig.mapView;
-    const activeModules = appContext.toolConfig;
-    const defaultTopic = '';
-    const layerTree = appContext.layerTree;
 
     // appInfo
     state.appInfo = await appInfoService.getAppInfo();
@@ -74,35 +70,42 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     // userInfo
     state.userInfo = await userService.findOne(state.appInfo.userId);
 
-    // mapView
-    state.mapView.present.center = [
-      mapConfig.center[0],
-      mapConfig.center[1]
-    ];
-    state.mapView.present.mapExtent = [
-      mapConfig.extent[0],
-      mapConfig.extent[1],
-      mapConfig.extent[2],
-      mapConfig.extent[3],
-    ];
-    state.mapView.present.projection = mapConfig.projection.indexOf('EPSG:') < 0
-      ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
-    state.mapView.present.resolutions = mapConfig.resolutions;
-    state.mapView.present.zoom = mapConfig.zoom;
+    if (appContext) {
+      const mapConfig = appContext.clientConfig.mapView;
+      const activeModules = appContext.toolConfig;
+      const defaultTopic = '';
+      const layerTree = appContext.layerTree;
 
-    // mapLayers
-    state.mapLayers = await this.parseLayertree(layerTree);
+      // mapView
+      state.mapView.present.center = [
+        mapConfig.center[0],
+        mapConfig.center[1]
+      ];
+      state.mapView.present.mapExtent = [
+        mapConfig.extent[0],
+        mapConfig.extent[1],
+        mapConfig.extent[2],
+        mapConfig.extent[3],
+      ];
+      state.mapView.present.projection = mapConfig.projection.indexOf('EPSG:') < 0
+        ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
+      state.mapView.present.resolutions = mapConfig.resolutions;
+      state.mapView.present.zoom = mapConfig.zoom;
 
-    // activeModules
-    state.activeModules = union(state.activeModules, activeModules);
+      // mapLayers
+      state.mapLayers = await this.parseLayertree(layerTree);
 
-    // defaultTopic
-    state.defaultTopic = defaultTopic;
+      // activeModules
+      state.activeModules = union(state.activeModules, activeModules);
 
-    // mapScales
-    state.mapScales = this.getMapScales(mapConfig.resolutions);
+      // defaultTopic
+      state.defaultTopic = defaultTopic;
 
-    state.appContext = appContext;
+      // mapScales
+      state.mapScales = this.getMapScales(mapConfig.resolutions);
+
+      state.appContext = appContext;
+    }
 
     return state;
   }
