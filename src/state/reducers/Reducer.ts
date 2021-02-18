@@ -29,4 +29,7 @@ const baseclientMainReducer = outerReducer(combineReducers({
   // We need innerReducer to store loading state, i.e. for showing loading spinner
   asyncInitialState: innerReducer
 }));
+
+export type BaseClienState = ReturnType<typeof baseclientMainReducer>
+
 export default baseclientMainReducer;
