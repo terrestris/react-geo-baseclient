@@ -99,6 +99,7 @@ const mapPromise: Promise<OlMap> = new Promise((resolve, reject) => {
     />,
     document.getElementById('app')
   );
+  throw err;
 }) as Promise<OlMap>;
 
 const MappifiedMain = (mappify)(Main);
