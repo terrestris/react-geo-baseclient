@@ -6,8 +6,8 @@ const shogun2Path = basePath + 'rest/projectapps/';
 const shogunBootPath = basePath + 'applications/';
 let staticPath = basePath + 'resources/appContext.json';
 let localePath =  basePath + 'resources/i18n/{{lng}}.json';
-const appMode = typeof(APP_MODE) != "undefined" ? APP_MODE : undefined;
-const nodeEnv = typeof(process.env.NODE_ENV) != "undefined" ? process.env.NODE_ENV : undefined;
+const appMode = typeof(APP_MODE) != 'undefined' ? APP_MODE : '';
+const nodeEnv = typeof(process.env.NODE_ENV) != 'undefined' ? process.env.NODE_ENV : undefined;
 
 if (nodeEnv && nodeEnv.indexOf('production') > -1) {
   localePath = buildPath + 'resources/i18n/{{lng}}.json';
@@ -15,14 +15,14 @@ if (nodeEnv && nodeEnv.indexOf('production') > -1) {
 
 let appContextPath;
 let layerPath;
-if (appMode === 'start:shogun2') {
+if (appMode.indexOf('shogun2') > -1) {
   appContextPath = shogun2Path;
   layerPath = basePath + 'rest/layers';
 }
-if (appMode === 'start:static') {
+if (appMode.indexOf('static') > -1) {
   appContextPath = staticPath;
 }
-if (appMode === 'start:boot') {
+if (appMode.indexOf('boot') > -1) {
   appContextPath = shogunBootPath;
   layerPath = basePath + 'layers';
 }

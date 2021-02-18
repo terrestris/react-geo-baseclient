@@ -41,9 +41,9 @@ import BaseAppContextUtil, { AppContextUtil } from './BaseAppContextUtil';
 class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil {
 
   canReadCurrentAppContext() {
-    const appMode = typeof(APP_MODE) != 'undefined' ? APP_MODE : undefined;
+    const appMode = typeof(APP_MODE) != 'undefined' ? APP_MODE : '';
 
-    return appMode === 'start:shogun2' || appMode === 'start:static';
+    return appMode.indexOf('shogun2') > -1 || appMode.indexOf('static') > -1;
   }
 
   /**
