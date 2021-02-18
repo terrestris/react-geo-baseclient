@@ -69,6 +69,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
 
     // appInfo
     state.appInfo = await appInfoService.getAppInfo();
+    state.appInfo.appName = appContext.name;
 
     // userInfo
     state.userInfo = await userService.findOne(state.appInfo.userId);
