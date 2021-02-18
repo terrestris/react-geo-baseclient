@@ -24,6 +24,8 @@ const loggerMiddleware = env === 'development' ? createLogger({
   predicate: (getState, action) => !action.type.endsWith('_LOADING')
 }) : middleware();
 
+const composeEnhancers = (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+
 /**
  * Load loadAppContextStore function
  * Should return promise that resolves application state
@@ -76,7 +78,7 @@ const loadAppContextStore = async () => {
 
 const store = createStore(
   baseclientMainReducer,
-  compose(
+  composeEnhancers(
     applyMiddleware(middleware(loadAppContextStore)),
     applyMiddleware(thunkMiddleware, loggerMiddleware)
   )
