@@ -68,7 +68,7 @@ const loadAppContextStore = async () => {
       faviconEl.setAttribute('href', `${config.getBasePath()}${appContext.favicon}`);
     }
   } else {
-    Logger.info('No application ID given, the default app context will be be applied.')
+    Logger.info('No application ID given, the default app context will be be applied.');
   }
 
   const state = await getAppContextUtil().appContextToState(appContext);

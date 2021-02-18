@@ -30,6 +30,6 @@ const baseclientMainReducer = outerReducer(combineReducers({
   asyncInitialState: innerReducer
 }));
 
-export type BaseClientState = ReturnType<typeof baseclientMainReducer>
+export type BaseClientState = ReturnType<typeof baseclientMainReducer>;
 
 export default baseclientMainReducer;
