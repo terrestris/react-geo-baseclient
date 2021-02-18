@@ -1,5 +1,5 @@
-const basePath = window.location.origin +
-  window.location.pathname.match(/^\/[\w-]*\/?/)[0];
+// TODO Make / configurable
+const basePath = window.location.origin + '/';
 const buildPath = window.location.origin +
   window.location.pathname.match(/^(\/[\w-]*)*\/\/?/)[0];
 const shogun2Path = basePath + 'rest/projectapps/';

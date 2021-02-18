@@ -20,7 +20,6 @@ import SomethingWentWrong from './SomethingWentWrong';
 import MapProvider from '@terrestris/react-geo/dist/Provider/MapProvider/MapProvider';
 import { mappify } from '@terrestris/react-geo/dist/HigherOrderComponent/MappifiedComponent/MappifiedComponent';
 
-
 /**
  * The setupMap function
  *
