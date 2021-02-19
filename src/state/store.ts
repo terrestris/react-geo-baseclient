@@ -36,12 +36,17 @@ const loadAppContextStore = async () => {
 
   let appContext;
 
-  if (appId) {
-    let appContextPath = config.appContextPath;
+  let appContextPath = config.appContextPath;
 
-    appContextPath = appContextPath.endsWith('/') ?
-      `${appContextPath}${appId}` :
-      `${appContextPath}/${appId}`;
+  const staticPath = appContextPath.indexOf('/resources/appContext.json') > -1;
+
+  if (appId || staticPath) {
+
+    if (appId) {
+      appContextPath = appContextPath.endsWith('/') ?
+        `${appContextPath}${appId}` :
+        `${appContextPath}/${appId}`;
+    }
 
     const response = await fetch(appContextPath, {
       credentials: 'same-origin'
