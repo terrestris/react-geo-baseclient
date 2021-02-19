@@ -9,6 +9,7 @@ import OlLayerGroup from 'ol/layer/Group';
 import OlLayerTile from 'ol/layer/Tile';
 import OlSourceStamen from 'ol/source/Stamen';
 import OlSourceOsm from 'ol/source/OSM';
+import { fromLonLat } from 'ol/proj';
 
 import * as moment from 'moment';
 
@@ -76,18 +77,19 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       const layerTree = appContext.layerTree;
 
       // mapView
-      state.mapView.present.center = [
-        mapConfig.center[0],
-        mapConfig.center[1]
-      ];
-      state.mapView.present.mapExtent = [
-        mapConfig.extent[0],
-        mapConfig.extent[1],
-        mapConfig.extent[2],
-        mapConfig.extent[3],
-      ];
-      state.mapView.present.projection = mapConfig.projection.indexOf('EPSG:') < 0
-        ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
+      const projection = mapConfig.projection.indexOf('EPSG:') < 0 ?
+        'EPSG:' + mapConfig.projection :
+        mapConfig.projection;
+
+      state.mapView.present.projection = projection;
+
+      state.mapView.present.center = fromLonLat([mapConfig.center[0], mapConfig.center[1]], projection);
+
+      const ll = fromLonLat([mapConfig.extent[0], mapConfig.extent[1]], projection);
+      const ur = fromLonLat([mapConfig.extent[2], mapConfig.extent[3]], projection);
+
+      state.mapView.present.mapExtent = [ll[0], ll[1], ur[0], ur[1]];
+
       state.mapView.present.resolutions = mapConfig.resolutions;
       state.mapView.present.zoom = mapConfig.zoom;
 
