@@ -55,43 +55,46 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
   async appContextToState(appContext: any) {
 
     const state: any = initialState;
-    const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
-    const activeModules = ObjectUtil.getValue('activeTools', appContext);
-    const defaultTopic = ObjectUtil.getValue('defaultTopic', appContext);
-    const layerTree = appContext.layerTree;
 
-    // appInfo
-    state.appInfo.name = appContext.name || state.appInfo.name;
+    if (appContext) {
+      const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
+      const activeModules = ObjectUtil.getValue('activeTools', appContext);
+      const defaultTopic = ObjectUtil.getValue('defaultTopic', appContext);
+      const layerTree = appContext.layerTree;
 
-    // mapView
-    state.mapView.present.center = [
-      mapConfig.center.x,
-      mapConfig.center.y
-    ];
-    state.mapView.present.mapExtent = [
-      mapConfig.extent.lowerLeft.x,
-      mapConfig.extent.lowerLeft.y,
-      mapConfig.extent.upperRight.x,
-      mapConfig.extent.upperRight.y
-    ];
-    state.mapView.present.projection = mapConfig.projection.indexOf('EPSG:') < 0
-      ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
-    state.mapView.present.resolutions = mapConfig.resolutions;
-    state.mapView.present.zoom = mapConfig.zoom;
+      // appInfo
+      state.appInfo.name = appContext.name || state.appInfo.name;
 
-    // mapLayers
-    state.mapLayers = await this.parseLayertree(layerTree);
+      // mapView
+      state.mapView.present.center = [
+        mapConfig.center.x,
+        mapConfig.center.y
+      ];
+      state.mapView.present.mapExtent = [
+        mapConfig.extent.lowerLeft.x,
+        mapConfig.extent.lowerLeft.y,
+        mapConfig.extent.upperRight.x,
+        mapConfig.extent.upperRight.y
+      ];
+      state.mapView.present.projection = mapConfig.projection.indexOf('EPSG:') < 0
+        ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
+      state.mapView.present.resolutions = mapConfig.resolutions;
+      state.mapView.present.zoom = mapConfig.zoom;
 
-    // activeModules
-    state.activeModules = union(state.activeModules, activeModules);
+      // mapLayers
+      state.mapLayers = await this.parseLayertree(layerTree);
 
-    // defaultTopic
-    state.defaultTopic = defaultTopic;
+      // activeModules
+      state.activeModules = union(state.activeModules, activeModules);
 
-    // mapScales
-    state.mapScales = this.getMapScales(mapConfig.resolutions);
+      // defaultTopic
+      state.defaultTopic = defaultTopic;
 
-    state.appContext = appContext;
+      // mapScales
+      state.mapScales = this.getMapScales(mapConfig.resolutions);
+
+      state.appContext = appContext;
+    }
 
     return state;
   }

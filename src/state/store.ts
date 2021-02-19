@@ -3,14 +3,19 @@ import {
   applyMiddleware,
   compose
 } from 'redux';
+
 import thunkMiddleware from 'redux-thunk';
+
 import { createLogger } from 'redux-logger';
+
 import { middleware } from 'redux-async-initial-state';
+
+import Logger from '@terrestris/base-util/dist/Logger';
 
 import baseclientMainReducer from './reducers/Reducer';
 import { getAppContextUtil } from '../util/getAppContextUtil';
+
 import config from '../config/config';
-import Logger from '@terrestris/base-util/dist/Logger';
 
 const env = process.env.NODE_ENV;
 
@@ -19,57 +24,66 @@ const loggerMiddleware = env === 'development' ? createLogger({
   predicate: (getState, action) => !action.type.endsWith('_LOADING')
 }) : middleware();
 
+const composeEnhancers = (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+
 /**
  * Load loadAppContextStore function
  * Should return promise that resolves application state
  * @return {Promise} A promise
  */
-const loadAppContextStore = () => {
-  return new Promise((resolve, reject) => {
-    const appId = window.location.href.split('applicationId=')[1] || undefined;
-    let appContextPath = config.appContextPath;
+const loadAppContextStore = async () => {
+  const appId = window.location.href.split('applicationId=')[1] || undefined;
+
+  let appContext;
+
+  let appContextPath = config.appContextPath;
+
+  const staticPath = appContextPath.indexOf('/resources/appContext.json') > -1;
+
+  if (appId || staticPath) {
+
     if (appId) {
       appContextPath = appContextPath.endsWith('/') ?
         `${appContextPath}${appId}` :
         `${appContextPath}/${appId}`;
     }
 
-    fetch(appContextPath, {
+    const response = await fetch(appContextPath, {
       credentials: 'same-origin'
-    }).then(response => {
-      if (response.status === 404) {
-        throw new Error('Application not found for the given id.');
-      }
-      try {
-        return response.json();
-      } catch (err) {
-        throw new Error('Could not parse the application context.');
-      }
-    })
-      .then(appContext => {
-        appContext = appContext instanceof Array ? appContext[0] : appContext;
-        // set app name as document title
-        document.title = appContext.name || 'react-geo-baseclient';
-        // set favicon
-        const faviconEl = document.querySelector('link[rel~="icon"]');
-        const faviconUrl =
-          appContext.favicon ? `${config.getBasePath()}${appContext.favicon}`
-            : 'favicon.ico';
-        faviconEl.setAttribute('href', faviconUrl);
+    });
 
-        const state = getAppContextUtil().appContextToState(appContext);
-        resolve(state);
-      })
-      .catch(err => {
-        Logger.error(err.stack);
-        reject(err);
-      });
-  });
+    if (response.status === 404) {
+      throw new Error('Application not found for the given id.');
+    }
+
+    try {
+      appContext = await response.json();
+    } catch (err) {
+      throw new Error('Could not parse the application context.');
+    }
+
+    appContext = appContext instanceof Array ? appContext[0] : appContext;
+
+    // Set the app name as document title.
+    document.title = appContext.name;
+
+    // Set the favicon.
+    if (appContext.favicon) {
+      const faviconEl = document.querySelector('link[rel~="icon"]');
+      faviconEl.setAttribute('href', `${config.getBasePath()}${appContext.favicon}`);
+    }
+  } else {
+    Logger.info('No application ID given, the default app context will be be applied.');
+  }
+
+  const state = await getAppContextUtil().appContextToState(appContext);
+
+  return state;
 };
 
 const store = createStore(
   baseclientMainReducer,
-  compose(
+  composeEnhancers(
     applyMiddleware(middleware(loadAppContextStore)),
     applyMiddleware(thunkMiddleware, loggerMiddleware)
   )

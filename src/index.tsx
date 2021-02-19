@@ -20,7 +20,6 @@ import SomethingWentWrong from './SomethingWentWrong';
 import MapProvider from '@terrestris/react-geo/dist/Provider/MapProvider/MapProvider';
 import { mappify } from '@terrestris/react-geo/dist/HigherOrderComponent/MappifiedComponent/MappifiedComponent';
 
-
 /**
  * The setupMap function
  *
@@ -45,14 +44,14 @@ const setupMap = (state: any) => {
   let olProjection;
   if (projection) {
     olProjection = OlGetProjection(projection);
-    olProjection.setExtent(mapExtent);
   }
 
   const mapView = new OlView({
     center: center,
     zoom: zoom,
     projection: olProjection,
-    resolutions: resolutions
+    resolutions: resolutions,
+    extent: mapExtent
   });
 
   const map = new OlMap({
@@ -76,6 +75,7 @@ const setupMap = (state: any) => {
 
   return map;
 };
+
 /**
  * Get the map asynchronoulsy.
  */
@@ -99,6 +99,7 @@ const mapPromise: Promise<OlMap> = new Promise((resolve, reject) => {
     />,
     document.getElementById('app')
   );
+  throw err;
 }) as Promise<OlMap>;
 
 const MappifiedMain = (mappify)(Main);

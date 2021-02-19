@@ -39,6 +39,13 @@ RESOURCES_PATH='../myproject/resources/'
 SHOGUN_BACKEND_URL=http://localhost:9876/shogun2-webapp
 SHOGUN_USER=admin
 SHOGUN_PASS=
+
+# Config file containing keys for customized client title and loading mask logo
+CUSTOM_WEBPACK_CONFIG=myproject/config/webpack.config.js
+
+# Prefix/route of the application the client is served on, e.g. '/baseclient/' for 'https://myproject.org/baseclient/'
+APP_PREFIX='/'
+
 ```
   * Place an project `package.json` which uses previously configured `.env` file using [`env-cmd`](https://www.npmjs.com/package/env-cmd), e.g.
 ```

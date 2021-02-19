@@ -6,6 +6,10 @@ import OlImageWMS from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
 import OlLayer from 'ol/layer/Base';
 import OlLayerGroup from 'ol/layer/Group';
+import OlLayerTile from 'ol/layer/Tile';
+import OlSourceStamen from 'ol/source/Stamen';
+import OlSourceOsm from 'ol/source/OSM';
+import { fromLonLat } from 'ol/proj';
 
 import * as moment from 'moment';
 
@@ -30,10 +34,14 @@ import Application from '../../model/Application';
 import Layer from '../../model/Layer';
 
 import LayerService from '../../service/LayerSerivce/LayerService';
+import AppInfoService from '../../service/AppInfoService/AppInfoService';
+import UserService from '../../service/UserService/UserService';
 
 import BaseAppContextUtil, { AppContextUtil } from './BaseAppContextUtil';
 
 const layerService = new LayerService();
+const appInfoService = new AppInfoService();
+const userService = new UserService();
 
 /**
  * This class provides some methods which can be used with the appContext of SHOGun-Boot.
@@ -41,7 +49,7 @@ const layerService = new LayerService();
 class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextUtil {
 
   canReadCurrentAppContext() {
-    const appMode = typeof(APP_MODE) != 'undefined' ? APP_MODE : '';
+    const appMode = typeof (APP_MODE) != 'undefined' ? APP_MODE : '';
 
     return appMode.indexOf('boot') > -1;
   }
@@ -55,45 +63,70 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
   async appContextToState(appContext: Application) {
 
     const state: any = initialState;
-    const mapConfig = appContext.clientConfig.mapView;
-    const activeModules = appContext.toolConfig;
-    const defaultTopic = '';
-    const layerTree = appContext.layerTree;
 
     // appInfo
-    state.appInfo.name = appContext.name || state.appInfo.name;
+    state.appInfo = await appInfoService.getAppInfo();
 
-    // mapView
-    state.mapView.present.center = [
-      mapConfig.center[0],
-      mapConfig.center[1]
-    ];
-    state.mapView.present.mapExtent = [
-      mapConfig.extent[0],
-      mapConfig.extent[1],
-      mapConfig.extent[2],
-      mapConfig.extent[3],
-    ];
-    state.mapView.present.projection = mapConfig.projection.indexOf('EPSG:') < 0
-      ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
-    state.mapView.present.resolutions = mapConfig.resolutions;
-    state.mapView.present.zoom = mapConfig.zoom;
+    // userInfo
+    state.userInfo = await userService.findOne(state.appInfo.userId);
 
-    // mapLayers
-    state.mapLayers = await this.parseLayertree(layerTree);
+    if (appContext) {
+      const mapConfig = appContext.clientConfig.mapView;
+      const activeModules = appContext.toolConfig;
+      const defaultTopic = '';
+      const layerTree = appContext.layerTree;
 
-    // activeModules
-    state.activeModules = union(state.activeModules, activeModules);
+      // mapView
+      const projection = mapConfig.projection.indexOf('EPSG:') < 0 ?
+        'EPSG:' + mapConfig.projection :
+        mapConfig.projection;
 
-    // defaultTopic
-    state.defaultTopic = defaultTopic;
+      state.mapView.present.projection = projection;
 
-    // mapScales
-    state.mapScales = this.getMapScales(mapConfig.resolutions);
+      state.mapView.present.center = fromLonLat([mapConfig.center[0], mapConfig.center[1]], projection);
 
-    state.appContext = appContext;
+      const ll = fromLonLat([mapConfig.extent[0], mapConfig.extent[1]], projection);
+      const ur = fromLonLat([mapConfig.extent[2], mapConfig.extent[3]], projection);
+
+      state.mapView.present.mapExtent = [ll[0], ll[1], ur[0], ur[1]];
+
+      state.mapView.present.resolutions = mapConfig.resolutions;
+      state.mapView.present.zoom = mapConfig.zoom;
+
+      // mapLayers
+      state.mapLayers = await this.parseLayertree(layerTree);
+
+      // activeModules
+      state.activeModules = union(state.activeModules, activeModules);
+
+      // defaultTopic
+      state.defaultTopic = defaultTopic;
+
+      // mapScales
+      state.mapScales = this.getMapScales(mapConfig.resolutions);
+
+      state.appInfo.appName = appContext.name;
+
+      state.appContext = appContext;
+    }
 
     return state;
+  }
+
+  /**
+   * TODO add config file for background layers
+   */
+  getBackgroundLayers(): OlLayerTile[] {
+    return [
+      new OlLayerTile({
+        source: new OlSourceStamen({
+          layer: 'watercolor'
+        })
+      }),
+      new OlLayerTile({
+        source: new OlSourceOsm()
+      })
+    ];
   }
 
   async parseLayertree(folder: any) {
@@ -105,7 +138,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     return tree;
   }
 
-  async parseNodes (nodes: any[]) {
+  async parseNodes(nodes: any[]) {
     const collection: OlLayer[] = [];
 
     for (const node of nodes) {
