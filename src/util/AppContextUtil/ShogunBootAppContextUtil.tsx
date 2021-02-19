@@ -119,12 +119,12 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
   getBackgroundLayers(): OlLayerTile[] {
     return [
       new OlLayerTile({
-        source: new OlSourceOsm()
-      }),
-      new OlLayerTile({
         source: new OlSourceStamen({
           layer: 'watercolor'
         })
+      }),
+      new OlLayerTile({
+        source: new OlSourceOsm()
       })
     ];
   }
