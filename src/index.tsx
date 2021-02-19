@@ -44,14 +44,14 @@ const setupMap = (state: any) => {
   let olProjection;
   if (projection) {
     olProjection = OlGetProjection(projection);
-    olProjection.setExtent(mapExtent);
   }
 
   const mapView = new OlView({
     center: center,
     zoom: zoom,
     projection: olProjection,
-    resolutions: resolutions
+    resolutions: resolutions,
+    extent: mapExtent
   });
 
   const map = new OlMap({
