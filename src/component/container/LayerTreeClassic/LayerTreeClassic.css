@@ -55,6 +55,23 @@
   top: 52px;
 }
 
+.layer-tree-classic .ant-tree-node-content-wrapper {
+  width: 100%;
+}
+
+.classic-tree-node-header {
+  display: flex;
+}
+
+.classic-tree-node-header-buttons {
+  margin-left: auto;
+  display: flex;
+}
+
+.classic-tree-node-header-buttons div {
+    margin-left: 5px;
+}
+
 @media only screen and (min-width: 768px) {
   .layer-tree-classic-close-button {
     display: none;

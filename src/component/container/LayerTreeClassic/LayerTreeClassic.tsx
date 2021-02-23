@@ -1,11 +1,14 @@
 import * as React from 'react';
 
 import OlLayerGroup from 'ol/layer/Group';
+import OlLayer from 'ol/layer/Layer';
 
 import LayerTree from '@terrestris/react-geo/dist/LayerTree/LayerTree';
 import Legend from '@terrestris/react-geo/dist/Legend/Legend';
 import LayerTransparencySlider from '@terrestris/react-geo/dist/Slider/LayerTransparencySlider/LayerTransparencySlider';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
+import LayerTreeApplyTimeInterval from '../../container/LayerTreeApplyTimeInterval/LayerTreeApplyTimeInterval';
+import LayerTreeDropdownContextMenu from '../../container/LayerTreeDropdownContextMenu/LayerTreeDropdownContextMenu';
 
 import {MapUtil} from '@terrestris/ol-util';
 
@@ -72,7 +75,26 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     } else {
       return (
         <div>
-          {layer.get('name')}
+          <div className="classic-tree-node-header">
+            <div>
+              {layer.get('name')}
+            </div>
+            <div className='classic-tree-node-header-buttons'>
+              {(layer.get('type') === 'WMSTime') &&
+                  <LayerTreeApplyTimeInterval
+                    map={this.props.map}
+                    layer={layer}
+                    t={t}
+                  />
+              }
+              {(layer instanceof OlLayer) &&
+                <LayerTreeDropdownContextMenu
+                  map={this.props.map}
+                  layer={layer}
+                  t={t} />
+              }
+            </div>
+          </div>
           {layer.get('visible') &&
             <>
               <div className='layer-transparency'>
