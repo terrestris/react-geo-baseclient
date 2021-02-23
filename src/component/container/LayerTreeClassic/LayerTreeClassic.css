@@ -28,6 +28,7 @@
 
 .layer-tree-classic .react-geo-layertree .ant-tree-node-content-wrapper {
   background-color: unset;
+  width: 100%;
 }
 
 .layer-transparency {
@@ -53,10 +54,6 @@
   position: absolute;
   right: 5px;
   top: 52px;
-}
-
-.layer-tree-classic .ant-tree-node-content-wrapper {
-  width: 100%;
 }
 
 .classic-tree-node-header {
