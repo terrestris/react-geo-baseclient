@@ -19,7 +19,8 @@ import { hideLayerTree } from '../../../state/actions/AppStateAction';
 interface DefaultLayerTreeClassicProps {
   extraLegendParams: {};
   dispatch: (arg: any) => void;
-  showLayerButtons: boolean;
+  showContextMenu: boolean;
+  showApplyTimeInterval: boolean;
 }
 
 interface LayerTreeClassicProps extends Partial<DefaultLayerTreeClassicProps> {
@@ -41,7 +42,8 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
       'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
     },
     dispatch: () => {},
-    showLayerButtons: true
+    showContextMenu: true,
+    showApplyTimeInterval: true
   };
 
   /**
@@ -63,7 +65,8 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
       map,
       extraLegendParams,
       t,
-      showLayerButtons
+      showContextMenu,
+      showApplyTimeInterval
     } = this.props;
 
     const unit = map.getView().getProjection().getUnits();
@@ -82,23 +85,21 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
             <div>
               {layer.get('name')}
             </div>
-            {showLayerButtons &&
-              <div className='classic-tree-node-header-buttons'>
-                {(layer.get('type') === 'WMSTime') &&
-                    <LayerTreeApplyTimeInterval
-                      map={this.props.map}
-                      layer={layer}
-                      t={t}
-                    />
-                }
-                {(layer instanceof OlLayer) &&
-                  <LayerTreeDropdownContextMenu
-                    map={this.props.map}
-                    layer={layer}
-                    t={t} />
-                }
-              </div>
-            }
+            <div className='classic-tree-node-header-buttons'>
+              {(showContextMenu && layer instanceof OlLayer) &&
+                <LayerTreeDropdownContextMenu
+                  map={this.props.map}
+                  layer={layer}
+                  t={t} />
+              }
+              {(showApplyTimeInterval && layer.get('type') === 'WMSTime') &&
+                <LayerTreeApplyTimeInterval
+                  map={this.props.map}
+                  layer={layer}
+                  t={t}
+                />
+              }
+            </div>
           </div>
           {layer.get('visible') &&
             <>
