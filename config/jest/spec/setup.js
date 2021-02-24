@@ -6,4 +6,6 @@ import 'jest-canvas-mock';
 
 require('es6-promise').polyfill();
 
+global.window = {};
+
 Enzyme.configure({ adapter: new Adapter() });
