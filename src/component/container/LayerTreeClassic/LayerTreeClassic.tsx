@@ -1,11 +1,14 @@
 import * as React from 'react';
 
 import OlLayerGroup from 'ol/layer/Group';
+import OlLayer from 'ol/layer/Layer';
 
 import LayerTree from '@terrestris/react-geo/dist/LayerTree/LayerTree';
 import Legend from '@terrestris/react-geo/dist/Legend/Legend';
 import LayerTransparencySlider from '@terrestris/react-geo/dist/Slider/LayerTransparencySlider/LayerTransparencySlider';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
+import LayerTreeApplyTimeInterval from '../../container/LayerTreeApplyTimeInterval/LayerTreeApplyTimeInterval';
+import LayerTreeDropdownContextMenu from '../../container/LayerTreeDropdownContextMenu/LayerTreeDropdownContextMenu';
 
 import {MapUtil} from '@terrestris/ol-util';
 
@@ -16,6 +19,8 @@ import { hideLayerTree } from '../../../state/actions/AppStateAction';
 interface DefaultLayerTreeClassicProps {
   extraLegendParams: {};
   dispatch: (arg: any) => void;
+  showContextMenu: boolean;
+  showApplyTimeInterval: boolean;
 }
 
 interface LayerTreeClassicProps extends Partial<DefaultLayerTreeClassicProps> {
@@ -36,7 +41,9 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     extraLegendParams: {
       'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
     },
-    dispatch: () => {}
+    dispatch: () => {},
+    showContextMenu: true,
+    showApplyTimeInterval: true
   };
 
   /**
@@ -57,7 +64,9 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     const {
       map,
       extraLegendParams,
-      t
+      t,
+      showContextMenu,
+      showApplyTimeInterval
     } = this.props;
 
     const unit = map.getView().getProjection().getUnits();
@@ -72,7 +81,26 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     } else {
       return (
         <div>
-          {layer.get('name')}
+          <div className="classic-tree-node-header">
+            <div>
+              {layer.get('name')}
+            </div>
+            <div className='classic-tree-node-header-buttons'>
+              {(showContextMenu && layer instanceof OlLayer) &&
+                <LayerTreeDropdownContextMenu
+                  map={this.props.map}
+                  layer={layer}
+                  t={t} />
+              }
+              {(showApplyTimeInterval && layer.get('type') === 'WMSTime') &&
+                <LayerTreeApplyTimeInterval
+                  map={this.props.map}
+                  layer={layer}
+                  t={t}
+                />
+              }
+            </div>
+          </div>
           {layer.get('visible') &&
             <>
               <div className='layer-transparency'>
