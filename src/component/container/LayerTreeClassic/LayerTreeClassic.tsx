@@ -19,6 +19,7 @@ import { hideLayerTree } from '../../../state/actions/AppStateAction';
 interface DefaultLayerTreeClassicProps {
   extraLegendParams: {};
   dispatch: (arg: any) => void;
+  showLayerButtons: boolean;
 }
 
 interface LayerTreeClassicProps extends Partial<DefaultLayerTreeClassicProps> {
@@ -39,7 +40,8 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     extraLegendParams: {
       'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
     },
-    dispatch: () => {}
+    dispatch: () => {},
+    showLayerButtons: true
   };
 
   /**
@@ -60,7 +62,8 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     const {
       map,
       extraLegendParams,
-      t
+      t,
+      showLayerButtons
     } = this.props;
 
     const unit = map.getView().getProjection().getUnits();
@@ -79,21 +82,23 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
             <div>
               {layer.get('name')}
             </div>
-            <div className='classic-tree-node-header-buttons'>
-              {(layer.get('type') === 'WMSTime') &&
-                  <LayerTreeApplyTimeInterval
+            {showLayerButtons &&
+              <div className='classic-tree-node-header-buttons'>
+                {(layer.get('type') === 'WMSTime') &&
+                    <LayerTreeApplyTimeInterval
+                      map={this.props.map}
+                      layer={layer}
+                      t={t}
+                    />
+                }
+                {(layer instanceof OlLayer) &&
+                  <LayerTreeDropdownContextMenu
                     map={this.props.map}
                     layer={layer}
-                    t={t}
-                  />
-              }
-              {(layer instanceof OlLayer) &&
-                <LayerTreeDropdownContextMenu
-                  map={this.props.map}
-                  layer={layer}
-                  t={t} />
-              }
-            </div>
+                    t={t} />
+                }
+              </div>
+            }
           </div>
           {layer.get('visible') &&
             <>
