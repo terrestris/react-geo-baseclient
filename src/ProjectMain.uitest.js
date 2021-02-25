@@ -37,6 +37,6 @@ describe('Application render', () => {
 
   it('app has correct demo title', async () => {
     const title = await page.evaluate(() => document.title);
-    expect(title).toBe('react-geo-baseclient');
+    expect(title).toBe('Default Application');
   }, 16000);
 });
