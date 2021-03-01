@@ -7,6 +7,8 @@ import { transformExtent } from 'ol/proj';
 import OlFormatGeoJSON from 'ol/format/GeoJSON';
 import OlLayer from 'ol/layer/Base';
 
+import Logger from '@terrestris/base-util/dist/Logger';
+
 import {
   WfsSearchInput,
   NominatimSearch
@@ -74,7 +76,7 @@ export default class Multisearch extends
     super(props);
 
     if (this.props.useWfs && !this.props.wfsSearchBaseUrl) {
-      console.warn('You need to configure a base URL for the WFS search');
+      Logger.warn('You need to configure a base URL for the WFS search');
     }
 
     const searchLayers = MapUtil.getLayersByProperty(

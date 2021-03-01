@@ -62,7 +62,7 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
    */
   onContextMenuItemClick(evt: any) {
     const key = evt.key;
-    switch(key) {
+    switch (key) {
       case 'info':
         this.changeInfoModalVisibility();
         break;
