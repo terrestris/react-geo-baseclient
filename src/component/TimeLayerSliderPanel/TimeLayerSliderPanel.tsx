@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import moment from 'moment';
 
-const _isFinite = require('lodash/isFinite');
-const _isEqual = require('lodash/isEqual');
+import _isFinite from 'lodash/isFinite';
+import _isEqual from 'lodash/isEqual';
 
 import {
   TimeSlider,
@@ -70,10 +70,6 @@ const mapStateToProps = (state: any) => {
 */
 export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelProps, TimeLayerSliderPanelState> {
 
-  private _TimeLayerAwareSlider: any;
-  private _wmsTimeLayers: any[];
-  private _interval: number;
-
   /**
   * The default props of LayerSetBaseMapChooser
   *
@@ -89,6 +85,10 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     t: (arg: string) => arg,
     dateFormat: 'YYYY-MM-DD'
   };
+
+  private _TimeLayerAwareSlider: any;
+  private _wmsTimeLayers: any[];
+  private _interval: number;
 
   /**
   * Constructs time panel.

@@ -80,8 +80,8 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
     } = this.state;
 
     if (isEmpty(metadata)) {
-      return(
-        <div></div>
+      return (
+        <div/>
       );
     }
 

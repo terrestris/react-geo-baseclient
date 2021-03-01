@@ -24,6 +24,7 @@ const loggerMiddleware = env === 'development' ? createLogger({
   predicate: (getState, action) => !action.type.endsWith('_LOADING')
 }) : middleware();
 
+// eslint-disable-next-line no-underscore-dangle
 const composeEnhancers = (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 /**
