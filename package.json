@@ -60,7 +60,7 @@
     "@terrestris/react-geo": "^14.2.4",
     "@terrestris/vectortiles": "^0.3.0",
     "antd": "4.8.6",
-    "es-abstract": "^1.18.0-next.0",
+    "es-abstract": "^1.18.0",
     "i18next": "^19.8.8",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-xhr-backend": "^3.2.2",
