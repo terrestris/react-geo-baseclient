@@ -124,7 +124,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
   }
 
   async parseNodes(nodes: any[]) {
-    const collection: OlLayer[] = [];
+    const collection: OlLayerBase[] = [];
 
     for (const node of nodes) {
       if (node.children) {
@@ -180,7 +180,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       olLayer = this.parseImageLayer(layer);
     }
 
-    if (layer.type === 'TILEWMS') {
+    if (layer.type === 'TILEWMS' || layer.type === 'WMSTime') {
       olLayer = this.parseTileLayer(layer);
     }
 
@@ -193,45 +193,49 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
    */
   parseTileLayer(layer: Layer) {
     const {
+      sourceConfig,
+      clientConfig
+    } = layer;
+
+    const {
       url,
       layerNames,
       crossOrigin,
-      requestWithTiled = true,
+      requestWithTiled,
       transparent = true,
       attribution,
       timeFormat,
-      type,
       legendUrl,
       startDate,
-      endDate
-      // tileSize = 512,
-      // resolutions = [],
-      // extent
-    } = layer.sourceConfig;
+      endDate,
+      tileSize = 256,
+      resolutions,
+      extent
+    } = sourceConfig || {};
 
     const {
       opacity,
       hoverable,
-      hoverTemplate
-    } = layer.clientConfig;
+      hoverTemplate,
+      minResolution,
+      maxResolution
+    } = clientConfig || {};
 
     const defaultFormat = timeFormat || 'YYYY-MM-DD';
 
-    // const tileGrid = new OlTileGrid({
-    //   resolutions: resolutions,
-    //   tileSize: [tileSize, tileSize],
-    //   extent: [
-    //     extent[0],
-    //     extent[1],
-    //     extent[2],
-    //     extent[3]
-    //   ]
-    // });
+    let tileGrid;
+    if (tileSize && resolutions && extent) {
+      tileGrid = new OlTileGrid({
+        resolutions: resolutions,
+        tileSize: [tileSize, tileSize],
+        extent: extent
+      });
+    }
 
     const layerSource = new OlTileWMS({
       url: url,
+      tileGrid: tileGrid,
       attributions: attribution,
-      // tileGrid: tileGrid,
       params: {
         'LAYERS': layerNames,
         'TILED': requestWithTiled,
@@ -240,23 +244,25 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       crossOrigin: crossOrigin
     });
 
-    if (type === 'WMSTime') {
+    if (layer.type === 'WMSTime') {
       layerSource.getParams().TIME = moment(moment.now()).format(defaultFormat);
     }
 
     const tileLayer = new OlTileLayer({
       source: layerSource,
-      opacity: opacity
+      opacity: opacity,
+      minResolution: minResolution,
+      maxResolution: maxResolution
     });
 
     tileLayer.set('name', layer.name);
     tileLayer.set('hoverable', hoverable);
     tileLayer.set('hoverTemplate', hoverTemplate);
-    tileLayer.set('type', type);
+    tileLayer.set('type', layer.type);
     tileLayer.set('legendUrl', legendUrl);
     tileLayer.set('timeFormat', defaultFormat);
 
-    if (type === 'WMSTime') {
+    if (layer.type === 'WMSTime') {
       tileLayer.set('startDate', startDate ? moment(startDate).format(defaultFormat) : undefined);
       tileLayer.set('endDate', endDate ? moment(endDate).format(defaultFormat) : undefined);
     }
