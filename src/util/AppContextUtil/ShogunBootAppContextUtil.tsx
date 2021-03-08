@@ -114,22 +114,6 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     return state;
   }
 
-  /**
-   * TODO add config file for background layers
-   */
-  getBackgroundLayers(): OlLayerTile[] {
-    return [
-      new OlLayerTile({
-        source: new OlSourceStamen({
-          layer: 'watercolor'
-        })
-      }),
-      new OlLayerTile({
-        source: new OlSourceOsm()
-      })
-    ];
-  }
-
   async parseLayertree(folder: any) {
     const nodes = await this.parseNodes(folder.children);
     const tree = new OlLayerGroup({
