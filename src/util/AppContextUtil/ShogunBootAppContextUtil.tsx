@@ -3,12 +3,12 @@ import * as React from 'react';
 import OlTileWMS from 'ol/source/TileWMS';
 import OlTileLayer from 'ol/layer/Tile';
 import OlImageWMS from 'ol/source/ImageWMS';
+import OlSourceWMTS, { optionsFromCapabilities } from 'ol/source/WMTS';
 import OlImageLayer from 'ol/layer/Image';
-import OlLayer from 'ol/layer/Base';
+import OlLayerBase from 'ol/layer/Base';
 import OlLayerGroup from 'ol/layer/Group';
-import OlLayerTile from 'ol/layer/Tile';
-import OlSourceStamen from 'ol/source/Stamen';
-import OlSourceOsm from 'ol/source/OSM';
+import OlTileGrid from 'ol/tilegrid/TileGrid';
+import OlWMTSCapabilities from 'ol/format/WMTSCapabilities';
 import { fromLonLat } from 'ol/proj';
 
 import * as moment from 'moment';
@@ -23,6 +23,7 @@ import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/Measu
 
 import Logger from '@terrestris/base-util/dist/Logger';
 import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
+import { UrlUtil } from '@terrestris/base-util/dist/UrlUtil/UrlUtil';
 
 import initialState from '../../state/initialState';
 
@@ -147,7 +148,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       } else {
         const layer: Layer = await layerService.findOne(node.layerId);
 
-        const olLayer = this.parseLayer(layer);
+        const olLayer = await this.parseLayer(layer);
 
         olLayer.setVisible(node.checked);
 
@@ -175,8 +176,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
    *                                 from the backend.
    * @return {Array} An array of ol.layer.Layer.
    */
-  parseLayer(layer: Layer): OlLayer {
-    let olLayer: OlLayer;
+  async parseLayer(layer: Layer): Promise<OlLayerBase> {
+    let olLayer: OlLayerBase;
 
     if ([
       'ImageWMS',
@@ -187,74 +188,9 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       Logger.warn('Currently only TileWMS, ImageWMS, WMSTime and OSMVectortiles layers are supported.');
     }
 
-    // if (layer.source.type === 'WMTS') {
-    //   const {
-    //     attribution,
-    //     visible,
-    //     opacity,
-    //     hoverable,
-    //     hoverTemplate,
-    //     legendUrl
-    //   } = layer.appearance;
-
-    //   const wmtsTileGrid = new OlTileGridWMTS({
-    //     origin: layer.source.tileGrid.origin,
-    //     resolutions: layer.source.tileGrid.resolutions,
-    //     matrixIds: layer.source.tileGrid.matrixIds
-    //   });
-
-    //   const wmtsSource = new OlSourceWMTS({
-    //     projection: layer.source.projection,
-    //     urls: [
-    //       layer.source.url
-    //     ],
-    //     layer: layer.source.layerNames,
-    //     format: layer.source.format,
-    //     matrixSet: layer.source.tileMatrixSet,
-    //     attributions: [attribution],
-    //     tileGrid: wmtsTileGrid,
-    //     style: layer.source.style,
-    //     requestEncoding: layer.source.requestEncoding
-    //   });
-
-    //   const tileLayer = new OlTileLayer({
-    //     source: wmtsSource,
-    //     visible: visible,
-    //     opacity: opacity
-    //   });
-
-    //   tileLayer.set('name', layer.name);
-    //   tileLayer.set('hoverable', hoverable);
-    //   tileLayer.set('hoverTemplate', hoverTemplate);
-    //   tileLayer.set('type', 'WMTS');
-    //   tileLayer.set('legendUrl', legendUrl);
-    //   tileLayer.set('isBaseLayer', layer.isBaseLayer);
-    //   tileLayer.set('isDefault', layer.isDefault);
-    //   tileLayer.set('topic', layer.topic);
-    //   tileLayer.set('staticImageUrl', layer.staticImageUrl);
-    //   tileLayer.set('convertFeatureInfoValue', layer.convertFeatureInfoValue || false);
-    //   tileLayer.set('previewImageRequestUrl', layer.previewImageRequestUrl);
-    //   tileLayer.set('timeFormat', layer.source.timeFormat);
-    //   tileLayer.set('description', layer.description);
-    //   tileLayer.set('metadataIdentifier', layer.metadataIdentifier);
-    //   tileLayer.set('displayColumns', layer.displayColumns);
-    //   tileLayer.set('columnAliasesDe', layer.columnAliasesDe);
-    //   tileLayer.set('columnAliasesEn', layer.columnAliasesEn);
-    //   tileLayer.set('legendUrl', layer.legendUrl);
-    //   tileLayer.set('searchable', layer.searchable);
-    //   tileLayer.set('searchConfig', layer.searchConfig);
-    //   layers.push(tileLayer);
-    //   return;
-    // }
-
-    // const tileGridObj = ObjectUtil.getValue('tileGrid', layer.source);
-    // let tileGrid;
-    // if (tileGridObj) {
-    //   tileGrid = find(tileGrids, function (o: any) {
-    //     return isEqual(o.getTileSize()[0], tileGridObj.tileSize) &&
-    //       isEqual(o.getTileSize()[1], tileGridObj.tileSize);
-    //   });
-    // }
+    if (layer.type === 'WMTS') {
+      olLayer = await this.parseWMTSLayer(layer);
+    }
 
     if (layer.type === 'WMS') {
       olLayer = this.parseImageLayer(layer);
@@ -385,6 +321,53 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     imageLayer.set('legendUrl', legendUrl);
 
     return imageLayer;
+  }
+
+  /**
+   *
+   * @param layer
+   * @param map
+   * @returns
+   */
+  async parseWMTSLayer(layer: Layer) {
+    const {
+      url,
+      layerNames
+    } = layer.sourceConfig || {};
+
+    const {
+      opacity
+    } = layer.clientConfig || {};
+
+    var parser = new OlWMTSCapabilities();
+
+    // @ts-ignore
+    // TODO Add WMTS to Service enum
+    const capabilitiesUrl = UrlUtil.createValidGetCapabilitiesRequest(url, 'WMTS');
+
+    const capabilitiesResponse = await fetch(capabilitiesUrl);
+    const capabilitiesResponseText = await capabilitiesResponse.text();
+
+    const capabilities = parser.read(capabilitiesResponseText);
+
+    const options = optionsFromCapabilities(capabilities, {
+      layer: layerNames,
+      // TODO Should be configurable
+      projection: 'EPSG:3857'
+    });
+
+    const wmtsSource = new OlSourceWMTS(options);
+
+    const wmtsLayer = new OlTileLayer({
+      source: wmtsSource,
+      visible: false,
+      opacity: opacity
+    });
+
+    wmtsLayer.set('name', layer.name);
+    wmtsLayer.set('type', layer.type);
+
+    return wmtsLayer;
   }
 
   /**
