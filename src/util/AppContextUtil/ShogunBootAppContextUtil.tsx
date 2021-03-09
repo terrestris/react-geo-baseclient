@@ -329,14 +329,22 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       opacity
     } = layer.clientConfig || {};
 
-    var parser = new OlWMTSCapabilities();
+    const wmtsCapabilitiesParser = new OlWMTSCapabilities();
 
     const capabilitiesUrl = UrlUtil.createValidGetCapabilitiesRequest(url, 'WMTS');
 
-    const capabilitiesResponse = await fetch(capabilitiesUrl);
-    const capabilitiesResponseText = await capabilitiesResponse.text();
+    let capabilities;
+    try {
+      const capabilitiesResponse = await fetch(capabilitiesUrl);
+      const capabilitiesResponseText = await capabilitiesResponse.text();
 
-    const capabilities = parser.read(capabilitiesResponseText);
+      capabilities = wmtsCapabilitiesParser.read(capabilitiesResponseText);
+    } catch (error) {
+      Logger.error(`WMTS layer '${layerNames}' could not be created, error while ` +
+        `reading the WMTS GetCapabilities: ${error}`);
+
+      return;
+    }
 
     const options = optionsFromCapabilities(capabilities, {
       layer: layerNames,
