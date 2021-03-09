@@ -79,12 +79,18 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
         </div>
       );
     } else {
+      const isInResolutionRange = MapUtil.layerInResolutionRange(layer, map);
+
       return (
         <div>
           <div className="classic-tree-node-header">
-            <div>
-              {layer.get('name')}
-            </div>
+            <span
+              className={isInResolutionRange ? undefined : 'layer-not-visible'}
+            >
+              {
+                layer.get('name')
+              }
+            </span>
             <div className='classic-tree-node-header-buttons'>
               {(showContextMenu && layer instanceof OlLayer) &&
                 <LayerTreeDropdownContextMenu
@@ -101,7 +107,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
               }
             </div>
           </div>
-          {layer.get('visible') &&
+          {(layer.get('visible') && isInResolutionRange) &&
             <>
               <div className='layer-transparency'>
                 {t('LayerTreeClassic.transparency')}
