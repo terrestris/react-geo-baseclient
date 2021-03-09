@@ -32,7 +32,8 @@ const composeEnhancers = (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_C
  * @return {Promise} A promise
  */
 const loadAppContextStore = async () => {
-  const appId = window.location.href.split('applicationId=')[1] || undefined;
+  const url = new URL(window.location.href);
+  const appId = url.searchParams.get('applicationId');
 
   let appContext;
 
