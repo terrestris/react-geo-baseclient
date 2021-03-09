@@ -272,6 +272,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
 
   /**
    * Parse and create a single tile WMS layer.
+   *
    * @return {ol.layer.Image} the new layer
    */
   parseImageLayer(layer: Layer) {
@@ -314,10 +315,12 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
   }
 
   /**
+   * Parse and create a WMTS layer by reading the tile grid options from the
+   * associated GetCapabilities document.
    *
-   * @param layer
-   * @param map
-   * @returns
+   * @param layer The layer configuration to parse.
+   *
+   * @return {ol.layer.Tile} the new layer
    */
   async parseWMTSLayer(layer: Layer) {
     const {
