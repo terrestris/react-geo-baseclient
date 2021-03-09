@@ -331,8 +331,6 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
 
     var parser = new OlWMTSCapabilities();
 
-    // @ts-ignore
-    // TODO Add WMTS to Service enum
     const capabilitiesUrl = UrlUtil.createValidGetCapabilitiesRequest(url, 'WMTS');
 
     const capabilitiesResponse = await fetch(capabilitiesUrl);
