@@ -1,15 +1,16 @@
+import OlLayerBase from 'ol/layer/Base';
+
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
-import OlLayerTile from 'ol/layer/Tile';
 
 export interface AppContextUtil {
   canReadCurrentAppContext: () => boolean;
   appContextToState: (appContext: any) => {};
-  parseLayer: (layer: any) => {};
+  parseLayer: (layer: any) => OlLayerBase | Promise<OlLayerBase>;
   parseTileLayer: (layer: any) => {};
   parseImageLayer: (layer: any) => {};
   getToolsForToolbar: (activeModules: any[], map: any, appContext: any, t: (arg: string) => string, config?: any) => {};
   measureToolsEnabled: (activeModules: any[]) => boolean;
-  getBackgroundLayers?: () => OlLayerTile[];
+  getBackgroundLayers?: () => OlLayerBase[];
 }
 
 /**
