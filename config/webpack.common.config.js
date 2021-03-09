@@ -61,7 +61,7 @@ const commonWebpackConfig = {
   module: {
     rules: [{
       test: /\.tsx?$/,
-      exclude: /node_modules/,
+      exclude: /node_modules\/(?!@terrestris\/d3-util)/,
       use: [
         {
           loader: 'ts-loader',
