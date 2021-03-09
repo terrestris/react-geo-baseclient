@@ -13,7 +13,7 @@ import { fromLonLat } from 'ol/proj';
 
 import * as moment from 'moment';
 
-const union = require('lodash/union');
+import union from 'lodash/union';
 
 import isMobile from 'is-mobile';
 
