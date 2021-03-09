@@ -32,6 +32,7 @@ import initialState from '../../state/initialState';
 import PrintButton from '../../component/button/PrintButton/PrintButton';
 import MeasureMenuButton from '../../component/button/MeasureMenuButton/MeasureMenuButton';
 import HsiButton from '../../component/button/HsiButton/HsiButton';
+import PermalinkButton from '../../component/button/PermalinkButton/PermalinkButton';
 
 import BaseAppContextUtil, { AppContextUtil } from './BaseAppContextUtil';
 
@@ -413,7 +414,8 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
    * @param appContext
    */
   getToolsForToolbar(activeModules: Array<any>, map: any,
-    appContext: any, t: (arg: string) => string, config?: any) {
+    appContext: any, t: (arg: string) => string, config?: any,
+    getPermalink?: () => string) {
     const tools: any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
     const isMobileClient = isMobile();
@@ -506,6 +508,16 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
               t={t}
             />);
           }
+          return;
+        case 'shogun-button-showworkstatetoolspanel':
+          tools.push(<PermalinkButton
+            map={map}
+            key="7"
+            tooltip={t('Permalink.tooltip')}
+            tooltipPlacement={'right'}
+            t={t}
+            getLink={getPermalink}
+          />);
           return;
         default:
           return;

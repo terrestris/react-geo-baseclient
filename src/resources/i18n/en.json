@@ -30,6 +30,14 @@
   "FeatureInfo": {
     "tooltip": "Query object information"
   },
+  "Permalink": {
+    "tooltip": "Create permalink",
+    "windowTitle": "Create permalink",
+    "label": "Permalink",
+    "copy": "Copy",
+    "copiedToClipboard": "Link copied to clipboard",
+    "copyToClipboardFailed": "Link could not be copied"
+  },
   "Imprint": {
     "title": "Imprint",
     "contact": "Contact",

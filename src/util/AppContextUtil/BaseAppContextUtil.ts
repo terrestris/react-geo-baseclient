@@ -8,7 +8,9 @@ export interface AppContextUtil {
   parseLayer: (layer: any) => OlLayerBase | Promise<OlLayerBase>;
   parseTileLayer: (layer: any) => {};
   parseImageLayer: (layer: any) => {};
-  getToolsForToolbar: (activeModules: any[], map: any, appContext: any, t: (arg: string) => string, config?: any) => {};
+  getToolsForToolbar: (activeModules: any[], map: any,
+    appContext: any,t: (arg: string) => string, config?: any,
+    getPermalink?: () => string) => {};
   measureToolsEnabled: (activeModules: any[]) => boolean;
   getBackgroundLayers?: () => OlLayerBase[];
 }
