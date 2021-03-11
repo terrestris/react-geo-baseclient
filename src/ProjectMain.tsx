@@ -16,6 +16,8 @@ import Footer from './component/container/Footer/Footer';
 import AddLayerPanel from './component/AddLayerPanel/AddLayerPanel';
 import { hideAddLayerWindow } from './state/actions/AppStateAction';
 
+import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil';
+
 /**
  * mapStateToProps - mapping state to props of Main Component
  *
@@ -129,6 +131,10 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
 
     const appContextUtil = getAppContextUtil();
     const measureToolsEnabled = appContextUtil.measureToolsEnabled(activeModules);
+
+    // apply possibly given permalink
+    PermalinkUtil.applyLink(map);
+
     const viewport = (
       <div className="viewport">
         <header>Header</header>
