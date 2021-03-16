@@ -9,6 +9,8 @@ import OlImageLayer from 'ol/layer/Image';
 import OlTileGrid from 'ol/tilegrid/TileGrid';
 import OlLayer from 'ol/layer/Base';
 import OlLayerGroup from 'ol/layer/Group';
+import {get as getProjection, transformExtent, transform} from 'ol/proj';
+import { getWidth } from 'ol/extent';
 
 import * as moment from 'moment';
 
@@ -81,7 +83,6 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
         ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
       state.mapView.present.resolutions = mapConfig.resolutions;
       state.mapView.present.zoom = mapConfig.zoom;
-      state.mapView.present.constrainResolution = mapConfig.constrainResolution;
 
       // mapLayers
       state.mapLayers = await this.parseLayertree(layerTree);
@@ -275,9 +276,9 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
 
     const tileGridObj = ObjectUtil.getValue('tileGrid', layerObj.source);
 
-    let tileGrid;
+    let baseTileGrid: any;
     if (tileGridObj) {
-      tileGrid = new OlTileGrid({
+      baseTileGrid = new OlTileGrid({
         resolutions: tileGridObj.tileGridResolutions,
         tileSize: [tileGridObj.tileSize, tileGridObj.tileSize],
         extent: [
@@ -292,13 +293,26 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
     const layerSource = new OlTileWMS({
       url: url,
       attributions: attribution,
-      tileGrid: tileGrid,
       params: {
         'LAYERS': layerNames,
         'TILED': requestWithTiled || false,
         'TRANSPARENT': true
       },
       crossOrigin: crossOrigin
+    });
+    // Define base tile grid
+    layerSource.setTileGridForProjection('EPSG:3857', baseTileGrid);
+    // Can be set from AppContext in future
+    const crsList = ['EPSG:4326'];
+    // Create and define further tile grids
+    crsList.forEach(crs => {
+      if (crs === 'EPSG:3857') {
+        return;
+      }
+      const newTileGrid = this.createTileGridForProjection(baseTileGrid, crs);
+      if (newTileGrid && newTileGrid instanceof OlTileGrid) {
+        layerSource.setTileGridForProjection('EPSG:4326', newTileGrid);
+      }
     });
 
     if (type === 'WMSTime') {
@@ -339,6 +353,29 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
     tileLayer.set('convertFeatureInfoValue', layerObj.convertFeatureInfoValue || false);
     tileLayer.set('metadataIdentifier', layerObj.metadataIdentifier);
     return tileLayer;
+  }
+
+  /**
+   * Creates an OlTileGrid for a given crs
+   * by transforming extent and resolution of a base tile grid
+   * @param {OlTileGrid} baseTileGrid base tile grid in EPSG:3857
+   * @param {string} targetCRS target crs
+   * @returns {OlTileGrid} new tile grid for target crs
+   */
+  createTileGridForProjection(baseTileGrid: OlTileGrid, targetCRS: string) {
+    const projExtent = getProjection('EPSG:4326').getExtent();
+    const startResolution = getWidth(projExtent) / baseTileGrid.getTileSize(0)[0];
+    const resolutions = [];
+    for (let i = 0; i < baseTileGrid.getResolutions().length; i++) {
+      resolutions.push(startResolution / Math.pow(2, i));
+    };
+
+    return new OlTileGrid({
+      extent: transformExtent(baseTileGrid.getExtent(), 'EPSG:3857', targetCRS),
+      origin: transform(baseTileGrid.getOrigin(0), 'EPSG:3857', targetCRS),
+      resolutions: resolutions,
+      tileSize: baseTileGrid.getTileSize(0)
+    });
   }
 
   /**
