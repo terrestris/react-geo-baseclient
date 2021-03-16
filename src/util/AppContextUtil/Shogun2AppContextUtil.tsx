@@ -302,7 +302,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
     });
     // Define base tile grid
     layerSource.setTileGridForProjection('EPSG:3857', baseTileGrid);
-    // Can be set from AppContext in future
+    // Following list could be set from AppContext in future
     const crsList = ['EPSG:4326'];
     // Create and define further tile grids
     crsList.forEach(crs => {
@@ -363,19 +363,22 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
    * @returns {OlTileGrid} new tile grid for target crs
    */
   createTileGridForProjection(baseTileGrid: OlTileGrid, targetCRS: string) {
-    const projExtent = getProjection('EPSG:4326').getExtent();
-    const startResolution = getWidth(projExtent) / baseTileGrid.getTileSize(0)[0];
-    const resolutions = [];
-    for (let i = 0; i < baseTileGrid.getResolutions().length; i++) {
-      resolutions.push(startResolution / Math.pow(2, i));
-    };
+    // Only proceed if target crs is registered
+    if (getProjection(targetCRS)) {
+      const projExtent = getProjection(targetCRS).getExtent();
+      const startResolution = getWidth(projExtent) / baseTileGrid.getTileSize(0)[0];
+      const resolutions = [];
+      for (let i = 0; i < baseTileGrid.getResolutions().length; i++) {
+        resolutions.push(startResolution / Math.pow(2, i));
+      };
 
-    return new OlTileGrid({
-      extent: transformExtent(baseTileGrid.getExtent(), 'EPSG:3857', targetCRS),
-      origin: transform(baseTileGrid.getOrigin(0), 'EPSG:3857', targetCRS),
-      resolutions: resolutions,
-      tileSize: baseTileGrid.getTileSize(0)
-    });
+      return new OlTileGrid({
+        extent: transformExtent(baseTileGrid.getExtent(), 'EPSG:3857', targetCRS),
+        origin: transform(baseTileGrid.getOrigin(0), 'EPSG:3857', targetCRS),
+        resolutions: resolutions,
+        tileSize: baseTileGrid.getTileSize(0)
+      });
+    }
   }
 
   /**
