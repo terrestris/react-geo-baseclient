@@ -73,7 +73,8 @@
 					"maxResolution": 0.29858214169740677,
 					"minResolution": 156543.03390625,
 					"rotation": 0.0,
-					"projection": "EPSG:3857"
+					"projection": "EPSG:3857",
+					"constrainResolution": true
 				},
 				"mapControls": [{
 					"id": 30,
