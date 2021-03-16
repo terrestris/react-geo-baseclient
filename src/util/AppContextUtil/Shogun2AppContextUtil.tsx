@@ -293,6 +293,8 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
     const layerSource = new OlTileWMS({
       url: url,
       attributions: attribution,
+      tileGrid: baseTileGrid,
+      projection: 'EPSG:3857',
       params: {
         'LAYERS': layerNames,
         'TILED': requestWithTiled || false,
