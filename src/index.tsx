@@ -51,7 +51,8 @@ const setupMap = (state: any) => {
     zoom: zoom,
     projection: olProjection,
     resolutions: resolutions,
-    extent: mapExtent
+    extent: mapExtent,
+    constrainResolution: true
   });
 
   const map = new OlMap({
