@@ -313,7 +313,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
       }
       const newTileGrid = this.createTileGridForProjection(baseTileGrid, crs);
       if (newTileGrid && newTileGrid instanceof OlTileGrid) {
-        layerSource.setTileGridForProjection('EPSG:4326', newTileGrid);
+        layerSource.setTileGridForProjection(crs, newTileGrid);
       }
     });
 
