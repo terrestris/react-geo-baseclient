@@ -56,6 +56,9 @@ export class Footer extends React.Component<FooterProps, FooterState> {
   private footerMousePositionControlName = 'react-geo-baseclient-mouse-position';
 
   private predefinedCrsDefinitions = [{
+    // When adding new CRS, please note:
+    // Make sure that tile grids for new CRS are created
+    // cf. function parseTileLayer in class Shogun2AppContextUtil
     code: '4326',
     value: 'WGS 84'
   }, {
