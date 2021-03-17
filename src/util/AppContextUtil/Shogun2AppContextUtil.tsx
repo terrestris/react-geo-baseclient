@@ -67,7 +67,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
       const layerTree = appContext.layerTree;
       const projection = mapConfig.projection.indexOf('EPSG:') < 0
         ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
-        this.projection = projection;
+          this.projection = projection;
 
       // appInfo
       state.appInfo.name = appContext.name || state.appInfo.name;
