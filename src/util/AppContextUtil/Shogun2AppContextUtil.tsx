@@ -81,7 +81,6 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
         ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
       state.mapView.present.resolutions = mapConfig.resolutions;
       state.mapView.present.zoom = mapConfig.zoom;
-      state.mapView.present.constrainResolution = mapConfig.constrainResolution;
 
       // mapLayers
       state.mapLayers = await this.parseLayertree(layerTree);
