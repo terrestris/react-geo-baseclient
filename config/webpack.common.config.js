@@ -162,6 +162,7 @@ const commonWebpackConfig = {
     alias: {
       // This is need if working with npm link or while invoking react-geo-baseclient as submodule
       // in some other project
+      'react-geo-baseclient': path.join(__dirname + '/../', 'src'),
       '@terrestris/base-util': path.join(__dirname + '/../', 'node_modules', '@terrestris/base-util'),
       '@terrestris/ol-util': path.join(__dirname + '/../', 'node_modules', '@terrestris/ol-util'),
       '@terrestris/react-geo': path.join(__dirname + '/../', 'node_modules', '@terrestris/react-geo'),
