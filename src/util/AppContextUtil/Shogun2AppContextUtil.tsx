@@ -42,6 +42,7 @@ import BaseAppContextUtil, { AppContextUtil } from './BaseAppContextUtil';
  * This class provides some methods which can be used with the appContext of SHOGun2.
  */
 class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil {
+  private projection: string;
 
   canReadCurrentAppContext() {
     const appMode = typeof(APP_MODE) != 'undefined' ? APP_MODE : '';
@@ -64,6 +65,9 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
       const activeModules = ObjectUtil.getValue('activeTools', appContext);
       const defaultTopic = ObjectUtil.getValue('defaultTopic', appContext);
       const layerTree = appContext.layerTree;
+      const projection = mapConfig.projection.indexOf('EPSG:') < 0
+        ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
+        this.projection = projection;
 
       // appInfo
       state.appInfo.name = appContext.name || state.appInfo.name;
@@ -79,8 +83,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
         mapConfig.extent.upperRight.x,
         mapConfig.extent.upperRight.y
       ];
-      state.mapView.present.projection = mapConfig.projection.indexOf('EPSG:') < 0
-        ? 'EPSG:' + mapConfig.projection : mapConfig.projection;
+      state.mapView.present.projection = projection;
       state.mapView.present.resolutions = mapConfig.resolutions;
       state.mapView.present.zoom = mapConfig.zoom;
 
@@ -294,7 +297,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
       url: url,
       attributions: attribution,
       tileGrid: baseTileGrid,
-      projection: 'EPSG:3857',
+      projection: this.projection ? this.projection : 'EPSG:3857',
       params: {
         'LAYERS': layerNames,
         'TILED': requestWithTiled || false,
