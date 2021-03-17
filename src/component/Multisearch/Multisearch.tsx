@@ -19,6 +19,7 @@ import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import CsrfUtil from '@terrestris/base-util/dist/CsrfUtil/CsrfUtil';
 
 import './Multisearch.css';
+import { Extent } from 'ol/extent';
 
 // default props
 interface DefaultMultisearchProps {
@@ -248,21 +249,21 @@ export default class Multisearch extends
       feature = this.state.nominatimFeatures.find(
         el => el.osm_id === selection.nominatimfeatureid);
       const olView = this.props.map.getView();
-      let extent = [
+      const extent: [string, string, string, string] = [
         feature.boundingbox[2],
         feature.boundingbox[0],
         feature.boundingbox[3],
         feature.boundingbox[1]
       ];
 
-      extent = extent.map(function(coord: string) {
+      let olExtent: Extent = extent.map((coord: string) => {
         return parseFloat(coord);
-      });
+      }) as Extent;
 
-      extent = transformExtent(extent, 'EPSG:4326',
+      olExtent = transformExtent(olExtent, 'EPSG:4326',
         olView.getProjection().getCode());
 
-      olView.fit(extent, {
+      olView.fit(olExtent, {
         duration: 500
       });
       return;

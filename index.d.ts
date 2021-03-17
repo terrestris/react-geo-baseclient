@@ -6,7 +6,5 @@ declare module '@terrestris/vectortiles';
 declare module 'react-i18next';
 declare module 'redux-undo';
 declare module 'redux-async-initial-state';
-declare module 'ol/*';
-declare module 'ol/proj';
 
 declare var APP_MODE: string;
