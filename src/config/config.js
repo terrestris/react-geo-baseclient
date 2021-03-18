@@ -1,4 +1,6 @@
-const appPrefix = typeof(APP_PREFIX) !== 'undefined' ? APP_PREFIX : '/';
+const nodeEnv = typeof(process.env.NODE_ENV) !== 'undefined' ? process.env.NODE_ENV : undefined;
+const appPrefix = (typeof(APP_PREFIX) !== 'undefined' &&
+  nodeEnv && nodeEnv.indexOf('production') > -1) ? APP_PREFIX : '/';
 const basePath = window.location.origin + appPrefix;
 const buildPath = window.location.origin +
   window.location.pathname.match(/^(\/[\w-]*)*\/\/?/)[0];
@@ -7,7 +9,6 @@ const shogunBootPath = basePath + 'applications/';
 let staticPath = basePath + 'resources/appContext.json';
 let localePath =  basePath + 'resources/i18n/{{lng}}.json';
 const appMode = typeof(APP_MODE) !== 'undefined' ? APP_MODE : '';
-const nodeEnv = typeof(process.env.NODE_ENV) !== 'undefined' ? process.env.NODE_ENV : undefined;
 
 if (nodeEnv && nodeEnv.indexOf('production') > -1) {
   localePath = buildPath + 'resources/i18n/{{lng}}.json';
