@@ -9,10 +9,8 @@ import OlLayer from 'ol/layer/Base';
 
 import Logger from '@terrestris/base-util/dist/Logger';
 
-import {
-  WfsSearchInput,
-  NominatimSearch
-} from '@terrestris/react-geo';
+import WfsSearchInput from '@terrestris/react-geo/dist/Field/WfsSearchInput/WfsSearchInput';
+import NominatimSearch from '@terrestris/react-geo/dist/Field/NominatimSearch/NominatimSearch';
 
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
