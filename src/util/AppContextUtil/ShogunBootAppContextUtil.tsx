@@ -164,12 +164,12 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     let olLayer: OlLayerBase;
 
     if ([
-      'ImageWMS',
-      'TileWMS',
       'WMTS',
+      'WMS',
+      'TILEWMS',
       'WMSTime'
     ].indexOf(layer.type) < 0) {
-      Logger.warn('Currently only TileWMS, ImageWMS, WMSTime and OSMVectortiles layers are supported.');
+      Logger.warn('Currently only WMTS, WMS, TILEWMS and WMSTime layers are supported.');
     }
 
     if (layer.type === 'WMTS') {
