@@ -34,7 +34,7 @@ import HsiButton from '../../component/button/HsiButton/HsiButton';
 import Application from '../../model/Application';
 import Layer from '../../model/Layer';
 
-import LayerService from '../../service/LayerSerivce/LayerService';
+import LayerService from '../../service/LayerService/LayerService';
 import AppInfoService from '../../service/AppInfoService/AppInfoService';
 import UserService from '../../service/UserService/UserService';
 
