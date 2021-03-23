@@ -118,6 +118,7 @@ const delayedConf =
       ];
 
       const proxyCommonConf = {
+        logLevel: 'info',
         secure: false,
         target: 'https://localhost/',
         headers: {
