@@ -100,7 +100,6 @@ const delayedConf =
             // csrfHeader: csrfHeader,
             // csrfParameterName: csrfParameterName,
             // csrfToken: csrfToken,
-            // Authorization: `Bearer ${accessToken}`
           },
           hash: true,
           minify: {
@@ -119,10 +118,11 @@ const delayedConf =
       ];
 
       const proxyCommonConf = {
+        logLevel: 'info',
         secure: false,
+        followRedirects: true,
         target: 'https://localhost/',
         headers: {
-          'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
           Cookie: `token=${accessToken}`
         }
@@ -159,7 +159,8 @@ const delayedConf =
             '/files',
             '/imagefiles',
             '/users',
-            '/info/app'
+            '/info/app',
+            '/geoserver'
           ]
         }],
         publicPath: 'https://localhost:9090/'
