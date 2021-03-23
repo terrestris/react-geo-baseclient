@@ -159,7 +159,8 @@ const delayedConf =
             '/files',
             '/imagefiles',
             '/users',
-            '/info/app'
+            '/info/app',
+            '/geoserver'
           ]
         }],
         publicPath: 'https://localhost:9090/'
