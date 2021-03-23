@@ -100,7 +100,6 @@ const delayedConf =
             // csrfHeader: csrfHeader,
             // csrfParameterName: csrfParameterName,
             // csrfToken: csrfToken,
-            // Authorization: `Bearer ${accessToken}`
           },
           hash: true,
           minify: {
@@ -122,7 +121,6 @@ const delayedConf =
         secure: false,
         target: 'https://localhost/',
         headers: {
-          'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
           Cookie: `token=${accessToken}`
         }
