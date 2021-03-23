@@ -120,6 +120,7 @@ const delayedConf =
       const proxyCommonConf = {
         logLevel: 'info',
         secure: false,
+        followRedirects: true,
         target: 'https://localhost/',
         headers: {
           Authorization: `Bearer ${accessToken}`,
