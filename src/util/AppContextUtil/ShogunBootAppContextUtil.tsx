@@ -292,6 +292,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       hoverable,
       hoverTemplate,
       crossOrigin,
+      searchable,
+      searchConfig
     } = layer.clientConfig;
 
     const layerSource = new OlImageWMS({
@@ -314,6 +316,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     imageLayer.set('hoverTemplate', hoverTemplate);
     imageLayer.set('type', layer.type);
     imageLayer.set('legendUrl', legendUrl);
+    imageLayer.set('searchable', searchable);
+    imageLayer.set('searchConfig', searchConfig);
 
     return imageLayer;
   }
