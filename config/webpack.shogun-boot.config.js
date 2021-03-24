@@ -135,7 +135,7 @@ const delayedConf =
         host: '0.0.0.0',
         https: true,
         inline: true,
-        port: 9090,
+        port: 9091,
         // https://github.com/chimurai/http-proxy-middleware#context-matching
         // Note: In multiple path matching, you cannot use string paths and
         //       wildcard paths together!
@@ -163,7 +163,7 @@ const delayedConf =
             '/geoserver'
           ]
         }],
-        publicPath: 'https://localhost:9090/'
+        publicPath: 'https://localhost:9091/'
       };
       return commonWebpackConfig;
     });
