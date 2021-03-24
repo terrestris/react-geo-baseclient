@@ -207,7 +207,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
     map.getTargetElement().style.cursor = featureInfoUrls.length > 0 ? 'wait' : '';
     dispatch(fetchFeatures(
       'HOVER', featureInfoUrls,
-      {olEvt: olEvt}
+      {olEvt}
     ));
   }
 
