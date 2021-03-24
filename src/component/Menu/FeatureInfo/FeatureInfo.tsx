@@ -54,6 +54,11 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
    * Dispatch function
    */
   dispatch: (arg: any) => void;
+
+  /**
+   * The window position.
+   */
+  windowPosition?: [number, number];
 }
 
 interface FeatureInfoState {
@@ -340,6 +345,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       maxMenuItems,
       t,
       dispatch,
+      windowPosition,
       ...passThroughProps
     } = this.props;
 
@@ -393,8 +399,8 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
               maxWidth={1000}
               height={300}
               maxHeight={1000}
-              x={50}
-              y={50}
+              x={windowPosition && windowPosition[0] || 50}
+              y={windowPosition && windowPosition[1] || 50}
               collapseTooltip={t('General.collapse') as unknown as string}
               bounds="#app"
               tools={tools}
@@ -407,7 +413,6 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
                 downloadGridData={downloadGridData}
                 t={t}
               />
-
             </Window>
         }
         {
