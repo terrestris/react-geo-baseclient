@@ -216,6 +216,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     const {
       opacity,
       hoverable,
+      searchable,
+      searchConfig,
       hoverTemplate,
       minResolution,
       maxResolution
@@ -261,6 +263,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     tileLayer.set('type', layer.type);
     tileLayer.set('legendUrl', legendUrl);
     tileLayer.set('timeFormat', defaultFormat);
+    tileLayer.set('searchable', searchable);
+    tileLayer.set('searchConfig', searchConfig);
 
     if (layer.type === 'WMSTime') {
       tileLayer.set('startDate', startDate ? moment(startDate).format(defaultFormat) : undefined);
