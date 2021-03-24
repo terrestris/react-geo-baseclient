@@ -337,7 +337,9 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     } = layer.sourceConfig || {};
 
     const {
-      opacity
+      opacity,
+      searchable,
+      searchConfig
     } = layer.clientConfig || {};
 
     const wmtsCapabilitiesParser = new OlWMTSCapabilities();
@@ -373,6 +375,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
 
     wmtsLayer.set('name', layer.name);
     wmtsLayer.set('type', layer.type);
+    wmtsLayer.set('searchable', searchable);
+    wmtsLayer.set('searchConfig', searchConfig);
 
     return wmtsLayer;
   }
