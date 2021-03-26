@@ -39,7 +39,10 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
 
   public static defaultProps: DefaultLayerTreeClassicProps = {
     extraLegendParams: {
-      'LEGEND_OPTIONS': 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed'
+      LEGEND_OPTIONS: 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed',
+      WIDTH: 30 * 1.5,
+      HEIGHT: 30,
+      TRANSPARENT: true
     },
     dispatch: () => {},
     showContextMenu: true,
@@ -120,9 +123,6 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
                 errorMsg={t('LayerTreeClassic.brokenLegendText')}
                 extraParams={{
                   scale,
-                  WIDTH: 30 * 1.5,
-                  HEIGHT: 30,
-                  TRANSPARENT: true,
                   ...extraLegendParams
                 }}
               />
