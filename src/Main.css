@@ -11,7 +11,7 @@ body {
  * Make most of the text elements use the defined text color.
  * This list may be incomplete
  */
-p, b, h1, h2, h3, h4, h5, em, span:not(.fa), div, a, li {
+p, b, h1, h2, h3, h4, h5, em, span:not(.fa), div:not(class^="ant-tooltip"), a, li {
   color: var(--textColor) !important;
 }
 
@@ -42,4 +42,9 @@ button, .ant-collapse-header, .react-geo-titlebar {
       transform: translate(0, 100px) !important;
       min-width: unset !important;
   }
+}
+
+.ant-tooltip .ant-tooltip-inner,
+.ant-tooltip .ant-tooltip-arrow-content {
+  background-color: rgba(0,0,0,.5);
 }
