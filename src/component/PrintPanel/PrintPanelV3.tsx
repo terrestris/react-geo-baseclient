@@ -90,6 +90,12 @@ interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
    * @type {Function}
    */
   t: (arg: string) => string;
+
+  /**
+   * Print title. Per default set to configured application name.
+   * @type {String}
+   */
+  printTitle: string;
 }
 
 interface PrintPanelV3State {
@@ -144,7 +150,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     } = props;
 
     this.state = {
-      printTitle: t('PrintPanel.defaultPrintTitle'),
+      printTitle: props.printTitle,
       printDescription: t('PrintPanel.defaultPrintComment'),
       legendTitle: t('PrintPanel.legendTitleText'),
       layout: '',

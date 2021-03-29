@@ -522,6 +522,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
             tooltip={t('PrintPanel.windowTitle')}
             tooltipPlacement={'right'}
             printScales={this.getMapScales(mapConfig.resolutions)}
+            printTitle={appContext.name || t('PrintPanel.defaultPrintTitle')}
             t={t}
           />);
           return;

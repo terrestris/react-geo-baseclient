@@ -20,6 +20,7 @@ interface BaseProps {
   t: (arg: string) => string;
   config: PrintConfig;
   printScales: number[];
+  printTitle: string;
 }
 
 interface PrintButtonState {
@@ -71,7 +72,8 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
       tooltip,
       tooltipPlacement,
       config,
-      printScales
+      printScales,
+      printTitle
     } = this.props;
     const {
       winVisible
@@ -116,6 +118,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
             key="5"
             t={t}
             config={config}
+            printTitle={printTitle}
             legendBlackList={[
               'react-geo_measure',
               'hoverVectorLayer'
