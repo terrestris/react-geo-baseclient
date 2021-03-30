@@ -173,7 +173,7 @@ export class FeatureInfoGrid extends React.Component<FeatureInfoGridProps, Featu
   getColumnText(text: any): string | React.ReactElement {
     const colText = text.value;
     if (colText && colText.toString().toLowerCase().indexOf('http') > -1) {
-      return `<a href=${colText} target='_blank'>Link</a>`;
+      return `<a class="link" href=${colText} target='_blank'>Link</a>`;
     }
     return colText;
   }
