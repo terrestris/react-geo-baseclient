@@ -27,6 +27,9 @@
   "ZoomOut": {
     "tooltip": "Herauszoomen"
   },
+  "ZoomToExtent": {
+    "tooltip": "Auf Gesamtansicht zoomen"
+  },
   "FeatureInfo": {
     "tooltip": "Objektinformationen abfragen"
   },

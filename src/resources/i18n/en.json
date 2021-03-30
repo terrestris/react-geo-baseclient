@@ -27,6 +27,9 @@
   "ZoomOut": {
     "tooltip": "Zoom out"
   },
+  "ZoomToExtent": {
+    "tooltip": "Zoom to max extent"
+  },
   "FeatureInfo": {
     "tooltip": "Query object information"
   },
