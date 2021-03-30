@@ -7,7 +7,6 @@ import Metadata from '../../Modal/Metadata/Metadata';
 import {
   Menu,
   Dropdown,
-  Tooltip,
   Modal
 } from 'antd';
 const MenuItem = Menu.Item;
@@ -165,15 +164,9 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
           visible={!menuHidden}
           trigger={['click']}
         >
-          <Tooltip
-            title={this.props.t('LayerTreeDropdownContextMenu.layerSettingsTooltipText')}
-            placement="right"
-            mouseEnterDelay={0.5}
-          >
-            <span
-              className="fa fa-cog layer-tree-node-title-settings"
-            />
-          </Tooltip>
+          <span
+            className="fa fa-cog layer-tree-node-title-settings"
+          />
         </Dropdown>
         {metaDataModalVisible ?
           <Metadata
