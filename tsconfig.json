@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "outDir": "build/dist",
     "module": "esnext",
@@ -18,7 +19,11 @@
     "importHelpers": true,
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "paths": {
+      "ol": ["node_modules/@hanreev/types-ol/ol"],
+      "ol/*": ["node_modules/@hanreev/types-ol/ol/*"]
+    }
   },
   "exclude": [
     "node_modules",

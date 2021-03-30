@@ -332,7 +332,7 @@ export default class Multisearch extends
         </div>
         {useNominatim &&
             <NominatimSearch
-              countrycodes={''}
+              countryCodes={''}
               map={map}
               minChars={minChars}
               visible={false}
