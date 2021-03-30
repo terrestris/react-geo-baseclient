@@ -12,7 +12,7 @@ import {
 } from 'antd';
 const MenuItem = Menu.Item;
 
-const isEmpty = require('lodash/isEmpty');
+import _isEmpty from 'lodash/isEmpty';
 
 interface LayerTreeDropdownContextMenuProps {
   layer: OlLayerBase;
@@ -108,7 +108,7 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
   /**
    * The render function.
    */
-  render () {
+  render() {
     const {
       t,
       layer
@@ -120,23 +120,30 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
       metaDataModalVisible
     } = this.state;
 
+    const showDesciption = !_isEmpty(layer.get('description'));
+    const showMetadata = !_isEmpty(layer.get('metadataIdentifier')) && layer.get('showMetadataInClient');
+
     const settingsMenu = (
       <Menu
         selectable={false}
         onClick={this.onContextMenuItemClick}
       >
-        <MenuItem
-          disabled={isEmpty(layer.get('description'))}
-          key="info"
-        >
-          {t('LayerTreeDropdownContextMenu.layerInfoText')}
-        </MenuItem>
-        <MenuItem
-          disabled={isEmpty(layer.get('metadataIdentifier'))}
-          key="metadata"
-        >
-          {t('LayerTreeDropdownContextMenu.layerMetadataText')}
-        </MenuItem>
+        {
+          showDesciption &&
+          <MenuItem
+            key="info"
+          >
+            {t('LayerTreeDropdownContextMenu.layerInfoText')}
+          </MenuItem>
+        }
+        {
+          showMetadata &&
+          <MenuItem
+            key="metadata"
+          >
+            {t('LayerTreeDropdownContextMenu.layerMetadataText')}
+          </MenuItem>
+        }
       </Menu>
     );
 
