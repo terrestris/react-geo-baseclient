@@ -137,6 +137,7 @@
     "fork-ts-checker-webpack-plugin": "^5.2.0",
     "fs-extra": "^9.0.1",
     "html-webpack-plugin": "^4.4.1",
+    "html-webpack-scripts-plugin": "^1.0.3",
     "http-server": "^0.12.3",
     "jest": "^26.4.2",
     "jest-canvas-mock": "^2.2.0",
