@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const SimpleProgressWebpackPlugin = require('simple-progress-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackScriptsPlugin = require('html-webpack-scripts-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
 const PROJECT_MAIN_PATH = process.env.PROJECT_MAIN_PATH || './';
@@ -154,6 +155,9 @@ const commonWebpackConfig = {
     new SimpleProgressWebpackPlugin({
       format: 'compact'
     }),
+    new HtmlWebpackScriptsPlugin({
+      'charset=utf-8': /bundle/
+    })
   ],
 
   resolve: {
