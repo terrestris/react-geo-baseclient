@@ -95,6 +95,56 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
   }
 
   /**
+   * Check if at least one data entry for current metadata block is set.
+   * If not, hides the medatada block completely.
+   *
+   * @param metadataBlock
+   * @returns
+   */
+  checkVisibility(metadataBlock: string): boolean {
+    const {
+      title,
+      abstract,
+      topic,
+      referenceDate,
+      spatialRepresentationType,
+      legalConstraints,
+      metadataConstraints,
+      onlineResource,
+      dataSource,
+      publications,
+      status,
+      orgName,
+      orgWebsite,
+      addressDeliveryPoint,
+      addressPostalCode,
+      addressCity,
+      addressCountry,
+      personName,
+      personEmail,
+      timeExtentStart,
+      timeExtentEnd
+    } = this.state.metadata;
+
+    switch (metadataBlock) {
+      case 'general':
+        return title || abstract || topic || referenceDate ||
+          spatialRepresentationType || legalConstraints || metadataConstraints ||
+          onlineResource || dataSource || publications || status;
+      case 'organisation':
+        return orgName || orgWebsite;
+      case 'address':
+        return addressDeliveryPoint || addressPostalCode || addressCity || addressCountry;
+      case 'responsiblePerson':
+        return personName || personEmail;
+      case 'timeExtent':
+        return timeExtentStart || timeExtentEnd;
+      default:
+        break;
+    }
+  }
+
+  /**
    * The render function
    */
   render() {
@@ -137,7 +187,6 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
       extent
     } = metadata;
 
-    /* eslint-disable max-len */
     return (
       <Modal
         className="metadata-modal"
@@ -151,172 +200,192 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
             <div>{error}</div>
             :
             <div className="metadata-content">
-              <Card
-                title={t('Modal.Metadata.generalMetadata')}
-                size="small"
-              >
-                <Descriptions bordered size="small" column={1}>
-                  {
-                    title &&
-                    <DescrItem label={t('Modal.Metadata.title')}
-                    >
-                      {title}
-                    </DescrItem>
-                  }
-                  {
-                    abstract &&
-                    <DescrItem label={t('Modal.Metadata.abstract')}>
-                      {abstract}
-                    </DescrItem>}
-                  {
-                    topic &&
-                    <DescrItem label={t('Modal.Metadata.topic')}>
-                      {topic}
-                    </DescrItem>
-                  }
-                  {
-                    referenceDate &&
-                    <DescrItem label={t('Modal.Metadata.referenceDate')}>
-                      {referenceDate || referenceDate['#text']}
-                    </DescrItem>
-                  }
-                  {
-                    spatialRepresentationType &&
-                    <DescrItem label={t('Modal.Metadata.spatialRepresentationType')}>
-                      {spatialRepresentationType}
-                    </DescrItem>
-                  }
-                  {
-                    legalConstraints &&
-                    <DescrItem label={t('Modal.Metadata.legalConstraints')}>
-                      {legalConstraints}
-                    </DescrItem>
-                  }
-                  {
-                    metadataConstraints &&
-                    <DescrItem label={t('Modal.Metadata.metadataConstraints')}>
-                      {metadataConstraints}
-                    </DescrItem>
-                  }
-                  {
-                    onlineResource &&
-                    <DescrItem label={t('Modal.Metadata.onlineResource')}>
-                      {this.getLink(onlineResource)}
-                    </DescrItem>
-                  }
-                  {
-                    dataSource &&
-                    <DescrItem label={t('Modal.Metadata.dataSource')}>
-                      {this.getLink(dataSource)}
-                    </DescrItem>
-                  }
-                  {
-                    publications &&
-                    <DescrItem label={t('Modal.Metadata.publications')}>
-                      {this.getLink(publications)}
-                    </DescrItem>
-                  }
-                  {
-                    status &&
-                    <DescrItem label={t('Modal.Metadata.status')}>
-                      {status}
-                    </DescrItem>
-                  }
-                </Descriptions>
-              </Card>
+              {
+                this.checkVisibility('general') &&
+                <Card
+                  title={t('Modal.Metadata.generalMetadata')}
+                  size="small"
+                >
+                  <Descriptions bordered size="small" column={1}>
+                    {
+                      title &&
+                      <DescrItem label={t('Modal.Metadata.title')}
+                      >
+                        {title}
+                      </DescrItem>
+                    }
+                    {
+                      abstract &&
+                      <DescrItem label={t('Modal.Metadata.abstract')}>
+                        {abstract}
+                      </DescrItem>}
+                    {
+                      topic &&
+                      <DescrItem label={t('Modal.Metadata.topic')}>
+                        {topic}
+                      </DescrItem>
+                    }
+                    {
+                      referenceDate &&
+                      <DescrItem label={t('Modal.Metadata.referenceDate')}>
+                        {referenceDate || referenceDate['#text']}
+                      </DescrItem>
+                    }
+                    {
+                      spatialRepresentationType &&
+                      <DescrItem label={t('Modal.Metadata.spatialRepresentationType')}>
+                        {spatialRepresentationType}
+                      </DescrItem>
+                    }
+                    {
+                      legalConstraints &&
+                      <DescrItem label={t('Modal.Metadata.legalConstraints')}>
+                        {legalConstraints}
+                      </DescrItem>
+                    }
+                    {
+                      metadataConstraints &&
+                      <DescrItem label={t('Modal.Metadata.metadataConstraints')}>
+                        {metadataConstraints}
+                      </DescrItem>
+                    }
+                    {
+                      onlineResource &&
+                      <DescrItem label={t('Modal.Metadata.onlineResource')}>
+                        {this.getLink(onlineResource)}
+                      </DescrItem>
+                    }
+                    {
+                      dataSource &&
+                      <DescrItem label={t('Modal.Metadata.dataSource')}>
+                        {this.getLink(dataSource)}
+                      </DescrItem>
+                    }
+                    {
+                      publications &&
+                      <DescrItem label={t('Modal.Metadata.publications')}>
+                        {this.getLink(publications)}
+                      </DescrItem>
+                    }
+                    {
+                      status &&
+                      <DescrItem label={t('Modal.Metadata.status')}>
+                        {status}
+                      </DescrItem>
+                    }
+                  </Descriptions>
+                </Card>
+              }
               <div className="right-container">
-                <Card
-                  title={t('Modal.Metadata.organisation')}
-                  size="small"
-                >
-                  <Descriptions bordered size="small" column={1}>
+                {
+                  (this.checkVisibility('organisation') || this.checkVisibility('address')) &&
+                  <Card
+                    title={t('Modal.Metadata.organisation')}
+                    size="small"
+                  >
                     {
-                      orgName &&
-                      <DescrItem label={t('Modal.Metadata.orgName')}>
-                        {orgName}
-                      </DescrItem>
+                      this.checkVisibility('organisation') &&
+                      <Descriptions bordered size="small" column={1}>
+                        {
+                          orgName &&
+                          <DescrItem label={t('Modal.Metadata.orgName')}>
+                            {orgName}
+                          </DescrItem>
+                        }
+                        {
+                          orgWebsite &&
+                          <DescrItem label={t('Modal.Metadata.orgWebsite')}>
+                            {this.getLink(orgWebsite)}
+                          </DescrItem>
+                        }
+                      </Descriptions>
                     }
                     {
-                      orgWebsite &&
-                      <DescrItem label={t('Modal.Metadata.orgWebsite')}>
-                        {this.getLink(orgWebsite)}
-                      </DescrItem>
+                      this.checkVisibility('address') &&
+                      <>
+                        <Divider orientation="left" plain>
+                          {t('Modal.Metadata.address')}
+                        </Divider>
+                        <Descriptions bordered size="small" column={2}>
+                          {
+                            addressDeliveryPoint &&
+                            <DescrItem label={t('Modal.Metadata.addressDeliveryPoint')}>
+                              {addressDeliveryPoint}
+                            </DescrItem>
+                          }
+                          {
+                            addressPostalCode &&
+                            <DescrItem label={t('Modal.Metadata.addressPostalCode')}>
+                              {addressPostalCode}
+                            </DescrItem>
+                          }
+                          {
+                            addressCity &&
+                            <DescrItem label={t('Modal.Metadata.addressCity')}>
+                              {addressCity}
+                            </DescrItem>
+                          }
+                          {
+                            addressCountry &&
+                            <DescrItem label={t('Modal.Metadata.addressCountry')}>
+                              {addressCountry}
+                            </DescrItem>
+                          }
+                        </Descriptions>
+                      </>
                     }
-                  </Descriptions>
-                  <Divider orientation="left" plain>
-                    {t('Modal.Metadata.address')}
-                  </Divider>
-                  {/* TODO do it better */}
-                  <Descriptions bordered size="small" column={2}>
-                    {
-                      addressDeliveryPoint &&
-                      <DescrItem label={t('Modal.Metadata.addressDeliveryPoint')}>
-                        {addressDeliveryPoint}
-                      </DescrItem>
-                    }
-                    {
-                      addressPostalCode &&
-                      <DescrItem label={t('Modal.Metadata.addressPostalCode')}>
-                        {addressPostalCode}
-                      </DescrItem>
-                    }
-                    {
-                      addressCity &&
-                      <DescrItem label={t('Modal.Metadata.addressCity')}>
-                        {addressCity}
-                      </DescrItem>
-                    }
-                    {
-                      addressCountry &&
-                      <DescrItem label={t('Modal.Metadata.addressCountry')}>
-                        {addressCountry}
-                      </DescrItem>
-                    }
-                  </Descriptions>
-                </Card>
-                <Card
-                  title={t('Modal.Metadata.responsiblePerson')}
-                  size="small"
-                >
-                  <Descriptions bordered size="small" column={1}>
-                    {
-                      personName &&
-                      <DescrItem label={t('Modal.Metadata.personName')}>
-                        {personName}
-                      </DescrItem>
-                    }
-                    {
-                      personEmail &&
-                      <DescrItem label={t('Modal.Metadata.personEmail')}>
-                        {this.getEmail(personEmail)}
-                      </DescrItem>
-                    }
-                  </Descriptions>
-                </Card>
-                <Card
-                  title={t('Modal.Metadata.timeExtent')}
-                  size="small"
-                >
-                  <Descriptions bordered size="small" column={2}>
-                    {
-                      timeExtentStart &&
-                      <DescrItem label={t('Modal.Metadata.timeExtentStart')}>
-                        {timeExtentStart}
-                      </DescrItem>
-                    }
-                    {
-                      timeExtentEnd &&
-                      <DescrItem label={t('Modal.Metadata.timeExtentEnd')}>
-                        {timeExtentEnd}
-                      </DescrItem>
-                    }
-                  </Descriptions>
-                </Card>
-                <Card
-                  title={t('Modal.Metadata.extent')}
-                  size="small"
-                >
-                  {extent &&
+                  </Card>
+                }
+                {
+                  this.checkVisibility('responsiblePerson') &&
+                  <Card
+                    title={t('Modal.Metadata.responsiblePerson')}
+                    size="small"
+                  >
+                    <Descriptions bordered size="small" column={1}>
+                      {
+                        personName &&
+                        <DescrItem label={t('Modal.Metadata.personName')}>
+                          {personName}
+                        </DescrItem>
+                      }
+                      {
+                        personEmail &&
+                        <DescrItem label={t('Modal.Metadata.personEmail')}>
+                          {this.getEmail(personEmail)}
+                        </DescrItem>
+                      }
+                    </Descriptions>
+                  </Card>
+                }
+                {
+                  this.checkVisibility('timeExtent') &&
+                  <Card
+                    title={t('Modal.Metadata.timeExtent')}
+                    size="small"
+                  >
+                    <Descriptions bordered size="small" column={2}>
+                      {
+                        timeExtentStart &&
+                        <DescrItem label={t('Modal.Metadata.timeExtentStart')}>
+                          {timeExtentStart}
+                        </DescrItem>
+                      }
+                      {
+                        timeExtentEnd &&
+                        <DescrItem label={t('Modal.Metadata.timeExtentEnd')}>
+                          {timeExtentEnd}
+                        </DescrItem>
+                      }
+                    </Descriptions>
+                  </Card>
+                }
+                {
+                  extent &&
+                  <Card
+                    title={t('Modal.Metadata.extent')}
+                    size="small"
+                  >
                     <Descriptions bordered size="small" column={2}>
                       <DescrItem label={'minX'}>
                         {extent.minX?.['#text'] || extent.minX}
@@ -331,8 +400,8 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
                         {extent.maxY?.['#text'] || extent.maxY}
                       </DescrItem>
                     </Descriptions>
-                  }
-                </Card>
+                  </Card>
+                }
               </div>
             </div>
         }
