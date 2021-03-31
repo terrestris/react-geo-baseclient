@@ -212,6 +212,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
       tileLayer.set('timeFormat', layer.source.timeFormat);
       tileLayer.set('description', layer.description);
       tileLayer.set('metadataIdentifier', layer.metadataIdentifier);
+      tileLayer.set('showMetadataInClient', layer.showMetadataInClient);
       tileLayer.set('displayColumns', layer.displayColumns);
       tileLayer.set('columnAliasesDe', layer.columnAliasesDe);
       tileLayer.set('columnAliasesEn', layer.columnAliasesEn);
@@ -359,6 +360,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
     }
     tileLayer.set('convertFeatureInfoValue', layerObj.convertFeatureInfoValue || false);
     tileLayer.set('metadataIdentifier', layerObj.metadataIdentifier);
+    tileLayer.set('showMetadataInClient', layerObj.showMetadataInClient);
     return tileLayer;
   }
 
@@ -439,6 +441,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
     imageLayer.set('convertFeatureInfoValue', layerObj.convertFeatureInfoValue || false);
     imageLayer.set('description', layerObj.description);
     imageLayer.set('metadataIdentifier', layerObj.metadataIdentifier);
+    imageLayer.set('showMetadataInClient', layerObj.showMetadataInClient);
     imageLayer.set('displayColumns', layerObj.displayColumns);
     imageLayer.set('columnAliasesDe', layerObj.columnAliasesDe);
     imageLayer.set('columnAliasesEn', layerObj.columnAliasesEn);

@@ -7,12 +7,11 @@ import Metadata from '../../Modal/Metadata/Metadata';
 import {
   Menu,
   Dropdown,
-  Tooltip,
   Modal
 } from 'antd';
 const MenuItem = Menu.Item;
 
-const isEmpty = require('lodash/isEmpty');
+import _isEmpty from 'lodash/isEmpty';
 
 interface LayerTreeDropdownContextMenuProps {
   layer: OlLayerBase;
@@ -108,7 +107,7 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
   /**
    * The render function.
    */
-  render () {
+  render() {
     const {
       t,
       layer
@@ -120,23 +119,30 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
       metaDataModalVisible
     } = this.state;
 
+    const showDesciption = !_isEmpty(layer.get('description'));
+    const showMetadata = !_isEmpty(layer.get('metadataIdentifier')) && layer.get('showMetadataInClient');
+
     const settingsMenu = (
       <Menu
         selectable={false}
         onClick={this.onContextMenuItemClick}
       >
-        <MenuItem
-          disabled={isEmpty(layer.get('description'))}
-          key="info"
-        >
-          {t('LayerTreeDropdownContextMenu.layerInfoText')}
-        </MenuItem>
-        <MenuItem
-          disabled={isEmpty(layer.get('metadataIdentifier'))}
-          key="metadata"
-        >
-          {t('LayerTreeDropdownContextMenu.layerMetadataText')}
-        </MenuItem>
+        {
+          showDesciption &&
+          <MenuItem
+            key="info"
+          >
+            {t('LayerTreeDropdownContextMenu.layerInfoText')}
+          </MenuItem>
+        }
+        {
+          showMetadata &&
+          <MenuItem
+            key="metadata"
+          >
+            {t('LayerTreeDropdownContextMenu.layerMetadataText')}
+          </MenuItem>
+        }
       </Menu>
     );
 
@@ -158,15 +164,9 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
           visible={!menuHidden}
           trigger={['click']}
         >
-          <Tooltip
-            title={this.props.t('LayerTreeDropdownContextMenu.layerSettingsTooltipText')}
-            placement="right"
-            mouseEnterDelay={0.5}
-          >
-            <span
-              className="fa fa-cog layer-tree-node-title-settings"
-            />
-          </Tooltip>
+          <span
+            className="fa fa-cog layer-tree-node-title-settings"
+          />
         </Dropdown>
         {metaDataModalVisible ?
           <Metadata

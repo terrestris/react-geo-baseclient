@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import OlLayerGroup from 'ol/layer/Group';
-import OlLayer from 'ol/layer/Layer';
+import OlLayer from 'ol/layer/Base';
 
 import LayerTree from '@terrestris/react-geo/dist/LayerTree/LayerTree';
 import Legend from '@terrestris/react-geo/dist/Legend/Legend';
@@ -16,10 +16,13 @@ import './LayerTreeClassic.css';
 
 import { hideLayerTree } from '../../../state/actions/AppStateAction';
 
+import _isBoolean from 'lodash/isBoolean';
+import _isEmpty from 'lodash/isEmpty';
+
 interface DefaultLayerTreeClassicProps {
   extraLegendParams: {};
   dispatch: (arg: any) => void;
-  showContextMenu: boolean;
+  showContextMenu?: boolean;
   showApplyTimeInterval: boolean;
 }
 
@@ -45,7 +48,6 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
       TRANSPARENT: true
     },
     dispatch: () => {},
-    showContextMenu: true,
     showApplyTimeInterval: true
   };
 
@@ -56,6 +58,26 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     super(props);
 
     this.onHideLayerTree = this.onHideLayerTree.bind(this);
+    this.showContextMenu = this.showContextMenu.bind(this);
+  }
+
+  /**
+   * Currently only two context menu entries (description and metadata) are
+   * expected. This check should be possibly extended in case of further entries
+   * arrive.
+   *
+   * @param layer Layer entry.
+   */
+  showContextMenu(layer: OlLayer) {
+    if (_isBoolean(this.props.showContextMenu)) {
+      return this.props.showContextMenu;
+    }
+
+    const showDescription = !_isEmpty(layer.get('description'));
+    const showMetadata = !_isEmpty(layer.get('metadataIdentifier')) &&
+      layer.get('showMetadataInClient');
+
+    return showDescription || showMetadata;
   }
 
   /**
@@ -63,12 +85,11 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
    * @param {any} layer The OpenLayers layer or LayerGroup the tree node
    *   should be rendered for
    */
-  treeNodeTitleRenderer(layer: any) {
+  treeNodeTitleRenderer(layer: OlLayer) {
     const {
       map,
       extraLegendParams,
       t,
-      showContextMenu,
       showApplyTimeInterval
     } = this.props;
 
@@ -95,7 +116,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
               }
             </span>
             <div className='classic-tree-node-header-buttons'>
-              {(showContextMenu && layer instanceof OlLayer) &&
+              {(this.showContextMenu(layer) && layer instanceof OlLayer) &&
                 <LayerTreeDropdownContextMenu
                   map={this.props.map}
                   layer={layer}
