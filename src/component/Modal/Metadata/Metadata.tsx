@@ -6,7 +6,9 @@ import config from '../../../config/config';
 
 import './Metadata.css';
 
-const isEmpty = require('lodash/isEmpty');
+import _isEmpty from 'lodash/isEmpty';
+
+const DescrItem = Descriptions.Item;
 
 interface MetadataProps {
   layer: any;
@@ -79,11 +81,32 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
       error
     } = this.state;
 
-    if (isEmpty(metadata)) {
-      return (
-        <div/>
-      );
+    if (_isEmpty(metadata)) {
+      return null;
     }
+
+    const {
+      title,
+      abstract,
+      topic,
+      referenceDate,
+      spatialRepresentationType,
+      legalConstraints,
+      metadataConstraints,
+      onlineResource,
+      orgName,
+      orgWebsite,
+      addressDeliveryPoint,
+      addressPostalCode,
+      addressCity,
+      addressCountry,
+      personName,
+      personEmail,
+      status,
+      timeExtentStart,
+      timeExtentEnd,
+      extent
+    } = metadata;
 
     /* eslint-disable max-len */
     return (
@@ -94,38 +117,38 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
         title={t('Modal.Metadata.modalTitle')}
         onCancel={onCancel}
       >
-        {!isEmpty(error) ?
+        {!_isEmpty(error) ?
           <div>{error}</div>
           :
           <Descriptions bordered>
-            {metadata.title ? <Descriptions.Item label={t('Modal.Metadata.title')}>{metadata.title}</Descriptions.Item> : null}
-            {metadata.abstract ? <Descriptions.Item label={t('Modal.Metadata.abstract')} span={2}>{metadata.abstract}</Descriptions.Item> : null }
-            {metadata.topic ? <Descriptions.Item label={t('Modal.Metadata.topic')}>{metadata.topic}</Descriptions.Item> : null }
-            {metadata.referenceDate ? <Descriptions.Item label={t('Modal.Metadata.referenceDate')}>{metadata.referenceDate['#text']}</Descriptions.Item> : null }
-            {metadata.spatialRepresentationType ? <Descriptions.Item label={t('Modal.Metadata.spatialRepresentationType')}>{metadata.spatialRepresentationType}</Descriptions.Item> : null }
-            {metadata.legalConstraints ? <Descriptions.Item label={t('Modal.Metadata.legalConstraints')}>{metadata.legalConstraints}</Descriptions.Item> : null }
-            {metadata.metadataConstraints ? <Descriptions.Item label={t('Modal.Metadata.metadataConstraints')}>{metadata.metadataConstraints}</Descriptions.Item> : null }
-            {metadata.onlineResource ? <Descriptions.Item label={t('Modal.Metadata.onlineResource')}>{metadata.onlineResource}</Descriptions.Item> : null }
-            {metadata.orgName ? <Descriptions.Item label={t('Modal.Metadata.orgName')}>{metadata.orgName}</Descriptions.Item> : null }
-            {metadata.orgWebsite ? <Descriptions.Item label={t('Modal.Metadata.orgWebsite')}>{metadata.orgWebsite}</Descriptions.Item> : null }
-            {metadata.addressDeliveryPoint ? <Descriptions.Item label={t('Modal.Metadata.addressDeliveryPoint')}>{metadata.addressDeliveryPoint}</Descriptions.Item> : null }
-            {metadata.addressPostalCode ? <Descriptions.Item label={t('Modal.Metadata.addressPostalCode')}>{metadata.addressPostalCode}</Descriptions.Item> : null }
-            {metadata.addressCity ? <Descriptions.Item label={t('Modal.Metadata.addressCity')}>{metadata.addressCity}</Descriptions.Item> : null }
-            {metadata.addressCountry ? <Descriptions.Item label={t('Modal.Metadata.addressCountry')}>{metadata.addressCountry}</Descriptions.Item> : null }
-            {metadata.personName ? <Descriptions.Item label={t('Modal.Metadata.personName')}>{metadata.personName}</Descriptions.Item> : null }
-            {metadata.personEmail ? <Descriptions.Item label={t('Modal.Metadata.personEmail')}>{metadata.personEmail}</Descriptions.Item> : null }
-            {metadata.status ? <Descriptions.Item label={t('Modal.Metadata.status')}>{metadata.status}</Descriptions.Item> : null }
-            {metadata.timeExtentStart ? <Descriptions.Item label={t('Modal.Metadata.timeExtentStart')}>{metadata.timeExtentStart}</Descriptions.Item> : null }
-            {metadata.timeExtentEnd ? <Descriptions.Item label={t('Modal.Metadata.timeExtentEnd')}>{metadata.timeExtentEnd}</Descriptions.Item> : null }
-            {metadata.extent ? <Descriptions.Item label={t('Modal.Metadata.extent')} span={2}>
-              minX: {metadata.extent.minX?.['#text'] || metadata.extent.minX}
+            {title ? <DescrItem label={t('Modal.Metadata.title')}>{title}</DescrItem> : null}
+            {abstract ? <DescrItem label={t('Modal.Metadata.abstract')} span={2}>{abstract}</DescrItem> : null}
+            {topic ? <DescrItem label={t('Modal.Metadata.topic')}>{topic}</DescrItem> : null}
+            {referenceDate ? <DescrItem label={t('Modal.Metadata.referenceDate')}>{referenceDate['#text']}</DescrItem> : null}
+            {spatialRepresentationType ? <DescrItem label={t('Modal.Metadata.spatialRepresentationType')}>{spatialRepresentationType}</DescrItem> : null}
+            {legalConstraints ? <DescrItem label={t('Modal.Metadata.legalConstraints')}>{legalConstraints}</DescrItem> : null}
+            {metadataConstraints ? <DescrItem label={t('Modal.Metadata.metadataConstraints')}>{metadataConstraints}</DescrItem> : null}
+            {onlineResource ? <DescrItem label={t('Modal.Metadata.onlineResource')}>{onlineResource}</DescrItem> : null}
+            {orgName ? <DescrItem label={t('Modal.Metadata.orgName')}>{orgName}</DescrItem> : null}
+            {orgWebsite ? <DescrItem label={t('Modal.Metadata.orgWebsite')}>{orgWebsite}</DescrItem> : null}
+            {addressDeliveryPoint ? <DescrItem label={t('Modal.Metadata.addressDeliveryPoint')}>{addressDeliveryPoint}</DescrItem> : null}
+            {addressPostalCode ? <DescrItem label={t('Modal.Metadata.addressPostalCode')}>{addressPostalCode}</DescrItem> : null}
+            {addressCity ? <DescrItem label={t('Modal.Metadata.addressCity')}>{addressCity}</DescrItem> : null}
+            {addressCountry ? <DescrItem label={t('Modal.Metadata.addressCountry')}>{addressCountry}</DescrItem> : null}
+            {personName ? <DescrItem label={t('Modal.Metadata.personName')}>{personName}</DescrItem> : null}
+            {personEmail ? <DescrItem label={t('Modal.Metadata.personEmail')}>{personEmail}</DescrItem> : null}
+            {status ? <DescrItem label={t('Modal.Metadata.status')}>{status}</DescrItem> : null}
+            {timeExtentStart ? <DescrItem label={t('Modal.Metadata.timeExtentStart')}>{timeExtentStart}</DescrItem> : null}
+            {timeExtentEnd ? <DescrItem label={t('Modal.Metadata.timeExtentEnd')}>{timeExtentEnd}</DescrItem> : null}
+            {extent ? <DescrItem label={t('Modal.Metadata.extent')} span={2}>
+              minX: {extent.minX?.['#text'] || extent.minX}
               <br />
-              minY: {metadata.extent.minY?.['#text'] || metadata.extent.minY}
+              minY: {extent.minY?.['#text'] || extent.minY}
               <br />
-              maxX: {metadata.extent.maxX?.['#text'] || metadata.extent.maxX}
+              maxX: {extent.maxX?.['#text'] || extent.maxX}
               <br />
-              maxY: {metadata.extent.maxY?.['#text'] || metadata.extent.maxY}
-            </Descriptions.Item> : null }
+              maxY: {extent.maxY?.['#text'] || extent.maxY}
+            </DescrItem> : null}
           </Descriptions>
         }
       </Modal>
