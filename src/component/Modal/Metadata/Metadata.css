@@ -8,10 +8,11 @@
   height: 100%;
 }
 
-.metadata-modal .ant-modal-body .metadata-content {
+.metadata-modal .ant-modal-body .left-container {
   display: flex;
   align-items: baseline;
-  width: 100%
+  width: 100%;
+  overflow-y: auto;
 }
 
 .metadata-modal .ant-modal-body {
@@ -20,14 +21,11 @@
   display: flex;
 }
 
-.metadata-modal .ant-modal-body .metadata-content>.ant-card,
-.metadata-modal .ant-modal-body .metadata-content .right-container {
+.metadata-modal .ant-modal-body .left-container>.ant-card,
+.metadata-modal .ant-modal-body .right-container {
   flex: 1;
-  margin: 0 10px;
-  max-height: 100%;
-  overflow-y: auto;
 }
 
-.metadata-modal .ant-modal-body .metadata-content .right-container .ant-card {
+.metadata-modal .ant-modal-body .right-container .ant-card {
   margin: 5px 0;
 }

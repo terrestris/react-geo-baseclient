@@ -1,12 +1,19 @@
 import * as React from 'react';
-import { Modal, Descriptions, Card, Divider } from 'antd';
+import {
+  Card,
+  Col,
+  Descriptions,
+  Divider,
+  Modal,
+  Row
+} from 'antd';
 
 import MetadataParser from '../../../util/MetadataParser';
 import config from '../../../config/config';
 
-import './Metadata.css';
-
 import _isEmpty from 'lodash/isEmpty';
+
+import './Metadata.css';
 
 const DescrItem = Descriptions.Item;
 
@@ -199,84 +206,86 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
           !_isEmpty(error) ?
             <div>{error}</div>
             :
-            <div className="metadata-content">
+            <Row className="left-container" gutter={8}>
               {
                 this.checkVisibility('general') &&
-                <Card
-                  title={t('Modal.Metadata.generalMetadata')}
-                  size="small"
-                >
-                  <Descriptions bordered size="small" column={1}>
-                    {
-                      title &&
-                      <DescrItem label={t('Modal.Metadata.title')}
-                      >
-                        {title}
-                      </DescrItem>
-                    }
-                    {
-                      abstract &&
-                      <DescrItem label={t('Modal.Metadata.abstract')}>
-                        {abstract}
-                      </DescrItem>}
-                    {
-                      topic &&
-                      <DescrItem label={t('Modal.Metadata.topic')}>
-                        {topic}
-                      </DescrItem>
-                    }
-                    {
-                      referenceDate &&
-                      <DescrItem label={t('Modal.Metadata.referenceDate')}>
-                        {referenceDate || referenceDate['#text']}
-                      </DescrItem>
-                    }
-                    {
-                      spatialRepresentationType &&
-                      <DescrItem label={t('Modal.Metadata.spatialRepresentationType')}>
-                        {spatialRepresentationType}
-                      </DescrItem>
-                    }
-                    {
-                      legalConstraints &&
-                      <DescrItem label={t('Modal.Metadata.legalConstraints')}>
-                        {legalConstraints}
-                      </DescrItem>
-                    }
-                    {
-                      metadataConstraints &&
-                      <DescrItem label={t('Modal.Metadata.metadataConstraints')}>
-                        {metadataConstraints}
-                      </DescrItem>
-                    }
-                    {
-                      onlineResource &&
-                      <DescrItem label={t('Modal.Metadata.onlineResource')}>
-                        {this.getLink(onlineResource)}
-                      </DescrItem>
-                    }
-                    {
-                      dataSource &&
-                      <DescrItem label={t('Modal.Metadata.dataSource')}>
-                        {this.getLink(dataSource)}
-                      </DescrItem>
-                    }
-                    {
-                      publications &&
-                      <DescrItem label={t('Modal.Metadata.publications')}>
-                        {this.getLink(publications)}
-                      </DescrItem>
-                    }
-                    {
-                      status &&
-                      <DescrItem label={t('Modal.Metadata.status')}>
-                        {status}
-                      </DescrItem>
-                    }
-                  </Descriptions>
-                </Card>
+                <Col md={24} lg={12}>
+                  <Card
+                    title={t('Modal.Metadata.generalMetadata')}
+                    size="small"
+                  >
+                    <Descriptions bordered size="small" column={1}>
+                      {
+                        title &&
+                        <DescrItem label={t('Modal.Metadata.title')}
+                        >
+                          {title}
+                        </DescrItem>
+                      }
+                      {
+                        abstract &&
+                        <DescrItem label={t('Modal.Metadata.abstract')}>
+                          {abstract}
+                        </DescrItem>}
+                      {
+                        topic &&
+                        <DescrItem label={t('Modal.Metadata.topic')}>
+                          {topic}
+                        </DescrItem>
+                      }
+                      {
+                        referenceDate &&
+                        <DescrItem label={t('Modal.Metadata.referenceDate')}>
+                          {referenceDate || referenceDate['#text']}
+                        </DescrItem>
+                      }
+                      {
+                        spatialRepresentationType &&
+                        <DescrItem label={t('Modal.Metadata.spatialRepresentationType')}>
+                          {spatialRepresentationType}
+                        </DescrItem>
+                      }
+                      {
+                        legalConstraints &&
+                        <DescrItem label={t('Modal.Metadata.legalConstraints')}>
+                          {legalConstraints}
+                        </DescrItem>
+                      }
+                      {
+                        metadataConstraints &&
+                        <DescrItem label={t('Modal.Metadata.metadataConstraints')}>
+                          {metadataConstraints}
+                        </DescrItem>
+                      }
+                      {
+                        onlineResource &&
+                        <DescrItem label={t('Modal.Metadata.onlineResource')}>
+                          {this.getLink(onlineResource)}
+                        </DescrItem>
+                      }
+                      {
+                        dataSource &&
+                        <DescrItem label={t('Modal.Metadata.dataSource')}>
+                          {this.getLink(dataSource)}
+                        </DescrItem>
+                      }
+                      {
+                        publications &&
+                        <DescrItem label={t('Modal.Metadata.publications')}>
+                          {this.getLink(publications)}
+                        </DescrItem>
+                      }
+                      {
+                        status &&
+                        <DescrItem label={t('Modal.Metadata.status')}>
+                          {status}
+                        </DescrItem>
+                      }
+                    </Descriptions>
+                  </Card>
+                </Col>
               }
-              <div className="right-container">
+              <Col md={24} lg={12} className="right-container">
                 {
                   (this.checkVisibility('organisation') || this.checkVisibility('address')) &&
                   <Card
@@ -402,8 +411,8 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
                     </Descriptions>
                   </Card>
                 }
-              </div>
-            </div>
+              </Col>
+            </Row>
         }
       </Modal>
 
