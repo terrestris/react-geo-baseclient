@@ -125,7 +125,8 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
             ]}
             printLayerBlackList={[
               'react-geo_measure',
-              'hoverVectorLayer'
+              'hoverVectorLayer',
+              'react-geo_geolocationlayer'
             ]}
             printScales={printScales}
           />
