@@ -44,11 +44,14 @@ export default class MetadataParser {
       metadataConstraints: ObjectUtil.getValue('gmd:MD_Constraints', cswRec)?.['gmd:useLimitation']?.['gco:CharacterString']?.['#text'] ||
           ObjectUtil.getValue('gmd:MD_Constraints', cswRec)?.['gmd:useLimitation']?.['gco:CharacterString'],
       onlineResource: ObjectUtil.getValue('gmd:MD_DigitalTransferOptions', cswRec)?.['gmd:onLine']?.['gmd:CI_OnlineResource']?.['gmd:linkage']?.['gmd:URL']?.['#text'] ||
-          ObjectUtil.getValue('gmd:MD_DigitalTransferOptions', cswRec)?.['gmd:onLine']?.['gmd:CI_OnlineResource']?.['gmd:linkage']?.['gmd:URL'],
+          ObjectUtil.getValue('gmd:MD_DigitalTransferOptions', cswRec)?.['gmd:onLine']?.['gmd:CI_OnlineResource']?.['gmd:linkage']?.['gmd:URL'] ||
+          ObjectUtil.getValue('gmd:dataSetURI', cswRec)?.['gco:CharacterString'],
+      dataSource: ObjectUtil.getValue('gmd:dataSource', cswRec)?.['gco:CharacterString'],
+      publications: ObjectUtil.getValue('gmd:publications', cswRec)?.['gco:CharacterString'],
       orgName: ObjectUtil.getValue('gmd:organisationName', cswRec)?.['gco:CharacterString']?.['#text'] ||
           ObjectUtil.getValue('gmd:organisationName', cswRec)?.['gco:CharacterString'],
       orgWebsite: ObjectUtil.getValue('gmd:CI_OnlineResource', cswRec)?.['gmd:linkage']?.['gmd:URL']?.['#text'] ||
-          ObjectUtil.getValue('gmd:CI_OnlineResource', cswRec)?.['gmd:linkage']?.['gmd:URL'],
+          ObjectUtil.getValue('gmd:CI_OnlineResource', cswRec)?.['gmd:linkage']?.['gco:CharacterString'],
       addressDeliveryPoint: ObjectUtil.getValue('gmd:deliveryPoint', cswRec)?.['gco:CharacterString']?.['#text'] ||
           ObjectUtil.getValue('gmd:deliveryPoint', cswRec)?.['gco:CharacterString'],
       addressPostalCode: ObjectUtil.getValue('gmd:postalCode', cswRec)?.['gco:CharacterString']?.['#text'] ||
@@ -62,7 +65,7 @@ export default class MetadataParser {
       personEmail: ObjectUtil.getValue('gmd:electronicMailAddress', cswRec)?.['gco:CharacterString']?.['#text'] ||
           ObjectUtil.getValue('gmd:electronicMailAddress', cswRec)?.['gco:CharacterString'],
       status: ObjectUtil.getValue('gmd:MD_ProgressCode', cswRec)?.codeListValue?.['#text'] ||
-          ObjectUtil.getValue('gmd:MD_ProgressCode', cswRec)?.codeListValue,
+          ObjectUtil.getValue('gmd:MD_ProgressCode', cswRec)?.['@codeListValue'],
       timeExtentStart: ObjectUtil.getValue('gml:TimePeriod', cswRec)?.['gml:beginPosition']?.['#text'] ||
           ObjectUtil.getValue('gml:TimePeriod', cswRec)?.['gml:beginPosition'],
       timeExtentEnd: ObjectUtil.getValue('gml:TimePeriod', cswRec)?.['gml:endPosition']?.['#text'] ||
