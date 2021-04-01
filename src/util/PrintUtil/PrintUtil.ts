@@ -1,4 +1,7 @@
+import OlMap from 'ol/Map';
 import OlLayerGroup from 'ol/layer/Group';
+import OlLayerBase from 'ol/layer/Layer';
+import OlLayerVector from 'ol/layer/Vector';
 import StringUtil from '@terrestris/base-util/dist/StringUtil/StringUtil';
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
@@ -14,9 +17,9 @@ export class PrintUtil {
    *
    * @return {Array} The printable layers.
    */
-  static getPrintableLayers = (map: any, printLayer: any) => {
+  static getPrintableLayers = (map: OlMap, printLayer: OlLayerBase): OlLayerBase[] => {
     const layers = MapUtil.getAllLayers(map);
-    return layers.filter((layer: any) => {
+    return layers.filter((layer: OlLayerBase) => {
       const layerName = layer.get('name');
       return layerName
         && !(layerName.includes('react-geo'))
@@ -31,28 +34,23 @@ export class PrintUtil {
    *
    * @return {String} The attribution string.
    */
-  static getAttributions(map: any, printLayer: any) {
+  static getAttributions(map: OlMap, printLayer: OlLayerVector): string {
     const layers = PrintUtil.getPrintableLayers(map, printLayer);
-    let attributionString = '';
+    let allAttributions: string[] = [];
     layers
-      .filter((layer: any) => {
-        const attributions = layer.getSource().getAttributions();
-
-        if (attributions) {
-          if (typeof attributions === 'function') {
-            const attribution = attributions();
-            attribution.forEach((attr: string, index: number, allAttributions: string[]) => {
-              attributionString += StringUtil.stripHTMLTags(attr);
-              if (index < (allAttributions.length - 1)) {
-                attributionString += ',\n';
-              }
-            });
+      .filter((layer: OlLayerBase) => layer.getSource && layer.getSource() &&
+        layer.getSource().getAttributions && layer.getSource().getAttributions())
+      .forEach((layer: OlLayerBase) => {
+        const attributions: string[] = layer.getSource().getAttributions().call(this);
+        attributions.forEach((attr: string) => {
+          const attrString = StringUtil.stripHTMLTags(attr);
+          if (!allAttributions.includes(attrString)) {
+            allAttributions.push(attrString);
           }
-        }
+        });
       });
-    return attributionString.trim();
+    return allAttributions.join(', ').trim();
   }
-
 }
 
 export default PrintUtil;
