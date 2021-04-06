@@ -333,7 +333,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
   async parseWMTSLayer(layer: Layer) {
     const {
       url,
-      layerNames
+      layerNames,
+      legendUrl
     } = layer.sourceConfig || {};
 
     const {
@@ -377,6 +378,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     wmtsLayer.set('type', layer.type);
     wmtsLayer.set('searchable', searchable);
     wmtsLayer.set('searchConfig', searchConfig);
+    wmtsLayer.set('legendUrl', legendUrl);
 
     return wmtsLayer;
   }
