@@ -1,11 +1,12 @@
 import OlLayerBase from 'ol/layer/Base';
+import { ProjectionLike } from 'ol/proj';
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 export interface AppContextUtil {
   canReadCurrentAppContext: () => boolean;
   appContextToState: (appContext: any) => {};
-  parseLayer: (layer: any) => OlLayerBase | Promise<OlLayerBase>;
+  parseLayer: (layer: any, projection?: ProjectionLike) => OlLayerBase | Promise<OlLayerBase>;
   parseTileLayer: (layer: any) => {};
   parseImageLayer: (layer: any) => {};
   getToolsForToolbar: (activeModules: any[], map: any,
