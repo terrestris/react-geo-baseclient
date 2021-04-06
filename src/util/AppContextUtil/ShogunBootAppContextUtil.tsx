@@ -28,6 +28,8 @@ import Logger from '@terrestris/base-util/dist/Logger';
 import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
 import { UrlUtil } from '@terrestris/base-util/dist/UrlUtil/UrlUtil';
 
+import ProjectionUtil from '@terrestris/ol-util/dist/ProjectionUtil/ProjectionUtil';
+
 import initialState from '../../state/initialState';
 
 import PrintButton from '../../component/button/PrintButton/PrintButton';
@@ -65,6 +67,10 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
    * @return {Object} The initialState used by the store.
    */
   async appContextToState(appContext: Application) {
+
+    // TODO Define proj defintions in appContext and remove
+    // duplicated call from setupMap()
+    ProjectionUtil.initProj4Definitions();
 
     const state: any = initialState;
 
