@@ -166,6 +166,7 @@ const commonWebpackConfig = {
       '@terrestris/base-util': path.join(__dirname + '/../', 'node_modules', '@terrestris/base-util'),
       '@terrestris/ol-util': path.join(__dirname + '/../', 'node_modules', '@terrestris/ol-util'),
       '@terrestris/react-geo': path.join(__dirname + '/../', 'node_modules', '@terrestris/react-geo'),
+      '@terrestris/mapfish-print-manager': path.join(__dirname + '/../', 'node_modules', '@terrestris/mapfish-print-manager'),
       'antd': path.join(__dirname + '/../', 'node_modules', 'antd'),
       'react': path.join(__dirname + '/../', 'node_modules', 'react'),
       'react-redux': path.join(__dirname + '/../', 'node_modules', 'react-redux'),

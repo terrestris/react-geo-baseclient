@@ -149,7 +149,8 @@ const delayedConf =
             '/files/**',
             '/imagefiles/**',
             '/users/**',
-            '/sso/**'
+            '/sso/**',
+            '/print/**'
           ]
         }, {
           ...proxyCommonConf,
@@ -160,7 +161,8 @@ const delayedConf =
             '/imagefiles',
             '/users',
             '/info/app',
-            '/geoserver'
+            '/geoserver',
+            '/print'
           ]
         }],
         publicPath: 'https://localhost:9091/'
