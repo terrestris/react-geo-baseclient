@@ -9,7 +9,10 @@ import OlLayerBase from 'ol/layer/Base';
 import OlLayerGroup from 'ol/layer/Group';
 import OlTileGrid from 'ol/tilegrid/TileGrid';
 import OlWMTSCapabilities from 'ol/format/WMTSCapabilities';
-import { fromLonLat } from 'ol/proj';
+import {
+  fromLonLat,
+  ProjectionLike
+} from 'ol/proj';
 
 import * as moment from 'moment';
 
@@ -24,6 +27,8 @@ import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/Measu
 import Logger from '@terrestris/base-util/dist/Logger';
 import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
 import { UrlUtil } from '@terrestris/base-util/dist/UrlUtil/UrlUtil';
+
+import ProjectionUtil from '@terrestris/ol-util/dist/ProjectionUtil/ProjectionUtil';
 
 import initialState from '../../state/initialState';
 
@@ -63,6 +68,10 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
    */
   async appContextToState(appContext: Application) {
 
+    // TODO Define proj defintions in appContext and remove
+    // duplicated call from setupMap()
+    ProjectionUtil.initProj4Definitions();
+
     const state: any = initialState;
 
     // appInfo
@@ -95,7 +104,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       state.mapView.present.zoom = mapConfig.zoom;
 
       // mapLayers
-      state.mapLayers = await this.parseLayertree(layerTree);
+      state.mapLayers = await this.parseLayerTree(layerTree, projection);
 
       // activeModules
       state.activeModules = union(state.activeModules, activeModules);
@@ -114,8 +123,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     return state;
   }
 
-  async parseLayertree(folder: any) {
-    const nodes = await this.parseNodes(folder.children);
+  async parseLayerTree(folder: any, projection?: ProjectionLike) {
+    const nodes = await this.parseNodes(folder.children, projection);
     const tree = new OlLayerGroup({
       layers: nodes.reverse(),
       visible: folder.checked,
@@ -123,16 +132,16 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     return tree;
   }
 
-  async parseNodes(nodes: any[]) {
+  async parseNodes(nodes: any[], projection?: ProjectionLike) {
     const collection: OlLayerBase[] = [];
 
     for (const node of nodes) {
       if (node.children) {
-        collection.push(await this.parseFolder(node));
+        collection.push(await this.parseFolder(node, projection));
       } else {
         const layer: Layer = await layerService.findOne(node.layerId);
 
-        const olLayer = await this.parseLayer(layer);
+        const olLayer = await this.parseLayer(layer, projection);
 
         olLayer.setVisible(node.checked);
 
@@ -143,8 +152,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     return collection;
   }
 
-  async parseFolder(el: any) {
-    const layers = await this.parseNodes(el.children);
+  async parseFolder(el: any, projection?: ProjectionLike) {
+    const layers = await this.parseNodes(el.children, projection);
     const folder = new OlLayerGroup({
       layers: layers.reverse(),
       visible: el.checked
@@ -160,7 +169,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
    *                                 from the backend.
    * @return {Array} An array of ol.layer.Layer.
    */
-  async parseLayer(layer: Layer): Promise<OlLayerBase> {
+  async parseLayer(layer: Layer, projection?: ProjectionLike): Promise<OlLayerBase> {
     let olLayer: OlLayerBase;
 
     if ([
@@ -173,7 +182,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     }
 
     if (layer.type === 'WMTS') {
-      olLayer = await this.parseWMTSLayer(layer);
+      olLayer = await this.parseWMTSLayer(layer, projection);
     }
 
     if (layer.type === 'WMS') {
@@ -330,7 +339,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
    *
    * @return {ol.layer.Tile} the new layer
    */
-  async parseWMTSLayer(layer: Layer) {
+  async parseWMTSLayer(layer: Layer, projection: ProjectionLike = 'EPSG:3857') {
     const {
       url,
       layerNames,
@@ -362,8 +371,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
 
     const options = optionsFromCapabilities(capabilities, {
       layer: layerNames,
-      // TODO Should be configurable
-      projection: 'EPSG:3857'
+      projection: projection
     });
 
     const wmtsSource = new OlSourceWMTS(options);
