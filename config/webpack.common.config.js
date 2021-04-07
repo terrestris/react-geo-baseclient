@@ -12,12 +12,11 @@ const PROJECT_MAIN_CLASS = process.env.PROJECT_MAIN_CLASS || 'ProjectMain';
 const RESOURCES_PATH = process.env.RESOURCES_PATH || './src/resources/';
 const APP_PREFIX = process.env.APP_PREFIX;
 
-let CustomCssTheme;
-
+let customCssTheme;
 if (process.env.PROJECT_MAIN_PATH)  {
-  CustomCssTheme = require(PROJECT_MAIN_PATH + 'theme/antLessModifyVars');
+  customCssTheme = require(PROJECT_MAIN_PATH + 'theme/antLessModifyVars');
 } else {
-  CustomCssTheme = path.resolve(PROJECT_MAIN_PATH + 'src/theme/antLessModifyVars');
+  customCssTheme = path.resolve(PROJECT_MAIN_PATH + 'src/theme/antLessModifyVars');
 }
 
 const Logger = winston.createLogger({
@@ -90,7 +89,7 @@ const commonWebpackConfig = {
           loader: 'less-loader',
           options: {
             lessOptions: {
-              modifyVars: CustomCssTheme,
+              modifyVars: customCssTheme,
               javascriptEnabled: true
             }
           }

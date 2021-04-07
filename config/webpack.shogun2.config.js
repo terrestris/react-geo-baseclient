@@ -10,11 +10,17 @@ const cheerio = require('cheerio');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
+
 let customAppConfig;
 try {
   customAppConfig = require('../../' + process.env.CUSTOM_WEBPACK_CONFIG);
 } catch (error) {
-  Logger.info("No custom app config provided, using defaults.");
+  Logger.info('No custom app config provided, using defaults.');
+}
+
+let customCsrfValues;
+if (customAppConfig && customAppConfig.csrf) {
+  customCsrfValues = customAppConfig.csrf;
 }
 
 commonWebpackConfig.mode = 'development';
@@ -29,17 +35,17 @@ const userName = process.env.SHOGUN_USER;
 const password = process.env.SHOGUN_PASS;
 
 if (!backendUrl) {
-  Logger.error(`No SHOGun base URL set in .shogunrc.`);
+  Logger.error('No SHOGun base URL set in .shogunrc.');
   return;
 }
 
 if (!userName) {
-  Logger.error(`No SHOGun user set in .shogunrc.`);
+  Logger.error('No SHOGun user set in .shogunrc.');
   return;
 }
 
 if (!password) {
-  Logger.error(`No SHOGun password set in .shogunrc.`);
+  Logger.error('No SHOGun password set in .shogunrc.');
   return;
 }
 
@@ -126,10 +132,11 @@ const delayedConf =
                 new HtmlWebpackPlugin({
                   favicon: './public/icon_terrestris.png',
                   filename: 'index.html',
-                  files: {
+                  csrf: {
                     csrfHeader: csrfHeader,
                     csrfParameterName: csrfParameterName,
-                    csrfToken: csrfToken
+                    csrfToken: csrfToken,
+                    ...customCsrfValues
                   },
                   hash: true,
                   minify: {

@@ -7,11 +7,12 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
+
 let customAppConfig;
 try {
   customAppConfig = require('../../' + process.env.CUSTOM_WEBPACK_CONFIG);
 } catch (error) {
-  Logger.info("No custom app config provided, using defaults.");
+  Logger.info('No custom app config provided, using defaults.');
 }
 
 commonWebpackConfig.mode = 'development';

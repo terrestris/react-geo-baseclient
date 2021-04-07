@@ -10,11 +10,17 @@ const cheerio = require('cheerio');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
+
 let customAppConfig;
 try {
   customAppConfig = require('../../' + process.env.CUSTOM_WEBPACK_CONFIG);
 } catch (error) {
-  Logger.info("No custom app config provided, using defaults.");
+  Logger.info('No custom app config provided, using defaults.');
+}
+
+let customCsrfValues;
+if (customAppConfig && customAppConfig.csrf) {
+  customCsrfValues = customAppConfig.csrf;
 }
 
 commonWebpackConfig.mode = 'development';
@@ -95,11 +101,12 @@ const delayedConf =
         new HtmlWebpackPlugin({
           filename: 'index.html',
           favicon: './public/favicon.ico',
-          headers: {
-            // TODO: enable CSRF
+          csrf: {
+            // TODO Fix reading CSRF values
             // csrfHeader: csrfHeader,
             // csrfParameterName: csrfParameterName,
             // csrfToken: csrfToken,
+            ...customCsrfValues
           },
           hash: true,
           minify: {

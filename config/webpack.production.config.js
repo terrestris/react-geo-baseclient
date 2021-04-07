@@ -5,11 +5,17 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
+
 let customAppConfig;
 try {
   customAppConfig = require('../../' + process.env.CUSTOM_WEBPACK_CONFIG);
 } catch (error) {
-  Logger.info("No custom app config provided, using defaults.");
+  Logger.info('No custom app config provided, using defaults.');
+}
+
+let customCsrfValues;
+if (customAppConfig && customAppConfig.csrf) {
+  customCsrfValues = customAppConfig.csrf;
 }
 
 // prepare the InterpolateHtmlPlugin
@@ -33,11 +39,11 @@ commonWebpackConfig.plugins = [
     favicon: './public/favicon.ico',
     template: './public/index.html',
     loadingMaskImg: loadingMaskImg,
-    files: {
-      css: [],
+    csrf: {
       csrfToken: '${_csrf.token}',
       csrfHeader: '${_csrf.headerName}',
-      csrfParameterName: '${_csrf.parameterName}'
+      csrfParameterName: '${_csrf.parameterName}',
+      ...customCsrfValues
     },
     hash: true,
     minify: {
