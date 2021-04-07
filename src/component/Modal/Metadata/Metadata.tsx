@@ -95,7 +95,7 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
   getEmail(email: string): React.ReactElement | string {
     const emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     if (emailRegex.test(email)) {
-      return <a className="link" href={`"mailto:${email}"`} target='_blank'>E-Mail</a>;
+      return <a className="link" href={`mailto:${email}`}>E-Mail</a>;
     } else {
       return email;
     }
