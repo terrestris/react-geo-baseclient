@@ -95,7 +95,7 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
   getEmail(email: string): React.ReactElement | string {
     const emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     if (emailRegex.test(email)) {
-      return <a className="link" href={`"mailto:${email}"`} target='_blank'>E-Mail</a>;
+      return <a className="link" href={`mailto:${email}`}>E-Mail</a>;
     } else {
       return email;
     }
@@ -130,8 +130,17 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
       personName,
       personEmail,
       timeExtentStart,
-      timeExtentEnd
+      timeExtentEnd,
+      extent
     } = this.state.metadata;
+
+    const {
+      minX,
+      minY,
+      maxX,
+      maxY
+    } = extent;
+
 
     switch (metadataBlock) {
       case 'general':
@@ -146,6 +155,8 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
         return personName || personEmail;
       case 'timeExtent':
         return timeExtentStart || timeExtentEnd;
+      case 'extent':
+        return extent && (minX || minY || maxX || maxY);
       default:
         break;
     }
@@ -390,7 +401,7 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
                   </Card>
                 }
                 {
-                  extent &&
+                  this.checkVisibility('extent') &&
                   <Card
                     title={t('Modal.Metadata.extent')}
                     size="small"
