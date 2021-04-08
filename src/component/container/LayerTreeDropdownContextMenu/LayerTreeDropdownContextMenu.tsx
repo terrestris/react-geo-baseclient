@@ -1,17 +1,24 @@
 import React from 'react';
 
 import OlLayerBase from 'ol/layer/Base';
-
-import Metadata from '../../Modal/Metadata/Metadata';
+import { transformExtent } from 'ol/proj';
 
 import {
   Menu,
   Dropdown,
-  Modal
+  Modal,
+  notification,
+  Spin
 } from 'antd';
 const MenuItem = Menu.Item;
 
 import _isEmpty from 'lodash/isEmpty';
+
+import LayerUtil from '@terrestris/ol-util/dist/LayerUtil/LayerUtil';
+
+import Logger from '@terrestris/base-util/dist/Logger';
+
+import Metadata from '../../Modal/Metadata/Metadata';
 
 interface LayerTreeDropdownContextMenuProps {
   layer: OlLayerBase;
@@ -23,6 +30,7 @@ interface LayerTreeDropdownContextMenuState {
   infoModalVisible: boolean;
   menuHidden: boolean;
   metaDataModalVisible: boolean;
+  isLoadingExtent: boolean;
 }
 
 /**
@@ -50,7 +58,8 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
     this.state = {
       infoModalVisible: false,
       metaDataModalVisible: false,
-      menuHidden: true
+      menuHidden: true,
+      isLoadingExtent: false
     };
   }
 
@@ -67,6 +76,9 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
         break;
       case 'metadata':
         this.changeMetadataModalVisibility();
+        break;
+      case 'zoomToExtent':
+        this.zoomToLayerExtent();
         break;
       default:
         break;
@@ -103,6 +115,35 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
     });
   }
 
+  async zoomToLayerExtent() {
+    const {
+      layer,
+      map,
+      t
+    } = this.props;
+
+    this.setState({
+      isLoadingExtent: true
+    });
+
+    try {
+      let extent = await LayerUtil.getExtentForLayer(layer, map.getView().getProjection());
+
+      extent = transformExtent(extent, 'EPSG:4326', map.getView().getProjection());
+
+      map.getView().fit(extent);
+    } catch (error) {
+      Logger.error(error);
+      notification.error({
+        message: t('LayerTreeDropdownContextMenu.extentError')
+      });
+    } finally {
+      this.setState({
+        isLoadingExtent: false,
+        menuHidden: true
+      });
+    }
+  };
 
   /**
    * The render function.
@@ -141,6 +182,17 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
             key="metadata"
           >
             {t('LayerTreeDropdownContextMenu.layerMetadataText')}
+          </MenuItem>
+        }
+        {
+          <MenuItem
+            key="zoomToExtent"
+          >
+            <Spin
+              spinning={this.state.isLoadingExtent}
+            >
+              {t('LayerTreeDropdownContextMenu.layerZoomToExtent')}
+            </Spin>
           </MenuItem>
         }
       </Menu>
