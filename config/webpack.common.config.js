@@ -29,6 +29,13 @@ const Logger = winston.createLogger({
   ]
 });
 
+let customAppConfig;
+try {
+  customAppConfig = require('../../' + process.env.CUSTOM_WEBPACK_CONFIG);
+} catch (error) {
+  Logger.info('No custom app config provided, using defaults.');
+}
+
 const commonWebpackConfig = {
   performance: {
     hints: false,
@@ -59,8 +66,26 @@ const commonWebpackConfig = {
 
   module: {
     rules: [{
-      test: /\.tsx?$/,
-      exclude: /node_modules\/(?!@terrestris\/d3-util)/,
+      test: /\.(ts|tsx)$/,
+      include: [
+        path.resolve(__dirname, '../src'),
+        path.resolve(__dirname, '../src', PROJECT_MAIN_PATH, 'src'),
+        path.resolve(
+          __dirname,
+          '../src',
+          PROJECT_MAIN_PATH,
+          PROJECT_MAIN_CLASS + '.tsx'
+        ),
+        [
+          customAppConfig &&
+          customAppConfig.tsLoaderIncludes &&
+          Array.isArray(customAppConfig.tsLoaderIncludes)
+            ? customAppConfig.tsLoaderIncludes.map((entry) => {
+              return path.resolve(__dirname, entry);
+            })
+            : []
+        ]
+      ],
       use: [
         {
           loader: 'ts-loader',
