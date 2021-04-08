@@ -158,7 +158,9 @@
   "LayerTreeDropdownContextMenu": {
     "layerInfoText": "Layer description",
     "layerSettingsTooltipText": "Properties",
-    "layerMetadataText": "Display metadata"
+    "layerMetadataText": "Display metadata",
+    "layerZoomToExtent": "Zoom to layer extent",
+    "extentError": "Could not zoom to the layer extent"
   },
   "LayerTreeApplyTimeInterval": {
     "setTimeLineToLayerInterval": "Apply time interval of the layer"

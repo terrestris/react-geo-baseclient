@@ -159,7 +159,9 @@
   "LayerTreeDropdownContextMenu": {
     "layerInfoText": "Layerbeschreibung",
     "layerSettingsTooltipText": "Eigenschaften",
-    "layerMetadataText": "Metadaten anzeigen"
+    "layerMetadataText": "Metadaten anzeigen",
+    "layerZoomToExtent": "Auf Layerausdehnung zoomen",
+    "extentError": "Konnte nicht auf die Layerausdehnung zoomen"
   },
   "LayerTreeApplyTimeInterval": {
     "setTimeLineToLayerInterval": "Zeitraum des Layers anwenden"
