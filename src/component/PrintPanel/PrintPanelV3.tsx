@@ -690,7 +690,8 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                   className="common-settings-textarea"
                   placeholder={t('PrintPanel.printDescriptionPlaceholder')}
                   value={printDescription}
-                  maxLength={150}
+                  showCount={true}
+                  maxLength={100}
                   rows={2}
                   onChange={this.onPrintDescriptionChange}
                 />
