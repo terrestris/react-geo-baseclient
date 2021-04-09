@@ -27,6 +27,7 @@ import OlLayer from 'ol/layer/Layer';
 import { MapFishPrintV3Manager } from '@terrestris/mapfish-print-manager';
 
 import PrintUtil from '../../util/PrintUtil/PrintUtil';
+import { MapUtil } from '@terrestris/ol-util';
 
 import './PrintPanelV3.css';
 
@@ -151,7 +152,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
 
     this.state = {
       printTitle: props.printTitle,
-      printDescription: t('PrintPanel.defaultPrintComment'),
+      printDescription: '',
       legendTitle: t('PrintPanel.legendTitleText'),
       layout: '',
       scale: undefined,
@@ -478,17 +479,33 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
   }
 
   /**
-   * Click handler for print reset button. Resets all fields of the print form.
+   * Click handler for print reset button. Resets all fields of the print form
+   * to its defaults.
    */
   onResetBtnClick = () => {
+    const {
+      printTitle,
+      config,
+      map
+    } = this.props;
+    const unit = map.getView().getProjection().getUnits();
+    const mapScale = MapUtil.roundScale(
+      MapUtil.getScaleForResolution(map.getView().getResolution(), unit)
+    );
+    // set default scale to current map scale
+    const defaultScale = this.printManager.getScales().filter((scale: number) => {
+      return scale < mapScale;
+    }).reverse()[0];
+    this.printManager.setScale(defaultScale);
     this.setState({
-      printTitle: '',
+      printTitle: printTitle,
       printDescription: '',
-      layout: '',
-      scale: undefined,
-      dpi: undefined,
-      outputFormat: '',
-      legendIds: []
+      layout: this.printManager.getLayouts()[0]?.name,
+      scale: defaultScale,
+      dpi: this.printManager.getDpis()[0],
+      outputFormat: config.getPrintFormats()[0],
+      legendIds: this.getFilteredLegendLayers().map((layer: any) => layer.ol_uid),
+      previewUrl: this.previewPlaceholder
     });
   };
 
@@ -665,6 +682,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                   <Input
                     placeholder={t('PrintPanel.printTitlePlaceholder')}
                     value={printTitle}
+                    maxLength={80}
                     onChange={this.onPrintTitleChange}
                   />
                 </div>
@@ -673,7 +691,8 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                   className="common-settings-textarea"
                   placeholder={t('PrintPanel.printDescriptionPlaceholder')}
                   value={printDescription}
-                  maxLength={150}
+                  showCount={true}
+                  maxLength={100}
                   rows={2}
                   onChange={this.onPrintDescriptionChange}
                 />
