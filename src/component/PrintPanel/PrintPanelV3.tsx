@@ -682,6 +682,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
                   <Input
                     placeholder={t('PrintPanel.printTitlePlaceholder')}
                     value={printTitle}
+                    maxLength={80}
                     onChange={this.onPrintTitleChange}
                   />
                 </div>
