@@ -115,8 +115,10 @@ export default class Multisearch extends
   }
 
   renderItem(title: string, nominatimFeature: any, wfsFeature: any) {
+    // we need to add some random stuff to the value as antd behaves wrong
+    // when having multiple items / options with the same value
     return {
-      value: title,
+      value: title + '|uniqifier|' + Math.random(),
       key: Math.random(),
       nominatimfeatureid: nominatimFeature ? nominatimFeature.osm_id : null,
       wfsfeatureid: wfsFeature ? wfsFeature.id : null,
@@ -220,6 +222,11 @@ export default class Multisearch extends
 
   onUpdateInput(val: string) {
     const fetching = val && val !== '' && val.length >= this.props.minChars;
+    if (val) {
+      // remove a possible given unique random string which is needed
+      // to work around an antd issue with identical values in options
+      val = val.split('|uniqifier|')[0];
+    }
     this.setState({
       searchTerm: val,
       fetching,
@@ -325,6 +332,7 @@ export default class Multisearch extends
           onSelect={this.onSelect.bind(this)}
           onClear={this.resetSearch.bind(this)}
           placeholder={placeHolder}
+          value={searchTerm}
         >
         </AutoComplete>
         <div className={`loader ${fetching ? 'active' : 'hidden'}`}>
