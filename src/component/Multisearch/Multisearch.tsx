@@ -188,11 +188,14 @@ export default class Multisearch extends
           let title = '';
           if (config && this.state.searchConfig[config].displayTemplate) {
             let attr = this.state.searchConfig[config].displayTemplate;
-            attr = attr.match(/\{(.*?)\}/g).map((el: any) => el.replaceAll(
-              '{', '').replaceAll('}', ''));
-            attr.forEach((prop: any) => {
-              title += f.properties[prop];
-            });
+            const match = attr.match(/\{(.*?)\}/g);
+            if (match) {
+              attr = match.map((el: any) => el.replaceAll(
+                '{', '').replaceAll('}', ''));
+              attr.forEach((prop: any) => {
+                title += f.properties[prop];
+              });
+            }
           } else {
             title = f.properties[Object.keys(f.properties)[0]];
           }
