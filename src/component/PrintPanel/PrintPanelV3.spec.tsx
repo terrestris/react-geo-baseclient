@@ -164,12 +164,12 @@ describe('<PrintPanelV3 />', () => {
 
         wrapper.instance().onResetBtnClick();
 
-        expect(wrapper.state().printTitle).toBe('');
+        expect(wrapper.state().printTitle).toBeUndefined();
         expect(wrapper.state().printDescription).toBe('');
-        expect(wrapper.state().layout).toBe('');
+        expect(wrapper.state().layout).toBeUndefined();
         expect(wrapper.state().scale).toBeUndefined();
         expect(wrapper.state().dpi).toBeUndefined();
-        expect(wrapper.state().outputFormat).toBe('');
+        expect(wrapper.state().outputFormat).toBe('pdf');
         expect(wrapper.state().legendIds).toEqual([]);
       });
     });

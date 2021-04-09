@@ -500,7 +500,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.setState({
       printTitle: printTitle,
       printDescription: '',
-      layout: this.printManager.getLayouts()[0].name,
+      layout: this.printManager.getLayouts()[0]?.name,
       scale: defaultScale,
       dpi: this.printManager.getDpis()[0],
       outputFormat: config.getPrintFormats()[0],
