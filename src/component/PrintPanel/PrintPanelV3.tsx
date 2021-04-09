@@ -151,7 +151,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
 
     this.state = {
       printTitle: props.printTitle,
-      printDescription: t('PrintPanel.defaultPrintComment'),
+      printDescription: '',
       legendTitle: t('PrintPanel.legendTitleText'),
       layout: '',
       scale: undefined,
