@@ -190,7 +190,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     }
 
     if (layer.type === 'TILEWMS' || layer.type === 'WMSTime') {
-      olLayer = this.parseTileLayer(layer);
+      olLayer = this.parseTileLayer(layer, projection);
     }
 
     return olLayer;
@@ -198,9 +198,9 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
 
   /**
    * Parse and create a tile layer.
-   * @return {ol.layer.Tile} the new layer
+   * @return {ol.layer.Tile} The new layer
    */
-  parseTileLayer(layer: Layer) {
+  parseTileLayer(layer: Layer, projection?: ProjectionLike) {
     const {
       sourceConfig,
       clientConfig
@@ -218,8 +218,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       startDate,
       endDate,
       tileSize = 256,
-      resolutions,
-      extent
+      tileOrigin,
+      resolutions
     } = sourceConfig || {};
 
     const {
@@ -235,11 +235,11 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     const defaultFormat = timeFormat || 'YYYY-MM-DD';
 
     let tileGrid;
-    if (tileSize && resolutions && extent) {
+    if (tileSize && resolutions && tileOrigin) {
       tileGrid = new OlTileGrid({
         resolutions: resolutions,
         tileSize: [tileSize, tileSize],
-        extent: extent
+        origin: tileOrigin
       });
     }
 
@@ -247,6 +247,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       url: url,
       tileGrid: tileGrid,
       attributions: attribution,
+      projection: projection,
       params: {
         'LAYERS': layerNames,
         'TILED': requestWithTiled,

@@ -7,7 +7,7 @@ export interface AppContextUtil {
   canReadCurrentAppContext: () => boolean;
   appContextToState: (appContext: any) => {};
   parseLayer: (layer: any, projection?: ProjectionLike) => OlLayerBase | Promise<OlLayerBase>;
-  parseTileLayer: (layer: any) => {};
+  parseTileLayer: (layer: any, projection?: ProjectionLike) => {};
   parseImageLayer: (layer: any) => {};
   getToolsForToolbar: (activeModules: any[], map: any,
     appContext: any,t: (arg: string) => string, config?: any,
