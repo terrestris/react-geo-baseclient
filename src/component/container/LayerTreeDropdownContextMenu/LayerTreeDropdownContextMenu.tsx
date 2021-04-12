@@ -1,6 +1,7 @@
 import React from 'react';
 
 import OlLayerBase from 'ol/layer/Base';
+import OlMap from 'ol/Map';
 import { transformExtent } from 'ol/proj';
 
 import {
@@ -20,10 +21,14 @@ import Logger from '@terrestris/base-util/dist/Logger';
 
 import Metadata from '../../Modal/Metadata/Metadata';
 
+interface LayerTreeDropdownContextMenuDefaultProps {
+  showZoomToLayerExtent: boolean;
+}
+
 interface LayerTreeDropdownContextMenuProps {
   layer: OlLayerBase;
   t: (arg: string) => {};
-  map: any;
+  map: OlMap;
 }
 
 interface LayerTreeDropdownContextMenuState {
@@ -33,6 +38,8 @@ interface LayerTreeDropdownContextMenuState {
   isLoadingExtent: boolean;
 }
 
+type ComponentProps = LayerTreeDropdownContextMenuDefaultProps & LayerTreeDropdownContextMenuProps;
+
 /**
  * Class LayerTreeDropdownContextMenu.
  *
@@ -40,14 +47,18 @@ interface LayerTreeDropdownContextMenuState {
  * @extends React.Component
  */
 // eslint-disable-next-line
-export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropdownContextMenuProps, LayerTreeDropdownContextMenuState> {
+export class LayerTreeDropdownContextMenu extends React.Component<ComponentProps, LayerTreeDropdownContextMenuState> {
 
+
+  public static defaultProps: LayerTreeDropdownContextMenuDefaultProps = {
+    showZoomToLayerExtent: true
+  };
   /**
    * Creates the LayerTreeDropdownContextMenu.
    *
    * @constructs LayerTreeDropdownContextMenu
    */
-  constructor(props: LayerTreeDropdownContextMenuProps) {
+  constructor(props: ComponentProps) {
     super(props);
 
     // binds
@@ -151,7 +162,8 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
   render() {
     const {
       t,
-      layer
+      layer,
+      showZoomToLayerExtent
     } = this.props;
 
     const {
@@ -185,6 +197,7 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
           </MenuItem>
         }
         {
+          showZoomToLayerExtent &&
           <MenuItem
             key="zoomToExtent"
           >
@@ -220,12 +233,14 @@ export class LayerTreeDropdownContextMenu extends React.Component<LayerTreeDropd
             className="fa fa-cog layer-tree-node-title-settings"
           />
         </Dropdown>
-        {metaDataModalVisible ?
+        {
+          metaDataModalVisible &&
           <Metadata
             layer={layer}
             t={t}
             onCancel={() => this.changeMetadataModalVisibility()} >
-          </Metadata> : null}
+          </Metadata>
+        }
       </div>
     );
   }

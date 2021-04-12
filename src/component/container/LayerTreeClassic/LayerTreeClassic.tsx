@@ -23,6 +23,7 @@ interface DefaultLayerTreeClassicProps {
   extraLegendParams: {};
   dispatch: (arg: any) => void;
   showContextMenu?: boolean;
+  showZoomToLayerExtent?: boolean;
   showApplyTimeInterval: boolean;
 }
 
@@ -48,7 +49,8 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
       TRANSPARENT: true
     },
     dispatch: () => {},
-    showApplyTimeInterval: true
+    showApplyTimeInterval: true,
+    showZoomToLayerExtent: true
   };
 
   /**
@@ -69,15 +71,21 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
    * @param layer Layer entry.
    */
   showContextMenu(layer: OlLayer) {
-    if (_isBoolean(this.props.showContextMenu)) {
-      return this.props.showContextMenu;
+
+    const {
+      showZoomToLayerExtent,
+      showContextMenu
+    } = this.props;
+
+    if (_isBoolean(showContextMenu)) {
+      return showContextMenu;
     }
 
     const showDescription = !_isEmpty(layer.get('description'));
     const showMetadata = !_isEmpty(layer.get('metadataIdentifier')) &&
       layer.get('showMetadataInClient');
 
-    return showDescription || showMetadata;
+    return showDescription || showMetadata || showZoomToLayerExtent;
   }
 
   /**
@@ -90,6 +98,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
       map,
       extraLegendParams,
       t,
+      showZoomToLayerExtent,
       showApplyTimeInterval
     } = this.props;
 
@@ -120,6 +129,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
                 <LayerTreeDropdownContextMenu
                   map={this.props.map}
                   layer={layer}
+                  showZoomToLayerExtent={showZoomToLayerExtent}
                   t={t} />
               }
               {(showApplyTimeInterval && layer.get('type') === 'WMSTime') &&
