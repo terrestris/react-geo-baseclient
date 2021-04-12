@@ -252,6 +252,10 @@ export default class Multisearch extends
   }
 
   onSelect(text: string, selection: any) {
+    const {
+      map
+    } = this.props;
+
     let feature: any;
     if (selection.nominatimfeatureid) {
       feature = this.state.nominatimFeatures.find(
@@ -280,7 +284,11 @@ export default class Multisearch extends
         el => el.id === selection.wfsfeatureid);
       const olView = this.props.map.getView();
       const geoJsonFormat = new OlFormatGeoJSON();
-      const olFeature = geoJsonFormat.readFeature(feature);
+      const olFeature = geoJsonFormat.readFeature(feature, {
+        dataProjection: 'EPSG:3857',
+        featureProjection: map.getView().getProjection()
+      });
+
       const geometry = olFeature.getGeometry();
 
       if (geometry) {
@@ -342,31 +350,31 @@ export default class Multisearch extends
           <LoadingOutlined />
         </div>
         {useNominatim &&
-            <NominatimSearch
-              countryCodes={''}
-              map={map}
-              minChars={minChars}
-              visible={false}
-              searchTerm={searchTerm}
-              onFetchSuccess={this.onNominatimSearchSuccess.bind(this)}
-              onFetchError={this.onFetchError.bind(this)}
-            />
+          <NominatimSearch
+            countryCodes={''}
+            map={map}
+            minChars={minChars}
+            visible={false}
+            searchTerm={searchTerm}
+            onFetchSuccess={this.onNominatimSearchSuccess.bind(this)}
+            onFetchError={this.onFetchError.bind(this)}
+          />
         }
         {useWfs &&
-           <WfsSearchInput
-             map={map}
-             minChars={minChars}
-             baseUrl={wfsSearchBaseUrl}
-             featureTypes={Object.keys(searchConfig)}
-             onFetchSuccess={this.wfsSearchSuccess.bind(this)}
-             onFetchError={this.onFetchError.bind(this)}
-             searchAttributes={searchAttributes}
-             visible={false}
-             searchTerm={searchTerm}
-             additionalFetchOptions={{
-               headers: CsrfUtil.getHeaderObject()
-             }}
-           />
+          <WfsSearchInput
+            map={map}
+            minChars={minChars}
+            baseUrl={wfsSearchBaseUrl}
+            featureTypes={Object.keys(searchConfig)}
+            onFetchSuccess={this.wfsSearchSuccess.bind(this)}
+            onFetchError={this.onFetchError.bind(this)}
+            searchAttributes={searchAttributes}
+            visible={false}
+            searchTerm={searchTerm}
+            additionalFetchOptions={{
+              headers: CsrfUtil.getHeaderObject()
+            }}
+          />
         }
       </div>
     );
