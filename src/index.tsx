@@ -52,6 +52,7 @@ const setupMap = (state: any) => {
     projection: olProjection,
     resolutions: resolutions,
     extent: mapExtent,
+    constrainOnlyCenter: true,
     constrainResolution: true
   });
 
