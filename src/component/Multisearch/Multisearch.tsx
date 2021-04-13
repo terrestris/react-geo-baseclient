@@ -13,6 +13,7 @@ import WfsSearchInput from '@terrestris/react-geo/dist/Field/WfsSearchInput/WfsS
 import NominatimSearch from '@terrestris/react-geo/dist/Field/NominatimSearch/NominatimSearch';
 
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
+import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil';
 
 import CsrfUtil from '@terrestris/base-util/dist/CsrfUtil/CsrfUtil';
 
@@ -163,7 +164,7 @@ export default class Multisearch extends
       searchLayers.forEach((l: any) => {
         const config = l.get('searchConfig');
         if (config && config.featureTypeName &&
-            config.featureTypeName.indexOf(key) > -1) {
+          config.featureTypeName.indexOf(key) > -1) {
           results[key].title = l.get('name');
         }
       });
@@ -260,7 +261,7 @@ export default class Multisearch extends
     if (selection.nominatimfeatureid) {
       feature = this.state.nominatimFeatures.find(
         el => el.osm_id === selection.nominatimfeatureid);
-      const olView = this.props.map.getView();
+      const olView = map.getView();
       const extent: [string, string, string, string] = [
         feature.boundingbox[2],
         feature.boundingbox[0],
@@ -282,7 +283,7 @@ export default class Multisearch extends
     } else {
       feature = this.state.wfsFeatures.find(
         el => el.id === selection.wfsfeatureid);
-      const olView = this.props.map.getView();
+      const olView = map.getView();
       const geoJsonFormat = new OlFormatGeoJSON();
       const olFeature = geoJsonFormat.readFeature(feature, {
         dataProjection: 'EPSG:3857',
@@ -298,13 +299,18 @@ export default class Multisearch extends
       }
 
       // make layer visible
-      const searchLayers = MapUtil.getLayersByProperty(
-        this.props.map, 'searchable', true);
+      const searchLayers = MapUtil.getLayersByProperty(map, 'searchable', true);
       const layer = searchLayers.find((l: any) =>
         l.get('searchConfig').featureTypeName.indexOf(
           feature.id.split('.')[0]) > -1);
       if (layer && !layer.getVisible()) {
         layer.setVisible(true);
+        // also make all parent folders / groups visible so
+        // that the layer becomes visible in map
+        PermalinkUtil.setParentsVisible(
+          map,
+          map.getLayerGroup().getLayers(),
+          layer.ol_uid);
       }
     }
   }
