@@ -56,7 +56,7 @@
     "@brainhubeu/react-carousel": "^1.19.26",
     "@terrestris/base-util": "^1.0.1",
     "@terrestris/mapfish-print-manager": "^6.3.5",
-    "@terrestris/ol-util": "^4.1.1",
+    "@terrestris/ol-util": "^4.1.2",
     "@terrestris/react-geo": "15.0.0-beta.2",
     "@terrestris/vectortiles": "^0.3.0",
     "antd": "4.8.6",
