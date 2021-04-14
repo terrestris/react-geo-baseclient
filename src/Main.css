@@ -11,7 +11,7 @@ body {
  * Make most of the text elements use the defined text color.
  * This list may be incomplete
  */
-p, b, h1, h2, h3, h4, h5, em, span:not(.fa), span, div:not(.ant-tooltip-inner), a:not(.link), li {
+p, b, h1, h2, h3, h4, h5, em, span:not(.fa), div:not(.ant-tooltip-inner), a:not(.link), li {
   color: var(--textColor) !important;
 }
 
