@@ -227,6 +227,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       hoverable,
       searchable,
       searchConfig,
+      propertyConfig,
       hoverTemplate,
       minResolution,
       maxResolution
@@ -275,6 +276,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     tileLayer.set('timeFormat', defaultFormat);
     tileLayer.set('searchable', searchable);
     tileLayer.set('searchConfig', searchConfig);
+    tileLayer.set('propertyConfig', propertyConfig);
 
     if (layer.type === 'WMSTime') {
       tileLayer.set('startDate', startDate ? moment(startDate).format(defaultFormat) : undefined);
@@ -303,7 +305,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       hoverTemplate,
       crossOrigin,
       searchable,
-      searchConfig
+      searchConfig,
+      propertyConfig
     } = layer.clientConfig;
 
     const layerSource = new OlImageWMS({
@@ -328,6 +331,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     imageLayer.set('legendUrl', legendUrl);
     imageLayer.set('searchable', searchable);
     imageLayer.set('searchConfig', searchConfig);
+    imageLayer.set('propertyConfig', propertyConfig);
 
     return imageLayer;
   }
@@ -350,7 +354,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     const {
       opacity,
       searchable,
-      searchConfig
+      searchConfig,
+      propertyConfig
     } = layer.clientConfig || {};
 
     const wmtsCapabilitiesParser = new OlWMTSCapabilities();
@@ -387,6 +392,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     wmtsLayer.set('type', layer.type);
     wmtsLayer.set('searchable', searchable);
     wmtsLayer.set('searchConfig', searchConfig);
+    wmtsLayer.set('propertyConfig', propertyConfig);
     wmtsLayer.set('legendUrl', legendUrl);
 
     return wmtsLayer;
