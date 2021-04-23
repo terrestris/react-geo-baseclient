@@ -59,6 +59,11 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
    * The window position.
    */
   windowPosition?: [number, number];
+
+  /**
+   * The window height.
+   */
+   windowHeight?: number;
 }
 
 interface FeatureInfoState {
@@ -346,6 +351,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
       t,
       dispatch,
       windowPosition,
+      windowHeight,
       ...passThroughProps
     } = this.props;
 
@@ -397,7 +403,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
               title={winTitle}
               minWidth={500}
               maxWidth={1000}
-              height={300}
+              height={windowHeight > 0 ? windowHeight : 300}
               maxHeight={1000}
               x={windowPosition && windowPosition[0] || 50}
               y={windowPosition && windowPosition[1] || 50}
