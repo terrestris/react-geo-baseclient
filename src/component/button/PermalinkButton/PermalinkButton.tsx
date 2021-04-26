@@ -20,6 +20,7 @@ interface BaseProps {
   map: any;
   t: (arg: string) => string;
   getLink?: () => string;
+  windowPosition?: [number, number];
 }
 
 export type PermalinkButtonProps = BaseProps & Partial<DefaultPermalinkButtonProps> & ButtonProps;
@@ -37,7 +38,8 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
   map,
   tooltip,
   tooltipPlacement,
-  getLink
+  getLink,
+  windowPosition
 }) => {
 
   const [winVisible, setWinVisible] = useState(false);
@@ -74,8 +76,8 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
           onEscape={() => setWinVisible(!winVisible)}
           title={t('Permalink.windowTitle')}
           width={750}
-          y={50}
-          x={100}
+          y={windowPosition && windowPosition[1] || 50}
+          x={windowPosition && windowPosition[0] || 100}
           enableResizing={false}
           collapseTooltip={t('General.collapse')}
           bounds="#app"
