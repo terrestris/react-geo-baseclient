@@ -12,7 +12,7 @@ import copy from 'copy-to-clipboard';
 
 import './PermalinkButton.css';
 
-interface DefaultPermalinkButtonProps extends SimpleButtonProps{
+interface DefaultPermalinkButtonProps extends SimpleButtonProps {
   shape: 'circle' | 'round';
 }
 
@@ -20,6 +20,7 @@ interface BaseProps {
   map: any;
   t: (arg: string) => string;
   getLink?: () => string;
+  windowPosition?: [number, number];
 }
 
 export type PermalinkButtonProps = BaseProps & Partial<DefaultPermalinkButtonProps> & ButtonProps;
@@ -29,25 +30,24 @@ export type PermalinkButtonProps = BaseProps & Partial<DefaultPermalinkButtonPro
  * Opens window which creates a permalink.
  * @param props The props for this component
  */
-export default function PermalinkButton(props: PermalinkButtonProps) {
+export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
+  t,
+  type = 'primary',
+  shape = 'circle',
+  iconName = 'fas fa-link',
+  map,
+  tooltip,
+  tooltipPlacement,
+  getLink,
+  windowPosition
+}) => {
 
   const [winVisible, setWinVisible] = useState(false);
-
-  const {
-    t,
-    type,
-    shape,
-    iconName,
-    map,
-    tooltip,
-    tooltipPlacement,
-    getLink
-  } = props;
 
   /**
    * Copy the permalink to clipboard
    */
-  function copyToClipBoard() {
+  const copyToClipBoard = () => {
     const linkInput: HTMLInputElement = document.querySelector(
       '.permalink input');
     if (linkInput) {
@@ -58,10 +58,10 @@ export default function PermalinkButton(props: PermalinkButtonProps) {
         message.info(t('Permalink.copyToClipboardFailed'));
       }
     }
-  }
+  };
 
   return (
-    <div>
+    <>
       <SimpleButton
         type={type}
         shape={shape}
@@ -70,57 +70,51 @@ export default function PermalinkButton(props: PermalinkButtonProps) {
         tooltipPlacement={tooltipPlacement}
         onClick={() => setWinVisible(!winVisible)}
       />
-      { winVisible &&
-    <Window
-      onEscape={() => setWinVisible(!winVisible)}
-      title={t('Permalink.windowTitle')}
-      width={750}
-      y={50}
-      x={100}
-      enableResizing={false}
-      collapseTooltip={t('General.collapse')}
-      bounds="#app"
-      tools={[
-        <SimpleButton
-          iconName="fas fa-times"
-          key="close-tool"
-          size="small"
-          tooltip={t('General.close')}
-          onClick={() => setWinVisible(!winVisible)}
-        />
-      ]}
-    >
-      <div
-        className="permalink"
-      >
-        <label
-          htmlFor="permalink"
+      {
+        winVisible &&
+        <Window
+          onEscape={() => setWinVisible(!winVisible)}
+          title={t('Permalink.windowTitle')}
+          width={750}
+          y={windowPosition && windowPosition[1] || 50}
+          x={windowPosition && windowPosition[0] || 100}
+          enableResizing={false}
+          collapseTooltip={t('General.collapse')}
+          bounds="#app"
+          tools={[
+            <SimpleButton
+              iconName="fas fa-times"
+              key="close-tool"
+              size="small"
+              tooltip={t('General.close')}
+              onClick={() => setWinVisible(!winVisible)}
+            />
+          ]}
         >
-          {t('Permalink.label')}:
-        </label>
-        <input
-          readOnly
-          id="permalink"
-          type="text"
-          value={getLink ? getLink() : PermalinkUtil.getLink(map)}
-        />
-        <Button
-          onClick={copyToClipBoard}
-        >
-          {t('Permalink.copy')}
-        </Button>
-      </div>
-    </Window>
+          <div
+            className="permalink"
+          >
+            <label
+              htmlFor="permalink"
+            >
+              {t('Permalink.label')}:
+            </label>
+            <input
+              readOnly
+              id="permalink"
+              type="text"
+              value={getLink ? getLink() : PermalinkUtil.getLink(map)}
+            />
+            <Button
+              onClick={copyToClipBoard}
+            >
+              {t('Permalink.copy')}
+            </Button>
+          </div>
+        </Window>
       }
-    </div>
+    </>
   );
-}
-
-/**
- * The default properties.
- */
-PermalinkButton.defaultProps = {
-  type: 'primary',
-  shape: 'circle',
-  iconName: 'fas fa-link'
 };
+
+export default PermalinkButton;
