@@ -346,6 +346,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
    */
   async parseWMTSLayer(layer: Layer, projection: ProjectionLike = 'EPSG:3857') {
     const {
+      attribution,
       url,
       layerNames,
       legendUrl
@@ -380,7 +381,12 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       projection: projection
     });
 
-    const wmtsSource = new OlSourceWMTS(options);
+    const wmtsSource = new OlSourceWMTS({
+      ...options,
+      ...{
+        attributions: attribution
+      }
+    });
 
     const wmtsLayer = new OlTileLayer({
       source: wmtsSource,
