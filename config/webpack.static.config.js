@@ -44,10 +44,7 @@ const delayedConf = new Promise(function(resolve) {
       title,
       loadingMaskImg
     }),
-    new InterpolateHtmlPlugin(HtmlWebpackPlugin,interpolations),
-    new webpack.DefinePlugin({
-      APP_MODE: JSON.stringify(commonConfig.TARGET)
-    })
+    new InterpolateHtmlPlugin(HtmlWebpackPlugin,interpolations)
   ];
 
   commonWebpackConfig.devServer = {

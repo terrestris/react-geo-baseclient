@@ -14,7 +14,7 @@ const RESOURCES_PATH = process.env.RESOURCES_PATH || './src/resources/';
 const APP_PREFIX = process.env.APP_PREFIX;
 
 let customCssTheme;
-if (process.env.PROJECT_MAIN_PATH)  {
+if (process.env.PROJECT_MAIN_PATH) {
   customCssTheme = require(PROJECT_MAIN_PATH + 'theme/antLessModifyVars');
 } else {
   customCssTheme = path.resolve(PROJECT_MAIN_PATH + 'src/theme/antLessModifyVars');
@@ -79,8 +79,8 @@ const commonWebpackConfig = {
         ),
         [
           customAppConfig &&
-          customAppConfig.tsLoaderIncludes &&
-          Array.isArray(customAppConfig.tsLoaderIncludes)
+            customAppConfig.tsLoaderIncludes &&
+            Array.isArray(customAppConfig.tsLoaderIncludes)
             ? customAppConfig.tsLoaderIncludes.map((entry) => {
               return path.resolve(__dirname, entry);
             })
@@ -208,6 +208,5 @@ const commonWebpackConfig = {
 
 module.exports = {
   logger: Logger,
-  commonWebpackConfig: commonWebpackConfig,
-  TARGET: TARGET
+  commonWebpackConfig: commonWebpackConfig
 };
