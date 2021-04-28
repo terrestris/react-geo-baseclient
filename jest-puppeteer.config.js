@@ -6,7 +6,7 @@ module.exports = {
   },
   browserContext: 'default',
   server: {
-    command: 'cd build && http-server -p 8000',
-    port: 8000
+    command: 'cd build && http-server -p 8075',
+    port: 8075
   }
-}
+};
