@@ -171,7 +171,9 @@ export class Footer extends React.Component<FooterProps, FooterState> {
       .reverse();
     const newView = new OlView({
       projection: newProj,
-      resolutions: resolutions
+      resolutions: resolutions,
+      constrainOnlyCenter: true,
+      constrainResolution: true
     });
     map.setView(newView);
     newView.fit(transformedExtent);
