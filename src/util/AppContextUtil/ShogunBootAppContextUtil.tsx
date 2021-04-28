@@ -55,7 +55,7 @@ const userService = new UserService();
 class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextUtil {
 
   canReadCurrentAppContext() {
-    const appMode = typeof (APP_MODE) != 'undefined' ? APP_MODE : '';
+    const appMode = typeof (process.env.APP_MODE) != 'undefined' ? process.env.APP_MODE : '';
 
     return appMode.indexOf('boot') > -1;
   }

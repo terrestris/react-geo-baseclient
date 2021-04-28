@@ -49,7 +49,7 @@ export class Main extends React.Component<MainProps, MainState> {
     // load and show the project specific main view, as
     // configured by the user in the projectconfig.js
     // @ts-ignore
-    const context = require.context(PROJECT_MAIN_PATH, true, PROJECT_MAIN_CLASS);
+    const context = require.context(process.env.PROJECT_MAIN_PATH, true, process.env.PROJECT_MAIN_CLASS);
     context.keys().forEach((filename: any) => {
       const main = context(filename);
       this.main = main.default;
