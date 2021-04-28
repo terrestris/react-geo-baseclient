@@ -42,7 +42,7 @@ export class Main extends React.Component<MainProps, MainState> {
     // require.context may not be available in test setup. Use
     // default ProjectMain instead
     // @ts-ignore
-    if (___TEST___){
+    if (process.env.APP_MODE.indexOf('test') > -1) {
       this.main = ProjectMain;
       return;
     }
