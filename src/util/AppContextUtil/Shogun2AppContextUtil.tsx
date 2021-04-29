@@ -470,6 +470,18 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
     const tools: any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
     const isMobileClient = isMobile();
+    const initProjection = mapConfig.projection.indexOf('EPSG:') < 0 ?
+      'EPSG:' + mapConfig.projection :
+      mapConfig.projection;
+    const currentProjection = map.getView().getProjection().getCode();
+    let center = [
+      mapConfig.center.x,
+      mapConfig.center.y
+    ];
+
+    if (initProjection !== currentProjection) {
+      center = transform(center, initProjection, currentProjection);
+    }
 
     activeModules.forEach((module: any) => {
       if (module.hidden) {
@@ -502,10 +514,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
           return;
         case 'shogun-button-zoomtoextent':
           tools.push(<ZoomToExtentButton
-            center={[
-              mapConfig.center.x,
-              mapConfig.center.y
-            ]}
+            center={center}
             zoom={mapConfig.zoom}
             map={map}
             key="3"

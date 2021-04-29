@@ -131,7 +131,6 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
 
     const appContextUtil = getAppContextUtil();
     const measureToolsEnabled = appContextUtil.measureToolsEnabled(activeModules);
-
     // apply possibly given permalink
     PermalinkUtil.applyLink(map);
 
