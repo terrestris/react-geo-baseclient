@@ -258,6 +258,11 @@ export default class Multisearch extends
     } = this.props;
 
     let feature: any;
+
+    this.setState({
+      fetching: false,
+    });
+
     if (selection.nominatimfeatureid) {
       feature = this.state.nominatimFeatures.find(
         el => el.osm_id === selection.nominatimfeatureid);
