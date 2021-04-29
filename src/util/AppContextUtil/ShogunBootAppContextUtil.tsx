@@ -465,6 +465,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             iconName="fas fa-expand"
             tooltip={t('ZoomToExtent.tooltip')}
             tooltipPlacement={'right'}
+            constrainViewResolution={true}
           />);
           return;
         case 'shogun-button-print':
