@@ -12,7 +12,7 @@ import { middleware } from 'redux-async-initial-state';
 
 import Logger from '@terrestris/base-util/dist/Logger';
 
-import baseclientMainReducer from './reducers/Reducer';
+import rootReducer from './reducers/Reducer';
 import { getAppContextUtil } from '../util/getAppContextUtil';
 
 import config from '../config/config';
@@ -84,7 +84,7 @@ const loadAppContextStore = async () => {
 };
 
 const store = createStore(
-  baseclientMainReducer,
+  rootReducer,
   composeEnhancers(
     applyMiddleware(middleware(loadAppContextStore)),
     applyMiddleware(thunkMiddleware, loggerMiddleware)

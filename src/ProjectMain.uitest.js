@@ -10,7 +10,7 @@ describe('Application render', () => {
       clearInterval(interval);
       resolve();
     }
-  }
+  };
   let getMapPromise = new Promise((resolve, reject) => {
     interval = setInterval(getMapListener, 1000, resolve);
   });
@@ -26,7 +26,7 @@ describe('Application render', () => {
         getMapFound = true;
       }
     });
-    await page.goto('http://0.0.0.0:8000');
+    await page.goto('http://0.0.0.0:8075');
     await page.waitForSelector('#map');
     await page.waitForSelector('canvas');
   }, 120000);

@@ -1,10 +1,6 @@
 module.exports = {
   verbose: true,
-  rootDir: "../../",
-  globals: {
-    PROJECT_MAIN_PATH: './',
-    PROJECT_MAIN_CLASS: 'ProjectMain'
-  },
+  rootDir: '../../',
   testEnvironment: 'jsdom',
   preset: 'jest-puppeteer',
   moduleFileExtensions: [

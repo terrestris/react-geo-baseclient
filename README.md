@@ -33,6 +33,10 @@ PROJECT_MAIN_CLASS=ProjectMain
 # The paths !!! relative to Main Component in react-geo-baseclient/packages/baseclient/src/Main.tsx !!!
 PROJECT_MAIN_PATH='../../myproject/'
 
+# The path to the project main reducer (!!! relative from ProjectMain path)
+# This config is optional. When not configured, the default reducer of baseclient will be used as usual.
+PROJECT_REDUCER_PATH=src/store/myreducers
+
 # resources path relative to webpack config in react-geo-baseclient/packages/baseclient/config
 RESOURCES_PATH='../myproject/resources/'
 

@@ -9,11 +9,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TARGET = process.env.npm_lifecycle_event;
 const PROJECT_MAIN_PATH = process.env.PROJECT_MAIN_PATH || './';
 const PROJECT_MAIN_CLASS = process.env.PROJECT_MAIN_CLASS || 'ProjectMain';
+const PROJECT_REDUCER_PATH = process.env.PROJECT_REDUCER_PATH;
 const RESOURCES_PATH = process.env.RESOURCES_PATH || './src/resources/';
 const APP_PREFIX = process.env.APP_PREFIX;
 
 let customCssTheme;
-if (process.env.PROJECT_MAIN_PATH)  {
+if (process.env.PROJECT_MAIN_PATH) {
   customCssTheme = require(PROJECT_MAIN_PATH + 'theme/antLessModifyVars');
 } else {
   customCssTheme = path.resolve(PROJECT_MAIN_PATH + 'src/theme/antLessModifyVars');
@@ -78,8 +79,8 @@ const commonWebpackConfig = {
         ),
         [
           customAppConfig &&
-          customAppConfig.tsLoaderIncludes &&
-          Array.isArray(customAppConfig.tsLoaderIncludes)
+            customAppConfig.tsLoaderIncludes &&
+            Array.isArray(customAppConfig.tsLoaderIncludes)
             ? customAppConfig.tsLoaderIncludes.map((entry) => {
               return path.resolve(__dirname, entry);
             })
@@ -170,10 +171,13 @@ const commonWebpackConfig = {
       ]
     }),
     new webpack.DefinePlugin({
-      PROJECT_MAIN_PATH: JSON.stringify(PROJECT_MAIN_PATH),
-      PROJECT_MAIN_CLASS: new RegExp('^./' + PROJECT_MAIN_CLASS + '\\.(jsx|js|ts|tsx)$'),
-      APP_PREFIX: JSON.stringify(APP_PREFIX),
-      ___TEST___: JSON.stringify(TARGET.indexOf('test') > -1)
+      'process.env': {
+        APP_PREFIX: JSON.stringify(APP_PREFIX),
+        PROJECT_MAIN_PATH: JSON.stringify(PROJECT_MAIN_PATH),
+        PROJECT_MAIN_CLASS: new RegExp('^./' + PROJECT_MAIN_CLASS + '\\.(jsx|js|ts|tsx)$'),
+        PROJECT_REDUCER_PATH: PROJECT_REDUCER_PATH ? JSON.stringify(PROJECT_REDUCER_PATH) : false,
+        APP_MODE: JSON.stringify(TARGET)
+      }
     }),
     new SimpleProgressWebpackPlugin({
       format: 'compact'
@@ -204,6 +208,5 @@ const commonWebpackConfig = {
 
 module.exports = {
   logger: Logger,
-  commonWebpackConfig: commonWebpackConfig,
-  TARGET: TARGET
+  commonWebpackConfig: commonWebpackConfig
 };
