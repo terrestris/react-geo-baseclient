@@ -260,7 +260,7 @@ export default class Multisearch extends
     let feature: any;
 
     this.setState({
-      fetching: false,
+      fetching: false
     });
 
     if (selection.nominatimfeatureid) {
