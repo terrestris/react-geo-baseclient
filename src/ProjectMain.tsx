@@ -32,7 +32,8 @@ const mapStateToProps = (state: any) => {
     loading: state.loadingQueue.loading,
     appContext: state.appContext,
     mapScales: state.mapScales,
-    addLayerWindowVisible: state.appState.addLayerWindowVisible
+    addLayerWindowVisible: state.appState.addLayerWindowVisible,
+    projection: state.mapView.present.projection
   };
 };
 
@@ -51,6 +52,7 @@ export interface MainProps extends Partial<DefaultMainProps> {
   activeModules: object[];
   mapScales: number[];
   t: (arg: string) => string;
+  projection: string;
 }
 
 export interface MainState {
