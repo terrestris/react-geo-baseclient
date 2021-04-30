@@ -239,17 +239,17 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     let tileGrid;
     if (tileSize && resolutions && tileOrigin) {
       tileGrid = new OlTileGrid({
-        resolutions: resolutions,
+        resolutions,
         tileSize: [tileSize, tileSize],
         origin: tileOrigin
       });
     }
 
-    const layerSource = new OlTileWMS({
-      url: url,
-      tileGrid: tileGrid,
+    const source = new OlTileWMS({
+      url,
+      tileGrid,
       attributions: attribution,
-      projection: projection,
+      projection,
       params: {
         'LAYERS': layerNames,
         'TILED': requestWithTiled,
@@ -259,7 +259,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     });
 
     if (layer.type === 'WMSTime') {
-      layerSource.getParams().TIME = moment(moment.now()).format(defaultFormat);
+      source.getParams().TIME = moment(moment.now()).format(defaultFormat);
     }
 
     const tileLayer = new OlTileLayer({
@@ -312,8 +312,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       propertyConfig
     } = layer.clientConfig;
 
-    const layerSource = new OlImageWMS({
-      url: url,
+    const source = new OlImageWMS({
+      url,
       attributions: attribution,
       params: {
         'LAYERS': layerNames,
