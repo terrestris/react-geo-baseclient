@@ -209,7 +209,6 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     const {
       url,
       layerNames,
-      crossOrigin,
       requestWithTiled,
       transparent = true,
       attribution,
@@ -230,6 +229,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       propertyConfig,
       hoverTemplate,
       minResolution,
+      className,
+      crossOrigin,
       maxResolution
     } = clientConfig || {};
 
@@ -254,7 +255,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
         'TILED': requestWithTiled,
         'TRANSPARENT': transparent
       },
-      crossOrigin: crossOrigin
+      crossOrigin
     });
 
     if (layer.type === 'WMSTime') {
@@ -262,10 +263,11 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     }
 
     const tileLayer = new OlTileLayer({
-      source: layerSource,
-      opacity: opacity,
-      minResolution: minResolution,
-      maxResolution: maxResolution
+      source,
+      opacity,
+      minResolution,
+      maxResolution,
+      className
     });
 
     tileLayer.set('name', layer.name);
@@ -304,6 +306,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       hoverable,
       hoverTemplate,
       crossOrigin,
+      className,
       searchable,
       searchConfig,
       propertyConfig
@@ -316,12 +319,13 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
         'LAYERS': layerNames,
         'TRANSPARENT': true
       },
-      crossOrigin: crossOrigin
+      crossOrigin
     });
 
     const imageLayer = new OlImageLayer({
-      source: layerSource,
-      opacity: opacity
+      source,
+      opacity,
+      className
     });
 
     imageLayer.set('name', layer.name);
@@ -356,7 +360,9 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       opacity,
       searchable,
       searchConfig,
-      propertyConfig
+      propertyConfig,
+      crossOrigin,
+      className
     } = layer.clientConfig || {};
 
     const wmtsCapabilitiesParser = new OlWMTSCapabilities();
@@ -381,17 +387,19 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       projection: projection
     });
 
-    const wmtsSource = new OlSourceWMTS({
+    const source = new OlSourceWMTS({
       ...options,
       ...{
-        attributions: attribution
+        attributions: attribution,
+        crossOrigin
       }
     });
 
     const wmtsLayer = new OlTileLayer({
-      source: wmtsSource,
+      source,
       visible: false,
-      opacity: opacity
+      opacity,
+      className
     });
 
     wmtsLayer.set('name', layer.name);
