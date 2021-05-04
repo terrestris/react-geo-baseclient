@@ -231,7 +231,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       minResolution,
       className,
       crossOrigin,
-      maxResolution
+      maxResolution,
+      hideLegendInPrint
     } = clientConfig || {};
 
     const defaultFormat = timeFormat || 'YYYY-MM-DD';
@@ -279,6 +280,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     tileLayer.set('searchable', searchable);
     tileLayer.set('searchConfig', searchConfig);
     tileLayer.set('propertyConfig', propertyConfig);
+    tileLayer.set('hideLegendInPrint', hideLegendInPrint);
 
     if (layer.type === 'WMSTime') {
       tileLayer.set('startDate', startDate ? moment(startDate).format(defaultFormat) : undefined);
@@ -309,7 +311,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       className,
       searchable,
       searchConfig,
-      propertyConfig
+      propertyConfig,
+      hideLegendInPrint
     } = layer.clientConfig;
 
     const source = new OlImageWMS({
@@ -336,6 +339,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     imageLayer.set('searchable', searchable);
     imageLayer.set('searchConfig', searchConfig);
     imageLayer.set('propertyConfig', propertyConfig);
+    imageLayer.set('hideLegendInPrint', hideLegendInPrint);
 
     return imageLayer;
   }
@@ -362,7 +366,8 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       searchConfig,
       propertyConfig,
       crossOrigin,
-      className
+      className,
+      hideLegendInPrint
     } = layer.clientConfig || {};
 
     const wmtsCapabilitiesParser = new OlWMTSCapabilities();
@@ -408,6 +413,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     wmtsLayer.set('searchConfig', searchConfig);
     wmtsLayer.set('propertyConfig', propertyConfig);
     wmtsLayer.set('legendUrl', legendUrl);
+    wmtsLayer.set('hideLegendInPrint', hideLegendInPrint);
 
     return wmtsLayer;
   }
