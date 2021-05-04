@@ -6,6 +6,9 @@ import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Butt
 import OlMap from 'ol/Map';
 import OlSourceImageWMS from 'ol/source/ImageWMS';
 import OlSourceTileWMS from 'ol/source/TileWMS';
+import OlSourceVector from 'ol/source/Vector';
+import OlFeature from 'ol/Feature';
+import OlLayer from 'ol/layer/Layer';
 
 import {
   abortFetchingFeatures,
@@ -155,6 +158,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
     } else {
       pixel = map.getEventPixel(olEvt.originalEvent);
     }
+    let internalVectorFeatures: any = {};
     const featureInfoUrls: string[] = [];
 
     // dispatch that any running HOVER process should be canceled
@@ -162,6 +166,24 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
 
     olEvt.map.forEachLayerAtPixel(pixel, (layer: any) => {
       const layerSource: any = layer.getSource();
+      const coordinate = map.getCoordinateFromPixel(pixel);
+
+      if (layer.getSource() instanceof OlSourceVector) {
+        internalVectorFeatures[layer.get('name')] = [];
+        const internalFeatures = olEvt.map.getFeaturesAtPixel(pixel, (feature: OlFeature) => { }, {
+          layerFilter: (layerCandidate: OlLayer) => {
+            return layerCandidate === layer;
+          }
+        });
+        if (!internalFeatures.length) {
+          return;
+        }
+        internalVectorFeatures[layer.get('name')] =
+          internalFeatures.map((feat: OlFeature) => feat.clone());
+        featureInfoUrls.push(`internal://${layer.get('name')}`);
+        return;
+      }
+
       if (!layerSource.getFeatureInfoUrl) {
         return;
       }
@@ -169,7 +191,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
         layer.get('type') === 'WMSTime'
           ? layerSource
             .getFeatureInfoUrl(
-              map.getCoordinateFromPixel(pixel),
+              coordinate,
               viewResolution,
               viewProjection,
               {
@@ -207,7 +229,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
     map.getTargetElement().style.cursor = featureInfoUrls.length > 0 ? 'wait' : '';
     dispatch(fetchFeatures(
       'HOVER', featureInfoUrls,
-      {olEvt}
+      { olEvt, internalVectorFeatures }
     ));
   }
 
@@ -220,8 +242,9 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
   layerFilter(layerCandidate: any) {
     const source = layerCandidate.getSource();
     const isHoverable = layerCandidate.get('hoverable');
-    const isWms = source instanceof OlSourceImageWMS || source instanceof OlSourceTileWMS;
-    return isHoverable && isWms;
+    const isSupportedHoverSource = source instanceof OlSourceImageWMS ||
+      source instanceof OlSourceTileWMS || source instanceof OlSourceVector;
+    return isHoverable && isSupportedHoverSource;
   }
 
   /**

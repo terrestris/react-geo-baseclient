@@ -7,6 +7,7 @@ import OlStyleStyle from 'ol/style/Style';
 import OlStyleFill from 'ol/style/Fill';
 import OlStyleStroke from 'ol/style/Stroke';
 import OlStyleCircle from 'ol/style/Circle';
+import OlFeature from 'ol/Feature';
 
 import {
   Menu
@@ -293,7 +294,7 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
   onMenuMouseEnter(evt: any) {
     const features = this.props.features[evt.key];
     const highlightSource = this.hoverVectorLayer.getSource();
-    highlightSource.addFeatures(features);
+    highlightSource.addFeatures(features.map((feat: OlFeature) => feat.clone()));
     this.resetHoverLayerStyle();
     this.setHoverLayerStyle(features);
   }

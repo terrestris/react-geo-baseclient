@@ -85,7 +85,7 @@ export function abortFetchingFeatures(type: string, passThroughOpts?: any) {
  *
  * @param {String} type The type. e.g. 'HOVER'
  * @param {String} urls The list of URLs to fetch the features from.
- * @param {Object} passThroughOpts An object that should be added to final
+ * @param {Object} passThroughOpts An object that should be added to the final
  *                                 state. It will be appended to the state as is
  *                                 with no further interpretation.
  * @param {Object} fetchOpts The options to apply to the fetch,
@@ -101,7 +101,7 @@ export function abortFetchingFeatures(type: string, passThroughOpts?: any) {
 export function fetchFeatures(type: string, urls: string[], passThroughOpts: any,
   fetchOpts?: any, format?: any, readerOpts?: any) {
   let last = 0;
-  return function (dispatch: Function, getState: Function) {
+  return async function (dispatch: Function, getState: Function) {
     const currentTime = new Date().getTime();
     if (last < currentTime) {
       last = currentTime;
@@ -139,6 +139,10 @@ export function fetchFeatures(type: string, urls: string[], passThroughOpts: any
 
     // Iterate all given URLs and create a dispatcher method for each one.
     urls.forEach((url) => {
+      // Skip internal URLs (temporary layers).
+      if (url.startsWith('internal://')) {
+        return;
+      }
       // eslint-disable-next-line
       dispatcher.push(dispatch(fetchFeaturesFromResource(url, fetchOpts, format, readerOpts)));
     });
@@ -146,25 +150,28 @@ export function fetchFeatures(type: string, urls: string[], passThroughOpts: any
     // Set loading to true by dispatching the following action.
     dispatch(fetchingFeatures(type, controller, passThroughOpts));
 
-    // Load all single resources.
-    Promise.all(dispatcher)
-      .then(features => {
-        // only dispatch if we're not out of date
-        if (last === currentTime) {
-          const resultFeatures = {};
-          features.forEach(feat => {
-            if (!isEmpty(feat.features)) {
-              Object.assign(resultFeatures, feat.features);
-            }
-          });
+    try {
+      // Load all single resources.
+      const dispatchFeatures = await Promise.all(dispatcher);
 
-          // As soon as all single actions are fulfilled, write the combined
-          // features into the state.
-          return dispatch(fetchedFeatures(type, resultFeatures, passThroughOpts));
-        }
-      }).catch(() => {
-        return dispatch(fetchedFeatures(type, {}, passThroughOpts));
-      });
+      // only dispatch if we're not out of date
+      if (last === currentTime) {
+        let resultFeatures = {};
+        dispatchFeatures.forEach(feat => {
+          if (!isEmpty(feat.features)) {
+            Object.assign(resultFeatures, feat.features);
+          }
+        });
+        resultFeatures = {...resultFeatures,...passThroughOpts.internalVectorFeatures};
+
+        // As soon as all single actions are fulfilled, write the combined
+        // features into the state.
+        return dispatch(fetchedFeatures(type, resultFeatures, passThroughOpts));
+      }
+    } catch (error) {
+      return dispatch(fetchedFeatures(type, {}, passThroughOpts));
+    }
+
   };
 }
 
