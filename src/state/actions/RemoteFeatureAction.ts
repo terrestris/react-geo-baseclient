@@ -162,8 +162,11 @@ export function fetchFeatures(type: string, urls: string[], passThroughOpts: any
             Object.assign(resultFeatures, feat.features);
           }
         });
-        resultFeatures = {...resultFeatures,...passThroughOpts.internalVectorFeatures};
+        resultFeatures = { ...resultFeatures, ...passThroughOpts.internalVectorFeatures };
 
+        if (isEmpty(passThroughOpts.internalVectorFeatures)) {
+          delete passThroughOpts.internalVectorFeatures;
+        }
         // As soon as all single actions are fulfilled, write the combined
         // features into the state.
         return dispatch(fetchedFeatures(type, resultFeatures, passThroughOpts));
