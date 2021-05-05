@@ -164,7 +164,7 @@ export function fetchFeatures(type: string, urls: string[], passThroughOpts: any
         });
         resultFeatures = { ...resultFeatures, ...passThroughOpts.internalVectorFeatures };
 
-        if (isEmpty(passThroughOpts.internalVectorFeatures)) {
+        if (!isEmpty(passThroughOpts.internalVectorFeatures)) {
           delete passThroughOpts.internalVectorFeatures;
         }
         // As soon as all single actions are fulfilled, write the combined
