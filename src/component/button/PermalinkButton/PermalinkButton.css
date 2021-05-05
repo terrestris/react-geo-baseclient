@@ -1,19 +1,16 @@
 .permalink {
-    display: flex;
-    text-align: center;
-    padding: 10px;
+  display: flex;
+  padding: 10px 5px;
 }
 
 .permalink label {
-    padding-top:5px;
-    flex: 1;
+  align-self: center;
 }
 
 .permalink input {
-    margin-right: 20px;
-    flex: 4;
-}
-
-.permalink button {
-    flex: 1;
+  margin: 0 20px;
+  flex: 1;
+  border: solid 1px var(--baseColor);
+  border-radius: 2px;
+  padding: 0 5px;
 }
