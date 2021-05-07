@@ -47,7 +47,8 @@
     "test": "node scripts/test.js --config config/jest/jest.config.js --runInBand --no-colors",
     "lint": "eslint -c .eslintrc.js --ext .ts,tsx src/ && tsc --noEmit --project tsconfig.json",
     "lint:fix": "eslint -c .eslintrc.js --ext .ts,tsx src/ --fix",
-    "pretest": "npm run lint && if [ ! \"$CI\" = true ]; then npm run build:static; fi"
+    "pretest": "npm run lint && if [ ! \"$CI\" = true ]; then npm run build:static; fi",
+    "release": "np --no-yarn --no-publish"
   },
   "dependencies": {
     "@ag-grid-community/client-side-row-model": "^23.0.0",
@@ -153,6 +154,7 @@
     "less-loader": "^7.0.1",
     "loglevel": "^1.7.0",
     "node-fetch": "^2.6.1",
+    "np": "^7.5.0",
     "object-assign": "^4.1.1",
     "postcss-loader": "^4.0.2",
     "pretty-format": "^26.4.2",
