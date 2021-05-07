@@ -158,7 +158,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
     } else {
       pixel = map.getEventPixel(olEvt.originalEvent);
     }
-    let internalVectorFeatures: any = {};
+    let internalVectorFeatures: {[name: string]: OlFeature[]} = {};
     const featureInfoUrls: string[] = [];
 
     // dispatch that any running HOVER process should be canceled
