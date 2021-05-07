@@ -30,10 +30,17 @@ div.imprint.footer-element {
 }
 
 /**
- * Apply the baseColor to various elements
+ * Apply the toolbarColor to various elements
  */
 button, .ant-collapse-header, .react-geo-titlebar {
-  background-color: var(--baseColor) !important;
+  background-color: var(--toolbarColor) !important;
+}
+
+/**
+ * Apply CSS filter brightness for hovered and pressed buttons
+ */
+button:hover, .react-geo-togglebutton.btn-pressed {
+    filter: brightness(0.8);
 }
 
 @media only screen and (max-width: 768px) {
