@@ -271,6 +271,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       className
     });
 
+    tileLayer.set('shogunId', layer.id);
     tileLayer.set('name', layer.name);
     tileLayer.set('hoverable', hoverable);
     tileLayer.set('hoverTemplate', hoverTemplate);
@@ -331,6 +332,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       className
     });
 
+    imageLayer.set('shogunId', layer.id);
     imageLayer.set('name', layer.name);
     imageLayer.set('hoverable', hoverable);
     imageLayer.set('hoverTemplate', hoverTemplate);
@@ -407,6 +409,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
       className
     });
 
+    wmtsLayer.set('shogunId', layer.id);
     wmtsLayer.set('name', layer.name);
     wmtsLayer.set('type', layer.type);
     wmtsLayer.set('searchable', searchable);
