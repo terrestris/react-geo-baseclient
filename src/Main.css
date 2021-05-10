@@ -36,6 +36,13 @@ button, .ant-collapse-header, .react-geo-titlebar {
   background-color: var(--baseColor) !important;
 }
 
+/**
+ * Apply CSS filter brightness for hovered and pressed buttons
+ */
+button:hover, .react-geo-togglebutton.btn-pressed {
+    filter: brightness(0.8);
+}
+
 @media only screen and (max-width: 768px) {
   .react-geo-panel {
       width: 100% !important;
