@@ -30,10 +30,10 @@ div.imprint.footer-element {
 }
 
 /**
- * Apply the toolbarColor to various elements
+ * Apply the baseColor to various elements
  */
 button, .ant-collapse-header, .react-geo-titlebar {
-  background-color: var(--toolbarColor) !important;
+  background-color: var(--baseColor) !important;
 }
 
 /**
