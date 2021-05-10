@@ -13,6 +13,7 @@
   border: solid 1px var(--baseColor);
   border-radius: 2px;
   padding: 0 5px;
+  text-overflow: ellipsis;
 }
 
 .permalink input:focus {
