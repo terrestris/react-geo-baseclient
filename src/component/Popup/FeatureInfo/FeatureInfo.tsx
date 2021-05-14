@@ -7,10 +7,10 @@ import './FeatureInfo.css';
 
 interface DefaultFeatureInfoProps {
   /**
-   * The width of the popup.
+   * The max width of the popup.
    * @type {Number}
    */
-  width?: number;
+  maxWidth?: number;
 
   /**
    * Offsets in pixels used when positioning the overlay. The first element
@@ -116,7 +116,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
   map,
   isLoading,
   children,
-  width = 200,
+  maxWidth = 300,
   offset = [0, 0],
   stopEvent = false,
   insertFirst = true,
@@ -305,9 +305,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     <div
       className='feature-info-popup'
       ref={featureInfoPopup}
-      style={{
-        width: width
-      }}
+      style={{ maxWidth }}
     >
       {children}
     </div>
