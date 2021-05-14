@@ -53,7 +53,7 @@ export class LayerTreeDropdownContextMenu extends
 
 
   public static defaultProps: LayerTreeDropdownContextMenuDefaultProps = {
-    showZoomToLayerExtent: true,
+    showZoomToLayerExtent: false,
     showZoomToLayerResolution: false
   };
   /**

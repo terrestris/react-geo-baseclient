@@ -48,8 +48,8 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
       TRANSPARENT: true
     },
     dispatch: () => {},
-    showApplyTimeInterval: true,
-    showZoomToLayerExtent: true,
+    showApplyTimeInterval: false,
+    showZoomToLayerExtent: false,
     showZoomToLayerResolution: false
   };
 
