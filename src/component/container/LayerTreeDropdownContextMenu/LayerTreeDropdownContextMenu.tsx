@@ -14,6 +14,7 @@ import {
 const MenuItem = Menu.Item;
 
 import _isEmpty from 'lodash/isEmpty';
+import _isFinite from 'lodash/isFinite';
 
 import LayerUtil from '@terrestris/ol-util/dist/LayerUtil/LayerUtil';
 
@@ -23,6 +24,7 @@ import Metadata from '../../Modal/Metadata/Metadata';
 
 interface LayerTreeDropdownContextMenuDefaultProps {
   showZoomToLayerExtent: boolean;
+  showZoomToLayerResolution: boolean;
 }
 
 interface LayerTreeDropdownContextMenuProps {
@@ -46,12 +48,13 @@ type ComponentProps = LayerTreeDropdownContextMenuDefaultProps & LayerTreeDropdo
  * @class LayerTreeDropdownContextMenu
  * @extends React.Component
  */
-// eslint-disable-next-line
-export class LayerTreeDropdownContextMenu extends React.Component<ComponentProps, LayerTreeDropdownContextMenuState> {
+export class LayerTreeDropdownContextMenu extends
+  React.Component<ComponentProps, LayerTreeDropdownContextMenuState> {
 
 
   public static defaultProps: LayerTreeDropdownContextMenuDefaultProps = {
-    showZoomToLayerExtent: true
+    showZoomToLayerExtent: true,
+    showZoomToLayerResolution: false
   };
   /**
    * Creates the LayerTreeDropdownContextMenu.
@@ -91,6 +94,9 @@ export class LayerTreeDropdownContextMenu extends React.Component<ComponentProps
       case 'zoomToExtent':
         this.zoomToLayerExtent();
         break;
+      case 'zoomToResolution':
+        this.zoomToLayerResolution();
+        break;
       default:
         break;
     }
@@ -126,6 +132,10 @@ export class LayerTreeDropdownContextMenu extends React.Component<ComponentProps
     });
   }
 
+  /**
+   * Tries to retrieve the layer extent from capabilities and fits map view to
+   * the bounds on success.
+   */
   async zoomToLayerExtent() {
     const {
       layer,
@@ -157,13 +167,38 @@ export class LayerTreeDropdownContextMenu extends React.Component<ComponentProps
   };
 
   /**
+   * Zooms map view to max layer resolution.
+   */
+  zoomToLayerResolution() {
+    const {
+      layer,
+      map
+    } = this.props;
+
+    const mapResolutions = map.getView().getResolutions();
+    let maxResolution = layer.getMaxResolution();
+
+    if (_isFinite(maxResolution) && maxResolution !== 0) {
+      const closestMapResolution = mapResolutions.reduce((prev, curr) =>
+        Math.abs(curr - maxResolution) < Math.abs(prev - maxResolution) ? curr : prev
+      );
+      const zoomToResolution = mapResolutions.indexOf(closestMapResolution) + 1;
+      map.getView().setZoom(zoomToResolution);
+    } else {
+      // use map's min zoom as fallback if resolutions is not restricted on layer
+      map.getView().setZoom(0);
+    }
+  }
+
+  /**
    * The render function.
    */
   render() {
     const {
       t,
       layer,
-      showZoomToLayerExtent
+      showZoomToLayerExtent,
+      showZoomToLayerResolution
     } = this.props;
 
     const {
@@ -206,6 +241,14 @@ export class LayerTreeDropdownContextMenu extends React.Component<ComponentProps
             >
               {t('LayerTreeDropdownContextMenu.layerZoomToExtent')}
             </Spin>
+          </MenuItem>
+        }
+        {
+          showZoomToLayerResolution &&
+          <MenuItem
+            key="zoomToResolution"
+          >
+            {t('LayerTreeDropdownContextMenu.layerZoomToResolution')}
           </MenuItem>
         }
       </Menu>

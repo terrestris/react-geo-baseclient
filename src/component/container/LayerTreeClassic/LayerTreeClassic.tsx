@@ -24,6 +24,7 @@ interface DefaultLayerTreeClassicProps {
   dispatch: (arg: any) => void;
   showContextMenu?: boolean;
   showZoomToLayerExtent?: boolean;
+  showZoomToLayerResolution?: boolean;
   showApplyTimeInterval: boolean;
 }
 
@@ -48,7 +49,8 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     },
     dispatch: () => {},
     showApplyTimeInterval: true,
-    showZoomToLayerExtent: true
+    showZoomToLayerExtent: true,
+    showZoomToLayerResolution: false
   };
 
   /**
@@ -72,6 +74,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
 
     const {
       showZoomToLayerExtent,
+      showZoomToLayerResolution,
       showContextMenu
     } = this.props;
 
@@ -83,7 +86,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     const showMetadata = !_isEmpty(layer.get('metadataIdentifier')) &&
       layer.get('showMetadataInClient');
 
-    return showDescription || showMetadata || showZoomToLayerExtent;
+    return showDescription || showMetadata || showZoomToLayerExtent || showZoomToLayerResolution;
   }
 
   /**
@@ -97,6 +100,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
       extraLegendParams,
       t,
       showZoomToLayerExtent,
+      showZoomToLayerResolution,
       showApplyTimeInterval
     } = this.props;
 
@@ -128,6 +132,7 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
                   map={this.props.map}
                   layer={layer}
                   showZoomToLayerExtent={showZoomToLayerExtent}
+                  showZoomToLayerResolution={showZoomToLayerResolution}
                   t={t} />
               }
               {(showApplyTimeInterval && layer.get('type') === 'WMSTime') &&
