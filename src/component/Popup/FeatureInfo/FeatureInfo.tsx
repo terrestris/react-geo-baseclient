@@ -10,7 +10,7 @@ interface DefaultFeatureInfoProps {
    * The width of the popup.
    * @type {Number}
    */
-  width: number;
+  width?: number;
 
   /**
    * Offsets in pixels used when positioning the overlay. The first element
@@ -19,7 +19,7 @@ interface DefaultFeatureInfoProps {
    * A positive value shifts the overlay down.
    * @type {Array}
    */
-  offset: number[];
+  offset?: number[];
 
   /**
    * Whether event propagation to the map viewport should be stopped. If true
@@ -28,7 +28,7 @@ interface DefaultFeatureInfoProps {
    * the container with CSS class name ol-overlaycontainer.
    * @type {Boolean}
    */
-  stopEvent: boolean;
+  stopEvent?: boolean;
 
   /**
    * Whether the overlay is inserted first in the overlay container, or
@@ -37,14 +37,14 @@ interface DefaultFeatureInfoProps {
    * true so the overlay is displayed below the controls.
    * @type {Boolean}
    */
-  insertFirst: boolean;
+  insertFirst?: boolean;
 
   /**
    * If set to true the map is panned when calling setPosition, so that the
    * overlay is entirely visible in the current viewport.
    * @type {Boolean}
    */
-  autoPan: boolean;
+  autoPan?: boolean;
 
   /**
    * The animation options used to pan the overlay into view. This animation
@@ -52,9 +52,9 @@ interface DefaultFeatureInfoProps {
    * provided to customize the animation.
    * @type {Object}
    */
-  autoPanAnimationDuration: number;
+  autoPanAnimationDuration?: number;
 
-  autoPanMargin: number;
+  autoPanMargin?: number;
 }
 
 interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
