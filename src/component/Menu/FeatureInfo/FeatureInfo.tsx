@@ -32,7 +32,7 @@ interface DefaultFeatureInfoProps {
    * The maximum number of menu items to display.
    * @type {Number}
    */
-  maxMenuItems: number;
+  maxMenuItems?: number;
 }
 
 interface FeatureInfoProps {
