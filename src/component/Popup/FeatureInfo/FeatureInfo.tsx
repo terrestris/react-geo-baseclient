@@ -138,7 +138,6 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     setOverlayElement(featureInfoPopup.current);
     updatePopupPosition();
     createOverlay();
-    // map.addOverlay(featureInfoOverlay);
     map.on('click', onMapClick);
     return () => {
       map.un('click', onMapClick);
