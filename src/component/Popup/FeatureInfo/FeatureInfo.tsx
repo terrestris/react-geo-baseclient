@@ -1,9 +1,7 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import OlMap from 'ol/Map';
 import OlOverlay from 'ol/Overlay';
 import OverlayPositioning from 'ol/OverlayPositioning';
-
-const isEqual = require('lodash/isEqual');
 
 import './FeatureInfo.css';
 
@@ -57,8 +55,6 @@ interface DefaultFeatureInfoProps {
   autoPanAnimationDuration: number;
 
   autoPanMargin: number;
-
-  positioning: OverlayPositioning;
 }
 
 interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
@@ -85,16 +81,30 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
    * The children elements to render inside the popup.
    * @type {Element}
    */
-  children: any;
+  children: React.ReactElement;
 }
 
-interface FeatureInfoState {
-  /**
-   * The overlay position in map projection.
-   * @type {Array}
-   */
-  position: number[];
-}
+export type ComponentProps = DefaultFeatureInfoProps & FeatureInfoProps;
+
+/**
+ * Feature info overlay element.
+ * @type {OlOverlay}
+ */
+let featureInfoOverlay: OlOverlay = null;
+
+/**
+ * The root div node rendered inside this component. Will be filled
+ * in ref callback and be used as HTML element for the OlOverlay.
+ * @type {HTMLElement}
+ */
+let overlayElement: HTMLElement = null;
+
+/**
+ * An invisible, non-disruptive element, that will be used to calculate the
+ * height of the children of this component.
+ * @type {HTMLElement}
+ */
+let overlayHelperElement: HTMLElement = null;
 
 /**
  * The FeatureInfoPopup component.
@@ -102,131 +112,71 @@ interface FeatureInfoState {
  * @class FeatureInfo.
  * @extends React.Component
  */
-export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoState> {
-
-  /**
- * The default properties.
- */
-  public static defaultProps: DefaultFeatureInfoProps = {
-    width: 200,
-    offset: [0, 0],
-    stopEvent: false,
-    insertFirst: true,
-    autoPan: true,
-    autoPanAnimationDuration: 250,
-    autoPanMargin: 20,
-    positioning: null
-  };
-
-  /**
-   * The root div node rendered inside this component. Will be filled
-   * in ref callback and be used as HTML element for the OlOverlay.
-   * @type {HTMLElement}
-   */
-  private overlayElement: HTMLElement = null;
-
-  /**
-   * An invisible, non-disruptive element, that will be used to calculate the
-   * height of the children of this component.
-   * @type {HTMLElement}
-   */
-  private overlayHelperElement: HTMLElement = null;
-
-  /**
-   * Feature info overlay element.
-   * @type {OlOverlay}
-   */
-  private featureInfoOverlay: OlOverlay = null;
+export const FeatureInfo: React.FC<ComponentProps> = ({
+  map,
+  isLoading,
+  children,
+  width = 200,
+  offset = [0, 0],
+  stopEvent = false,
+  insertFirst = true,
+  autoPan = true,
+  autoPanAnimationDuration = 250,
+  autoPanMargin = 20,
+  positioning,
+  position
+}): JSX.Element => {
 
   /**
    * Reference to feature info popup
    * @type {HTMLDivElement}
    */
-  private featureInfoPopup: React.RefObject<HTMLDivElement>;
+  const featureInfoPopup: React.RefObject<HTMLDivElement> = React.createRef();
 
-  /**
-   * The constructor.
-   *
-   * @param {FeatureInfoProps} props The initial props.
-   */
-  constructor(props: FeatureInfoProps) {
-    super(props);
+  useEffect(() => {
+    mountOverlayHelperElement();
+    setOverlayElement(featureInfoPopup.current);
+    updatePopupPosition();
+    createOverlay();
+    // map.addOverlay(featureInfoOverlay);
+    map.on('click', onMapClick);
+    return () => {
+      map.un('click', onMapClick);
+      unmountOverlayHelperElement();
 
-    this.featureInfoPopup = React.createRef();
-
-    this.state = {
-      position: props.position
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    // binds
-    this.onMapClick = this.onMapClick.bind(this);
-  }
-
-  /**
-   * Called on lifecycle componentDidMount.
-   */
-  componentDidMount() {
-    this.mountOverlayHelperElement();
-    this.setOverlayElement(this.featureInfoPopup.current);
-    this.updatePopupPosition();
-    this.createOverlay();
-    this.props.map.addOverlay(this.featureInfoOverlay);
-    this.props.map.on('click', this.onMapClick);
-  }
-
-  /**
-   *
-   */
-  componentDidUpdate(prevProps: FeatureInfoProps) {
-
-    const {
-      position,
-      positioning
-    } = this.props;
-
-    if (prevProps.positioning !== positioning) {
-      this.featureInfoOverlay.setPositioning(positioning);
+  useEffect(() => {
+    if (!featureInfoOverlay) {
+      return;
     }
-
-    if (!isEqual(prevProps.position, position)) {
-      this.setState({ position });
-      this.setOverlayPosition(position);
-    }
-
+    featureInfoOverlay.setPositioning(positioning);
+    setOverlayPosition(position);
     if (!positioning && position) {
-      const optFit = this.getAutoPositioning(position as [number, number]);
-      this.featureInfoOverlay.setPositioning(optFit);
+      const optFit = getAutoPositioning(position as [number, number]);
+      featureInfoOverlay.setPositioning(optFit);
     }
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [position, positioning]);
 
   /**
-   * Calculates the positioning of the overlay  relative to the olEvt position
-   * inside the map.
-   *
-   * @param {Number[]} position The click coordinate.
-   * @return {String} positioning
-   */
-  getAutoPositioning(position: [number, number]): OverlayPositioning {
-    const {
-      map
-    } = this.props;
+ * Calculates the positioning of the overlay relative to the olEvt position
+ * inside the map.
+ *
+ * @param {Number[]} pos The click coordinate.
+ * @return {String} positioning
+ */
+  const getAutoPositioning = (pos: [number, number]): OverlayPositioning => {
 
     const mapSize = map.getSize();
-    const horizontalPositioning = (mapSize[1] / 2) < position[1] ? 'bottom' : 'top';
-    const verticalPositioning = (mapSize[0] / 2) < position[0] ? 'right' : 'left';
-    const positioning = `${horizontalPositioning}-${verticalPositioning}`;
+    const horizontalPositioning = (mapSize[1] / 2) < pos[1] ? 'bottom' : 'top';
+    const verticalPositioning = (mapSize[0] / 2) < pos[0] ? 'right' : 'left';
+    const autoPositioning = `${horizontalPositioning}-${verticalPositioning}`;
 
-    return positioning as OverlayPositioning;
-  }
-
-
-  /**
-   * Called on lifecycle componentWillUnmount.
-   */
-  componentWillUnmount() {
-    this.props.map.un('click', this.onMapClick);
-    this.unmountOverlayHelperElement();
-  }
+    return autoPositioning as OverlayPositioning;
+  };
 
   /**
    * Mounts a invisible, non-disruptive element inside the body of the
@@ -235,8 +185,8 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
    * to this element. Because the height of the child components can't be known
    * before they are rendered, this is needed to ensure the overlay will have
    * the correct size and autoPan will work in a proper style.
-   */
-  mountOverlayHelperElement() {
+ */
+  const mountOverlayHelperElement = (): void => {
     const div = document.createElement('div');
     div.style.position = 'absolute';
     div.style.visibility = 'hidden';
@@ -245,151 +195,121 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
     div.id = 'feature-info-overlay-helper';
     document.body.appendChild(div);
 
-    this.overlayHelperElement = div;
-  }
+    overlayHelperElement = div;
+  };
 
   /**
    * Unmounts the helper element.
    */
-  unmountOverlayHelperElement() {
-    if (!this.overlayHelperElement) {
+  const unmountOverlayHelperElement = (): void => {
+    if (!overlayHelperElement) {
       return;
     }
-    const parent = this.overlayHelperElement.parentNode;
+    const parent = overlayHelperElement.parentNode;
     if (parent) {
-      parent.removeChild(this.overlayHelperElement);
+      parent.removeChild(overlayHelperElement);
     }
-    this.overlayHelperElement = null;
-  }
+    overlayHelperElement = null;
+  };
 
   /**
    * Creates the overlay that wraps the current component.
    */
-  createOverlay() {
-    const featureInfoOverlay = new OlOverlay({
-      element: this.overlayElement,
-      offset: this.props.offset,
-      positioning: this.props.positioning,
-      stopEvent: this.props.stopEvent,
-      insertFirst: this.props.insertFirst,
-      autoPan: this.props.autoPan,
+  const createOverlay = (): void => {
+    const overlay = new OlOverlay({
+      element: overlayElement,
+      offset,
+      positioning,
+      stopEvent,
+      insertFirst,
+      autoPan,
       autoPanAnimation: {
-        duration: this.props.autoPanAnimationDuration
+        duration: autoPanAnimationDuration
       },
-      autoPanMargin: this.props.autoPanMargin
-    });
-
-    // Sync the position's state.
-    featureInfoOverlay.on('change:position', () => {
-      this.setState({
-        position: this.getOverlayPosition()
-      });
+      autoPanMargin
     });
 
     // If the pointer is over the popup, no pointermove should be fired.
     // Onpointerdown covers the mobile mode event propagation.
-    if (this.overlayElement) {
-      this.overlayElement.onpointermove = (evt: Event) => evt.stopPropagation();
-      this.overlayElement.onpointerdown = (evt: Event) => evt.stopPropagation();
+    if (overlayElement) {
+      overlayElement.onpointermove = (evt: Event) => evt.stopPropagation();
+      overlayElement.onpointerdown = (evt: Event) => evt.stopPropagation();
     }
 
-    this.featureInfoOverlay = featureInfoOverlay;
-  }
+    featureInfoOverlay = overlay;
+    map.addOverlay(featureInfoOverlay);
+  };
 
   /**
    * Hides the overlay.
    */
-  onMapClick() {
-    this.setOverlayPosition(undefined);
-  }
-
-  /**
-   * Returns the current position of the overlay.
-   *
-   * @return {ol.Coordinate} The current position of the overlay.
-   */
-  getOverlayPosition() {
-    if (this.featureInfoOverlay) {
-      return this.featureInfoOverlay.getPosition();
-    }
-    return null;
-  }
+  const onMapClick = () => {
+    setOverlayPosition(undefined);
+  };
 
   /**
    * Sets the position of the overlay (if any).
    *
-   * @param {Array} position The position to set.
+   * @param {Array} pos The position to set.
    */
-  setOverlayPosition(position: number[]) {
-    if (this.featureInfoOverlay) {
-      this.featureInfoOverlay.setPosition(position);
+  const setOverlayPosition = (pos: number[]) => {
+    if (featureInfoOverlay) {
+      featureInfoOverlay.setPosition(pos);
     }
-  }
+  };
 
   /**
-   * Sets the node element as class attribute.
-   *
-   * @param {Element} element The `feature-info-popup` (Virtual-)DOMElement.
-   */
-  setOverlayElement(element: any) {
-    this.overlayElement = element;
-  }
+  * Sets the node element as class attribute.
+  *
+  * @param {Element} element The `feature-info-popup` (Virtual-)DOMElement.
+  */
+  const setOverlayElement = (element: HTMLElement) => {
+    overlayElement = element;
+  };
 
   /**
-   * Updates the position of the popup as soon as the child elements are ready
-   * (ready = child elements are ready and their height is known).
-   */
-  updatePopupPosition() {
+  * Updates the position of the popup as soon as the child elements are ready
+  * (ready = child elements are ready and their height is known).
+  */
+  const updatePopupPosition = (): void => {
     // Only proceed if the helper element (see #mountOverlayHelperElement) and
     // the feature-info-popup element are available.
-    if (this.overlayHelperElement && this.overlayElement) {
+    if (overlayHelperElement && overlayElement) {
       // Empty the helper element, but normally it should be empty anyways.
-      while (this.overlayHelperElement.firstChild) {
-        this.overlayHelperElement.removeChild(this.overlayHelperElement.firstChild);
+      while (overlayHelperElement.firstChild) {
+        overlayHelperElement.removeChild(overlayHelperElement.firstChild);
       }
       // Create a clone of the feature-info-popup element to prevent any side
       // effects with react or the ol overlay.
-      const overlayElementClone: any = this.overlayElement.cloneNode(true);
+      const overlayElementClone: HTMLElement = overlayElement.cloneNode(true) as HTMLElement;
       // Append the cloned element to the helper elemend, this way it will be
       // mounted and size attributes are available.
-      const mount: any = this.overlayHelperElement.appendChild(overlayElementClone);
+      const mount: HTMLElement = overlayHelperElement.appendChild(overlayElementClone);
       // We assume, taht as soon as the element has a `clientHeight` set, it
       // is ready and the overlay position can be updated (safely).
       if (mount.clientHeight) {
-        this.setOverlayPosition(this.state.position);
+        setOverlayPosition(position);
       }
       // Remove the cloned element every time, even if it's not fully rendered.
-      this.overlayHelperElement.removeChild(this.overlayHelperElement.firstChild);
+      overlayHelperElement.removeChild(overlayHelperElement.firstChild);
     }
+  };
+
+  if (map && map.getTargetElement()) {
+    map.getTargetElement().style.cursor = isLoading ? 'progress' : '';
   }
 
-  /**
-   * The render method.
-   *
-   * @return {Component} The component.
-   */
-  render() {
-    const {
-      map,
-      children
-    } = this.props;
-
-    if (map && map.getTargetElement()) {
-      map.getTargetElement().style.cursor = this.props.isLoading ? 'progress' : '';
-    }
-
-    return (
-      <div
-        className='feature-info-popup'
-        ref={this.featureInfoPopup}
-        style={{
-          width: this.props.width
-        }}
-      >
-        {children}
-      </div>
-    );
-  }
-}
+  return (
+    <div
+      className='feature-info-popup'
+      ref={featureInfoPopup}
+      style={{
+        width: width
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 export default FeatureInfo;
