@@ -18,8 +18,8 @@ interface DefaultLayerLegendAccordionNodeProps {
   layer: any;
 }
 
-interface LayerLegendAccordionNodeProps extends Partial<DefaultLayerLegendAccordionNodeProps>{
-  t: (arg: string) => {};
+interface LayerLegendAccordionNodeProps extends Partial<DefaultLayerLegendAccordionNodeProps> {
+  t: (arg: string) => string;
   map: any;
 }
 
@@ -34,7 +34,7 @@ interface LayerLegendAccordionNodeState {
  * @extends React.Component
  */
 // eslint-disable-next-line
- export default class LayerLegendAccordionNode extends React.Component<LayerLegendAccordionNodeProps, LayerLegendAccordionNodeState> {
+export default class LayerLegendAccordionNode extends React.Component<LayerLegendAccordionNodeProps, LayerLegendAccordionNodeState> {
 
   public static defaultProps: DefaultLayerLegendAccordionNodeProps = {
     layer: null
@@ -265,7 +265,8 @@ interface LayerLegendAccordionNodeState {
             <LayerTreeDropdownContextMenu
               map={this.props.map}
               layer={layer}
-              t={t} />
+              t={t}
+            />
           }
           {(layer.get('type') === 'WMSTime') &&
             <LayerTreeApplyTimeInterval

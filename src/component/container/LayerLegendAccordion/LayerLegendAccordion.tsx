@@ -40,7 +40,7 @@ interface DefaultLayerLegendAccordionProps {
 interface LayerLegendAccordionProps extends Partial<DefaultLayerLegendAccordionProps> {
   map: any;
   dispatch: (arg: any) => void;
-  t: (arg: string) => {};
+  t: (arg: string) => string;
 }
 
 interface LayerLegendAccordionState {

@@ -30,7 +30,7 @@ interface DefaultLayerTreeClassicProps {
 
 interface LayerTreeClassicProps extends Partial<DefaultLayerTreeClassicProps> {
   map: any;
-  t: (arg: string) => any;
+  t: (arg: string) => string;
   treeNodeFilter?: (value: any, index: number, array: any[]) => boolean;
 }
 
