@@ -160,6 +160,7 @@
     "layerSettingsTooltipText": "Properties",
     "layerMetadataText": "Display metadata",
     "layerZoomToExtent": "Zoom to layer extent",
+    "layerZoomToResolution": "Zoom to minimal layer resolution",
     "extentError": "Could not zoom to the layer extent"
   },
   "LayerTreeApplyTimeInterval": {

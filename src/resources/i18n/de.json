@@ -161,6 +161,7 @@
     "layerSettingsTooltipText": "Eigenschaften",
     "layerMetadataText": "Metadaten anzeigen",
     "layerZoomToExtent": "Auf Layerausdehnung zoomen",
+    "layerZoomToResolution": "Auf minimal sichtbare Ausdehnung zoomen",
     "extentError": "Konnte nicht auf die Layerausdehnung zoomen"
   },
   "LayerTreeApplyTimeInterval": {
