@@ -15,6 +15,8 @@ import {
 } from 'antd';
 const MenuItem = Menu.Item;
 
+import { CloseOutlined, SaveOutlined } from '@ant-design/icons';
+
 import { MenuInfo } from 'rc-menu/lib/interface';
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
@@ -296,7 +298,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     if (layer && layer.get('type') === 'WMSTime') {
       tools.push(
         <SimpleButton
-          iconName="fas fa-save"
+          icon={<SaveOutlined />}
           key="download-tool"
           size="small"
           tooltip={t('General.downloadData')}
@@ -306,7 +308,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     }
     tools.push(
       <SimpleButton
-        iconName="fas fa-times"
+        icon={<CloseOutlined />}
         key="close-tool"
         size="small"
         tooltip={t('General.close')}
