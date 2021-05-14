@@ -161,6 +161,12 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [position, positioning]);
 
+  useEffect(() => {
+    if (map && map.getTargetElement()) {
+      map.getTargetElement().style.cursor = isLoading ? 'progress' : '';
+    }
+  }, [map, isLoading]);
+
   /**
  * Calculates the positioning of the overlay relative to the olEvt position
  * inside the map.
@@ -294,10 +300,6 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
       overlayHelperElement.removeChild(overlayHelperElement.firstChild);
     }
   };
-
-  if (map && map.getTargetElement()) {
-    map.getTargetElement().style.cursor = isLoading ? 'progress' : '';
-  }
 
   return (
     <div
