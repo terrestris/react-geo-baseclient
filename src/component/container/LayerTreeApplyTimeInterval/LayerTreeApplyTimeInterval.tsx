@@ -6,6 +6,8 @@ import OlLayerBase from 'ol/layer/Base';
 import { Tooltip } from 'antd';
 import moment from 'moment';
 
+import config from '../../../config/config';
+
 import {
   setStartDate,
   setEndDate,
@@ -115,7 +117,7 @@ LayerTreeApplyTimeIntervalState
         <Tooltip
           title={t('LayerTreeApplyTimeInterval.setTimeLineToLayerInterval')}
           placement="right"
-          mouseEnterDelay={0.5}
+          {...config.tooltipProps}
         >
           <span
             className={className}
