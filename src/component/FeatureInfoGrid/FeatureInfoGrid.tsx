@@ -319,7 +319,6 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
     );
   };
 
-
   /**
    * Will be executed, when the grid is ready.
    */
