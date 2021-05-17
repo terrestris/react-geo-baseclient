@@ -73,6 +73,11 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
+
+    if (!features[0]) {
+      return;
+    }
+
     features[0].set('selectedFeat', true);
     setSelectedFeat(features[0]);
     setCurrentPage(1);
