@@ -22,11 +22,11 @@ import _isEmpty from 'lodash/isEmpty';
 
 interface DefaultLayerTreeClassicProps {
   extraLegendParams: {};
-  dispatch: (arg: any) => void;
+  dispatch?: (arg: any) => void;
   showContextMenu?: boolean;
   showZoomToLayerExtent?: boolean;
   showZoomToLayerResolution?: boolean;
-  showApplyTimeInterval: boolean;
+  showApplyTimeInterval?: boolean;
 }
 
 interface LayerTreeClassicProps {
@@ -47,7 +47,7 @@ export const LayerTreeClassic: React.FC<ComponentProps> = ({
     LEGEND_OPTIONS: 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed',
     TRANSPARENT: true
   },
-  dispatch,
+  dispatch = () => {},
   showContextMenu,
   showApplyTimeInterval = false,
   showZoomToLayerExtent = false,
