@@ -67,7 +67,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
   map,
   onPaginationChange,
   t
-}): JSX.Element => {
+}): React.ReactElement => {
 
   const [selectedFeat, setSelectedFeat] = useState<OlFeature>(features[0]);
   const [currentPage, setCurrentPage] = useState<number>(1);

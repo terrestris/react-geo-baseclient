@@ -95,7 +95,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
   windowCollapsible = true,
   maxMenuItems = 10,
   ...passThroughProps
-}): JSX.Element => {
+}): React.ReactElement => {
 
   const [menuHidden, setMenuHidden] = useState<boolean>(true);
   const [gridWinHidden, setGridWinHidden] = useState<boolean>(true);

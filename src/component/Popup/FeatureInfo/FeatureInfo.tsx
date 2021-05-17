@@ -125,7 +125,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
   autoPanMargin = 20,
   positioning,
   position
-}): JSX.Element => {
+}): React.ReactElement => {
 
   /**
    * Reference to feature info popup
