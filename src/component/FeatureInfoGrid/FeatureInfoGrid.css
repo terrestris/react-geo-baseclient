@@ -2,6 +2,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 2px;
 }
 
 .feature-grid-wrapper .cell-wrap-text {
@@ -25,5 +26,9 @@
 }
 
 .feature-grid-wrapper .ant-pagination >li>input {
-  margin: 0;
+  margin-right: 0;
+}
+
+.feature-grid-wrapper .ant-pagination-simple-pager {
+  margin-left: 5px;
 }

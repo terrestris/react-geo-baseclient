@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import OlMap from 'ol/Map';
+import OlLayer from 'ol/layer/Base';
 import OlSourceVector from 'ol/source/Vector';
 import OlLayerVector from 'ol/layer/Vector';
 import OlStyleStyle from 'ol/style/Style';
@@ -14,10 +15,13 @@ import {
 } from 'antd';
 const MenuItem = Menu.Item;
 
+import { CloseOutlined, SaveOutlined } from '@ant-design/icons';
+
+import { MenuInfo } from 'rc-menu/lib/interface';
+
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Window from '@terrestris/react-geo/dist/Window/Window';
 
-const isEqual = require('lodash/isEqual');
 const isEmpty = require('lodash/isEmpty');
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
@@ -30,26 +34,28 @@ interface DefaultFeatureInfoProps {
    * The maximum number of menu items to display.
    * @type {Number}
    */
-  maxMenuItems: number;
+  maxMenuItems?: number;
 }
 
-interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
+interface FeatureInfoProps {
   /**
   * The features to render in the menu.
   * @type {Array}
    */
-  features: any;
+  features: {
+    [key: string]: OlFeature[];
+  };
 
   /**
    * The ol map.
    * @type {ol.Map}
    */
-  map: any; // OlMap
+  map: OlMap;
 
   /**
    * Translate function
    */
-  t: (arg: string) => void;
+  t: (arg: string) => string;
 
   /**
    * Dispatch function
@@ -64,16 +70,14 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
   /**
    * The window height.
    */
-   windowHeight?: number;
+  windowHeight?: number;
+
+  windowCollapsible?: boolean;
 }
 
-interface FeatureInfoState {
-  menuHidden: boolean;
-  gridWinHidden: boolean;
-  featuresToShow: any[]; // OlFeature[]
-  selectedFeatureType: string;
-  downloadGridData: boolean;
-}
+export type ComponentProps = DefaultFeatureInfoProps & FeatureInfoProps;
+
+let hoverVectorLayer: OlLayerVector = null;
 
 /**
  * The FeatureInfo Menu component.
@@ -81,50 +85,61 @@ interface FeatureInfoState {
  * @class FeatureInfo.
  * @extends React.Component
  */
-export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoState> {
+export const FeatureInfo: React.FC<ComponentProps> = ({
+  features,
+  map,
+  t,
+  dispatch,
+  windowPosition = [50, 50],
+  windowHeight = 300,
+  windowCollapsible = true,
+  maxMenuItems = 10,
+  ...passThroughProps
+}): React.ReactElement => {
 
-  /**
-   * The default properties.
-   */
-  public static defaultProps: DefaultFeatureInfoProps = {
-    maxMenuItems: 10
-  };
+  const [menuHidden, setMenuHidden] = useState<boolean>(true);
+  const [gridWinHidden, setGridWinHidden] = useState<boolean>(true);
+  const [featuresToShow, setFeaturesToShow] = useState<OlFeature[]>([]);
+  const [selectedFeatureType, setSelectedFeatureType] = useState<string>(null);
+  const [downloadGridData, setDownloadGridData] = useState<boolean>(false);
 
-  /**
-   * Vector layer to represent hovered features.
-   */
-  private hoverVectorLayer: any = null;
-
-  /**
-   * The constructor.
-   *
-   * @param {Object} props The initial props.
-   */
-  constructor(props: FeatureInfoProps) {
-    super(props);
-
-    this.state = {
-      menuHidden: false,
-      gridWinHidden: true,
-      featuresToShow: [],
-      selectedFeatureType: null,
-      downloadGridData: false
+  useEffect(() => {
+    initHoverVectorLayer();
+    return () => {
+      if (hoverVectorLayer) {
+        map.removeLayer(hoverVectorLayer);
+        hoverVectorLayer.dispose();
+      }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    // binds
-    this.onMenuItemClick = this.onMenuItemClick.bind(this);
-    this.onMenuMouseEnter = this.onMenuMouseEnter.bind(this);
-    this.onSubMenuMouseLeave = this.onSubMenuMouseLeave.bind(this);
-    this.hideFeatureInfoWindow = this.hideFeatureInfoWindow.bind(this);
-    this.handleDownloadButton = this.handleDownloadButton.bind(this);
+  useEffect(() => {
 
-  }
+    if (!hoverVectorLayer) {
+      return;
+    }
+
+    const hoverFeatures: OlFeature[] = [];
+    const featureTypes: string[] = Object.keys(features);
+    featureTypes.slice(0, maxMenuItems).forEach((featTypeName: string) => {
+      features[featTypeName].forEach((feat: any) => {
+        hoverFeatures.push(feat);
+      });
+    });
+    const hoverVectorSource: OlSourceVector = hoverVectorLayer.getSource();
+    clearHoverLayerSource();
+    hoverVectorSource.addFeatures(hoverFeatures);
+    setMenuHidden(isEmpty(features));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [features]);
 
   /**
    * Style function for hover vector layer.
    * @param feat
    */
-  hoverStyleFunction(feat: any) {
+  const hoverStyleFunction = (feat: OlFeature): OlStyleStyle => {
     let fillColor: string = 'rgba(255, 205, 0, 0.5)';
     let strokeColor: string = 'rgba(255, 205, 0, 1)';
     if (feat.get('selectedFeat')) {
@@ -150,77 +165,23 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
         })
       })
     });
-  }
+  };
 
   /**
-   * componentDidMount lifecycle function. Calls `initHoverVectorLayer` method.
-   */
-  componentDidMount() {
-    if (this.props.map) {
-      this.initHoverVectorLayer(this.props.map);
-    }
-  }
-
-  /**
-   * componentDidUpdate lifecycle function.
-   *
-   * @param {FeatureInfoProps} prevProps Previous props
-   */
-  componentDidUpdate(prevProps: FeatureInfoProps) {
-    const {
-      features,
-      map,
-      maxMenuItems
-    } = this.props;
-
-    // The map prop will arrive async, therefore we can't be sure to init the
-    // hover layer in componentDidMount.
-    if (!prevProps.map && map instanceof OlMap) {
-      this.initHoverVectorLayer(map);
-    }
-
-    if (!isEqual(features, prevProps.features)) {
-      const hoverFeatures: any[] = [];
-      const featureTypes: string[] = Object.keys(features);
-      featureTypes.slice(0, maxMenuItems).forEach((featTypeName: string) => {
-        features[featTypeName].forEach((feat: any) => {
-          hoverFeatures.push(feat);
-        });
-      });
-      const hoverVectorSource = this.hoverVectorLayer.getSource();
-      this.clearHoverLayerSource();
-      hoverVectorSource.addFeatures(hoverFeatures);
-    }
-
-    if (!isEmpty(features) && this.state.menuHidden) {
-      this.setState({
-        menuHidden: false
-      });
-    }
-  }
-
-  /**
- * Initializes the vector layer that will be used to handle the hover
- * features on the map.
- *
- * @param {OlMap} map The map to init the layer in.
- */
-  initHoverVectorLayer(map: any) {
-    let hoverVectorLayer = MapUtil.getLayersByProperty(
-      map, 'name', 'hoverVectorLayer'
-    )[0];
-
+  * Initializes the vector layer that will be used to handle the hover
+  * features on the map.
+  */
+  const initHoverVectorLayer = (): void => {
     if (!hoverVectorLayer) {
-      hoverVectorLayer = new OlLayerVector({
+      const layer = new OlLayerVector({
         source: new OlSourceVector(),
-        style: this.hoverStyleFunction
+        style: hoverStyleFunction
       });
-      hoverVectorLayer.set('name', 'hoverVectorLayer');
-
+      layer.set('name', 'hoverVectorLayer');
+      hoverVectorLayer = layer;
       map.addLayer(hoverVectorLayer);
     }
-    this.hoverVectorLayer = hoverVectorLayer;
-  }
+  };
 
   /**
    * Clears the source of the hover vector layer.
@@ -229,41 +190,39 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
    *   feature info grid also should be cleared from source or not. Default is
    *   false.
    */
-  clearHoverLayerSource(clearSelection: boolean = false) {
-    const source = this.hoverVectorLayer.getSource();
+  const clearHoverLayerSource = (clearSelection: boolean = false): void => {
+    const source = hoverVectorLayer.getSource();
     let hoverFeatures = source.getFeatures();
     if (!clearSelection) {
-      hoverFeatures = hoverFeatures.filter((f: any) => f.get('selectedFeat') !== true);
+      hoverFeatures = hoverFeatures.filter((f: OlFeature) => f.get('selectedFeat') !== true);
     }
-    hoverFeatures.forEach((hf: any) => {
+    hoverFeatures.forEach((hf: OlFeature) => {
       source.removeFeature(hf);
     });
-  }
+  };
 
   /**
    * Resets the style of the hover vector features to the inital style.
    */
-  resetHoverLayerStyle() {
-    const hoverFeatures = this.hoverVectorLayer.getSource().getFeatures();
-    hoverFeatures.forEach((feat: any) => feat.setStyle(null));
-  }
+  const resetHoverLayerStyle = (): void => {
+    const hoverFeatures: OlFeature[] = hoverVectorLayer.getSource().getFeatures();
+    hoverFeatures.forEach((feat: OlFeature) => feat.setStyle(null));
+  };
 
   /**
- * Called if the an item of the hover menu has been clicked.
- *
- * @param {React.MouseEvent} evt The click event.
- */
-  onMenuItemClick(evt: any) {
-    const selectedFeatureType = evt.key;
-    const featuresToShow = this.props.features[selectedFeatureType];
+  * Called if the an item of the hover menu has been clicked.
+  *
+  * @param {React.MouseEvent} evt The click event.
+  */
+  const onMenuItemClick = (evt: MenuInfo): void => {
+    const selectedFeatType = evt.key as string;
+    const featsToShow: OlFeature[] = features[selectedFeatType];
 
-    this.setState({
-      menuHidden: true,
-      featuresToShow: featuresToShow,
-      gridWinHidden: false,
-      selectedFeatureType: selectedFeatureType
-    });
-  }
+    setMenuHidden(true);
+    setFeaturesToShow(featsToShow);
+    setGridWinHidden(false);
+    setSelectedFeatureType(selectedFeatType);
+  };
 
   /**
    * Renders a menu item for each feature type retrieved by GetFeatureInfo
@@ -271,171 +230,144 @@ export class FeatureInfo extends React.Component<FeatureInfoProps, FeatureInfoSt
    *
    * @param {String} featType Original (qualified) feature type name.
    */
-  getMenuItemForFeatureType(featType: string) {
-    const layer = MapUtil.getLayerByNameParam(this.props.map, featType);
-    const count = this.props.features[featType].length;
+  const getMenuItemForFeatureType = (featType: string): React.ReactElement => {
+    const layer: OlLayer = MapUtil.getLayerByNameParam(map, featType);
+    const count: number = features[featType].length;
 
     return (
       <MenuItem
         key={featType}
-        onMouseEnter={this.onMenuMouseEnter}
-        onMouseLeave={this.onSubMenuMouseLeave}
+        onMouseEnter={onMenuMouseEnter}
+        onMouseLeave={onSubMenuMouseLeave}
       >
         {`${layer && layer.get('name') || featType} (${count})`}
       </MenuItem>
     );
-  }
+  };
 
   /**
    * Called if the mouse enters a menu item.
    *
    * @param {React.MouseEvent} evt The mouseenter event.
    */
-  onMenuMouseEnter(evt: any) {
-    const features = this.props.features[evt.key];
-    const highlightSource = this.hoverVectorLayer.getSource();
-    highlightSource.addFeatures(features.map((feat: OlFeature) => feat.clone()));
-    this.resetHoverLayerStyle();
-    this.setHoverLayerStyle(features);
-  }
+  const onMenuMouseEnter = (evt: MenuInfo): void => {
+    const feats: OlFeature[] = features[evt.key];
+    const highlightSource = hoverVectorLayer.getSource();
+    highlightSource.addFeatures(feats.map((feat: OlFeature) => feat.clone()));
+    resetHoverLayerStyle();
+    setHoverLayerStyle(feats);
+  };
 
   /**
    * Called if the mouse leaves a menu item.
    */
-  onSubMenuMouseLeave() {
-    this.resetHoverLayerStyle();
-    this.clearHoverLayerSource();
-  }
+  const onSubMenuMouseLeave = (): void => {
+    resetHoverLayerStyle();
+    clearHoverLayerSource();
+  };
 
   /**
    * Sets the hover style to the given features.
    *
-   * @param {OlFeature} features The features to set the style to.
+   * @param {OlFeature} feats The features to set the style to.
    */
-  setHoverLayerStyle(features: any[]) {
-    features.forEach(feat => feat.setStyle(this.hoverStyleFunction));
-  }
+  const setHoverLayerStyle = (feats: OlFeature[]): void => {
+    feats.forEach((feat: OlFeature) => feat.setStyle(hoverStyleFunction));
+  };
 
   /**
   * Sets selectedFeatureType to null and hides feature info window.
    */
-  hideFeatureInfoWindow() {
-    this.setState({
-      selectedFeatureType: null,
-      gridWinHidden: true,
-      featuresToShow: []
-    });
-    this.clearHoverLayerSource(true);
-    this.props.dispatch(clearFeatures('HOVER'));
-  }
-
-  handleDownloadButton() {
-    const {
-      downloadGridData
-    } = this.state;
-
-    this.setState({
-      downloadGridData: !downloadGridData
-    });
-  }
+  const hideFeatureInfoWindow = (): void => {
+    setSelectedFeatureType(null);
+    setGridWinHidden(true);
+    setFeaturesToShow([]);
+    clearHoverLayerSource(true);
+    dispatch(clearFeatures('HOVER'));
+  };
 
   /**
-   * The render method.
    *
-   * @return {Component} The component.
    */
-  render() {
-    const {
-      features,
-      map,
-      maxMenuItems,
-      t,
-      dispatch,
-      windowPosition,
-      windowHeight,
-      ...passThroughProps
-    } = this.props;
+  const handleDownloadButton = () => {
+    setDownloadGridData(!downloadGridData);
+  };
 
-    const {
-      menuHidden,
-      gridWinHidden,
-      selectedFeatureType,
-      featuresToShow,
-      downloadGridData
-    } = this.state;
-
+  const getTools = (layer: OlLayer): React.ReactElement[] => {
     const tools = [];
-
-    let winTitle;
-    let layerToShow;
-    if (selectedFeatureType) {
-      layerToShow = MapUtil.getLayerByNameParam(map, selectedFeatureType);
-      winTitle = layerToShow.get('name') || selectedFeatureType;
-    }
-
-    if (layerToShow && layerToShow.get('type') === 'WMSTime') {
+    if (layer && layer.get('type') === 'WMSTime') {
       tools.push(
         <SimpleButton
-          iconName="fas fa-save"
+          icon={<SaveOutlined />}
           key="download-tool"
           size="small"
-          tooltip={t('General.downloadData') as unknown as string}
-          onClick={this.handleDownloadButton}
+          tooltip={t('General.downloadData')}
+          onClick={handleDownloadButton}
         />
       );
     }
-
     tools.push(
       <SimpleButton
-        iconName="fas fa-times"
+        icon={<CloseOutlined />}
         key="close-tool"
         size="small"
-        tooltip={t('General.close') as unknown as string}
-        onClick={this.hideFeatureInfoWindow}
+        tooltip={t('General.close')}
+        onClick={hideFeatureInfoWindow}
       />
     );
+    return tools;
+  };
 
-    return (
-      <div>
-        {
-          !gridWinHidden && selectedFeatureType &&
-            <Window
-              onEscape={this.hideFeatureInfoWindow}
-              title={winTitle}
-              minWidth={500}
-              maxWidth={1000}
-              height={windowHeight > 0 ? windowHeight : 300}
-              maxHeight={1000}
-              x={windowPosition && windowPosition[0] || 50}
-              y={windowPosition && windowPosition[1] || 50}
-              collapseTooltip={t('General.collapse') as unknown as string}
-              bounds="#app"
-              tools={tools}
-            >
-              <FeatureInfoGrid
-                map={map}
-                isTimeLayer={layerToShow && layerToShow.get('type') === 'WMSTime'}
-                features={featuresToShow}
-                hoverVectorLayer={this.hoverVectorLayer}
-                downloadGridData={downloadGridData}
-                t={t}
-              />
-            </Window>
-        }
-        {
-          !menuHidden && <Menu
-            className="feature-info-menu"
-            onClick={this.onMenuItemClick}
-            {...passThroughProps}
-          >
-            {
-              Object.keys(features).map(featType => this.getMenuItemForFeatureType(featType))
-            }
-          </Menu>
-        }
-      </div>
-    );
+
+  let winTitle;
+  let layerToShow;
+
+  if (selectedFeatureType) {
+    layerToShow = MapUtil.getLayerByNameParam(map, selectedFeatureType);
+    winTitle = layerToShow.get('name') || selectedFeatureType;
   }
-}
+
+  return (
+    <div>
+      {
+        !gridWinHidden && selectedFeatureType &&
+        <Window
+          onEscape={hideFeatureInfoWindow}
+          title={winTitle}
+          minWidth={500}
+          maxWidth={1000}
+          height={windowHeight}
+          maxHeight={1000}
+          x={windowPosition[0]}
+          y={windowPosition[1]}
+          collapseTooltip={t('General.collapse')}
+          collapsible={windowCollapsible}
+          bounds="#app"
+          tools={getTools(layerToShow)}
+        >
+          <FeatureInfoGrid
+            map={map}
+            isTimeLayer={layerToShow && layerToShow.get('type') === 'WMSTime'}
+            features={featuresToShow}
+            hoverVectorLayer={hoverVectorLayer}
+            downloadGridData={downloadGridData}
+            t={t}
+          />
+        </Window>
+      }
+      {
+        !menuHidden && <Menu
+          className="feature-info-menu"
+          onClick={onMenuItemClick}
+          {...passThroughProps}
+        >
+          {
+            Object.keys(features).map(featType => getMenuItemForFeatureType(featType))
+          }
+        </Menu>
+      }
+    </div>
+  );
+};
 
 export default FeatureInfo;
