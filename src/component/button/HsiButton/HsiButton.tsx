@@ -158,7 +158,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
     } else {
       pixel = map.getEventPixel(olEvt.originalEvent);
     }
-    let internalVectorFeatures: {[name: string]: OlFeature[]} = {};
+    let internalVectorFeatures: { [name: string]: OlFeature[] } = {};
     const featureInfoUrls: string[] = [];
 
     // dispatch that any running HOVER process should be canceled
@@ -252,11 +252,17 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
    */
   render() {
     const {
-      type,
-      shape,
+      dataRange,
+      dispatch,
+      drillDown,
+      getInfoByClick,
       iconName,
+      shape,
+      t,
       tooltip,
-      tooltipPlacement
+      tooltipPlacement,
+      type,
+      ...passThroughProps
     } = this.props;
 
     return (
@@ -269,6 +275,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
         tooltipPlacement={tooltipPlacement}
         onToggle={this.onHsiToggle}
         pressed={this.state.pressed}
+        {...passThroughProps}
       />
     );
   }

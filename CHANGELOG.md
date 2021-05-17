@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Set `shogunId` property on all parsed layers in the `ShogunBootAppContextUtil` ([#804](https://github.com/terrestris/react-geo-baseclient/pull/804)).
 - Extract `Permalink` panel to an own component ([#806](https://github.com/terrestris/react-geo-baseclient/pull/806)).
+- Pass all existing button props to `HsiButton`([#813](https://github.com/terrestris/react-geo-baseclient/pull/813)).
 
 ### Fixed
 
