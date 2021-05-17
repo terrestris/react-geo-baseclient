@@ -130,7 +130,6 @@ export const LayerTreeDropdownContextMenu: React.FC<ComponentProps> = ({
    * Zooms map view to max layer resolution.
    */
   const zoomToLayerResolution = (): void => {
-
     const mapResolutions = map.getView().getResolutions();
     let maxResolution = layer.getMaxResolution();
 
