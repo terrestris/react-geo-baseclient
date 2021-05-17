@@ -256,7 +256,8 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
       shape,
       iconName,
       tooltip,
-      tooltipPlacement
+      tooltipPlacement,
+      ...passedThroughProps
     } = this.props;
 
     return (
@@ -269,6 +270,7 @@ export class HsiButton extends React.Component<HsiButtonProps, HsiButtonStatePro
         tooltipPlacement={tooltipPlacement}
         onToggle={this.onHsiToggle}
         pressed={this.state.pressed}
+        {...passedThroughProps}
       />
     );
   }
