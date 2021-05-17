@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Breaking changes
+
+- GetFeatureInfo components refactoring ([#810](https://github.com/terrestris/react-geo-baseclient/pull/811))
+  - Refactored all `GetFeatureInfo` related components to react's functional component
+  - 🚨 Replaced `width` property set on GetFeatureInfo overlay menu by `maxWidth` (increased from 200 to 350px) to prevent cropped titles on long layer names
+- Introduce "Zoom to layer resolution" context menu entry ([#809](https://github.com/terrestris/react-geo-baseclient/pull/809))
+  - Add configurable layer context menu entry "Zoom to layer resolution" (default is false)
+  - 🚨 Default value of `showZoomToLayerExtent` and `showApplyTimeInterval` configs was changed to `false`. So from now, the configs must be explicitily provided by component instantiation if the context menu entries should be shown in client.
+
 ### Added
 
 - Add this CHANGELOG file ([#811](https://github.com/terrestris/react-geo-baseclient/pull/811)).
