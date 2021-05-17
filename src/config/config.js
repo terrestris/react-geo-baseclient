@@ -1,4 +1,4 @@
-const nodeEnv = typeof(process.env.NODE_ENV) !== 'undefined' ? process.env.NODE_ENV : undefined;
+const nodeEnv = typeof (process.env.NODE_ENV) !== 'undefined' ? process.env.NODE_ENV : undefined;
 const appPrefix = (typeof (process.env.APP_PREFIX) !== 'undefined' &&
   nodeEnv && nodeEnv.indexOf('production') > -1) ? process.env.APP_PREFIX : '/';
 const basePath = window.location.origin + appPrefix;
@@ -7,7 +7,7 @@ const buildPath = window.location.origin +
 const shogun2Path = basePath + 'rest/projectapps/';
 const shogunBootPath = basePath + 'applications/';
 let staticPath = basePath + 'resources/appContext.json';
-let localePath =  basePath + 'resources/i18n/{{lng}}.json';
+let localePath = basePath + 'resources/i18n/{{lng}}.json';
 const appMode = typeof (process.env.APP_MODE) !== 'undefined' ? process.env.APP_MODE : '';
 
 if (nodeEnv && nodeEnv.indexOf('production') > -1) {
@@ -34,7 +34,14 @@ if (appMode.indexOf('boot') > -1) {
   applicationPath = basePath + 'applications';
 }
 
+const clientComponentConfig = {
+  tooltipProps: {
+    mouseEnterDelay: .5
+  }
+};
+
 export default {
+  // path configuration
   appContextPath,
   layerPath,
   userPath,
@@ -42,12 +49,14 @@ export default {
   geoserverActionPath: `${basePath}geoserver.action`,
   appInfoPath: `${basePath}info/app`,
   locale: localePath,
-  getBasePath: function (){
+  getBasePath: function() {
     return basePath;
   },
   logoutUrl: `${basePath}sso/logout`,
   printAction: `${basePath}print/print`,
   printCreateUrlAction: `${basePath}print/createUrl.action`,
   printUrlAction: `${basePath}print/doPrint.action`,
-  printGetResultAction: `${basePath}print/getPrintResult.action`
+  printGetResultAction: `${basePath}print/getPrintResult.action`,
+  // client / component configuration
+  ...clientComponentConfig
 };
