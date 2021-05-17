@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 
 import OlLayerGroup from 'ol/layer/Group';
 import OlLayer from 'ol/layer/Base';
+import OlMap from 'ol/Map';
 
 import LayerTree from '@terrestris/react-geo/dist/LayerTree/LayerTree';
 import Legend from '@terrestris/react-geo/dist/Legend/Legend';
@@ -10,7 +11,7 @@ import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleB
 import LayerTreeApplyTimeInterval from '../../container/LayerTreeApplyTimeInterval/LayerTreeApplyTimeInterval';
 import LayerTreeDropdownContextMenu from '../../container/LayerTreeDropdownContextMenu/LayerTreeDropdownContextMenu';
 
-import {MapUtil} from '@terrestris/ol-util';
+import { MapUtil } from '@terrestris/ol-util';
 
 import './LayerTreeClassic.css';
 
@@ -24,56 +25,44 @@ interface DefaultLayerTreeClassicProps {
   dispatch: (arg: any) => void;
   showContextMenu?: boolean;
   showZoomToLayerExtent?: boolean;
+  showZoomToLayerResolution?: boolean;
   showApplyTimeInterval: boolean;
 }
 
-interface LayerTreeClassicProps extends Partial<DefaultLayerTreeClassicProps> {
-  map: any;
-  t: (arg: string) => any;
+interface LayerTreeClassicProps {
+  map: OlMap;
+  t: (arg: string) => string;
   treeNodeFilter?: (value: any, index: number, array: any[]) => boolean;
 }
+
+type ComponentProps = DefaultLayerTreeClassicProps & LayerTreeClassicProps;
 
 /**
  * Class representing a classic LayerTree with included Legend.
  *
  * @class LayerTreeClassic
- * @extends React.Component
  */
-export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
-
-  public static defaultProps: DefaultLayerTreeClassicProps = {
-    extraLegendParams: {
-      LEGEND_OPTIONS: 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed',
-      TRANSPARENT: true
-    },
-    dispatch: () => {},
-    showApplyTimeInterval: true,
-    showZoomToLayerExtent: true
-  };
-
-  /**
-   * @constructs LayerTreeClassic
-   */
-  constructor(props: LayerTreeClassicProps) {
-    super(props);
-
-    this.onHideLayerTree = this.onHideLayerTree.bind(this);
-    this.showContextMenu = this.showContextMenu.bind(this);
-  }
+export const LayerTreeClassic: React.FC<ComponentProps> = ({
+  extraLegendParams = {
+    LEGEND_OPTIONS: 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed',
+    TRANSPARENT: true
+  },
+  dispatch,
+  showContextMenu,
+  showApplyTimeInterval = false,
+  showZoomToLayerExtent = false,
+  showZoomToLayerResolution = false,
+  treeNodeFilter,
+  t,
+  map
+}): JSX.Element => {
 
   /**
-   * Currently only two context menu entries (description and metadata) are
-   * expected. This check should be possibly extended in case of further entries
-   * arrive.
+   * Checks if the layer's context menu is available for the certain layer.
    *
    * @param layer Layer entry.
    */
-  showContextMenu(layer: OlLayer) {
-
-    const {
-      showZoomToLayerExtent,
-      showContextMenu
-    } = this.props;
+  const contextMenuAvailable = (layer: OlLayer) => {
 
     if (_isBoolean(showContextMenu)) {
       return showContextMenu;
@@ -83,22 +72,15 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
     const showMetadata = !_isEmpty(layer.get('metadataIdentifier')) &&
       layer.get('showMetadataInClient');
 
-    return showDescription || showMetadata || showZoomToLayerExtent;
-  }
+    return showDescription || showMetadata || showZoomToLayerExtent || showZoomToLayerResolution;
+  };
 
   /**
    * Custom tree node renderer function
-   * @param {any} layer The OpenLayers layer or LayerGroup the tree node
+   * @param {OlLayer} layer The OpenLayers layer or LayerGroup the tree node
    *   should be rendered for
    */
-  treeNodeTitleRenderer(layer: OlLayer) {
-    const {
-      map,
-      extraLegendParams,
-      t,
-      showZoomToLayerExtent,
-      showApplyTimeInterval
-    } = this.props;
+  const treeNodeTitleRenderer = (layer: OlLayer) => {
 
     const unit = map.getView().getProjection().getUnits();
     const scale = MapUtil.getScaleForResolution(map.getView().getResolution(), unit);
@@ -123,16 +105,17 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
               }
             </span>
             <div className='classic-tree-node-header-buttons'>
-              {(this.showContextMenu(layer) && layer instanceof OlLayer) &&
+              {(contextMenuAvailable(layer) && layer instanceof OlLayer) &&
                 <LayerTreeDropdownContextMenu
-                  map={this.props.map}
+                  map={map}
                   layer={layer}
                   showZoomToLayerExtent={showZoomToLayerExtent}
+                  showZoomToLayerResolution={showZoomToLayerResolution}
                   t={t} />
               }
               {(showApplyTimeInterval && layer.get('type') === 'WMSTime') &&
                 <LayerTreeApplyTimeInterval
-                  map={this.props.map}
+                  map={map}
                   layer={layer}
                   t={t}
                 />
@@ -160,37 +143,24 @@ export class LayerTreeClassic extends React.Component<LayerTreeClassicProps> {
         </div>
       );
     }
-  }
+  };
 
-  onHideLayerTree() {
-    this.props.dispatch(hideLayerTree());
-  }
-
-  /**
-   * The render function
-   */
-  render() {
-    const {
-      map
-    } = this.props;
-
-    return (
-      <div className='layer-tree-classic'>
-        <SimpleButton
-          iconName="fas fa-times"
-          shape="circle"
-          className="layer-tree-classic-close-button"
-          size="small"
-          onClick={this.onHideLayerTree}
-        />
-        <LayerTree
-          map={map}
-          nodeTitleRenderer={this.treeNodeTitleRenderer.bind(this)}
-          filterFunction={this.props.treeNodeFilter}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className='layer-tree-classic'>
+      <SimpleButton
+        iconName="fas fa-times"
+        shape="circle"
+        className="layer-tree-classic-close-button"
+        size="small"
+        onClick={() => dispatch(hideLayerTree())}
+      />
+      <LayerTree
+        map={map}
+        nodeTitleRenderer={treeNodeTitleRenderer}
+        filterFunction={treeNodeFilter}
+      />
+    </div>
+  );
+};
 
 export default LayerTreeClassic;

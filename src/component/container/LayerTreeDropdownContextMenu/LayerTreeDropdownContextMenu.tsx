@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import { MenuInfo } from 'rc-menu/lib/interface';
 
 import OlLayerBase from 'ol/layer/Base';
 import OlMap from 'ol/Map';
@@ -14,6 +16,7 @@ import {
 const MenuItem = Menu.Item;
 
 import _isEmpty from 'lodash/isEmpty';
+import _isFinite from 'lodash/isFinite';
 
 import LayerUtil from '@terrestris/ol-util/dist/LayerUtil/LayerUtil';
 
@@ -22,20 +25,14 @@ import Logger from '@terrestris/base-util/dist/Logger';
 import Metadata from '../../Modal/Metadata/Metadata';
 
 interface LayerTreeDropdownContextMenuDefaultProps {
-  showZoomToLayerExtent: boolean;
+  showZoomToLayerExtent?: boolean;
+  showZoomToLayerResolution?: boolean;
 }
 
 interface LayerTreeDropdownContextMenuProps {
   layer: OlLayerBase;
-  t: (arg: string) => {};
+  t: (arg: string) => string;
   map: OlMap;
-}
-
-interface LayerTreeDropdownContextMenuState {
-  infoModalVisible: boolean;
-  menuHidden: boolean;
-  metaDataModalVisible: boolean;
-  isLoadingExtent: boolean;
 }
 
 type ComponentProps = LayerTreeDropdownContextMenuDefaultProps & LayerTreeDropdownContextMenuProps;
@@ -46,102 +43,78 @@ type ComponentProps = LayerTreeDropdownContextMenuDefaultProps & LayerTreeDropdo
  * @class LayerTreeDropdownContextMenu
  * @extends React.Component
  */
-// eslint-disable-next-line
-export class LayerTreeDropdownContextMenu extends React.Component<ComponentProps, LayerTreeDropdownContextMenuState> {
+export const LayerTreeDropdownContextMenu: React.FC<ComponentProps> = ({
+  showZoomToLayerExtent = false,
+  showZoomToLayerResolution = false,
+  layer,
+  t,
+  map
+}): JSX.Element => {
 
-
-  public static defaultProps: LayerTreeDropdownContextMenuDefaultProps = {
-    showZoomToLayerExtent: true
-  };
-  /**
-   * Creates the LayerTreeDropdownContextMenu.
-   *
-   * @constructs LayerTreeDropdownContextMenu
-   */
-  constructor(props: ComponentProps) {
-    super(props);
-
-    // binds
-    this.onContextMenuItemClick = this.onContextMenuItemClick.bind(this);
-    this.changeInfoModalVisibility = this.changeInfoModalVisibility.bind(this);
-    this.onDropdownMenuVisibleChange = this.onDropdownMenuVisibleChange.bind(this);
-
-    this.state = {
-      infoModalVisible: false,
-      metaDataModalVisible: false,
-      menuHidden: true,
-      isLoadingExtent: false
-    };
-  }
+  const [infoModalVisible, setInfoModalVisible] = useState<boolean>(false);
+  const [metadataModalVisible, setMetadataModalVisible] = useState<boolean>(false);
+  const [menuHidden, setMenuHidden] = useState<boolean>(true);
+  const [extentLoading, setExtentLoading] = useState<boolean>(false);
 
   /**
    * Called if the an item of the layer context/settings menu has been clicked.
    *
    * @param {Object} evt The click event.
    */
-  onContextMenuItemClick(evt: any) {
+  const onContextMenuItemClick = (evt: MenuInfo): void => {
     const key = evt.key;
     switch (key) {
       case 'info':
-        this.changeInfoModalVisibility();
+        changeInfoModalVisibility();
         break;
       case 'metadata':
-        this.changeMetadataModalVisibility();
+        changeMetadataModalVisibility();
         break;
       case 'zoomToExtent':
-        this.zoomToLayerExtent();
+        zoomToLayerExtent();
+        break;
+      case 'zoomToResolution':
+        zoomToLayerResolution();
         break;
       default:
         break;
     }
-  }
+    setMenuHidden(true);
+  };
 
   /**
    * Handles visibility of the dropdown menu
    *
    */
-  onDropdownMenuVisibleChange(visible: boolean) {
-    this.setState({
-      menuHidden: !visible
-    });
-  }
+  const onDropdownMenuVisibleChange = (visible: boolean): void => {
+    setMenuHidden(!visible);
+  };
 
   /**
    * Opens the info modal window for the current layer.
    */
-  changeInfoModalVisibility() {
-    this.setState({
-      infoModalVisible: !this.state.infoModalVisible,
-      menuHidden: true
-    });
-  }
+  const changeInfoModalVisibility = (): void => {
+    setInfoModalVisible(!infoModalVisible);
+  };
 
   /**
    * Opens the metadata window for the current layer.
    */
-  changeMetadataModalVisibility() {
-    this.setState({
-      metaDataModalVisible: !this.state.metaDataModalVisible,
-      menuHidden: true
-    });
-  }
+  const changeMetadataModalVisibility = (): void => {
+    setMetadataModalVisible(!metadataModalVisible);
+  };
 
-  async zoomToLayerExtent() {
-    const {
-      layer,
-      map,
-      t
-    } = this.props;
+  /**
+   * Tries to retrieve the layer extent from capabilities and fits map view to
+   * the bounds on success.
+   */
+  const zoomToLayerExtent = async (): Promise<void> => {
 
-    this.setState({
-      isLoadingExtent: true
-    });
+    setExtentLoading(true);
 
     try {
       let extent = await LayerUtil.getExtentForLayer(layer, map.getView().getProjection());
-
       extent = transformExtent(extent, 'EPSG:4326', map.getView().getProjection());
-
       map.getView().fit(extent);
     } catch (error) {
       Logger.error(error);
@@ -149,101 +122,108 @@ export class LayerTreeDropdownContextMenu extends React.Component<ComponentProps
         message: t('LayerTreeDropdownContextMenu.extentError')
       });
     } finally {
-      this.setState({
-        isLoadingExtent: false,
-        menuHidden: true
-      });
+      setExtentLoading(false);
     }
   };
 
   /**
-   * The render function.
+   * Zooms map view to max layer resolution.
    */
-  render() {
-    const {
-      t,
-      layer,
-      showZoomToLayerExtent
-    } = this.props;
+  const zoomToLayerResolution = (): void => {
+    const mapResolutions = map.getView().getResolutions();
+    let maxResolution = layer.getMaxResolution();
 
-    const {
-      infoModalVisible,
-      menuHidden,
-      metaDataModalVisible
-    } = this.state;
+    if (_isFinite(maxResolution) && maxResolution !== 0) {
+      const closestMapResolution = mapResolutions.reduce((prev, curr) =>
+        Math.abs(curr - maxResolution) < Math.abs(prev - maxResolution) ? curr : prev
+      );
+      const zoomToResolution = mapResolutions.indexOf(closestMapResolution) + 1;
+      map.getView().setZoom(zoomToResolution);
+    } else {
+      // use map's min zoom as fallback if resolutions is not restricted on layer
+      map.getView().setZoom(0);
+    }
+  };
 
-    const showDesciption = !_isEmpty(layer.get('description'));
-    const showMetadata = !_isEmpty(layer.get('metadataIdentifier')) && layer.get('showMetadataInClient');
+  const showDesciption = !_isEmpty(layer.get('description'));
+  const showMetadata = !_isEmpty(layer.get('metadataIdentifier')) && layer.get('showMetadataInClient');
 
-    const settingsMenu = (
-      <Menu
-        selectable={false}
-        onClick={this.onContextMenuItemClick}
+  const settingsMenu = (
+    <Menu
+      selectable={false}
+      onClick={onContextMenuItemClick}
+    >
+      {
+        showDesciption &&
+        <MenuItem
+          key="info"
+        >
+          {t('LayerTreeDropdownContextMenu.layerInfoText')}
+        </MenuItem>
+      }
+      {
+        showMetadata &&
+        <MenuItem
+          key="metadata"
+        >
+          {t('LayerTreeDropdownContextMenu.layerMetadataText')}
+        </MenuItem>
+      }
+      {
+        showZoomToLayerExtent &&
+        <MenuItem
+          key="zoomToExtent"
+        >
+          <Spin
+            spinning={extentLoading}
+          >
+            {t('LayerTreeDropdownContextMenu.layerZoomToExtent')}
+          </Spin>
+        </MenuItem>
+      }
+      {
+        showZoomToLayerResolution &&
+        <MenuItem
+          key="zoomToResolution"
+        >
+          {t('LayerTreeDropdownContextMenu.layerZoomToResolution')}
+        </MenuItem>
+      }
+    </Menu>
+  );
+
+  return (
+    <div>
+      <Modal
+        className="info-modal"
+        visible={infoModalVisible}
+        footer={null}
+        title={layer.get('name') || t('Modal.LayerDescription.title')}
+        onCancel={() => changeInfoModalVisibility()}
       >
-        {
-          showDesciption &&
-          <MenuItem
-            key="info"
-          >
-            {t('LayerTreeDropdownContextMenu.layerInfoText')}
-          </MenuItem>
-        }
-        {
-          showMetadata &&
-          <MenuItem
-            key="metadata"
-          >
-            {t('LayerTreeDropdownContextMenu.layerMetadataText')}
-          </MenuItem>
-        }
-        {
-          showZoomToLayerExtent &&
-          <MenuItem
-            key="zoomToExtent"
-          >
-            <Spin
-              spinning={this.state.isLoadingExtent}
-            >
-              {t('LayerTreeDropdownContextMenu.layerZoomToExtent')}
-            </Spin>
-          </MenuItem>
-        }
-      </Menu>
-    );
-
-    return (
-      <div>
-        <Modal
-          className="info-modal"
-          visible={infoModalVisible}
-          footer={null}
-          title={layer.get('name') || t('Modal.LayerDescription.title')}
-          onCancel={() => this.changeInfoModalVisibility()}
-        >
-          <div>{layer.get('description')}</div>
-        </Modal>
-        <Dropdown
-          overlay={settingsMenu}
-          placement="bottomLeft"
-          onVisibleChange={this.onDropdownMenuVisibleChange}
-          visible={!menuHidden}
-          trigger={['click']}
-        >
-          <span
-            className="fa fa-cog layer-tree-node-title-settings"
-          />
-        </Dropdown>
-        {
-          metaDataModalVisible &&
-          <Metadata
-            layer={layer}
-            t={t}
-            onCancel={() => this.changeMetadataModalVisibility()} >
-          </Metadata>
-        }
-      </div>
-    );
-  }
-}
+        <div>{layer.get('description')}</div>
+      </Modal>
+      <Dropdown
+        overlay={settingsMenu}
+        placement="bottomLeft"
+        onVisibleChange={onDropdownMenuVisibleChange}
+        visible={!menuHidden}
+        trigger={['click']}
+      >
+        <span
+          className="fa fa-cog layer-tree-node-title-settings"
+        />
+      </Dropdown>
+      {
+        metadataModalVisible &&
+        <Metadata
+          layer={layer}
+          t={t}
+          onCancel={() => changeMetadataModalVisibility()}>
+        </Metadata>
+      }
+    </div>
+  );
+};
 
 export default LayerTreeDropdownContextMenu;
