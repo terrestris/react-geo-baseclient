@@ -506,7 +506,6 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="5"
             tooltip={t('FeatureInfo.tooltip')}
             tooltipPlacement={'right'}
-            t={t}
             getInfoByClick={isMobileClient}
           />);
           return;
