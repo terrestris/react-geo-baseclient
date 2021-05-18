@@ -83,6 +83,9 @@ export const HsiButton: React.FC<ComponentProps> = ({
       } else {
         map.on('pointerrest', getInfo);
       }
+      if (onToggleCb) {
+        onToggleCb();
+      }
       // remove possible hover artifacts
       dispatch(clearFeatures('HOVER'));
     }
