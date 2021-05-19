@@ -11,6 +11,8 @@ import LayerTransparencySlider from '@terrestris/react-geo/dist/Slider/LayerTran
 import LayerTreeDropdownContextMenu from '../container/LayerTreeDropdownContextMenu/LayerTreeDropdownContextMenu';
 import LayerTreeApplyTimeInterval from '../container/LayerTreeApplyTimeInterval/LayerTreeApplyTimeInterval';
 
+import config from '../../config/config';
+
 import './LayerLegendAccordionTreeNode.css';
 
 // default props
@@ -206,7 +208,7 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
           <Tooltip
             title={t('LayerLegendAccordion.toggleVisibilityTooltipText')}
             placement="top"
-            mouseEnterDelay={0.5}
+            {...config.tooltipProps}
           >
             <span
               className={visibilitySpanClass}
@@ -216,7 +218,7 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
           <Tooltip
             title={layer.get('name')}
             placement="top"
-            mouseEnterDelay={0.5}
+            {...config.tooltipProps}
           >
             <span
               className="layer-tree-node-title-layername"
@@ -239,7 +241,7 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
           <Tooltip
             title={t('LayerLegendAccordion.toggleVisibilityTooltipText')}
             placement="top"
-            mouseEnterDelay={0.5}
+            {...config.tooltipProps}
           >
             <span
               className={visibilitySpanClass}
@@ -249,7 +251,7 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
           <Tooltip
             title={layer.get('name')}
             placement="top"
-            mouseEnterDelay={0.5}
+            {...config.tooltipProps}
           >
             <span
               className="layer-tree-node-title-layername"
