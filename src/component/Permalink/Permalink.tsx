@@ -18,7 +18,7 @@ interface PermalinkProps {
 export const Permalink: React.FC<PermalinkProps> = ({
   t,
   getLink
-}): JSX.Element => {
+}): React.ReactElement => {
 
   /**
    * Copy the permalink to clipboard
