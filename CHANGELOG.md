@@ -9,10 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking changes
 
-- GetFeatureInfo components refactoring ([#810](https://github.com/terrestris/react-geo-baseclient/pull/811))
+- `GetFeatureInfo` components refactoring ([#810](https://github.com/terrestris/react-geo-baseclient/pull/811))
   - Refactored all `GetFeatureInfo` related components to react's functional component
   - 🚨 Replaced `width` property set on GetFeatureInfo overlay menu by `maxWidth` (increased from 200 to 350px) to prevent cropped titles on long layer names
-- Introduce "Zoom to layer resolution" context menu entry ([#809](https://github.com/terrestris/react-geo-baseclient/pull/809))
+- `HSIButton` component refactoring ([#817](https://github.com/terrestris/react-geo-baseclient/pull/817))
+  - 🚨 `t` was removed from class props
+  - 🚨 `dispatch` was removed from class props, react-redux hook will be used instead
+  - 🚨 default value for `tooltip` is set to `Feature Info`
+  - 🚨 default value for `tooltipPlacement` is set to `right`
+  - added additional optional propery `onToggleCb` enabling custom logic on HSIButton activation (e.g. show notification about tool state, queryable layers etc.)
+- Introduce `"Zoom to layer resolution"` context menu entry ([#809](https://github.com/terrestris/react-geo-baseclient/pull/809))
   - Add configurable layer context menu entry "Zoom to layer resolution" (default is false)
   - 🚨 Default value of `showZoomToLayerExtent` and `showApplyTimeInterval` configs was changed to `false`. So from now, the configs must be explicitily provided by component instantiation if the context menu entries should be shown in client.
 
