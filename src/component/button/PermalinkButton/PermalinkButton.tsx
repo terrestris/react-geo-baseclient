@@ -16,7 +16,7 @@ interface DefaultPermalinkButtonProps extends SimpleButtonProps {
 interface BaseProps {
   map: any;
   t: (arg: string) => string;
-  getLink?: () => string;
+  getLink?: () => any;
   windowPosition?: [number, number];
 }
 
@@ -35,7 +35,7 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
   map,
   tooltip,
   tooltipPlacement,
-  getLink,
+  getLink = undefined,
   windowPosition
 }) => {
 
@@ -73,7 +73,7 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
           ]}
         >
           <Permalink
-            getLink={getLink ? getLink : PermalinkUtil.getLink(map)}
+            getLink={getLink ? getLink : () => PermalinkUtil.getLink(map)}
             t={t}
           />
         </Window>
