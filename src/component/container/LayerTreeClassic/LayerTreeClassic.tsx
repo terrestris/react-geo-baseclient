@@ -21,7 +21,7 @@ import _isBoolean from 'lodash/isBoolean';
 import _isEmpty from 'lodash/isEmpty';
 
 interface DefaultLayerTreeClassicProps {
-  extraLegendParams: {};
+  extraLegendParams?: {};
   dispatch?: (arg: any) => void;
   showContextMenu?: boolean;
   showZoomToLayerExtent?: boolean;
