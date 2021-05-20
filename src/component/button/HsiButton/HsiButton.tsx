@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
@@ -76,8 +76,10 @@ export const HsiButton: React.FC<ComponentProps> = ({
   const dispatch = useDispatch();
   const dataRange = useSelector((state: BaseClientState) => state.dataRange);
 
+  const [pressed, setPressed] = useState<boolean>(false);
+
   useEffect(() => {
-    if (passThroughProps.pressed) {
+    if (pressed) {
       if (getInfoByClick) {
         map.on('click', getInfo);
       } else {
@@ -99,7 +101,14 @@ export const HsiButton: React.FC<ComponentProps> = ({
       dispatch(clearFeatures('HOVER'));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [passThroughProps.pressed]);
+  }, [pressed]);
+
+  /**
+   * Manage toggled state.
+   */
+  const onHsiToggle = (toggled: boolean) => {
+    setPressed(toggled);
+  };
 
   /**
    * Calls a GFI request to all hoverable (or the uppermost only, if `drillDown`
@@ -216,6 +225,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
       pressedIconName={iconName}
       tooltip={tooltip}
       tooltipPlacement={tooltipPlacement}
+      onToggle={onHsiToggle}
       {...passThroughProps}
     />
   );
