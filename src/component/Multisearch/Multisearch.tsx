@@ -131,6 +131,26 @@ export default class Multisearch extends
     };
   }
 
+  /**
+   * Replaces all occurencies of templated properties by its values.
+   *
+   * @param tpl Display template
+   */
+  getDisplayValueFromTemplate(displayTpl: string, feature: any): string {
+    let displayValue: string;
+    const matches = displayTpl.match(/\{(.*?)\}/g);
+    if (matches) {
+      displayValue = displayTpl;
+      const keysToReplace = matches.map((mKey: string) => mKey.replace(/[{}]/g, ''));
+      keysToReplace.forEach((rKey: string) => {
+        const tplRegex = new RegExp('\\{' + rKey + '\\}');
+        const tplValue = feature.properties[rKey];
+        displayValue = displayValue.replace(tplRegex, tplValue);
+      });
+    }
+    return displayValue;
+  }
+
   onNominatimSearchSuccess(data: any) {
     this.setState({
       fetching: this.props.useWfs && this.state.wfsSearchPending,
@@ -187,18 +207,13 @@ export default class Multisearch extends
               return false;
             });
           let title = '';
-          if (config && this.state.searchConfig[config].displayTemplate) {
-            let attr = this.state.searchConfig[config].displayTemplate;
-            const match = attr.match(/\{(.*?)\}/g);
-            if (match) {
-              attr = match.map((el: any) => el.replaceAll(
-                '{', '').replaceAll('}', ''));
-              attr.forEach((prop: any) => {
-                title += f.properties[prop];
-              });
-            }
+          const searchConf = this.state.searchConfig[config];
+          if (config && searchConf.displayTemplate) {
+            let displayTpl = searchConf.displayTemplate;
+            title = this.getDisplayValueFromTemplate(displayTpl, f);
           } else {
-            title = f.properties[Object.keys(f.properties)[0]];
+            const displayAttributes = searchConf.attributes;
+            title = f.properties[displayAttributes[0]];
           }
           return this.renderItem(title, null, f);
         })
