@@ -16,6 +16,7 @@ import * as moment from 'moment';
 
 const union = require('lodash/union');
 const isEmpty = require('lodash/isEmpty');
+const isNumber = require('lodash/isNumber');
 const reverse = require('lodash/reverse');
 
 import isMobile from 'is-mobile';
@@ -64,6 +65,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
       const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
       const activeModules = ObjectUtil.getValue('activeTools', appContext);
       const defaultTopic = ObjectUtil.getValue('defaultTopic', appContext);
+      const mapLayers = ObjectUtil.getValue('mapLayers', appContext);
       const layerTree = appContext.layerTree;
       const projection = mapConfig.projection.indexOf('EPSG:') < 0 ?
         'EPSG:' + mapConfig.projection :
@@ -90,7 +92,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
       state.mapView.present.zoom = mapConfig.zoom;
 
       // mapLayers
-      state.mapLayers = await this.parseLayertree(layerTree);
+      state.mapLayers = await this.parseLayertree(layerTree, mapLayers);
 
       // activeModules
       state.activeModules = union(state.activeModules, activeModules);
@@ -107,33 +109,41 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
     return state;
   }
 
-  parseLayertree(folder: any) {
+  parseLayertree(folder: any, mapLayers: any[] = []) {
     const tree = new OlLayerGroup({
-      layers: this.parseNodes(folder.children).reverse(),
+      layers: this.parseNodes(folder.children, mapLayers).reverse(),
       visible: folder.checked,
     });
     return tree;
   }
 
-  parseNodes(nodes: []) {
+  parseNodes(nodes: any[], mapLayers: any[]) {
     const collection: any[] = [];
     nodes.forEach((node: any) => {
       if (node.leaf === true) {
         // layer
-        node.layer.name = node.text;
-        node.layer.appearance.visible = node.checked;
-        collection.push(this.parseLayers([node.layer])[0]);
+        if (isNumber(node.layer) && mapLayers?.length > 0) {
+          const mapLayer = mapLayers.find((ml: any) => ml.id === node.layer);
+          if (mapLayer) {
+            node.layer = mapLayer;
+          }
+        }
+        if (!isNumber(node.layer)) {
+          node.layer.name = node.text;
+          node.layer.appearance.visible = node.checked;
+          collection.push(this.parseLayers([node.layer])[0]);
+        }
       } else {
         // folder
-        collection.push(this.parseFolder(node));
+        collection.push(this.parseFolder(node, mapLayers));
       }
     });
     return collection;
   }
 
-  parseFolder(el: any) {
+  parseFolder(el: any, mapLayers: any) {
     const folder = new OlLayerGroup({
-      layers: this.parseNodes(el.children).reverse(),
+      layers: this.parseNodes(el.children, mapLayers).reverse(),
       visible: el.checked
     });
     folder.set('name', el.text);
