@@ -99,6 +99,14 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
   }
 
   /**
+   *
+   */
+  componentDidMount() {
+    // apply possibly given permalink
+    PermalinkUtil.applyLink(this.props.map);
+  }
+
+  /**
    * apply custom style from app context
    */
   applyStyle() {
@@ -133,9 +141,6 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
 
     const appContextUtil = getAppContextUtil();
     const measureToolsEnabled = appContextUtil.measureToolsEnabled(activeModules);
-
-    // apply possibly given permalink
-    PermalinkUtil.applyLink(map);
 
     const viewport = (
       <div className="viewport">
