@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reenable hover/pressed button color ([#805](https://github.com/terrestris/react-geo-baseclient/pull/805)).
 - Use `text-overflow:ellipsis` to avoid cropped permalink links ([#808](https://github.com/terrestris/react-geo-baseclient/pull/808)).
 - Fix call of default permalink `getLink` function and ensure that permalink is applied only once on first render ([#818](https://github.com/terrestris/react-geo-baseclient/pull/818))
+- Make `extraLegendParams` optional ([#819](https://github.com/terrestris/react-geo-baseclient/pull/819))
 
 
 ## [1.0.0] - 2021-05-07
