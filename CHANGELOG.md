@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make `extraLegendParams` optional ([#819](https://github.com/terrestris/react-geo-baseclient/pull/819))
 - Fix toggling of `HsiButton` ([#820](https://github.com/terrestris/react-geo-baseclient/pull/820))
 - Fix layer tree node parser for shogun2-based context ([#821](https://github.com/terrestris/react-geo-baseclient/pull/821))
+- Fix display template for multisearch ([#822](https://github.com/terrestris/react-geo-baseclient/pull/822))
 
 
 ## [1.0.0] - 2021-05-07
