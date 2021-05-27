@@ -111,8 +111,8 @@ const delayedConf =
             collapseWhitespace: true,
             removeComments: true
           },
-          template: './public/index.html',
-          title: 'shogun boot client',
+          template: customAppConfig.indexTemplate || './public/index.html',
+          title: 'SHOGun Boot Client',
           loadingMaskImg
         }),
         new webpack.ProgressPlugin({ profile: false }),
