@@ -167,6 +167,9 @@ const commonWebpackConfig = {
         }, {
           from: RESOURCES_PATH + 'help/',
           to: './resources/help/'
+        }, {
+          from: RESOURCES_PATH + 'js/',
+          to: './resources/js/'
         }
       ]
     }),
