@@ -36,7 +36,7 @@ commonWebpackConfig.plugins = [
   new HtmlWebpackPlugin({
     filename: 'index.html',
     favicon: './public/favicon.ico',
-    template: customAppConfig.indexTemplate || './public/index.html',
+    template: customAppConfig && customAppConfig.indexTemplate || './public/index.html',
     loadingMaskImg: loadingMaskImg,
     csrf: {
       csrfToken: '${_csrf.token}',
