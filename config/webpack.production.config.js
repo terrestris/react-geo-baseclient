@@ -47,7 +47,8 @@ commonWebpackConfig.plugins = [
     hash: true,
     minify: {
       removeComments: true,
-      collapseWhitespace: true
+      collapseWhitespace: true,
+      collapseInlineTagWhitespace: true
     }
   }),
   new InterpolateHtmlPlugin(HtmlWebpackPlugin, interpolations)

@@ -141,6 +141,7 @@ const delayedConf =
                   hash: true,
                   minify: {
                     collapseWhitespace: true,
+                    collapseInlineTagWhitespace: true,
                     removeComments: true
                   },
                   template: customAppConfig.indexTemplate || './public/index.html',
