@@ -40,7 +40,7 @@ const delayedConf = new Promise(function(resolve) {
         collapseWhitespace: true,
         removeComments: true
       },
-      template: './public/index.html',
+      template: customAppConfig.indexTemplate || './public/index.html',
       title,
       loadingMaskImg
     }),

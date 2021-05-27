@@ -143,7 +143,7 @@ const delayedConf =
                     collapseWhitespace: true,
                     removeComments: true
                   },
-                  template: './public/index.html',
+                  template: customAppConfig.indexTemplate || './public/index.html',
                   loadingMaskImg: loadingMaskImg
                 }),
                 new InterpolateHtmlPlugin(HtmlWebpackPlugin, interpolations)
