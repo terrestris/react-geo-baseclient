@@ -36,7 +36,7 @@ commonWebpackConfig.plugins = [
   new HtmlWebpackPlugin({
     filename: 'index.html',
     favicon: './public/favicon.ico',
-    template: './public/index.html',
+    template: customAppConfig && customAppConfig.indexTemplate || './public/index.html',
     loadingMaskImg: loadingMaskImg,
     csrf: {
       csrfToken: '${_csrf.token}',
@@ -47,7 +47,8 @@ commonWebpackConfig.plugins = [
     hash: true,
     minify: {
       removeComments: true,
-      collapseWhitespace: true
+      collapseWhitespace: true,
+      collapseInlineTagWhitespace: true
     }
   }),
   new InterpolateHtmlPlugin(HtmlWebpackPlugin, interpolations)

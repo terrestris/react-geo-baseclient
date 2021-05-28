@@ -5,8 +5,6 @@ const fetch = require('node-fetch');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
-const URLSearchParams = require('url-search-params');
-const cheerio = require('cheerio');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
@@ -38,27 +36,27 @@ const clientId = process.env.KEYCLOAK_CLIENT_ID;
 const keycloakUrl = process.env.KEYCLOAK_URL;
 
 if (!backendUrl) {
-  Logger.error(`No SHOGun base URL set in .shogunrc.`);
+  Logger.error('No SHOGun base URL set in .shogunrc.');
   return;
 }
 
 if (!username) {
-  Logger.error(`No SHOGun user set in .shogunrc.`);
+  Logger.error('No SHOGun user set in .shogunrc.');
   return;
 }
 
 if (!password) {
-  Logger.error(`No SHOGun password set in .shogunrc.`);
+  Logger.error('No SHOGun password set in .shogunrc.');
   return;
 }
 
 if (!realm) {
-  Logger.error(`No Keycloak realm set in .shogunrc.`);
+  Logger.error('No Keycloak realm set in .shogunrc.');
   return;
 }
 
 if (!clientId) {
-  Logger.error(`No Keycloak client id set in .shogunrc.`);
+  Logger.error('No Keycloak client id set in .shogunrc.');
   return;
 }
 
@@ -111,10 +109,11 @@ const delayedConf =
           hash: true,
           minify: {
             collapseWhitespace: true,
+            collapseInlineTagWhitespace: true,
             removeComments: true
           },
-          template: './public/index.html',
-          title: 'shogun boot client',
+          template: customAppConfig && customAppConfig.indexTemplate || './public/index.html',
+          title: 'SHOGun Boot Client',
           loadingMaskImg
         }),
         new webpack.ProgressPlugin({ profile: false }),

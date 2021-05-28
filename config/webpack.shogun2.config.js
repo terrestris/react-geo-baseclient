@@ -141,9 +141,10 @@ const delayedConf =
                   hash: true,
                   minify: {
                     collapseWhitespace: true,
+                    collapseInlineTagWhitespace: true,
                     removeComments: true
                   },
-                  template: './public/index.html',
+                  template: customAppConfig && customAppConfig.indexTemplate || './public/index.html',
                   loadingMaskImg: loadingMaskImg
                 }),
                 new InterpolateHtmlPlugin(HtmlWebpackPlugin, interpolations)

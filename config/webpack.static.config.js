@@ -38,9 +38,10 @@ const delayedConf = new Promise(function(resolve) {
       hash: true,
       minify: {
         collapseWhitespace: true,
+        collapseInlineTagWhitespace: true,
         removeComments: true
       },
-      template: './public/index.html',
+      template: customAppConfig && customAppConfig.indexTemplate || './public/index.html',
       title,
       loadingMaskImg
     }),

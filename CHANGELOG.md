@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add this CHANGELOG file ([#811](https://github.com/terrestris/react-geo-baseclient/pull/811)).
 - Introduce client component config ([#815](https://github.com/terrestris/react-geo-baseclient/pull/815))
+- Introduce custom webpack property `indexTemplate` ([#823](https://github.com/terrestris/react-geo-baseclient/pull/823))
 
 ### Changed
 
