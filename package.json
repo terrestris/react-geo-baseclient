@@ -72,7 +72,7 @@
     "ol": "^6.5.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-i18next": "^11.8.10",
+    "react-i18next": "^11.11.0",
     "react-redux": "^7.2.3",
     "redux": "^4.0.5",
     "redux-async-initial-state": "^0.3.0",
