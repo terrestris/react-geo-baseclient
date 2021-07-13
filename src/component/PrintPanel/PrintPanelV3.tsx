@@ -39,6 +39,7 @@ interface DefaultPrintPanelV3Props {
 export interface PrintConfig {
   printServletPath(): string;
   getPrintFormats(): string[];
+  customPrintParams(): object;
 }
 
 interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
@@ -436,7 +437,8 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
 
     const {
       t,
-      map
+      map,
+      config
     } = this.props;
 
     const {
@@ -456,6 +458,14 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
     this.printManager.customParams.printScalebar = true;
     this.printManager.customParams.attributions =
       PrintUtil.getAttributions(map, this.printManager.extentLayer);
+
+    // append additional custom params if given
+    if (config.customPrintParams && Object.keys(config.customPrintParams).length > 0) {
+      this.printManager.customParams = {
+        ...this.printManager.customParams,
+        ...config.customPrintParams
+      };
+    }
 
     // update the legends to be shown
     this.printManager.legendFilter = (layer: any) => printLegend && legendIds.includes(layer.ol_uid);
