@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Allow adding of custom params to print job
+
 ### Breaking changes
 
 - `GetFeatureInfo` components refactoring ([#810](https://github.com/terrestris/react-geo-baseclient/pull/811))
