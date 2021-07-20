@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Allow adding of custom params to print job
+## [2.0.0] - 2021-07-20
 
 ### Breaking changes
 
@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Allow adding of custom params to print job ([#830](https://github.com/terrestris/react-geo-baseclient/pull/830))
 - Add this CHANGELOG file ([#811](https://github.com/terrestris/react-geo-baseclient/pull/811)).
 - Introduce client component config ([#815](https://github.com/terrestris/react-geo-baseclient/pull/815))
 - Introduce custom webpack property `indexTemplate` ([#823](https://github.com/terrestris/react-geo-baseclient/pull/823))
@@ -46,7 +47,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix layer tree node parser for shogun2-based context ([#821](https://github.com/terrestris/react-geo-baseclient/pull/821))
 - Fix display template for multisearch ([#822](https://github.com/terrestris/react-geo-baseclient/pull/822))
 
-
 ## [1.0.0] - 2021-05-07
 
 This is the first tagged version of the project. It includes the current state
@@ -54,3 +54,4 @@ of the `main` branch at commit [1f65740](https://github.com/terrestris/react-geo
 
 [Unreleased]: https://github.com/terrestris/react-geo-baseclient/releases/tag/v1.0.0...HEAD
 [1.0.0]: https://github.com/terrestris/react-geo-baseclient/releases/tag/v1.0.0
+[2.0.0]: https://github.com/terrestris/react-geo-baseclient/releases/tag/v2.0.0
