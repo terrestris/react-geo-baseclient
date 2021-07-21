@@ -39,6 +39,10 @@ interface DefaultHsiButtonProps extends ToggleButtonProps {
    * Optional.
    */
   onToggleCb?: () => void;
+  /**
+   * Maximum number of features to retrieve. Defaults to 10.
+   */
+  featureCount?: number;
 }
 
 interface HsiButtonProps {
@@ -70,6 +74,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
   tooltipPlacement = 'right',
   getInfoByClick = false,
   onToggleCb = undefined,
+  featureCount = 10,
   ...passThroughProps
 }): React.ReactElement => {
 
@@ -184,7 +189,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
           {
             // TODO add check for json format availability
             INFO_FORMAT: 'application/json',
-            FEATURE_COUNT: 10
+            FEATURE_COUNT: featureCount
           }
         );
       }

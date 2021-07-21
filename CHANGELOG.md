@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `HSIButton`: Allow setting the feature_count property via prop.
+
 ## [2.0.0] - 2021-07-20
 
 ### Breaking changes
