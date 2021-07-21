@@ -61,3 +61,4 @@ of the `main` branch at commit [1f65740](https://github.com/terrestris/react-geo
 [Unreleased]: https://github.com/terrestris/react-geo-baseclient/releases/tag/v1.0.0...HEAD
 [1.0.0]: https://github.com/terrestris/react-geo-baseclient/releases/tag/v1.0.0
 [2.0.0]: https://github.com/terrestris/react-geo-baseclient/releases/tag/v2.0.0
+[2.0.1]: https://github.com/terrestris/react-geo-baseclient/releases/tag/v2.0.1
