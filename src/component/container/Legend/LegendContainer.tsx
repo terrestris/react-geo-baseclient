@@ -1,4 +1,10 @@
 import * as React from 'react';
+
+import OlLayerGroup from 'ol/layer/Group';
+import OlLayerBase from 'ol/layer/Base';
+
+import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
+
 import Legend from '../../Legend/Legend';
 
 // default props
@@ -57,13 +63,15 @@ export default class LegendContainer extends React.Component<LegendContainerProp
       filterFn,
       scale
     } = this.props;
-    let layers = layerGroup.getLayers().getArray();
-    if (filterFn) {
-      layers = layers.filter(filterFn);
-    }
+    let layers = MapUtil.getAllLayers(layerGroup);
+
+    layers = layers
+      .filter((layer: OlLayerBase) => !(layer instanceof OlLayerGroup))
+      .filter(filterFn);
 
     // clone the array, reverse will work in place
     const reversed = layers.slice(0).reverse();
+
     const legends = reversed.map((l: any) =>
       (
         <Legend
