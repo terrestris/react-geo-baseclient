@@ -20,10 +20,11 @@ import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 // default props
 interface DefaultFooterProps {
+  className: string;
   imprint: string;
 }
 
-interface FooterProps extends Partial<DefaultFooterProps>{
+interface FooterProps extends Partial<DefaultFooterProps> {
   map: any;
   t: (arg: string) => {};
   mapScales: number[];
@@ -193,6 +194,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
    */
   render() {
     const {
+      className,
       map,
       mapScales,
       projection,
@@ -201,7 +203,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
     } = this.props;
 
     return (
-      <footer className="footer">
+      <footer className={`footer ${className}`}>
         <div className="crscombo-col footer-element">
           <span>{t('CoordinateReferenceSystemCombo.label')}</span>
           <CoordinateReferenceSystemCombo
