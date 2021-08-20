@@ -49,6 +49,7 @@ const delayedConf = new Promise(function(resolve) {
   ];
 
   commonWebpackConfig.devServer = {
+    historyApiFallback: true,
     contentBase: path.join(__dirname, 'src'),
     disableHostCheck: true,
     host: '0.0.0.0',
