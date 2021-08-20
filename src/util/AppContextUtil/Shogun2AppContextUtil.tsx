@@ -28,7 +28,7 @@ import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/Measu
 import Logger from '@terrestris/base-util/dist/Logger';
 import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
 
-import getOSMLayer from '@terrestris/vectortiles';
+import terrestrisVectorTiles from '@terrestris/vectortiles';
 
 import initialState from '../../state/initialState';
 
@@ -162,7 +162,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
     }
 
     if (layer.source.type === 'OSMVectortiles') {
-      const vectorLayer = getOSMLayer();
+      const vectorLayer = new terrestrisVectorTiles();
       if (!layer.appearance.visible) {
         vectorLayer.set('visible', false);
       }
