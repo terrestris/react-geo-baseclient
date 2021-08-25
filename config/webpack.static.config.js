@@ -56,7 +56,8 @@ const delayedConf = new Promise(function(resolve) {
     https: true,
     inline: true,
     port: 9090,
-    publicPath: 'https://localhost:9090/'
+    publicPath: 'https://localhost:9090/',
+    proxy: [].concat(customAppConfig && customAppConfig.proxy ? customAppConfig.proxy : [{}])
   };
   resolve(commonWebpackConfig);
 });

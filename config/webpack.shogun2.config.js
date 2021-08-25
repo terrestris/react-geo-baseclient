@@ -175,7 +175,7 @@ const delayedConf =
                   },
                   secure: false,
                   target: backendUrl
-                }],
+                }].concat(customAppConfig && customAppConfig.proxy ? customAppConfig.proxy : [{}]),
                 publicPath: 'https://localhost:9090/'
               };
               return commonWebpackConfig;
