@@ -167,7 +167,7 @@ const delayedConf =
             '/geoserver',
             '/print'
           ]
-        }],
+        }].concat(customAppConfig && customAppConfig.proxy ? customAppConfig.proxy : [{}]),
         publicPath: 'https://localhost:9091/'
       };
       return commonWebpackConfig;
