@@ -183,7 +183,7 @@ const commonWebpackConfig = {
       }
     }),
     new SimpleProgressWebpackPlugin({
-      format: 'compact'
+      format: 'simple'
     })
   ],
 
