@@ -181,6 +181,7 @@ const commonWebpackConfig = {
       '@terrestris/mapfish-print-manager': path.join(__dirname + '/../', 'node_modules', '@terrestris/mapfish-print-manager'),
       'antd': path.join(__dirname + '/../', 'node_modules', 'antd'),
       'react': path.join(__dirname + '/../', 'node_modules', 'react'),
+      '@reduxjs/toolkit': path.join(__dirname + '/../', 'node_modules', '@reduxjs/toolkit'),
       'react-redux': path.join(__dirname + '/../', 'node_modules', 'react-redux'),
       'react-i18next': path.join(__dirname + '/../', 'node_modules', 'react-i18next'),
       '@ant-design/icons': path.join(__dirname + '/../', 'node_modules', '@ant-design/icons'),
