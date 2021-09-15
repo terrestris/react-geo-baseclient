@@ -3,9 +3,11 @@ import { ProjectionLike } from 'ol/proj';
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
+import { BaseClientState } from '../../state/reducers/Reducer';
+
 export interface AppContextUtil {
   canReadCurrentAppContext: () => boolean;
-  appContextToState: (appContext: any) => {};
+  appContextToState: (appContext: any) => Promise<BaseClientState>;
   parseLayer: (layer: any, projection?: ProjectionLike) => OlLayerBase | Promise<OlLayerBase>;
   parseTileLayer: (layer: any, projection?: ProjectionLike) => {};
   parseImageLayer: (layer: any) => {};

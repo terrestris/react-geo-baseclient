@@ -31,6 +31,7 @@ import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
 import terrestrisVectorTiles from '@terrestris/vectortiles';
 
 import initialState from '../../state/initialState';
+import { BaseClientState } from '../../state/reducers/Reducer';
 
 import PrintButton from '../../component/button/PrintButton/PrintButton';
 import MeasureMenuButton from '../../component/button/MeasureMenuButton/MeasureMenuButton';
@@ -57,8 +58,10 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
    * @param {Object} appContext The appContext.
    * @return {Object} The initialState used by the store.
    */
-  async appContextToState(appContext: any) {
+  async appContextToState(appContext: any): Promise<BaseClientState> {
 
+    // TODO
+    // const state: Partial<BaseClientState> = initialState;
     const state: any = initialState;
 
     if (appContext) {
