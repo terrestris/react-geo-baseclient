@@ -28,7 +28,6 @@ import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil'
 const mapStateToProps = (state: any) => {
   return {
     activeModules: state.activeModules,
-    appContextLoading: state.asyncInitialState.loading,
     loading: state.loadingQueue.loading,
     appContext: state.appContext,
     mapScales: state.mapScales,
@@ -47,7 +46,6 @@ export interface MainProps extends Partial<DefaultMainProps> {
   loading: boolean;
   map: any;
   appContext: any;
-  appContextLoading: boolean;
   addLayerWindowVisible: boolean;
   activeModules: object[];
   mapScales: number[];

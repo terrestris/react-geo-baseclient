@@ -1,24 +1,39 @@
 import './index.css';
 import '../node_modules/antd/dist/antd.less';
 import * as React from 'react';
+
 import { render } from 'react-dom';
+
 import { Provider } from 'react-redux';
 import './i18n';
 import { ConfigProvider } from 'antd';
+
 import deDE from 'antd/lib/locale-provider/de_DE';
+
 import { defaults as OlDefaultControls } from 'ol/control';
 import OlMap from 'ol/Map';
 import  { get as OlGetProjection } from 'ol/proj';
-
 import OlView from 'ol/View';
 import OlScaleLine from 'ol/control/ScaleLine';
+
 import ProjectionUtil from '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
-import store from './state/store';
-import Main from './Main';
-import SomethingWentWrong from './SomethingWentWrong';
 
 import MapProvider from '@terrestris/react-geo/dist/Provider/MapProvider/MapProvider';
 import { mappify } from '@terrestris/react-geo/dist/HigherOrderComponent/MappifiedComponent/MappifiedComponent';
+
+import {
+  setupStore,
+  loadAppContextStore
+} from './state/store';
+
+import Main from './Main';
+import { SomethingWentWrong } from './SomethingWentWrong';
+
+import './index.css';
+import './i18n';
+import 'antd/dist/antd.min.css'; // should be working via the loader but it does not..
+
+const MappifiedMain = (mappify)(Main);
 
 /**
  * The setupMap function
@@ -78,43 +93,32 @@ const setupMap = (state: any) => {
   return map;
 };
 
-/**
- * Get the map asynchronoulsy.
- */
-const mapPromise: Promise<OlMap> = new Promise((resolve, reject) => {
-  const subScription = store.subscribe(() => {
-    const state: any = store.getState();
-    const errorOnAppContext = state.asyncInitialState.error;
-    if (errorOnAppContext !== null) {
-      reject(errorOnAppContext);
-    }
-    if (state.asyncInitialState.loaded) {
-      const map = setupMap(store.getState());
-      resolve(map);
-      subScription(); // unsubscribe
-    }
-  });
-}).catch(err => {
-  render(
-    <SomethingWentWrong
-      error={err.message}
-    />,
-    document.getElementById('app')
-  );
-  throw err;
-}) as Promise<OlMap>;
+const renderApp = async () => {
+  try {
+    const state = await loadAppContextStore();
+    const store = setupStore(state);
+    const map = setupMap(store.getState());
 
-const MappifiedMain = (mappify)(Main);
+    render(
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <ConfigProvider locale={deDE}>
+          <Provider store={store}>
+            <MapProvider map={map}>
+              <MappifiedMain />
+            </MapProvider>
+          </Provider>
+        </ConfigProvider>
+      </React.Suspense>,
+      document.getElementById('app')
+    );
+  } catch (error) {
+    render(
+      <SomethingWentWrong
+        error={error.message}
+      />,
+      document.getElementById('app')
+    );
+  }
+};
 
-render(
-  <React.Suspense fallback={<div>Loading...</div>}>
-    <ConfigProvider locale={deDE}>
-      <Provider store={store}>
-        <MapProvider map={mapPromise}>
-          <MappifiedMain />
-        </MapProvider>
-      </Provider>
-    </ConfigProvider>
-  </React.Suspense>,
-  document.getElementById('app')
-);
+renderApp();

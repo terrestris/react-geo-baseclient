@@ -1,18 +1,12 @@
-import {
-  createStore,
-  applyMiddleware,
-  compose
-} from 'redux';
+import { configureStore, MiddlewareArray } from '@reduxjs/toolkit';
 
 import thunkMiddleware from 'redux-thunk';
 
 import { createLogger } from 'redux-logger';
 
-import { middleware } from 'redux-async-initial-state';
-
 import Logger from '@terrestris/base-util/dist/Logger';
 
-import rootReducer from './reducers/Reducer';
+import rootReducer, { BaseClientState } from './reducers/Reducer';
 import { getAppContextUtil } from '../util/getAppContextUtil';
 
 import config from '../config/config';
@@ -32,7 +26,7 @@ const composeEnhancers = (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_C
  * Should return promise that resolves application state
  * @return {Promise} A promise
  */
-const loadAppContextStore = async () => {
+export const loadAppContextStore = async (): Promise<BaseClientState> => {
   const url = new URL(window.location.href);
   const appId = url.searchParams.get('applicationId');
 
@@ -83,18 +77,57 @@ const loadAppContextStore = async () => {
   return state;
 };
 
-const store = createStore(
-  rootReducer,
-  composeEnhancers(
-    applyMiddleware(middleware(loadAppContextStore)),
-    applyMiddleware(thunkMiddleware, loggerMiddleware)
-  )
-);
+let projectReducer = {};
+if (process.env.PROJECT_REDUCER_PATH) {
+  try {
+    const context = require('../' + process.env.PROJECT_MAIN_PATH + process.env.PROJECT_REDUCER_PATH);
+    if (context.default) {
+      projectReducer = context.default;
+    }
+  } catch (error) {
+    Logger.info('Could not load the specified project reducer. ' +
+      'Please check if the path in the .env is set correctly: ', error
+    );
+  }
+}
 
-// An initial dispatch to trigger the execution of all middlewares. This is
-// needed to fetch the application context via loadAppContextStore().
-store.dispatch({
-  type: 'INIT_APPLICATION'
-});
+export const setupStore = (preloadedState?: BaseClientState) => {
+  const middleware = new MiddlewareArray().concat(thunkMiddleware);
 
-export default store;
+  if (env === 'development') {
+    const loggerMiddleware = createLogger({
+      collapsed: true,
+      predicate: (getState, action) => !action.type.endsWith('_LOADING')
+    });
+
+    middleware.push(loggerMiddleware);
+  }
+
+  const store = configureStore({
+    reducer: {
+      ...rootReducer,
+      ...projectReducer
+    },
+    // middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    //   serializableCheck: {
+    //     ignoredActionPaths: [
+    //       'payload.state.mapLayers',
+    //       'payload.state.dataRange.startDate',
+    //       'payload.state.dataRange.endDate'
+    //     ],
+    //     ignoredPaths: [
+    //       'mapLayers',
+    //       'dataRange.startDate',
+    //       'dataRange.endDate'
+    //     ]
+    //   }
+    // }).concat(
+    //   middleware
+    // ),
+    middleware,
+    devTools: env !== 'production',
+    preloadedState: preloadedState ? preloadedState : {}
+  });
+
+  return store;
+};
