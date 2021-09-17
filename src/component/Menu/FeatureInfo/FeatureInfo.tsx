@@ -27,7 +27,7 @@ const isEmpty = require('lodash/isEmpty');
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import FeatureInfoGrid from '../../FeatureInfoGrid/FeatureInfoGrid';
-import { clearFeatures } from '../../../state/actions/RemoteFeatureAction';
+import { clearFeatures } from '../../../state/RemoteFeatureAction/actions';
 import './FeatureInfo.css';
 
 interface DefaultFeatureInfoProps {

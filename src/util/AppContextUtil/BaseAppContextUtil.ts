@@ -3,7 +3,7 @@ import { ProjectionLike } from 'ol/proj';
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
-import { BaseClientState } from '../../state/reducers/Reducer';
+import { BaseClientState } from '../../state/reducer';
 
 export interface AppContextUtil {
   canReadCurrentAppContext: () => boolean;

@@ -31,7 +31,7 @@ import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
 import terrestrisVectorTiles from '@terrestris/vectortiles';
 
 import initialState from '../../state/initialState';
-import { BaseClientState } from '../../state/reducers/Reducer';
+import { BaseClientState } from '../../state/reducer';
 
 import PrintButton from '../../component/button/PrintButton/PrintButton';
 import MeasureMenuButton from '../../component/button/MeasureMenuButton/MeasureMenuButton';

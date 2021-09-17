@@ -1,4 +1,7 @@
-import { configureStore, MiddlewareArray } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  MiddlewareArray
+} from '@reduxjs/toolkit';
 
 import thunkMiddleware from 'redux-thunk';
 
@@ -6,7 +9,7 @@ import { createLogger } from 'redux-logger';
 
 import Logger from '@terrestris/base-util/dist/Logger';
 
-import rootReducer, { BaseClientState } from './reducers/Reducer';
+import rootReducer, { BaseClientState } from './reducer';
 import { getAppContextUtil } from '../util/getAppContextUtil';
 
 import config from '../config/config';

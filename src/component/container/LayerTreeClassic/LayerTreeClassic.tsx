@@ -15,7 +15,7 @@ import { MapUtil } from '@terrestris/ol-util';
 
 import './LayerTreeClassic.css';
 
-import { hideLayerTree } from '../../../state/actions/AppStateAction';
+import { hideLayerTree } from '../../../state/appState/actions';
 
 import _isBoolean from 'lodash/isBoolean';
 import _isEmpty from 'lodash/isEmpty';

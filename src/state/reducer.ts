@@ -1,13 +1,13 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import mapView from './MapViewReducer';
-import loadingQueue from './LoadingReducer';
-import appInfo from './ApplicationInfoReducer';
-import mapLayers from './MapLayersReducer';
-import activeModules from './ActiveModulesReducer';
-import fetchRemoteFeaturesOfType from './RemoteFeatureReducer';
-import dataRange from './DataRangeReducer';
-import appState from './AppStateReducer';
+import mapView from './mapView/reducer';
+import loadingQueue from './loadingQueue/reducer';
+import appInfo from './appInfo/reducer';
+import mapLayers from './mapLayers/reducer';
+import activeModules from './activeModules/reducer';
+import hoverFeatures from './hoverFeatures/reducer';
+import dataRange from './dataRange/reducer';
+import appState from './appState/reducer';
 
 const baseclientMainReducers = {
   mapView,
@@ -20,7 +20,7 @@ const baseclientMainReducers = {
   mapScales: (state = {}) => state,
   appState,
   appContext: (appContext = {}) => appContext,
-  hoverFeatures: fetchRemoteFeaturesOfType('HOVER'),
+  hoverFeatures: hoverFeatures,
   dataRange
 };
 

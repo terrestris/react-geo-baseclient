@@ -19,8 +19,8 @@ import {
   clearFeatures
 } from '../../../state/actions/RemoteFeatureAction';
 
-import { BaseClientState } from '../../../state/reducers/Reducer';
 import { LayerType } from '../../../util/types';
+import { BaseClientState } from '../../../state/reducer';
 
 interface DefaultHsiButtonProps extends ToggleButtonProps {
   dataRange?: any;

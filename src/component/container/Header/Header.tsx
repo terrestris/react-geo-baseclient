@@ -5,7 +5,7 @@ import {
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 
-import { toggleHelpModal } from '../../../state/actions/AppStateAction';
+import { toggleHelpModal } from '../../../state/appState/actions';
 
 import './Header.css';
 import Multisearch from '../../../component/Multisearch/Multisearch';

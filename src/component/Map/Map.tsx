@@ -7,7 +7,7 @@ import OlMap from 'ol/Map';
 const isEqual = require('lodash/isEqual');
 const debounce = require('lodash/debounce');
 
-import { setZoom, setCenter, setProjection } from '../../state/actions/MapViewChangeAction';
+import { setZoom, setCenter, setProjection } from '../../state/mapView/actions';
 
 /**
  * mapStateToProps - mapping state to props of Map Component.
