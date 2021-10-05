@@ -479,7 +479,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
     getPermalink?: () => string) {
     const tools: any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
-    const isMobileClient = isMobile();
+    const isMobileClient = isMobile({ tablet: true });
     const initProjection = mapConfig.projection.indexOf('EPSG:') < 0 ?
       'EPSG:' + mapConfig.projection :
       mapConfig.projection;
