@@ -437,7 +437,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     appContext: any, t: (arg: string) => string, config?: any) {
     const tools: any[] = [];
     const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
-    const isMobileClient = isMobile();
+    const isMobileClient = isMobile({ tablet: true });
 
     activeModules.forEach((module: any) => {
       if (module.hidden) {
