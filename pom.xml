@@ -8,7 +8,7 @@
   <packaging>jar</packaging>
 
   <name>shogun-baseclient</name>
-  <description>The shogun base client</description>
+  <description>The SHOGun base client</description>
 
   <scm>
     <url>https://github.com/terrestris/react-geo-baseclient</url>
