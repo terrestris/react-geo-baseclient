@@ -83,6 +83,7 @@
   "Header": {
     "nominatimPlaceHolder": "Municipality, street, district, poi…",
     "helpButtonTooltip": "Help",
+    "userChipButtonTooltip": "Login",
     "helpMessage": "Help"
   },
   "LayerLegendAccordion": {

@@ -66,3 +66,13 @@
   padding: 0 5px 0 5px;
   cursor: pointer;
 }
+
+.app-header .user-chip {
+  display: flex;
+  padding: 0 10px 0 10px;
+  cursor: pointer;
+}
+
+.app-header .user-chip .user-name {
+  padding: 5px;
+}
