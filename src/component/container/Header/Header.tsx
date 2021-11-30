@@ -25,6 +25,9 @@ interface DefaultHeaderProps {
   showLanguageSelection: boolean;
   showMultiSearch: boolean;
   showNominatimSearch: boolean;
+  showUserChip: boolean;
+  userChipHandler: () => void;
+  userName: string;
 }
 
 interface HeaderProps extends Partial<DefaultHeaderProps> {
@@ -55,7 +58,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     showHelpButton: false,
     showLanguageSelection: true,
     showMultiSearch: true,
-    showNominatimSearch: true
+    showNominatimSearch: true,
+    showUserChip: false,
+    userChipHandler: undefined,
+    userName: undefined
   };
 
   /**
@@ -101,6 +107,9 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       showLanguageSelection,
       showMultiSearch,
       showNominatimSearch,
+      showUserChip,
+      userChipHandler,
+      userName,
       wfsSearchBaseUrl,
       t
     } = this.props;
@@ -154,6 +163,24 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         <div className="app-language-selection">
           <img src="de.png" alt="DE" onClick={() => this.onLanguageChange('de')} />
           <img src="en.png" alt="EN" onClick={() => this.onLanguageChange('en')} />
+        </div>
+        }
+        {showUserChip &&
+        <div className="user-chip">
+          <SimpleButton
+            name="userChipButton"
+            iconName="fas fa-user"
+            shape="circle"
+            tooltip={t('Header.userChipButtonTooltip') as string}
+            onClick={userChipHandler}
+            tooltipPlacement={'bottom'}
+          />
+          <div
+            className="user-name"
+            onClick={userChipHandler}
+          >
+            {userName}
+          </div>
         </div>
         }
       </header>
