@@ -202,20 +202,9 @@ export class Map extends React.Component<MapProps, MapState> {
    * @param {ol.event} olEvt The ol event.
    */
   checkPointerRest(olEvt: any) {
-    if (olEvt.dragging || !this.state.isMouseOverMapEl) {
-      return;
-    }
-
-    const mouseX = this.state.mouseEvt.clientX;
-    const mouseY = this.state.mouseEvt.clientY;
-    const olX = olEvt.originalEvent.clientX;
-    const olY = olEvt.originalEvent.clientY;
-
-    // cancel if we have a diff between openlayers event coordinates and
-    // browser coordinates. This may happen when moving the mouse on a feature
-    // info window, where openlayers will trigger a mouseout event at the
-    // border of the window and falsely indicate a hover event
-    if (mouseX !== olX || mouseY !== olY) {
+    if (olEvt.dragging || !this.state.isMouseOverMapEl ||
+      !(olEvt.originalEvent.target.tagName.toLowerCase() === 'canvas' ||
+      olEvt.originalEvent.target.className === 'ol-layer')) {
       return;
     }
 
