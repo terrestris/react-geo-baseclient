@@ -13,7 +13,8 @@ body {
  */
 p, b, h1, h2, h3, h4, h5, em,
 div:not(.ant-tooltip-inner, .react-geo-measure-tooltip),
-span:not(.fa, .anticon.ant-alert-icon, .anticon.anticon-info-circle, .ant-notification-notice-icon),
+span:not(.fa, .anticon.ant-alert-icon, .anticon.anticon-info-circle,
+.ant-notification-notice-icon, .ant-table-column-sorter-down, .ant-table-column-sorter-up),
 a:not(.link),
 li {
   color: var(--textColor) !important;
