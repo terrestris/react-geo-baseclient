@@ -21,7 +21,7 @@ const env = process.env.NODE_ENV;
 
 const loggerMiddleware = env === 'development' ? createLogger({
   collapsed: true,
-  predicate: (getState, action) => !action.type.endsWith('_LOADING')
+  predicate: (getState, action) => !['ENABLE_LOADING', 'DISABLE_LOADING'].includes(action.type)
 }) : middleware();
 
 // eslint-disable-next-line no-underscore-dangle
