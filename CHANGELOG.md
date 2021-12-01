@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Fix check for a current hover/pointerrest on a non map element ([#853](https://github.com/terrestris/react-geo-baseclient/pull/853))
 - Added user chip to the header for login / logout
 - More CI-friendly build output ([#843](https://github.com/terrestris/react-geo-baseclient/pull/843))
 - Allow webpack proxy config through custom app config ([#841](https://github.com/terrestris/react-geo-baseclient/pull/841))
