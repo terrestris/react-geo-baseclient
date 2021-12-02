@@ -5,6 +5,7 @@ import OlMap from 'ol/Map';
 import OlFeature from 'ol/Feature';
 import OlGeomGeometry from 'ol/geom/Geometry';
 import OlLayerVector from 'ol/layer/Vector';
+import OlSourceVector from 'ol/source/Vector';
 
 import {
   Pagination
@@ -27,9 +28,9 @@ interface DefaultFeatureInfoGridProps {
 }
 
 interface FeatureInfoGridProps {
-  features: OlFeature[];
+  features: OlFeature<OlGeomGeometry>[];
   map: OlMap;
-  hoverVectorLayer: OlLayerVector;
+  hoverVectorLayer: OlLayerVector<OlSourceVector<OlGeomGeometry>>;
   isTimeLayer?: boolean;
   downloadGridData: boolean;
   onPaginationChange?: (idx: number) => void;
@@ -69,7 +70,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
   t
 }): React.ReactElement => {
 
-  const [selectedFeat, setSelectedFeat] = useState<OlFeature>(features[0]);
+  const [selectedFeat, setSelectedFeat] = useState<OlFeature<OlGeomGeometry>>(features[0]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
@@ -99,10 +100,10 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
    *
    * @param {OlFeature} newFeat Feature to update.
    */
-  const updateVectorLayer = (newFeat: OlFeature): void => {
+  const updateVectorLayer = (newFeat: OlFeature<OlGeomGeometry>): void => {
     const source = hoverVectorLayer.getSource();
-    const oldRenderFeat: OlFeature = source.getFeatures().find(
-      (f: OlFeature) => f.get('selectedFeat') === true);
+    const oldRenderFeat: OlFeature<OlGeomGeometry> = source.getFeatures().find(
+      (f: OlFeature<OlGeomGeometry>) => f.get('selectedFeat') === true);
     if (oldRenderFeat) {
       source.removeFeature(oldRenderFeat);
     }
@@ -191,7 +192,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
    * values (e.g. geometry). Also consider possibly configured visible attribute
    * configuration set on certain layer.
    */
-  const getDisplayedAttributeConfiguration = (feat: OlFeature): any => {
+  const getDisplayedAttributeConfiguration = (feat: OlFeature<OlGeomGeometry>): any => {
     const featProps = feat.getProperties();
     let propKeys = Object.keys(featProps);
     const layerName = feat.get('layerName');
@@ -228,7 +229,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
    * @param {OlFeature} feat Feature which properties should be shown in grid.
    * @return {Array} Data array.
    */
-  const getRowData = (feat: OlFeature): RowData[] => {
+  const getRowData = (feat: OlFeature<OlGeomGeometry>): RowData[] => {
     const rowData: RowData[] = [];
     const featProps = feat.getProperties();
     const {
@@ -252,15 +253,15 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
  * displayed in the grid.
  * @return {Array} Data array.
  */
-  const getTimeFeatureRowData = (feat: OlFeature): RowData[] => {
+  const getTimeFeatureRowData = (feat: OlFeature<OlGeomGeometry>): RowData[] => {
 
     const rowData: RowData[] = [];
     const featureLayerName: string = feat.get('layerName');
-    const filterFeatures: OlFeature[] = features.filter(f => {
+    const filterFeatures: OlFeature<OlGeomGeometry>[] = features.filter(f => {
       return f.get('layerName') === featureLayerName;
     });
 
-    filterFeatures.forEach((filterFeature: OlFeature) => {
+    filterFeatures.forEach((filterFeature: OlFeature<OlGeomGeometry>) => {
       let colData: RowData;
       const {
         propKeys
@@ -288,7 +289,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
    *
    * @param {OlFeature} feat OlFeature which properties should be shown in grid.
    */
-  const getFeatureGrid = (feat: OlFeature): React.ReactElement => {
+  const getFeatureGrid = (feat: OlFeature<OlGeomGeometry>): React.ReactElement => {
 
     const defaultColDef = {
       sortable: true,

@@ -17,6 +17,7 @@ import { isFunction, isEmpty, isEqual } from 'lodash';
 
 import OlMap from 'ol/Map';
 import OlLayer from 'ol/layer/Layer';
+import OlSource from 'ol/source/Source';
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
@@ -434,7 +435,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
    *
    * @return {Array} Array of layers available for print legend.
    */
-  getFilteredLegendLayers(): OlLayer[] {
+  getFilteredLegendLayers(): OlLayer<OlSource>[] {
     const {
       map,
       legendBlackList

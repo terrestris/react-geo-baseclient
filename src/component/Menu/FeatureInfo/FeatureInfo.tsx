@@ -9,6 +9,7 @@ import OlStyleFill from 'ol/style/Fill';
 import OlStyleStroke from 'ol/style/Stroke';
 import OlStyleCircle from 'ol/style/Circle';
 import OlFeature from 'ol/Feature';
+import OlGeometry from 'ol/geom/Geometry';
 
 import {
   Menu
@@ -43,7 +44,7 @@ interface FeatureInfoProps {
   * @type {Array}
    */
   features: {
-    [key: string]: OlFeature[];
+    [key: string]: OlFeature<OlGeometry>[];
   };
 
   /**
@@ -77,7 +78,7 @@ interface FeatureInfoProps {
 
 export type ComponentProps = DefaultFeatureInfoProps & FeatureInfoProps;
 
-let hoverVectorLayer: OlLayerVector = null;
+let hoverVectorLayer: OlLayerVector<OlSourceVector<OlGeometry>> = null;
 
 /**
  * The FeatureInfo Menu component.
@@ -99,7 +100,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
 
   const [menuHidden, setMenuHidden] = useState<boolean>(true);
   const [gridWinHidden, setGridWinHidden] = useState<boolean>(true);
-  const [featuresToShow, setFeaturesToShow] = useState<OlFeature[]>([]);
+  const [featuresToShow, setFeaturesToShow] = useState<OlFeature<OlGeometry>[]>([]);
   const [selectedFeatureType, setSelectedFeatureType] = useState<string>(null);
   const [downloadGridData, setDownloadGridData] = useState<boolean>(false);
 
@@ -120,14 +121,14 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
       return;
     }
 
-    const hoverFeatures: OlFeature[] = [];
+    const hoverFeatures: OlFeature<OlGeometry>[] = [];
     const featureTypes: string[] = Object.keys(features);
     featureTypes.slice(0, maxMenuItems).forEach((featTypeName: string) => {
       features[featTypeName].forEach((feat: any) => {
         hoverFeatures.push(feat);
       });
     });
-    const hoverVectorSource: OlSourceVector = hoverVectorLayer.getSource();
+    const hoverVectorSource: OlSourceVector<OlGeometry> = hoverVectorLayer.getSource();
     clearHoverLayerSource();
     hoverVectorSource.addFeatures(hoverFeatures);
     setMenuHidden(isEmpty(features));
@@ -139,7 +140,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
    * Style function for hover vector layer.
    * @param feat
    */
-  const hoverStyleFunction = (feat: OlFeature): OlStyleStyle => {
+  const hoverStyleFunction = (feat: OlFeature<OlGeometry>): OlStyleStyle => {
     let fillColor: string = 'rgba(255, 205, 0, 0.5)';
     let strokeColor: string = 'rgba(255, 205, 0, 1)';
     if (feat.get('selectedFeat')) {
@@ -194,9 +195,9 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     const source = hoverVectorLayer.getSource();
     let hoverFeatures = source.getFeatures();
     if (!clearSelection) {
-      hoverFeatures = hoverFeatures.filter((f: OlFeature) => f.get('selectedFeat') !== true);
+      hoverFeatures = hoverFeatures.filter((f: OlFeature<OlGeometry>) => f.get('selectedFeat') !== true);
     }
-    hoverFeatures.forEach((hf: OlFeature) => {
+    hoverFeatures.forEach((hf: OlFeature<OlGeometry>) => {
       source.removeFeature(hf);
     });
   };
@@ -205,8 +206,8 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
    * Resets the style of the hover vector features to the inital style.
    */
   const resetHoverLayerStyle = (): void => {
-    const hoverFeatures: OlFeature[] = hoverVectorLayer.getSource().getFeatures();
-    hoverFeatures.forEach((feat: OlFeature) => feat.setStyle(null));
+    const hoverFeatures: OlFeature<OlGeometry>[] = hoverVectorLayer.getSource().getFeatures();
+    hoverFeatures.forEach((feat: OlFeature<OlGeometry>) => feat.setStyle(null));
   };
 
   /**
@@ -216,7 +217,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
   */
   const onMenuItemClick = (evt: MenuInfo): void => {
     const selectedFeatType = evt.key as string;
-    const featsToShow: OlFeature[] = features[selectedFeatType];
+    const featsToShow: OlFeature<OlGeometry>[] = features[selectedFeatType];
 
     setMenuHidden(true);
     setFeaturesToShow(featsToShow);
@@ -251,9 +252,9 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
    * @param {React.MouseEvent} evt The mouseenter event.
    */
   const onMenuMouseEnter = (evt: MenuInfo): void => {
-    const feats: OlFeature[] = features[evt.key];
+    const feats: OlFeature<OlGeometry>[] = features[evt.key];
     const highlightSource = hoverVectorLayer.getSource();
-    highlightSource.addFeatures(feats.map((feat: OlFeature) => feat.clone()));
+    highlightSource.addFeatures(feats.map((feat: OlFeature<OlGeometry>) => feat.clone()));
     resetHoverLayerStyle();
     setHoverLayerStyle(feats);
   };
@@ -271,8 +272,8 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
    *
    * @param {OlFeature} feats The features to set the style to.
    */
-  const setHoverLayerStyle = (feats: OlFeature[]): void => {
-    feats.forEach((feat: OlFeature) => feat.setStyle(hoverStyleFunction));
+  const setHoverLayerStyle = (feats: OlFeature<OlGeometry>[]): void => {
+    feats.forEach((feat: OlFeature<OlGeometry>) => feat.setStyle(hoverStyleFunction));
   };
 
   /**

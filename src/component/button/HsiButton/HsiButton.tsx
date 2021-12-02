@@ -9,9 +9,11 @@ import OlProjection from 'ol/proj/Projection';
 import OlSourceImageWMS from 'ol/source/ImageWMS';
 import OlSourceTileWMS from 'ol/source/TileWMS';
 import OlSourceVector from 'ol/source/Vector';
+import OlSource from 'ol/source/Source';
 import OlFeature from 'ol/Feature';
 import OlLayer from 'ol/layer/Layer';
 import OlMapBrowserEvent from 'ol/MapBrowserEvent';
+import OlGeometry from 'ol/geom/Geometry';
 
 import {
   abortFetchingFeatures,
@@ -88,6 +90,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
       if (getInfoByClick) {
         map.on('click', getInfo);
       } else {
+        // @ts-ignore
         map.on('pointerrest', getInfo);
       }
       if (onToggleCb) {
@@ -100,6 +103,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
       if (getInfoByClick) {
         map.un('click', getInfo);
       } else {
+        // @ts-ignore
         map.un('pointerrest', getInfo);
       }
       // remove possible hover artifacts
@@ -121,7 +125,8 @@ export const HsiButton: React.FC<ComponentProps> = ({
    *
    * @param {ol.MapEvent} olEvt The `pointerrest` event.
    */
-  const getInfo = (olEvt: OlMapBrowserEvent) => {
+  // TODO Add type for pointerrest
+  const getInfo = (olEvt: OlMapBrowserEvent<any>) => {
     const mapView: OlView = map.getView();
     const viewResolution: number = mapView.getResolution();
     const viewProjection: OlProjection = mapView.getProjection();
@@ -131,20 +136,20 @@ export const HsiButton: React.FC<ComponentProps> = ({
     } else {
       pixel = map.getEventPixel(olEvt.originalEvent);
     }
-    let internalVectorFeatures: { [name: string]: OlFeature[] } = {};
+    let internalVectorFeatures: { [name: string]: OlFeature<OlGeometry>[] } = {};
     const featureInfoUrls: string[] = [];
 
     // dispatch that any running HOVER process should be canceled
     dispatch(abortFetchingFeatures('HOVER'));
 
-    map.forEachLayerAtPixel(pixel, (layer: OlLayer) => {
+    map.forEachLayerAtPixel(pixel, (layer: OlLayer<OlSource>) => {
       const layerSource: any = layer.getSource();
       const coordinate: number[] = map.getCoordinateFromPixel(pixel);
 
       if (layer.getSource() instanceof OlSourceVector) {
         internalVectorFeatures[layer.get('name')] = [];
         const internalFeatures = olEvt.map.getFeaturesAtPixel(pixel, {
-          layerFilter: (layerCandidate: OlLayer) => {
+          layerFilter: (layerCandidate: OlLayer<OlSource>) => {
             return layerCandidate === layer;
           }
         });
@@ -153,7 +158,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
           return;
         }
         internalVectorFeatures[layer.get('name')] =
-          internalFeatures.map((feat: OlFeature) => feat.clone());
+          internalFeatures.map((feat: OlFeature<OlGeometry>) => feat.clone());
         featureInfoUrls.push(`internal://${layer.get('name')}`);
         return;
       }
@@ -214,7 +219,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
  * @param {ol.layer.Base} layerCandidate The layer filter candidate.
  * @return {Boolean} Whether the layer is hoverable or not.
  */
-  const layerFilter = (layerCandidate: OlLayer) => {
+  const layerFilter = (layerCandidate: OlLayer<OlSource>) => {
     const source: any = layerCandidate.getSource();
     const isHoverable: boolean = layerCandidate.get('hoverable');
     const isSupportedHoverSource: boolean = source instanceof OlSourceImageWMS ||
