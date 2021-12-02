@@ -19,11 +19,7 @@
     "importHelpers": true,
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "paths": {
-      "ol": ["node_modules/@hanreev/types-ol/ol"],
-      "ol/*": ["node_modules/@hanreev/types-ol/ol/*"]
-    }
+    "noUnusedLocals": true
   },
   "exclude": [
     "node_modules",
