@@ -2,6 +2,9 @@ import OlMap from 'ol/Map';
 import OlLayerGroup from 'ol/layer/Group';
 import OlLayerBase from 'ol/layer/Layer';
 import OlLayerVector from 'ol/layer/Vector';
+import OlSource from 'ol/source/Source';
+import OlSourceVector from 'ol/source/Vector';
+import OlGeometry from 'ol/geom/Geometry';
 import StringUtil from '@terrestris/base-util/dist/StringUtil/StringUtil';
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
@@ -17,9 +20,9 @@ export class PrintUtil {
    *
    * @return {Array} The printable layers.
    */
-  static getPrintableLayers = (map: OlMap, printLayer: OlLayerBase): OlLayerBase[] => {
+  static getPrintableLayers = (map: OlMap, printLayer: OlLayerBase<OlSource>): OlLayerBase<OlSource>[] => {
     const layers = MapUtil.getAllLayers(map);
-    return layers.filter((layer: OlLayerBase) => {
+    return layers.filter((layer: OlLayerBase<OlSource>) => {
       const layerName = layer.get('name');
       return layerName
         && !(layerName.includes('react-geo'))
@@ -34,13 +37,13 @@ export class PrintUtil {
    *
    * @return {String} The attribution string.
    */
-  static getAttributions(map: OlMap, printLayer: OlLayerVector): string {
+  static getAttributions(map: OlMap, printLayer: OlLayerVector<OlSourceVector<OlGeometry>>): string {
     const layers = PrintUtil.getPrintableLayers(map, printLayer);
     let allAttributions: string[] = [];
     layers
-      .filter((layer: OlLayerBase) => layer.getSource && layer.getSource() &&
+      .filter((layer: OlLayerBase<OlSource>) => layer.getSource && layer.getSource() &&
         layer.getSource().getAttributions && layer.getSource().getAttributions())
-      .forEach((layer: OlLayerBase) => {
+      .forEach((layer: OlLayerBase<OlSource>) => {
         const attributions: string[] = layer.getSource().getAttributions().call(this);
         attributions.forEach((attr: string) => {
           const attrString = StringUtil.stripHTMLTags(attr);

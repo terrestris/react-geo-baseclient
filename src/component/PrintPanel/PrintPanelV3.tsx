@@ -23,6 +23,7 @@ import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
 import OlLayerGroup from 'ol/layer/Group';
 import OlMap from 'ol/Map';
 import OlLayer from 'ol/layer/Layer';
+import OlSource from 'ol/source/Source';
 
 import { MapFishPrintV3Manager } from '@terrestris/mapfish-print-manager';
 
@@ -197,7 +198,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       map: map,
       customPrintScales: printScales,
       timeout: 30000,
-      layerFilter: (l: OlLayer) => {
+      layerFilter: (l: OlLayer<OlSource>) => {
         const layerName = l.get('name');
         return layerName && !printLayerBlackList.includes(layerName) &&
           l.getVisible() && !(l instanceof OlLayerGroup);
@@ -545,7 +546,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
    *
    * @return {Array} Array of layers available for print legend.
    */
-  getFilteredLegendLayers(): OlLayer[] {
+  getFilteredLegendLayers(): OlLayer<OlSource>[] {
     const {
       map,
       legendBlackList
@@ -555,8 +556,8 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       map, this.printManager.extentLayer
     );
 
-    return layers.filter((l: OlLayer) => legendBlackList.indexOf(l.get('name')) === -1)
-      .map((l: OlLayer) => {
+    return layers.filter((l: OlLayer<OlSource>) => legendBlackList.indexOf(l.get('name')) === -1)
+      .map((l: OlLayer<OlSource>) => {
         l.set('customPrintLegendParams', { 'SCALE': this.state.scale });
         return l;
       });

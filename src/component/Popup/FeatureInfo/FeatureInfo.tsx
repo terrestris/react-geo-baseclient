@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import OlMap from 'ol/Map';
 import OlOverlay from 'ol/Overlay';
-import OverlayPositioning from 'ol/OverlayPositioning';
 
 import './FeatureInfo.css';
 
@@ -68,7 +67,8 @@ interface FeatureInfoProps extends Partial<DefaultFeatureInfoProps> {
    * 'top-left', 'top-center', and 'top-right'.
    * @type {String}
    */
-  positioning: OverlayPositioning;
+  // See https://github.com/openlayers/openlayers/pull/12696
+  positioning: any;
 
   /**
    * Whether the component is loading (and should render a progress cursor)
@@ -173,14 +173,14 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
  * @param {Number[]} pos The click coordinate.
  * @return {String} positioning
  */
-  const getAutoPositioning = (pos: [number, number]): OverlayPositioning => {
+  const getAutoPositioning = (pos: [number, number]): any => {
 
     const mapSize = map.getSize();
     const horizontalPositioning = (mapSize[1] / 2) < pos[1] ? 'bottom' : 'top';
     const verticalPositioning = (mapSize[0] / 2) < pos[0] ? 'right' : 'left';
     const autoPositioning = `${horizontalPositioning}-${verticalPositioning}`;
 
-    return autoPositioning as OverlayPositioning;
+    return autoPositioning;
   };
 
   /**
