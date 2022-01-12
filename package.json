@@ -60,7 +60,7 @@
     "@terrestris/ol-util": "^5.0.0",
     "@terrestris/react-geo": "^15.1.4",
     "@terrestris/vectortiles": "^0.4.0",
-    "antd": "4.8.6",
+    "antd": "4.17.0",
     "copy-to-clipboard": "^3.3.1",
     "es-abstract": "^1.18.0-next.0",
     "i18next": "^19.8.8",
