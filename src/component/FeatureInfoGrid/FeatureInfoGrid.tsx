@@ -45,9 +45,9 @@ interface ColumnDef {
 }
 
 interface RowData {
-  id: number | string;
-  attr: string;
-  val: string;
+  id?: number | string;
+  attr?: string;
+  val?: string;
 }
 
 export type ComponentProps = DefaultFeatureInfoGridProps & FeatureInfoGridProps;
@@ -107,7 +107,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
     if (oldRenderFeat) {
       source.removeFeature(oldRenderFeat);
     }
-    source.addFeature(newFeat);
+    source.addFeature(newFeat.clone());
   };
 
   /**
@@ -262,7 +262,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
     });
 
     filterFeatures.forEach((filterFeature: OlFeature<OlGeomGeometry>) => {
-      let colData: RowData;
+      let colData: RowData = {};
       const {
         propKeys
       } = getDisplayedAttributeConfiguration(filterFeature);
