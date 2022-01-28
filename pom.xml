@@ -92,6 +92,10 @@
               <goal>npm</goal>
             </goals>
             <configuration>
+              <environmentVariables>
+                <APP_PREFIX>/client/</APP_PREFIX>
+                <BACKEND_PATH>/</BACKEND_PATH>
+              </environmentVariables>
               <arguments>run build:boot</arguments>
             </configuration>
           </execution>
