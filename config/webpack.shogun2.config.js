@@ -10,6 +10,7 @@ const cheerio = require('cheerio');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
+const APP_PREFIX = process.env.APP_PREFIX;
 
 let customAppConfig;
 try {
@@ -132,6 +133,7 @@ const delayedConf =
                 new HtmlWebpackPlugin({
                   favicon: './public/icon_terrestris.png',
                   filename: 'index.html',
+                  appPrefix: APP_PREFIX ? APP_PREFIX : './',
                   csrf: {
                     csrfHeader: csrfHeader,
                     csrfParameterName: csrfParameterName,

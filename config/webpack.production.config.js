@@ -2,6 +2,7 @@ const commonConfig = require('./webpack.common.config.js');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+const APP_PREFIX = process.env.APP_PREFIX;
 
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
@@ -38,6 +39,7 @@ commonWebpackConfig.plugins = [
     favicon: './public/favicon.ico',
     template: customAppConfig && customAppConfig.indexTemplate || './public/index.html',
     loadingMaskImg: loadingMaskImg,
+    appPrefix: APP_PREFIX ? APP_PREFIX : './',
     csrf: {
       csrfToken: '${_csrf.token}',
       csrfHeader: '${_csrf.headerName}',
