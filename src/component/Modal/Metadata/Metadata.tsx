@@ -58,7 +58,7 @@ export class Metadata extends React.Component<MetadataProps, MetadataState> {
    * @param layer
    */
   fetchMetadata(uuid: string) {
-    const url = config.getBasePath() + 'metadata/getRecordByUuid.action?uuid=' + uuid + '&outputFormat=json';
+    const url = config.getBackendPath() + 'metadata/getRecordByUuid.action?uuid=' + uuid + '&outputFormat=json';
     fetch(url)
       .then(response => response.json())
       .then(json => {

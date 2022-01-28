@@ -1,37 +1,34 @@
 const nodeEnv = typeof (process.env.NODE_ENV) !== 'undefined' ? process.env.NODE_ENV : undefined;
 const appPrefix = (typeof (process.env.APP_PREFIX) !== 'undefined' &&
   nodeEnv && nodeEnv.indexOf('production') > -1) ? process.env.APP_PREFIX : '/';
-const basePath = window.location.origin + appPrefix;
-const buildPath = window.location.origin +
-  window.location.pathname.match(/^(\/[\w-]*)*\/\/?/)[0];
-const shogun2Path = basePath + 'rest/projectapps/';
-const shogunBootPath = basePath + 'applications/';
-let staticPath = basePath + 'resources/appContext.json';
-let localePath = basePath + 'resources/i18n/{{lng}}.json';
+const clientPath = window.location.origin + appPrefix;
+const backendPath = (typeof (process.env.BACKEND_PATH) !== 'undefined' &&
+nodeEnv && nodeEnv.indexOf('production') > -1) ? process.env.BACKEND_PATH : '/';
 const appMode = typeof (process.env.APP_MODE) !== 'undefined' ? process.env.APP_MODE : '';
 
+let localePath = clientPath + 'resources/i18n/{{lng}}.json';
 if (nodeEnv && nodeEnv.indexOf('production') > -1) {
-  localePath = buildPath + 'resources/i18n/{{lng}}.json';
+  localePath = clientPath + 'resources/i18n/{{lng}}.json';
 }
 
 let appContextPath;
 let applicationPath;
 let layerPath;
 let userPath;
-if (appMode.indexOf('shogun2') > -1) {
-  appContextPath = shogun2Path;
-  layerPath = basePath + 'rest/layers';
-  userPath = basePath + 'rest/users';
-  applicationPath = basePath + 'rest/applications';
-}
 if (appMode.indexOf('static') > -1) {
-  appContextPath = staticPath;
+  appContextPath = `${clientPath}resources/appContext.json`;
+}
+if (appMode.indexOf('shogun2') > -1) {
+  appContextPath = `${backendPath}rest/projectapps/`;
+  layerPath = `${backendPath}rest/layers`;
+  userPath = `${backendPath}rest/users`;
+  applicationPath = `${backendPath}rest/applications`;
 }
 if (appMode.indexOf('boot') > -1) {
-  appContextPath = shogunBootPath;
-  layerPath = basePath + 'layers';
-  userPath = basePath + 'users';
-  applicationPath = basePath + 'applications';
+  appContextPath = `${backendPath}applications`;
+  layerPath = `${backendPath}layers`;
+  userPath = `${backendPath}users`;
+  applicationPath = `${backendPath}applications`;
 }
 
 const clientComponentConfig = {
@@ -46,17 +43,20 @@ export default {
   layerPath,
   userPath,
   applicationPath,
-  geoserverActionPath: `${basePath}geoserver.action`,
-  appInfoPath: `${basePath}info/app`,
+  geoserverActionPath: `${backendPath}geoserver.action`,
+  appInfoPath: `${backendPath}info/app`,
   locale: localePath,
-  getBasePath: function() {
-    return basePath;
+  getClientPath: function() {
+    return clientPath;
   },
-  logoutUrl: `${basePath}sso/logout`,
-  printAction: `${basePath}print/print`,
-  printCreateUrlAction: `${basePath}print/createUrl.action`,
-  printUrlAction: `${basePath}print/doPrint.action`,
-  printGetResultAction: `${basePath}print/getPrintResult.action`,
+  getBackendPath: function() {
+    return backendPath;
+  },
+  logoutUrl: `${backendPath}sso/logout`,
+  printAction: `${backendPath}print/print`,
+  printCreateUrlAction: `${backendPath}print/createUrl.action`,
+  printUrlAction: `${backendPath}print/doPrint.action`,
+  printGetResultAction: `${backendPath}print/getPrintResult.action`,
   // client / component configuration
   ...clientComponentConfig
 };

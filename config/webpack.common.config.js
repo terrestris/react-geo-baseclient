@@ -12,6 +12,7 @@ const PROJECT_MAIN_CLASS = process.env.PROJECT_MAIN_CLASS || 'ProjectMain';
 const PROJECT_REDUCER_PATH = process.env.PROJECT_REDUCER_PATH;
 const RESOURCES_PATH = process.env.RESOURCES_PATH || './src/resources/';
 const APP_PREFIX = process.env.APP_PREFIX;
+const BACKEND_PATH = process.env.BACKEND_PATH;
 
 let customCssTheme;
 if (process.env.PROJECT_MAIN_PATH) {
@@ -176,6 +177,7 @@ const commonWebpackConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         APP_PREFIX: JSON.stringify(APP_PREFIX),
+        BACKEND_PATH: JSON.stringify(BACKEND_PATH),
         PROJECT_MAIN_PATH: JSON.stringify(PROJECT_MAIN_PATH),
         PROJECT_MAIN_CLASS: new RegExp('^./' + PROJECT_MAIN_CLASS + '\\.(jsx|js|ts|tsx)$'),
         PROJECT_REDUCER_PATH: PROJECT_REDUCER_PATH ? JSON.stringify(PROJECT_REDUCER_PATH) : false,
