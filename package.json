@@ -91,7 +91,7 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
-    "@babel/runtime": "^7.9.2",
+    "@babel/runtime": "^7.17.2",
     "@terrestris/eslint-config-typescript": "^1.0.0",
     "@types/expect-puppeteer": "^4.4.3",
     "@types/i18next": "^13.0.0",
