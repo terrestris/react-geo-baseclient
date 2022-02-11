@@ -23,7 +23,8 @@ module.exports = {
     '^.+\\.js?$': 'babel-jest'
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!(ol|rc-time-picker|css-animation|labelgun|mapbox-to-ol-style|ol-mapbox-style|antd|@ant-design|@terrestris|@babel|(rc-*[a-z]*))/).*/'
+    // eslint-ignore-next-line
+    '/node_modules/(?!(ol|rc-time-picker|css-animation|labelgun|mapbox-to-ol-style|ol-mapbox-style|antd|node-fetch|data-uri-to-buffer|fetch-blob|formdata-polyfill|@ant-design|@terrestris|@babel|(rc-*[a-z]*))/).*/'
   ],
   setupFiles: [
     '<rootDir>/config/jest/spec/setup.js',
