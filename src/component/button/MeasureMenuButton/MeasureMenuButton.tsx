@@ -44,7 +44,8 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
     type: 'primary',
     shape: 'circle',
     menuPlacement: 'left',
-    measureType: 'line'
+    measureType: 'line',
+    geodesic: true
   };
 
   /**
@@ -130,10 +131,11 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
               name={mt}
               type={type}
               shape={shape}
-              iconName={iconName}
+              icon={iconName}
               map={map}
               pressed={activeTool === mt}
               measureType={mt}
+              geodesic={true}
             >
               {mt === 'angle' ? '∢' : null}
             </MeasureButton>;
@@ -164,7 +166,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
         <SimpleButton
           type={type}
           shape={shape}
-          iconName="ft ft-toolgroup-measure"
+          icon="ft ft-toolgroup-measure"
           onClick={this.onMenuButtonClick}
         />
         {

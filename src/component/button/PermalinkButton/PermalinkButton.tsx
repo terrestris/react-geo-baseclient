@@ -46,7 +46,7 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
       <SimpleButton
         type={type}
         shape={shape}
-        iconName={iconName}
+        icon={iconName}
         tooltip={tooltip}
         tooltipPlacement={tooltipPlacement}
         onClick={() => setWinVisible(!winVisible)}
@@ -64,7 +64,7 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
           bounds="#app"
           tools={[
             <SimpleButton
-              iconName="fas fa-times"
+              icon="fas fa-times"
               key="close-tool"
               size="small"
               tooltip={t('General.close')}

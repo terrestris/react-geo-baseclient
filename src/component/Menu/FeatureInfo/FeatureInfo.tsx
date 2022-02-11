@@ -112,7 +112,6 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
         hoverVectorLayer.dispose();
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -132,8 +131,6 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     clearHoverLayerSource();
     hoverVectorSource.addFeatures(hoverFeatures);
     setMenuHidden(isEmpty(features));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [features]);
 
   /**
@@ -251,7 +248,8 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
    *
    * @param {React.MouseEvent} evt The mouseenter event.
    */
-  const onMenuMouseEnter = (evt: MenuInfo): void => {
+  const onMenuMouseEnter = (evt: any): void => {
+    // @ts-ignore
     const feats: OlFeature<OlGeometry>[] = features[evt.key];
     const highlightSource = hoverVectorLayer.getSource();
     highlightSource.addFeatures(feats.map((feat: OlFeature<OlGeometry>) => feat.clone()));

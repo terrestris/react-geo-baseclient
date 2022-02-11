@@ -451,7 +451,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="1"
             type="primary"
             shape="circle"
-            iconName="fas fa-plus"
+            icon="fas fa-plus"
             tooltip={t('ZoomIn.tooltip')}
             tooltipPlacement={'right'}
           />);
@@ -463,7 +463,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="2"
             type="primary"
             shape="circle"
-            iconName="fas fa-minus"
+            icon="fas fa-minus"
             tooltip={t('ZoomOut.tooltip')}
             tooltipPlacement={'right'}
           />);
@@ -479,7 +479,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="3"
             type="primary"
             shape="circle"
-            iconName="fas fa-expand"
+            icon="fas fa-expand"
             tooltip={t('ZoomToExtent.tooltip')}
             tooltipPlacement={'right'}
             constrainViewResolution={true}
@@ -518,6 +518,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
               tooltip={t('FeatureInfo.tooltip')}
               tooltipPlacement={'right'}
               showMeasureInfoOnClickedPoints={true}
+              geodesic={true}
             />);
           } else {
             tools.push(<MeasureMenuButton

@@ -88,7 +88,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
         <SimpleButton
           type={type}
           shape={shape}
-          iconName={iconName}
+          icon={iconName}
           tooltip={tooltip}
           tooltipPlacement={tooltipPlacement}
           onClick={this.changeFullPrintWindowVisibility}
@@ -105,7 +105,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
           bounds="#app"
           tools={[
             <SimpleButton
-              iconName="fas fa-times"
+              icon="fas fa-times"
               key="close-tool"
               size="small"
               tooltip={t('General.close')}

@@ -16,8 +16,6 @@ import { OptionProps } from 'antd/lib/select';
 import { isFunction, isEmpty, isEqual } from 'lodash';
 
 import OlMap from 'ol/Map';
-import OlLayer from 'ol/layer/Layer';
-import OlSource from 'ol/source/Source';
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
@@ -29,6 +27,7 @@ import { MapFishPrintV2Manager } from '@terrestris/mapfish-print-manager';
 import PrintUtil from '../../util/PrintUtil/PrintUtil';
 
 import './PrintPanelV2.css';
+import { LayerType } from '../../util/types';
 
 interface DefaultPrintPanelV2Props {
   legendBlackList: string[];
@@ -435,7 +434,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
    *
    * @return {Array} Array of layers available for print legend.
    */
-  getFilteredLegendLayers(): OlLayer<OlSource>[] {
+  getFilteredLegendLayers(): LayerType[] {
     const {
       map,
       legendBlackList
