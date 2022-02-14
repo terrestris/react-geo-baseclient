@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Window from '@terrestris/react-geo/dist/Window/Window';
 
@@ -10,7 +12,7 @@ import { ButtonProps } from 'antd/lib/button';
 interface DefaultPrintButtonProps {
   type: 'default' | 'primary' | 'ghost' | 'dashed' | 'danger' | 'link';
   shape: 'circle' | 'round';
-  iconName: string;
+  iconName: IconProp;
 }
 
 interface BaseProps {
@@ -88,7 +90,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
         <SimpleButton
           type={type}
           shape={shape}
-          icon={iconName}
+          iconName={iconName}
           tooltip={tooltip}
           tooltipPlacement={tooltipPlacement}
           onClick={this.changeFullPrintWindowVisibility}
@@ -105,7 +107,7 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
           bounds="#app"
           tools={[
             <SimpleButton
-              icon="fas fa-times"
+              iconName={['fas', 'times']}
               key="close-tool"
               size="small"
               tooltip={t('General.close')}

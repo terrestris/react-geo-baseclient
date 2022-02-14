@@ -234,11 +234,11 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
         <SimpleButton
           size="small"
           className="collapse-btn"
-          icon="fas fa-compress"
+          iconName={['fas', 'compress']}
           onClick={this.onCollapseClick}
         />
         <ToggleButton
-          icon={showTopicCarousel ? 'fas fa-angle-double-down' : 'fas fa-angle-double-up'}
+          iconName={showTopicCarousel ? ['fas', 'angle-double-down'] :  ['fas', 'angle-double-up']}
           size="small"
           className="show-topic-carousel-toggle"
           pressed={showTopicCarousel}

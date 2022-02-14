@@ -33,7 +33,7 @@ class LayerLegendAccordionToggleButton extends
     onToggle: () => { },
     pressed: false,
     shape: 'circle',
-    icon: 'fas fa-list',
+    iconName: ['fas', 'list'],
     tooltip: '',
     className: 'react-geo-baseclient-layer-toggle-btn'
   };

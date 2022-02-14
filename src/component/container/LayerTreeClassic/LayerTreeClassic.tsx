@@ -148,7 +148,7 @@ export const LayerTreeClassic: React.FC<ComponentProps> = ({
   return (
     <div className='layer-tree-classic'>
       <SimpleButton
-        icon="fas fa-times"
+        iconName={['fas', 'times']}
         shape="circle"
         className="layer-tree-classic-close-button"
         size="small"

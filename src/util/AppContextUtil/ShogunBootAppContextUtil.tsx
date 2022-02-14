@@ -451,7 +451,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="1"
             type="primary"
             shape="circle"
-            icon="fas fa-plus"
+            iconName={['fas', 'plus']}
             tooltip={t('ZoomIn.tooltip')}
             tooltipPlacement={'right'}
           />);
@@ -463,7 +463,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="2"
             type="primary"
             shape="circle"
-            icon="fas fa-minus"
+            iconName={['fas', 'minus']}
             tooltip={t('ZoomOut.tooltip')}
             tooltipPlacement={'right'}
           />);
@@ -479,7 +479,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="3"
             type="primary"
             shape="circle"
-            icon="fas fa-expand"
+            iconName={['fas', 'expand']}
             tooltip={t('ZoomToExtent.tooltip')}
             tooltipPlacement={'right'}
             constrainViewResolution={true}
@@ -491,7 +491,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="4"
             type="primary"
             shape="circle"
-            iconName="fas fa-print"
+            iconName={['fas', 'print']}
             config={config}
             tooltip={t('PrintPanel.windowTitle')}
             tooltipPlacement={'right'}
