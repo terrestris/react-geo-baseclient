@@ -54,7 +54,7 @@
     "@ag-grid-community/client-side-row-model": "^23.0.0",
     "@ag-grid-community/csv-export": "^23.0.0",
     "@ant-design/icons": "^4.5.0",
-    "@brainhubeu/react-carousel": "^1.19.26",
+    "@brainhubeu/react-carousel": "^2.0.4",
     "@terrestris/base-util": "^1.0.1",
     "@terrestris/mapfish-print-manager": "^6.4.2",
     "@terrestris/ol-util": "^5.0.0",
