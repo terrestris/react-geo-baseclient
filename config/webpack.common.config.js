@@ -87,32 +87,26 @@ const commonWebpackConfig = {
             : []
         ]
       ],
-      use: [
-        {
-          loader: 'ts-loader',
-          options: {
-            transpileOnly: true // compile happens in ForkTsCheckerWebpackPlugin
-          }
-        }
-      ]
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true // compile happens in ForkTsCheckerWebpackPlugin
+      }
     }, {
       test: /\.jsx?$/,
       exclude: /node_modules\/(?!@terrestris)/,
       loader: 'babel-loader',
     },
     {
-      test: /\.css$/,
-      loaders: [
-        'style-loader',
-        'css-loader'
-      ]
-    }, {
-      test: /\.less$/,
-      loaders: [
-        'style-loader',
-        'css-loader',
+      test: /\.less|\.css$/,
+      use: [
         {
-          loader: 'less-loader',
+          loader: 'style-loader', // creates style nodes from JS strings
+        },
+        {
+          loader: 'css-loader', // translates CSS into CommonJS
+        },
+        {
+          loader: 'less-loader', // compiles Less to CSS
           options: {
             lessOptions: {
               modifyVars: customCssTheme,
@@ -120,26 +114,20 @@ const commonWebpackConfig = {
             }
           }
         }
-      ]
+      ],
     }, {
       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      use: [
-        {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/font-woff'
-          }
-        }
-      ]
+      loader: 'url-loader',
+      options: {
+        limit: 10000,
+        mimetype: 'application/font-woff'
+      }
     }, {
       test: /\.(pdf|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
       loader: 'file-loader'
     }, {
       test: /\.(jpe?g|png|gif|ico)$/i,
-      use: [
-        'file-loader?name=img/[name].[ext]'
-      ]
+      loader: 'file-loader'
     }]
   },
 
@@ -197,6 +185,7 @@ const commonWebpackConfig = {
       '@terrestris/base-util': path.join(__dirname + '/../', 'node_modules', '@terrestris/base-util'),
       '@terrestris/ol-util': path.join(__dirname + '/../', 'node_modules', '@terrestris/ol-util'),
       '@terrestris/react-geo': path.join(__dirname + '/../', 'node_modules', '@terrestris/react-geo'),
+      // eslint-disable-next-line
       '@terrestris/mapfish-print-manager': path.join(__dirname + '/../', 'node_modules', '@terrestris/mapfish-print-manager'),
       'antd': path.join(__dirname + '/../', 'node_modules', 'antd'),
       'react': path.join(__dirname + '/../', 'node_modules', 'react'),

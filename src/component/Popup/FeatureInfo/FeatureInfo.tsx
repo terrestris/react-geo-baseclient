@@ -144,7 +144,6 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
       unmountOverlayHelperElement();
 
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -157,7 +156,6 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
       const optFit = getAutoPositioning(position as [number, number]);
       featureInfoOverlay.setPositioning(optFit);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [position, positioning]);
 
   useEffect(() => {

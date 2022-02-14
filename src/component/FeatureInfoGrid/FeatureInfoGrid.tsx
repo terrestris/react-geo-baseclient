@@ -86,7 +86,6 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
 
   useEffect(() => {
     updateVectorLayer(selectedFeat);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFeat]);
 
   useEffect(() => {
@@ -315,7 +314,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
         localeText={{
           noRowsToShow: t('FeatureInfoGrid.noDataFoundText')
         }}
-        modules={[ClientSideRowModelModule, CsvExportModule]}
+        modules={[ClientSideRowModelModule as any, CsvExportModule]}
       />
     );
   };
@@ -331,7 +330,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
   /**
    * Calls sizeColumnsToFit to fit the columns into available width.
    */
-  const updateSize = (featureGrid: AgFeatureGridProps): void => {
+  const updateSize = (featureGrid: any): void => {
     featureGrid.api.sizeColumnsToFit();
   };
 

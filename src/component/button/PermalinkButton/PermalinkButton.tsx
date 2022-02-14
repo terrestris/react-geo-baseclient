@@ -31,7 +31,7 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
   t,
   type = 'primary',
   shape = 'circle',
-  iconName = 'fas fa-link',
+  iconName = ['fas', 'link'],
   map,
   tooltip,
   tooltipPlacement,
@@ -64,7 +64,7 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
           bounds="#app"
           tools={[
             <SimpleButton
-              iconName="fas fa-times"
+              iconName={['fas', 'times']}
               key="close-tool"
               size="small"
               tooltip={t('General.close')}

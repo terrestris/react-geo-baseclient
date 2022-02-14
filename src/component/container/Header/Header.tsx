@@ -152,7 +152,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         {showHelpButton &&
         <SimpleButton
           name="helpButtonModule"
-          iconName="fas fa-question"
+          iconName={['fas', 'question']}
           shape="circle"
           tooltip={t('Header.helpButtonTooltip') as string}
           onClick={this.onHelpButtonClick}
@@ -169,7 +169,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         <div className="user-chip">
           <SimpleButton
             name="userChipButton"
-            iconName="fas fa-user"
+            iconName={['fas', 'user']}
             shape="circle"
             tooltip={t('Header.userChipButtonTooltip') as string}
             onClick={userChipHandler}

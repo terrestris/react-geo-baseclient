@@ -50,13 +50,8 @@ const delayedConf = new Promise(function(resolve) {
 
   commonWebpackConfig.devServer = {
     historyApiFallback: true,
-    contentBase: path.join(__dirname, 'src'),
-    disableHostCheck: true,
     host: '0.0.0.0',
-    https: true,
-    inline: true,
     port: 9090,
-    publicPath: 'https://localhost:9090/',
     proxy: [].concat(customAppConfig && customAppConfig.proxy ? customAppConfig.proxy : [{}])
   };
   resolve(commonWebpackConfig);

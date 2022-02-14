@@ -1,3 +1,6 @@
 module.exports = {
-  extends: '@terrestris/eslint-config-typescript'
+  extends: '@terrestris/eslint-config-typescript',
+  rules: {
+    '@typescript-eslint/member-ordering': 'off'
+  }
 };

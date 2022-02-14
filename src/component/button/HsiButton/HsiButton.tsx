@@ -9,9 +9,7 @@ import OlProjection from 'ol/proj/Projection';
 import OlSourceImageWMS from 'ol/source/ImageWMS';
 import OlSourceTileWMS from 'ol/source/TileWMS';
 import OlSourceVector from 'ol/source/Vector';
-import OlSource from 'ol/source/Source';
 import OlFeature from 'ol/Feature';
-import OlLayer from 'ol/layer/Layer';
 import OlMapBrowserEvent from 'ol/MapBrowserEvent';
 import OlGeometry from 'ol/geom/Geometry';
 
@@ -22,6 +20,7 @@ import {
 } from '../../../state/actions/RemoteFeatureAction';
 
 import { BaseClientState } from '../../../state/reducers/Reducer';
+import { LayerType } from '../../../util/types';
 
 interface DefaultHsiButtonProps extends ToggleButtonProps {
   dataRange?: any;
@@ -71,7 +70,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
   drillDown = true,
   type = 'primary',
   shape = 'circle',
-  iconName = 'fas fa-info',
+  iconName = ['fas', 'info'],
   tooltip = 'Feature Info',
   tooltipPlacement = 'right',
   getInfoByClick = false,
@@ -109,7 +108,6 @@ export const HsiButton: React.FC<ComponentProps> = ({
       // remove possible hover artifacts
       dispatch(clearFeatures('HOVER'));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pressed]);
 
   /**
@@ -142,14 +140,14 @@ export const HsiButton: React.FC<ComponentProps> = ({
     // dispatch that any running HOVER process should be canceled
     dispatch(abortFetchingFeatures('HOVER'));
 
-    map.forEachLayerAtPixel(pixel, (layer: OlLayer<OlSource>) => {
+    map.forEachLayerAtPixel(pixel, (layer: LayerType) => {
       const layerSource: any = layer.getSource();
       const coordinate: number[] = map.getCoordinateFromPixel(pixel);
 
       if (layer.getSource() instanceof OlSourceVector) {
         internalVectorFeatures[layer.get('name')] = [];
         const internalFeatures = olEvt.map.getFeaturesAtPixel(pixel, {
-          layerFilter: (layerCandidate: OlLayer<OlSource>) => {
+          layerFilter: (layerCandidate: LayerType) => {
             return layerCandidate === layer;
           }
         });
@@ -219,7 +217,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
  * @param {ol.layer.Base} layerCandidate The layer filter candidate.
  * @return {Boolean} Whether the layer is hoverable or not.
  */
-  const layerFilter = (layerCandidate: OlLayer<OlSource>) => {
+  const layerFilter = (layerCandidate: LayerType) => {
     const source: any = layerCandidate.getSource();
     const isHoverable: boolean = layerCandidate.get('hoverable');
     const isSupportedHoverSource: boolean = source instanceof OlSourceImageWMS ||

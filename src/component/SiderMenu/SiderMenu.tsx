@@ -144,6 +144,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
                       map={map}
                       measureType="line"
                       multipleDrawing={true}
+                      geodesic={true}
                     >
                       {t('Measure.line')}
                     </MeasureButton>
@@ -152,6 +153,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
                       map={map}
                       measureType="polygon"
                       multipleDrawing={true}
+                      geodesic={true}
                     >
                       {t('Measure.area')}
                     </MeasureButton>
@@ -159,6 +161,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
                       name="angle"
                       map={map}
                       measureType="angle"
+                      geodesic={true}
                     >
                       {t('Measure.angle')}
                     </MeasureButton>

@@ -1,11 +1,11 @@
 import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import '@babel/polyfill';
 import 'jest-canvas-mock';
 
 require('es6-promise').polyfill();
 
 global.window = {};
-global.fetch = require('jest-fetch-mock');
+global.fetch = jest.fn(() => new Promise(resolve => resolve()));
 
 Enzyme.configure({ adapter: new Adapter() });
