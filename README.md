@@ -50,6 +50,9 @@ CUSTOM_WEBPACK_CONFIG=myproject/config/webpack.config.js
 # Prefix/route of the application the client is served on, e.g. '/baseclient/' for 'https://myproject.org/baseclient/'
 APP_PREFIX='/'
 
+# The backend/SHOGun base path, e.g. '/rest/' for 'https://myproject.org/rest/'
+BACKEND_PATH='/'
+
 ```
   * Place an project `package.json` which uses previously configured `.env` file using [`env-cmd`](https://www.npmjs.com/package/env-cmd), e.g.
 ```

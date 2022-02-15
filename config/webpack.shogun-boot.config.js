@@ -8,6 +8,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const commonConfig = require('./webpack.common.config.js');
 let commonWebpackConfig = commonConfig.commonWebpackConfig;
 const Logger = commonConfig.logger;
+const APP_PREFIX = process.env.APP_PREFIX;
 
 let customAppConfig;
 try {
@@ -99,6 +100,7 @@ const delayedConf =
         new HtmlWebpackPlugin({
           filename: 'index.html',
           favicon: './public/favicon.ico',
+          appPrefix: APP_PREFIX ? APP_PREFIX : './',
           csrf: {
             // TODO Fix reading CSRF values
             // csrfHeader: csrfHeader,

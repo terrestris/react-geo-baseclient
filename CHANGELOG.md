@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Configurable backend and client paths ([#861](https://github.com/terrestris/react-geo-baseclient/pull/861))
 - Don't apply global text color for column sorter icons ([#855](https://github.com/terrestris/react-geo-baseclient/pull/855))
 - Explicitly filter for ENABLE_LOADING and DISABLE_LOADING ([#854](https://github.com/terrestris/react-geo-baseclient/pull/854))
 - Fix check for a current hover/pointerrest on a non map element ([#853](https://github.com/terrestris/react-geo-baseclient/pull/853))
