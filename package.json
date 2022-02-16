@@ -83,7 +83,7 @@
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@babel/core": "7.17.2",
+    "@babel/core": "7.17.4",
     "@babel/eslint-parser": "7.17.0",
     "@babel/plugin-proposal-class-properties": "7.16.7",
     "@babel/plugin-proposal-decorators": "7.17.2",
@@ -165,7 +165,7 @@
     "uglifyjs-webpack-plugin": "2.2.0",
     "url-loader": "4.1.1",
     "url-search-params": "1.1.0",
-    "webpack": "5.68.0",
+    "webpack": "5.69.0",
     "webpack-cli": "4.9.2",
     "webpack-dev-server": "4.7.4",
     "webpack-manifest-plugin": "4.1.1",
