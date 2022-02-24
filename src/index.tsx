@@ -118,4 +118,8 @@ const renderApp = async () => {
   }
 };
 
+window.addEventListener('load', () => {
+  navigator.serviceWorker.register('/sw.js');
+});
+
 renderApp();

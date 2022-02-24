@@ -1,15 +1,17 @@
 {
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "short_name": "react-geo baseclient",
   "name": "react-geo baseclient",
   "icons": [
     {
-      "src": "icon_terrestris.png",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "logo.svg",
+      "sizes": "288x288",
+      "purpose": "any"
     }
   ],
   "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "categories": ["maps", "geo"]
 }
