@@ -169,7 +169,7 @@
   },
   "Version": "Version",
   "SiderMenu": {
-    "doCaching": "Enable caching",
+    "enableCaching": "Enable caching",
     "disableCaching": "Disable caching"
   }
 }
