@@ -29,6 +29,7 @@ interface FooterProps extends Partial<DefaultFooterProps> {
   t: (arg: string) => {};
   mapScales: number[];
   projection: string;
+  version?: string;
 }
 
 interface FooterState {
@@ -199,6 +200,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
       mapScales,
       projection,
       imprint,
+      version,
       t
     } = this.props;
 
@@ -226,6 +228,9 @@ export class Footer extends React.Component<FooterProps, FooterState> {
         <div className="ol-mouse-position footer-element">
           <span>{t('MousePositionLabel')}: </span>
           <div id="mouse-position"/>
+        </div>
+        <div className="version_number">
+          <span>{t('Version')}: {version}</span>
         </div>
         <div className="imprint footer-element">
           {imprint ?
