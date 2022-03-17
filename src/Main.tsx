@@ -1,7 +1,8 @@
 import * as React from 'react';
+import 'normalize.css';
+import 'ol/ol.css';
 import './Theme.css';
 import './Main.css';
-import 'ol/ol.css';
 import SomethingWentWrong from './SomethingWentWrong';
 import { withTranslation } from 'react-i18next';
 import ProjectMain from './ProjectMain';
