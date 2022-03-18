@@ -16,14 +16,6 @@ import config from '../config/config';
 
 const env = process.env.NODE_ENV;
 
-const loggerMiddleware = env === 'development' ? createLogger({
-  collapsed: true,
-  predicate: (getState, action) => !['ENABLE_LOADING', 'DISABLE_LOADING'].includes(action.type)
-}) : middleware();
-
-// eslint-disable-next-line no-underscore-dangle
-const composeEnhancers = (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
-
 /**
  * Load loadAppContextStore function
  * Should return promise that resolves application state
