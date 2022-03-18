@@ -1,3 +1,8 @@
+html,
+html * {
+  box-sizing: border-box;
+}
+
 body {
   width: 100%;
   height: 100%;
@@ -5,58 +10,4 @@ body {
   padding: 0;
   font-family: sans-serif;
   overflow: hidden;
-}
-
-/**
- * Make most of the text elements use the defined text color.
- * This list may be incomplete
- */
-p, b, h1, h2, h3, h4, h5, em,
-div:not(.ant-tooltip-inner, .react-geo-measure-tooltip),
-span:not(.fa, .anticon.ant-alert-icon, .anticon.anticon-info-circle,
-.ant-notification-notice-icon, .ant-table-column-sorter-down, .ant-table-column-sorter-up),
-a:not(.link),
-li {
-  color: var(--textColor) !important;
-}
-
-/**
- * Brighten placeholder text
- */
-span.ant-select-selection-placeholder {
-  filter: opacity(0.5);
-}
-
-/**
- * Always underline the imprint text to indicate href
- */
-div.imprint.footer-element {
-  text-decoration: underline;
-}
-
-/**
- * Apply the baseColor to various elements
- */
-button, .ant-collapse-header, .react-geo-titlebar {
-  background-color: var(--baseColor) !important;
-}
-
-/**
- * Apply CSS filter brightness for hovered and pressed buttons
- */
-button:hover, .react-geo-togglebutton.btn-pressed {
-    filter: brightness(0.8);
-}
-
-@media only screen and (max-width: 768px) {
-  .react-geo-panel {
-      width: 100% !important;
-      transform: translate(0, 100px) !important;
-      min-width: unset !important;
-  }
-}
-
-.ant-tooltip .ant-tooltip-inner,
-.ant-tooltip .ant-tooltip-arrow-content {
-  background-color: rgba(0,0,0,.5);
 }
