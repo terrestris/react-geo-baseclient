@@ -29,7 +29,7 @@ import {
 import Main from './Main';
 import { SomethingWentWrong } from './SomethingWentWrong';
 
-const MappifiedMain = (mappify)(Main);
+const MappifiedMain = mappify(Main);
 
 /**
  * The setupMap function
