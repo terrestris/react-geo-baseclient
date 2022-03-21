@@ -87,12 +87,12 @@ if (process.env.PROJECT_REDUCER_PATH) {
 }
 
 export const setupStore = (preloadedState?: BaseClientState) => {
-  const middleware = new MiddlewareArray().concat(thunkMiddleware);
+  const middleware: any[] = new MiddlewareArray().concat(thunkMiddleware);
 
   if (env === 'development') {
     const loggerMiddleware = createLogger({
       collapsed: true,
-      predicate: (getState, action) => !action.type.endsWith('_LOADING')
+      predicate: (getState, action) => !action.type.endsWith('_LOADING'),
     });
 
     middleware.push(loggerMiddleware);

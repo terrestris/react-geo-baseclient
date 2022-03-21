@@ -36,7 +36,6 @@ let last = 0;
 export const fetchFeatures = createAsyncThunk('activeModules/addActive',
   async (requestOpts: RequestOptions, thunkAPI) => {
     const {
-      type,
       urls,
       passThroughOpts,
       format = new OlFormatGeoJson(),

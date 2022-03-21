@@ -4,18 +4,19 @@ import {
 } from '@reduxjs/toolkit';
 
 import { MapUtil } from '@terrestris/ol-util/src/MapUtil/MapUtil';
+import { Coordinate } from 'ol/coordinate';
 
 import { BaseClientState } from '../reducer';
 
 export interface MapView {
-  center: [number, number];
+  center: Coordinate;
   zoom: number;
   projection: string;
   resolutions: number[];
   mapExtent: [number, number, number, number];
 };
 
-export const setCenter = createAction<[number, number]>('mapView/center/set');
+export const setCenter = createAction<Coordinate>('mapView/center/set');
 export const setProjection = createAction<string>('mapView/projection/set');
 export const setZoom = createAction<number>('mapView/zoom/set');
 

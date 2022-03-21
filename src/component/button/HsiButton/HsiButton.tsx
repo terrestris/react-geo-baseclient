@@ -13,14 +13,10 @@ import OlFeature from 'ol/Feature';
 import OlMapBrowserEvent from 'ol/MapBrowserEvent';
 import OlGeometry from 'ol/geom/Geometry';
 
-import {
-  abortFetchingFeatures,
-  fetchFeatures,
-  clearFeatures
-} from '../../../state/actions/RemoteFeatureAction';
-
 import { LayerType } from '../../../util/types';
 import { BaseClientState } from '../../../state/reducer';
+import { clearFeatures } from '../../../state/hoverFeatures/actions';
+import { abortFetchingFeatures, fetchFeatures } from '../../../state/hoverFeatures/RemoteFeatureAction';
 
 interface DefaultHsiButtonProps extends ToggleButtonProps {
   dataRange?: any;
@@ -160,7 +156,6 @@ export const HsiButton: React.FC<ComponentProps> = ({
         featureInfoUrls.push(`internal://${layer.get('name')}`);
         return;
       }
-
       if (!layerSource.getFeatureInfoUrl) {
         return;
       }
