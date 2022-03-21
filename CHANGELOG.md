@@ -21,20 +21,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reorganize CSS ([#946](https://github.com/terrestris/react-geo-baseclient/pull/946))
 - Introduce redux toolkit ([#845](https://github.com/terrestris/react-geo-baseclient/pull/845))
   - 🚨 Several paths of the actions and reducers have been changed and might be updated in project clients:
-    - `src/state/activeModules/actions` -> `src/state/activeModules`
-    - `src/state/activeModules/reducer` -> `src/state/activeModules`
-    - `src/state/appInfo/actions` -> `src/state/appInfo`
-    - `src/state/appInfo/reducer` -> `src/state/appInfo`
-    - `src/state/appState/actions` -> `src/state/appState`
-    - `src/state/appState/reducer` -> `src/state/appState`
-    - `src/state/dataRange/actions` -> `src/state/dataRange`
-    - `src/state/dataRange/reducer` -> `src/state/dataRange`
-    - `src/state/loadingQueue/actions` -> `src/state/loadingQueue`
-    - `src/state/loadingQueue/reducer` -> `src/state/loadingQueue`
-    - `src/state/mapLayers/actions` -> `src/state/mapLayers`
-    - `src/state/mapLayers/reducer` -> `src/state/mapLayers`
-    - `src/state/mapView/actions` -> `src/state/mapView`
-    - `src/state/mapView/reducer` -> `src/state/mapView`
+    - `src/state/actions/ActiveModulesAction` -> `src/state/activeModules`
+    - `src/state/reducers/ActiveModulesReducer` -> `src/state/activeModules`
+    - `src/state/actions/ApplicationInfoAction` -> `src/state/appInfo`
+    - `src/state/reducers/ApplicationInfoReducer` -> `src/state/appInfo`
+    - `src/state/actions/AppStateAction` -> `src/state/appState`
+    - `src/state/reducers/AppStateReducer` -> `src/state/appState`
+    - `src/state/actions/DataRangeAction` -> `src/state/dataRange`
+    - `src/state/reducer/DataRangeReducer` -> `src/state/dataRange`
+    - `src/state/actions/LoadingAction` -> `src/state/loadingQueue`
+    - `src/state/reducer/LoadingReducer` -> `src/state/loadingQueue`
+    - `src/state/actions/MapLayerChangeAction` -> `src/state/mapLayers`
+    - `src/state/reducer/MapLayerChangeReducer` -> `src/state/mapLayers`
+    - `src/state/actions/MapViewChangeAction` -> `src/state/mapView`
+    - `src/state/reducer/MapViewChangeReducer` -> `src/state/mapView`
+  - 🚨 All state constants in `src/state/contants` have been removed.
   - 🚨 The `appContextLoading` state key has been removed.
 
 ## [2.0.1] - 2021-07-21
