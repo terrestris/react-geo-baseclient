@@ -24,7 +24,7 @@ const Option = Select.Option;
 import {
   setStartDate,
   setEndDate
-} from '../../state/dataRange/actions';
+} from '../../state/dataRange';
 
 import './TimeLayerSliderPanel.css';
 

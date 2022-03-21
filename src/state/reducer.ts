@@ -1,13 +1,13 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import mapView from './mapView/reducer';
-import loadingQueue from './loadingQueue/reducer';
-import appInfo from './appInfo/reducer';
-import mapLayers from './mapLayers/reducer';
-import activeModules from './activeModules/reducer';
+import mapView from './mapView';
+import loadingQueue from './loadingQueue';
+import appInfo from './appInfo';
+import mapLayers from './mapLayers';
+import activeModules from './activeModules';
 import hoverFeatures from './hoverFeatures/reducer';
-import dataRange from './dataRange/reducer';
-import appState from './appState/reducer';
+import dataRange from './dataRange';
+import appState from './appState';
 
 const baseclientMainReducers = {
   mapView,

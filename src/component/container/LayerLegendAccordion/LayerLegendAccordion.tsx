@@ -23,7 +23,7 @@ import {
 import './LayerLegendAccordion.css';
 
 import LayerLegendAccordionTreeNode from '../../LayerLegendAccordionTreeNode/LayerLegendAccordionTreeNode';
-import { toggleAddLayerWindow } from '../../../state/appState/actions';
+import { toggleAddLayerWindow } from '../../../state/appState';
 
 // default props
 interface DefaultLayerLegendAccordionProps {

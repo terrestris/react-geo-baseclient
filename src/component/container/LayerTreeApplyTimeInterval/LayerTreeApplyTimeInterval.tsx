@@ -13,7 +13,7 @@ import {
   setEndDate,
   setTimeInterval,
   setSelectedTimeLayer
-} from '../../../state/dataRange/actions';
+} from '../../../state/dataRange';
 
 interface LayerTreeApplyTimeIntervalProps {
   layer: OlLayerBase;

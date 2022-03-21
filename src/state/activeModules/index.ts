@@ -1,6 +1,7 @@
 import {
-  createAction,
-  createAsyncThunk
+  createSlice,
+  createAsyncThunk,
+  PayloadAction
 } from '@reduxjs/toolkit';
 
 import isString from 'lodash/isString';
@@ -18,9 +19,7 @@ export interface Module {
   properties: any;
 };
 
-const addUniqueActiveModule = createAction<any>('activeModules/add');
-const removeActiveModuleByIndex = createAction<number>('activeModules/removeByIndex');
-export const setInitiallyActiveModule = createAction<number>('activeModules/setInitiallyActive');
+const initialState: Module[] = [];
 
 export const addActiveModule = createAsyncThunk('activeModules/addActive',
   async (activeModule: Module, thunkAPI) => {
@@ -60,3 +59,34 @@ export const removeActiveModule = createAsyncThunk('activeModules/removeActive',
     return thunkAPI.dispatch(removeActiveModuleByIndex(activeModuleIdx));
   }
 );
+
+const slice = createSlice({
+  name: 'activeModules',
+  initialState,
+  reducers: {
+    addUniqueActiveModule(state, action: PayloadAction<Module>) {
+      state.push(action.payload);
+    },
+    removeActiveModuleByIndex(state, action: PayloadAction<number>) {
+      state.splice(action.payload, 1);
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addActiveModule.fulfilled, (state, action) => {
+        state.push(action.payload.payload);
+      })
+      .addCase(removeActiveModule.fulfilled, (state, action) => {
+        if (action.payload.payload > -1) {
+          state.splice(action.payload.payload, 1);
+        }
+      });
+  }
+});
+
+export const {
+  addUniqueActiveModule,
+  removeActiveModuleByIndex
+} = slice.actions;
+
+export default slice.reducer;
