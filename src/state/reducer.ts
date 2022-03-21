@@ -13,13 +13,13 @@ const baseclientMainReducers = {
   mapView,
   loadingQueue,
   appInfo,
-  userInfo: (state = {}) => state,
+  userInfo: (state: unknown = {}) => state,
   mapLayers,
   activeModules,
-  defaultTopic: (state = {}) => state,
-  mapScales: (state = {}) => state,
+  defaultTopic: (state: unknown = {}) => state,
+  mapScales: (state: unknown = {}) => state,
   appState,
-  appContext: (appContext = {}) => appContext,
+  appContext: (appContext: unknown = {}) => appContext,
   hoverFeatures: hoverFeatures,
   dataRange
 };
