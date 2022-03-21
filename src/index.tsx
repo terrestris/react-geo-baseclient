@@ -12,7 +12,7 @@ import deDE from 'antd/lib/locale-provider/de_DE';
 
 import { defaults as OlDefaultControls } from 'ol/control';
 import OlMap from 'ol/Map';
-import  { get as OlGetProjection } from 'ol/proj';
+import { get as OlGetProjection } from 'ol/proj';
 import OlView from 'ol/View';
 import OlScaleLine from 'ol/control/ScaleLine';
 
@@ -28,10 +28,6 @@ import {
 
 import Main from './Main';
 import { SomethingWentWrong } from './SomethingWentWrong';
-
-import './index.css';
-import './i18n';
-import 'antd/dist/antd.min.css'; // should be working via the loader but it does not..
 
 const MappifiedMain = (mappify)(Main);
 
