@@ -40,7 +40,7 @@ interface DefaultPrintPanelV3Props {
 export interface PrintConfig {
   printServletPath(): string;
   getPrintFormats(): string[];
-  customPrintParams(): object;
+  customPrintParams?: object;
 }
 
 interface PrintPanelV3Props extends Partial<DefaultPrintPanelV3Props> {
