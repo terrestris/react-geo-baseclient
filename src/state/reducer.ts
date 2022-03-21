@@ -24,7 +24,7 @@ const baseclientMainReducers = {
   dataRange
 };
 
-const reducer = combineReducers(baseclientMainReducers);
+export const reducer = combineReducers(baseclientMainReducers);
 
 export type BaseClientState = ReturnType<typeof reducer>;
 
