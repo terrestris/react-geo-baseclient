@@ -4,5 +4,3 @@ declare module '@terrestris/ol-util';
 declare module '@terrestris/ol-util/*';
 declare module '@terrestris/vectortiles';
 declare module 'react-i18next';
-declare module 'redux-undo';
-
