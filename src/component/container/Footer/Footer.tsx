@@ -42,9 +42,9 @@ interface FooterState {
  * @param {Object} state current state
  * @return {Object} mapped props
  */
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: BaseClientState) => {
   return {
-    projection: state.mapView.present.projection
+    projection: state.mapView.projection
   };
 };
 

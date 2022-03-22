@@ -99,17 +99,17 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
           'EPSG:' + mapConfig.projection :
           mapConfig.projection;
 
-        state.mapView.present.projection = projection;
+        state.mapView.projection = projection;
 
-        state.mapView.present.center = fromLonLat([mapConfig.center[0], mapConfig.center[1]], projection);
-        state.mapView.present.zoom = mapConfig.zoom;
+        state.mapView.center = fromLonLat([mapConfig.center[0], mapConfig.center[1]], projection);
+        state.mapView.zoom = mapConfig.zoom;
 
         const ll = fromLonLat([mapConfig.extent[0], mapConfig.extent[1]], projection);
         const ur = fromLonLat([mapConfig.extent[2], mapConfig.extent[3]], projection);
 
-        state.mapView.present.mapExtent = [ll[0], ll[1], ur[0], ur[1]];
+        state.mapView.mapExtent = [ll[0], ll[1], ur[0], ur[1]];
 
-        state.mapView.present.resolutions = mapConfig.resolutions;
+        state.mapView.resolutions = mapConfig.resolutions;
 
         // mapLayers
         state.mapLayers = await this.parseLayerTree(layerTree, projection);

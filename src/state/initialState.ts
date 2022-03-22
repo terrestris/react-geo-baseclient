@@ -1,16 +1,14 @@
 import moment from 'moment';
 
+import { BaseClientState } from './reducer';
+
 export default {
   mapView: {
-    present: {
-      center: [0, 0],
-      zoom: 0,
-      projection: 'EPSG:3857',
-      resolutions: [],
-      mapExtent: []
-    },
-    past: [],
-    future: []
+    center: [0, 0],
+    zoom: 0,
+    projection: 'EPSG:3857',
+    resolutions: [],
+    mapExtent: null
   },
   mapScales: [],
   appInfo: {

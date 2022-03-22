@@ -35,8 +35,8 @@ const mapStateToProps = (state: BaseClientState) => {
     loading: state.loadingQueue.loading,
     appContext: state.appContext,
     mapScales: state.mapScales,
-    addLayerWindowVisible: state.appState.addLayerWindowVisible,
-    projection: state.mapView.present.projection
+    addLayerWindowVisible: state.appState.addLayerWindow,
+    projection: state.mapView.projection
   };
 };
 

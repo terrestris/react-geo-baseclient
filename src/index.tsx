@@ -40,10 +40,10 @@ const MappifiedMain = mappify(Main);
  * @method setupMap
  * @return {OlMap} The openlayers map.
  */
-const setupMap = (state: any) => {
+const setupMap = (state: BaseClientState) => {
   ProjectionUtil.initProj4Definitions();
   ProjectionUtil.initProj4DefinitionMappings();
-  const mapViewConfig = state.mapView.present;
+  const mapViewConfig = state.mapView;
   const mapLayers = state.mapLayers;
   const {
     center,

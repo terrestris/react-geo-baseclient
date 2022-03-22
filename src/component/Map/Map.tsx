@@ -20,7 +20,7 @@ import { BaseClientState } from '../../state/reducer';
  */
 const mapStateToProps = (state: BaseClientState) => {
 
-  const presentMapView = state.mapView.present;
+  const presentMapView = state.mapView;
 
   return {
     center: presentMapView.center,

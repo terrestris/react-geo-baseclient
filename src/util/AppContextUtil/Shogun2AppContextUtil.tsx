@@ -78,19 +78,19 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
       state.appInfo.name = appContext.name || state.appInfo.name;
 
       // mapView
-      state.mapView.present.center = [
+      state.mapView.center = [
         mapConfig.center.x,
         mapConfig.center.y
       ];
-      state.mapView.present.mapExtent = [
+      state.mapView.mapExtent = [
         mapConfig.extent.lowerLeft.x,
         mapConfig.extent.lowerLeft.y,
         mapConfig.extent.upperRight.x,
         mapConfig.extent.upperRight.y
       ];
-      state.mapView.present.projection = projection;
-      state.mapView.present.resolutions = mapConfig.resolutions;
-      state.mapView.present.zoom = mapConfig.zoom;
+      state.mapView.projection = projection;
+      state.mapView.resolutions = mapConfig.resolutions;
+      state.mapView.zoom = mapConfig.zoom;
 
       // mapLayers
       state.mapLayers = await this.parseLayertree(layerTree, mapLayers);
