@@ -191,7 +191,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
    * values (e.g. geometry). Also consider possibly configured visible attribute
    * configuration set on certain layer.
    */
-  const getDisplayedAttributeConfiguration = (feat: OlFeature<OlGeomGeometry>): any => {
+  const getDisplayedAttributeConfiguration = (feat: OlFeature<OlGeomGeometry>) => {
     const featProps = feat.getProperties();
     let propKeys = Object.keys(featProps);
     const layerName = feat.get('layerName');

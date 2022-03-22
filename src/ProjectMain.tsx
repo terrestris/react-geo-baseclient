@@ -14,7 +14,11 @@ import { getAppContextUtil } from './util/getAppContextUtil';
 import SiderMenu from './component/SiderMenu/SiderMenu';
 import Footer from './component/container/Footer/Footer';
 import AddLayerPanel from './component/AddLayerPanel/AddLayerPanel';
+
+import OlMap from 'ol/Map';
+
 import { hideAddLayerWindow } from './state/appState';
+import { BaseClientState } from './state/reducer';
 
 import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil';
 
@@ -25,7 +29,7 @@ import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil'
  *
  * @return {Object} mapped props
  */
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: BaseClientState) => {
   return {
     activeModules: state.activeModules,
     loading: state.loadingQueue.loading,
@@ -44,7 +48,7 @@ export interface DefaultMainProps {
 export interface MainProps extends Partial<DefaultMainProps> {
   dispatch: (arg: any) => void;
   loading: boolean;
-  map: any;
+  map: OlMap;
   appContext: any;
   addLayerWindowVisible: boolean;
   activeModules: object[];

@@ -28,6 +28,7 @@ import {
 
 import Main from './Main';
 import { SomethingWentWrong } from './SomethingWentWrong';
+import { BaseClientState } from './state/reducer';
 
 const MappifiedMain = mappify(Main);
 

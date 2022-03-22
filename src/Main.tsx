@@ -6,8 +6,9 @@ import './Main.css';
 import SomethingWentWrong from './SomethingWentWrong';
 import { withTranslation } from 'react-i18next';
 import ProjectMain from './ProjectMain';
+import OlMap from 'ol/Map';
 export interface MainProps {
-  map: any;
+  map: OlMap;
   t: (arg: string) => string;
 }
 
@@ -15,6 +16,10 @@ export interface MainState {
   hasError: boolean;
   error: Error | null;
   info: object | null;
+}
+
+export interface MainType {
+  map?: OlMap;
 }
 
 /**
@@ -25,7 +30,7 @@ export interface MainState {
  */
 export class Main extends React.Component<MainProps, MainState> {
 
-  main: any;
+  main: React.ComponentType<MainType>;
 
   /**
    * Create a main component.
@@ -51,7 +56,7 @@ export class Main extends React.Component<MainProps, MainState> {
     // configured by the user in the projectconfig.js
     // @ts-ignore
     const context = require.context(process.env.PROJECT_MAIN_PATH, true, process.env.PROJECT_MAIN_CLASS);
-    context.keys().forEach((filename: any) => {
+    context.keys().forEach((filename: string) => {
       const main = context(filename);
       this.main = main.default;
     });

@@ -3,9 +3,11 @@ import {
   Tooltip
 } from 'antd';
 
+import OlMap from 'ol/Map';
 import OlLayerGroup from 'ol/layer/Group';
 import OlTileWmsSource from 'ol/source/TileWMS';
 import OlImageWmsSource from 'ol/source/Image';
+import OlLayer from 'ol/layer/Layer';
 
 import LayerTransparencySlider from '@terrestris/react-geo/dist/Slider/LayerTransparencySlider/LayerTransparencySlider';
 import LayerTreeDropdownContextMenu from '../container/LayerTreeDropdownContextMenu/LayerTreeDropdownContextMenu';
@@ -17,12 +19,12 @@ import './LayerLegendAccordionTreeNode.css';
 
 // default props
 interface DefaultLayerLegendAccordionNodeProps {
-  layer: any;
+  layer: OlLayer;
 }
 
 interface LayerLegendAccordionNodeProps extends Partial<DefaultLayerLegendAccordionNodeProps> {
   t: (arg: string) => string;
-  map: any;
+  map: OlMap;
 }
 
 interface LayerLegendAccordionNodeState {
@@ -85,7 +87,7 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
    * @param {OlLayer} layer The OpenLayers layer to register listener for
    * @param {boolean} mode The mode: true => register handler, false => unregister handler
    */
-  registerLoadingEventsForOlLayer(layer: any, mode: boolean) {
+  registerLoadingEventsForOlLayer(layer: OlLayer, mode: boolean) {
     if (!layer.getSource) {
       return;
     }
@@ -165,7 +167,7 @@ export default class LayerLegendAccordionNode extends React.Component<LayerLegen
    * Handler called if visibility of a certain layers is changed
    * @param {OlLayer[]} layer The layer for which the visibility has to be changed
    */
-  onLayerTreeNodeVisibilityChange(layer: any) {
+  onLayerTreeNodeVisibilityChange(layer: OlLayer) {
     const nextLayerVisibility = !layer.getVisible();
     layer.setVisible(nextLayerVisibility);
 

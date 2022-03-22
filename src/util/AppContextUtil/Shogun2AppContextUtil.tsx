@@ -14,10 +14,10 @@ import { getWidth } from 'ol/extent';
 
 import * as moment from 'moment';
 
-const union = require('lodash/union');
-const isEmpty = require('lodash/isEmpty');
-const isNumber = require('lodash/isNumber');
-const reverse = require('lodash/reverse');
+import union from 'lodash/union';
+import isEmpty from 'lodash/isEmpty';
+import isNumber from 'lodash/isNumber';
+import reverse from 'lodash/reverse';
 
 import isMobile from 'is-mobile';
 
@@ -60,9 +60,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
    */
   async appContextToState(appContext: any): Promise<BaseClientState> {
 
-    // TODO
-    // const state: Partial<BaseClientState> = initialState;
-    const state: any = initialState;
+    const state: BaseClientState = initialState;
 
     if (appContext) {
       const mapConfig = ObjectUtil.getValue('mapConfig', appContext);

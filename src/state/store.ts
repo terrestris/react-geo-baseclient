@@ -16,11 +16,6 @@ import config from '../config/config';
 
 const env = process.env.NODE_ENV;
 
-/**
- * Load loadAppContextStore function
- * Should return promise that resolves application state
- * @return {Promise} A promise
- */
 export const loadAppContextStore = async (): Promise<BaseClientState> => {
   const url = new URL(window.location.href);
   const appId = url.searchParams.get('applicationId');
@@ -103,22 +98,6 @@ export const setupStore = (preloadedState?: BaseClientState) => {
       ...rootReducer,
       ...projectReducer
     },
-    // middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    //   serializableCheck: {
-    //     ignoredActionPaths: [
-    //       'payload.state.mapLayers',
-    //       'payload.state.dataRange.startDate',
-    //       'payload.state.dataRange.endDate'
-    //     ],
-    //     ignoredPaths: [
-    //       'mapLayers',
-    //       'dataRange.startDate',
-    //       'dataRange.endDate'
-    //     ]
-    //   }
-    // }).concat(
-    //   middleware
-    // ),
     middleware,
     devTools: env !== 'production',
     preloadedState: preloadedState ? preloadedState : {}

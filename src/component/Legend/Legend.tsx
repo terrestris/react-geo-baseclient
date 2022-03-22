@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import OlLayerBase from 'ol/layer/Base';
+
 import RGLegend from '@terrestris/react-geo/dist/Legend/Legend';
 import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
@@ -9,7 +11,7 @@ interface DefaultLegendProps {
   collapsed: boolean;
 }
 interface LegendProps extends Partial<DefaultLegendProps>{
-  layer: any;
+  layer: OlLayerBase;
   collapsed: boolean;
   scale?: number;
 }
@@ -71,6 +73,8 @@ export default class Legend extends React.Component<LegendProps, LegendState> {
     const collapseTool = <ToggleButton
       iconName={['fas', 'chevron-circle-up']}
       pressedIconName={['fas', 'chevron-circle-down']}
+      // TODO Don't access private property ol_uid
+      // @ts-ignore
       key={layer.ol_uid}
       onToggle={this.onToggleCollapse}
       pressed={this.state.collapsed}
@@ -100,6 +104,8 @@ export default class Legend extends React.Component<LegendProps, LegendState> {
     };
 
     return (
+      // TODO Don't access private property ol_uid
+      // @ts-ignore
       <div key={layer.ol_uid}>
         <Titlebar
           tools={[collapseTool]}

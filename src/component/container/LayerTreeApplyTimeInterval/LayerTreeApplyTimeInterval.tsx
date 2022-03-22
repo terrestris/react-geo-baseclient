@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import OlMap from 'ol/Map';
 import OlLayerBase from 'ol/layer/Base';
 
 import { Tooltip } from 'antd';
@@ -12,15 +13,17 @@ import {
   setStartDate,
   setEndDate,
   setTimeInterval,
-  setSelectedTimeLayer
+  setSelectedTimeLayer,
+  DataRange
 } from '../../../state/dataRange';
+import { BaseClientState } from '../../../state/reducer';
 
 interface LayerTreeApplyTimeIntervalProps {
   layer: OlLayerBase;
   t: (arg: string) => {};
-  map: any;
+  map: OlMap;
   dispatch: (arg: any) => void;
-  dataRange: any;
+  dataRange: DataRange;
 }
 
 interface LayerTreeApplyTimeIntervalState {}
@@ -31,7 +34,7 @@ interface LayerTreeApplyTimeIntervalState {}
  * @param {Object} state current state
  * @return {Object} mapped props
  */
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: BaseClientState) => {
   return {
     dataRange: state.dataRange
   };
@@ -64,10 +67,10 @@ LayerTreeApplyTimeIntervalState
    * Parses the time interval out of the layer description field
    * @param layer
    */
-  setTimeIntervalToTimeLine(layer: any) {
+  setTimeIntervalToTimeLine(layer: OlLayerBase) {
     const { dispatch } = this.props;
     const layerTimeDimension = layer.get('timeDimension') || undefined;
-    let timeDimension: any = [];
+    let timeDimension: string[] = [];
     if (layerTimeDimension) {
       timeDimension = layerTimeDimension.match(
         new RegExp(/([^\s]*)[/]([^\s]*)[/]([^\s]*)/)

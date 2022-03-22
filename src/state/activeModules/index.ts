@@ -24,7 +24,7 @@ const initialState: Module[] = [];
 export const addActiveModule = createAsyncThunk('activeModules/addActive',
   async (activeModule: Module, thunkAPI) => {
     const activeModules: Module[] = (thunkAPI.getState() as BaseClientState).activeModules;
-    const containsModule = activeModules.some((module: any) => module.name === activeModule.name);
+    const containsModule = activeModules.some((module) => module.name === activeModule.name);
 
     if (containsModule) {
       Logger.debug('Active module already exists in state.');
@@ -41,7 +41,7 @@ export const removeActiveModule = createAsyncThunk('activeModules/removeActive',
     let activeModuleIdx;
 
     if (isString(activeModule)) {
-      activeModuleIdx = activeModules.findIndex((module: any) => module.name === activeModule);
+      activeModuleIdx = activeModules.findIndex((module) => module.name === activeModule);
     } else if (isNumber(activeModule)) {
       activeModuleIdx = activeModule;
     } else if (isObject(activeModule)) {

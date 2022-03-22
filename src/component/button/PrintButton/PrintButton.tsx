@@ -8,6 +8,7 @@ import Window from '@terrestris/react-geo/dist/Window/Window';
 import PrintPanelV3, { PrintConfig } from '../../PrintPanel/PrintPanelV3';
 import { TooltipPlacement } from 'antd/lib/tooltip';
 import { ButtonProps } from 'antd/lib/button';
+import OlMap from 'ol/Map';
 
 interface DefaultPrintButtonProps {
   type: 'default' | 'primary' | 'ghost' | 'dashed' | 'danger' | 'link';
@@ -16,7 +17,7 @@ interface DefaultPrintButtonProps {
 }
 
 interface BaseProps {
-  map: any;
+  map: OlMap;
   tooltip: string;
   tooltipPlacement: TooltipPlacement;
   t: (arg: string) => string;

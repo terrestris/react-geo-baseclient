@@ -225,7 +225,9 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           scales: printManager.getScales(),
           dpis: printManager.getDpis(),
           outputFormats: printFormats,
-          legendIds: this.getFilteredLegendLayers().map((layer: any) => layer.ol_uid)
+          // TODO Don't access private property ol_uid
+          // @ts-ignore
+          legendIds: this.getFilteredLegendLayers().map((layer) => layer.ol_uid)
         });
       })
       .catch((error: any) => {
@@ -515,7 +517,9 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       scale: defaultScale,
       dpi: this.printManager.getDpis()[0],
       outputFormat: config.getPrintFormats()[0],
-      legendIds: this.getFilteredLegendLayers().map((layer: any) => layer.ol_uid),
+      // TODO Don't access private property ol_uid
+      // @ts-ignore
+      legendIds: this.getFilteredLegendLayers().map((layer) => layer.ol_uid),
       previewUrl: this.previewPlaceholder
     });
   };
@@ -527,10 +531,14 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
    */
   getOptionsForLegendSelect(): React.ReactElement<OptionProps>[] {
     return this.getFilteredLegendLayers()
-      .map((layer: any) =>
+      .map((layer) =>
         (
           <Option
+            // TODO Don't access private property ol_uid
+            // @ts-ignore
             key={layer.ol_uid}
+            // TODO Don't access private property ol_uid
+            // @ts-ignore
             value={layer.ol_uid}
           >
             {layer.get('name')}

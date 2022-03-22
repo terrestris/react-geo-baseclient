@@ -73,16 +73,18 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
     // duplicated call from setupMap()
     ProjectionUtil.initProj4Definitions();
 
-    // TODO
-    // const state: Partial<BaseClientState> = initialState;
-    const state: any = initialState;
+    const state: BaseClientState = initialState;
 
     // appInfo
-    state.appInfo = await appInfoService.getAppInfo();
+    const appInfo = await appInfoService.getAppInfo();
+    state.appInfo = {
+      name: appInfo.appName,
+      versionNumber: appInfo.version
+    };
 
     // userInfo
-    if (state?.appInfo?.userId) {
-      state.userInfo = await userService.findOne(state.appInfo.userId);
+    if (appInfo?.userId) {
+      state.userInfo = await userService.findOne(appInfo.userId);
     }
 
     if (appContext) {
@@ -122,7 +124,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
         state.mapScales = this.getMapScales(mapConfig.resolutions);
       }
 
-      state.appInfo.appName = appContext.name;
+      state.appInfo.name = appContext.name;
 
       state.appContext = appContext;
     }

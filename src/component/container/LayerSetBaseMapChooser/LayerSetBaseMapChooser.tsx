@@ -1,6 +1,9 @@
 import * as React from 'react';
 
+import OlMap from 'ol/Map';
 import OlOverviewMap from 'ol/control/OverviewMap';
+import OlLayerGroup from 'ol/layer/Group';
+import OlLayer from 'ol/layer/Layer';
 import OlView from 'ol/View';
 import {
   get as getProjection
@@ -23,10 +26,10 @@ interface DefaultLayerSetBaseMapChooserProps {
 }
 
 interface LayerSetBaseMapChooserProps extends Partial<DefaultLayerSetBaseMapChooserProps> {
-  map: any;
+  map: OlMap;
   t: (arg: string) => {};
-  baseLayerGroup: any;
-  topicLayerGroup: any;
+  baseLayerGroup: OlLayerGroup;
+  topicLayerGroup: OlLayerGroup;
   onTopicLayerGroupSelected: (arg: string) => void;
   projection: string;
 }
@@ -217,7 +220,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
             <LayerCarousel
               className="topic-carousel"
               map={map}
-              layers={topicLayerGroup.getLayers().getArray()}
+              layers={topicLayerGroup.getLayers().getArray() as OlLayer[]}
               onLayerSelected={this.onTopicLayerGroupSelected}
             /> : null
         }
@@ -226,7 +229,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
             <LayerCarousel
               className="base-layer-carousel"
               map={map}
-              layers={baseLayerGroup.getLayers().getArray()}
+              layers={baseLayerGroup.getLayers().getArray() as OlLayer[]}
               onLayerSelected={this.onBaseLayerSelected}
             /> : null
         }
@@ -242,7 +245,7 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
           size="small"
           className="show-topic-carousel-toggle"
           pressed={showTopicCarousel}
-          disabled={!topicLayerGroup || topicLayerGroup.getLayers().length === 0}
+          disabled={!topicLayerGroup || topicLayerGroup.getLayers().getArray().length === 0}
           onToggle={this.onShowTopicCarouselToggle}
         >
           {t('LayerSetBaseMapChooser.topicText')}

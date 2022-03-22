@@ -6,6 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { transformExtent } from 'ol/proj';
 import OlFormatGeoJSON from 'ol/format/GeoJSON';
 import OlLayer from 'ol/layer/Base';
+import OlMap from 'ol/Map';
 
 import Logger from '@terrestris/base-util/dist/Logger';
 
@@ -31,7 +32,7 @@ interface DefaultMultisearchProps {
 }
 
 interface MultisearchProps extends Partial<DefaultMultisearchProps> {
-  map: any;
+  map: OlMap;
   wfsSearchBaseUrl?: string;
 }
 
@@ -313,7 +314,7 @@ export default class Multisearch extends
       const geometry = olFeature.getGeometry();
 
       if (geometry) {
-        olView.fit(geometry, {
+        olView.fit(geometry.getExtent(), {
           duration: 500
         });
       }

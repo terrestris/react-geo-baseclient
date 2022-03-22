@@ -16,6 +16,7 @@ import { OptionProps } from 'antd/lib/select';
 import { isFunction, isEmpty, isEqual } from 'lodash';
 
 import OlMap from 'ol/Map';
+import OlLayerBase from 'ol/layer/Base';
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
@@ -105,8 +106,10 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     url: this.props.config.printAction,
     map: this.props.map,
     headers: CsrfUtil.getHeaderObject(),
-    legendFilter: (layer: any) => this.state.legendIds.includes(layer.ol_uid),
-    layerFilter: (layer: any) => !this.props.printLayerBlackList.includes(layer.get('name'))
+    // TODO Don't access private property ol_uid
+    // @ts-ignore
+    legendFilter: (layer: OlLayerBase) => this.state.legendIds.includes(layer.ol_uid),
+    layerFilter: (layer: OlLayerBase) => !this.props.printLayerBlackList.includes(layer.get('name'))
   });
 
   /**
@@ -178,7 +181,9 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
           scales: printManager.getScales(),
           dpis: printManager.getDpis(),
           outputFormats: printManager.getOutputFormats(),
-          legendIds: this.getFilteredLegendLayers().map((layer: any) => layer.ol_uid)
+          // TODO Don't access private property ol_uid
+          // @ts-ignore
+          legendIds: this.getFilteredLegendLayers().map((layer) => layer.ol_uid)
         });
       })
       .catch((error: any) => {
@@ -243,7 +248,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
    *
    * @param {String} layout Layout value to set.
    */
-  onPrintLayoutChange = (layout: any) => {
+  onPrintLayoutChange = (layout: string) => {
     this.setState({ layout }, () => {
       this.printManager.setLayout(layout);
     });
@@ -254,7 +259,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
    *
    * @param {String} scale Scale value to set.
    */
-  onPrintScaleChange = (scale: any) => {
+  onPrintScaleChange = (scale: string) => {
     this.setState({ scale }, () => {
       this.printManager.setScale(scale);
     });
@@ -417,9 +422,13 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
    */
   getOptionsForLegendSelect(): React.ReactElement<OptionProps>[] {
     return this.getFilteredLegendLayers()
-      .map((layer: any) =>
+      .map((layer) =>
         <Option
+          // TODO Don't access private property ol_uid
+          // @ts-ignore
           key={layer.ol_uid}
+          // TODO Don't access private property ol_uid
+          // @ts-ignore
           value={layer.ol_uid}
         >
           {layer.get('name')}
@@ -444,7 +453,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
       map, this.printManager.extentLayer
     );
 
-    return layers.filter((l: any) => legendBlackList.indexOf(l.get('name')) === -1);
+    return layers.filter((l) => legendBlackList.indexOf(l.get('name')) === -1);
   }
 
   /**
@@ -454,7 +463,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
    */
   onPrintLegendsChange(value: number[]) {
     this.setState({
-      legendIds: value.map((v: any) => parseInt(v, 10))
+      legendIds: value
     });
   }
 
@@ -468,7 +477,6 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
    *
    */
   renderSelectOptions = (option: any): React.ReactElement<OptionProps> => {
-
     let displayName = option.name;
     // replace commas as thousand separator in values like `1:1,000` coming from
     // backend with dots (`1:1.000`)
@@ -494,7 +502,6 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
    *
    */
   renderLayoutSelectOptions = (option: any): React.ReactElement<OptionProps> => {
-
     const { t } = this.props;
 
     const isFiltered = isEqual(option.name, t('PrintPanel.workPrintTemplateTitle'));

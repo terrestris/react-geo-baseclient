@@ -7,6 +7,8 @@ import { ButtonProps } from 'antd/lib/button';
 
 import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil';
 
+import OlMap from 'ol/Map';
+
 import Permalink from '../../Permalink/Permalink';
 
 interface DefaultPermalinkButtonProps extends SimpleButtonProps {
@@ -14,7 +16,7 @@ interface DefaultPermalinkButtonProps extends SimpleButtonProps {
 }
 
 interface BaseProps {
-  map: any;
+  map: OlMap;
   t: (arg: string) => string;
   getLink?: () => any;
   windowPosition?: [number, number];

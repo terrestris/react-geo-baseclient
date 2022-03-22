@@ -11,6 +11,8 @@ import {
 import MetadataParser from '../../../util/MetadataParser';
 import config from '../../../config/config';
 
+import OlLayerBase from 'ol/layer/Base';
+
 import _isEmpty from 'lodash/isEmpty';
 
 import './Metadata.css';
@@ -18,8 +20,8 @@ import './Metadata.css';
 const DescrItem = Descriptions.Item;
 
 interface MetadataProps {
-  layer: any;
-  onCancel: (arg: any) => void;
+  layer: OlLayerBase;
+  onCancel: (arg: React.MouseEvent) => void;
   t: (arg: string) => {};
 }
 

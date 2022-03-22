@@ -6,6 +6,11 @@ import moment from 'moment';
 import _isFinite from 'lodash/isFinite';
 import _isEqual from 'lodash/isEqual';
 
+import OlMap from 'ol/Map';
+import OlLayer from 'ol/layer/Layer';
+import OlSourceImageWMS from 'ol/source/ImageWMS';
+import OlSourceTileWMS from 'ol/source/TileWMS';
+
 import {
   TimeSlider,
   timeLayerAware,
@@ -27,20 +32,22 @@ import {
 } from '../../state/dataRange';
 
 import './TimeLayerSliderPanel.css';
+import { BaseClientState } from '../../state/reducer';
+import { TimeLayerAwareConfig } from '@terrestris/react-geo/dist/HigherOrderComponent/TimeLayerAware/TimeLayerAware';
 
 type timeRange = [moment.Moment, moment.Moment];
 
 export interface DefaultTimeLayerSliderPanelProps {
   className: string;
   onChange: (arg: moment.Moment) => void;
-  timeAwareLayers: any[];
+  timeAwareLayers: OlLayer<OlSourceImageWMS | OlSourceTileWMS>[];
   value: moment.Moment;
   t: (arg: string) => string;
   dateFormat: string;
 }
 
 export interface TimeLayerSliderPanelProps extends Partial<DefaultTimeLayerSliderPanelProps> {
-  map: any;
+  map: OlMap;
   startDate: moment.Moment;
   endDate: moment.Moment;
   dispatch: (arg: any) => void;
@@ -58,7 +65,7 @@ export interface TimeLayerSliderPanelState {
  * @param {Object} state current state
  * @return {Object} mapped props
  */
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: BaseClientState) => {
   return {
     startDate: state.dataRange.startDate,
     endDate: state.dataRange.endDate
@@ -87,7 +94,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   };
 
   private _TimeLayerAwareSlider: any;
-  private _wmsTimeLayers: any[];
+  private _wmsTimeLayers: TimeLayerAwareConfig[];
   private _interval: number;
 
   /**
@@ -160,7 +167,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
   */
   wrapTimeSlider = () => {
     this._wmsTimeLayers = [];
-    this.props.timeAwareLayers!.forEach((l: any) => {
+    this.props.timeAwareLayers!.forEach((l) => {
       if (l.get('type') === 'WMSTime') {
         this._wmsTimeLayers.push({
           layer: l
@@ -189,7 +196,7 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
     const startDatesFromLayers: moment.Moment[] = [];
     const endDatesFromLayers: moment.Moment[] = [];
 
-    this._wmsTimeLayers.forEach((l: any) => {
+    this._wmsTimeLayers.forEach((l) => {
       const sd = l.layer.get('startDate');
       const ed = l.layer.get('endDate');
       let sdm;

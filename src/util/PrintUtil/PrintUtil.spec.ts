@@ -1,6 +1,7 @@
 /* eslint-env jest*/
 import OlImageWmsSource from 'ol/source/ImageWMS';
 import OlImageLayer from 'ol/layer/Image';
+import OlMap from 'ol/Map';
 
 // This causes issues via rbush depency
 // import OlSourceVector from 'ol/source/Vector';
@@ -11,7 +12,7 @@ import PrintUtil from './PrintUtil';
 
 describe('<PrintUtil />', () => {
 
-  let map: any;
+  let map: OlMap;
 
   const printExtentLayer = TestUtils.createTileLayer({});
   printExtentLayer.set('name', 'printExtentLayer');

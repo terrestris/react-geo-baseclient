@@ -22,20 +22,23 @@ export default {
     queue: [],
     loading: false
   },
-  mapLayers: [],
+  mapLayers: null,
   activeModules: [],
   appContext: {},
   hoverFeatures: {
     isFetching: false,
-    features: {}
+    features: {},
+    error: null,
+    lastUpdated: null
   },
   appState: {
-    addLayerWindowVisible: false,
-    helpModalVisible: false,
-    layerTreeVisible: false
+    addLayerWindow: false,
+    helpModal: false,
+    layerTree: false
   },
   dataRange: {
     startDate: moment().subtract(1, 'days'),
     endDate: moment().add(1, 'days')
-  }
-};
+  },
+  userInfo: null
+} as BaseClientState;

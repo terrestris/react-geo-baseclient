@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import OlMap from 'ol/Map';
 import OlLayerGroup from 'ol/layer/Group';
+import OlLayerBase from 'ol/layer/Base';
 
 import {
   Checkbox,
@@ -16,6 +18,7 @@ import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import CapabilitiesUtil from '@terrestris/ol-util/dist/CapabilitiesUtil/CapabilitiesUtil';
 
 import './AddLayerPanel.css';
+import { WmsLayer } from '@terrestris/react-geo/dist/Util/typeUtils';
 
 // default props
 interface DefaultAddLayerPanelProps {
@@ -25,15 +28,15 @@ interface DefaultAddLayerPanelProps {
 }
 
 interface AddLayerPanelProps extends Partial<DefaultAddLayerPanelProps> {
-  map: any;
+  map: OlMap;
   dispatch: (arg: any) => void;
 }
 
 interface AddLayerPanelState {
   fetching: boolean;
   url: string;
-  layers: any[];
-  selectedLayers: any[];
+  layers: WmsLayer[];
+  selectedLayers: WmsLayer[];
 }
 
 class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelState>  {
@@ -65,7 +68,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
     this.setState({fetching: true});
     CapabilitiesUtil.parseWmsCapabilities(url)
       .then((capabilities: any) => CapabilitiesUtil.getLayersFromWmsCapabilities(capabilities, 'Title'))
-      .then((layers: any[]) => {this.setState({layers});})
+      .then((layers: WmsLayer[]) => {this.setState({layers});})
       .finally(() => {this.setState({fetching: false});});
   };
 
@@ -102,7 +105,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
    *
    * @param {*} layers
    */
-  addLayers = (layers: any[]) => {
+  addLayers = (layers: OlLayerBase[]) => {
     const map = this.props.map;
     let targetGroup = MapUtil.getLayerByName(map, 'external_layer_group');
 

@@ -5,6 +5,8 @@ import {
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 
+import OlMap from 'ol/Map';
+
 import { toggleHelpModal } from '../../../state/appState';
 
 import './Header.css';
@@ -33,7 +35,7 @@ interface DefaultHeaderProps {
 interface HeaderProps extends Partial<DefaultHeaderProps> {
   dispatchFn: (arg: any) => void;
   topic: string;
-  map: any;
+  map: OlMap;
   i18n: any;
   t: (arg: string) => {};
   wfsSearchBaseUrl?: string;
