@@ -39,6 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `src/state/reducers/RemoteFeatureReducer` -> `src/state/remoteFeatures/reducer`
   - 🚨 All state constants in `src/state/contants` have been removed.
   - 🚨 The `appContextLoading` state key has been removed.
+  - 🚨 The state key `mapView` doesn't wrap its keys in `past`, `present` and `future` anymore.
+  - 🚨 Removed actions `setLayers`, `addLayers`, `removeLayers`, `updateLayerOrder`, `changeLayerVisibility`.
 
 ## [2.0.1] - 2021-07-21
 
