@@ -130,7 +130,7 @@ export function fetchFeatures(type: string, urls: string[], passThroughOpts: any
     fetchOpts = Object.assign({}, defaultFetchOpts, fetchOpts);
     format = format || new OlFormatGeoJson();
     const defaultReaderOpts = {
-      featureProjection: getState().mapView.present.projection
+      featureProjection: getState().mapView.projection
     };
     readerOpts = Object.assign({}, defaultReaderOpts, readerOpts);
 

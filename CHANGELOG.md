@@ -28,13 +28,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `src/state/actions/AppStateAction` -> `src/state/appState`
     - `src/state/reducers/AppStateReducer` -> `src/state/appState`
     - `src/state/actions/DataRangeAction` -> `src/state/dataRange`
-    - `src/state/reducer/DataRangeReducer` -> `src/state/dataRange`
+    - `src/state/reducers/DataRangeReducer` -> `src/state/dataRange`
     - `src/state/actions/LoadingAction` -> `src/state/loadingQueue`
-    - `src/state/reducer/LoadingReducer` -> `src/state/loadingQueue`
+    - `src/state/reducers/LoadingReducer` -> `src/state/loadingQueue`
     - `src/state/actions/MapLayerChangeAction` -> `src/state/mapLayers`
-    - `src/state/reducer/MapLayerChangeReducer` -> `src/state/mapLayers`
+    - `src/state/reducers/MapLayerChangeReducer` -> `src/state/mapLayers`
     - `src/state/actions/MapViewChangeAction` -> `src/state/mapView`
-    - `src/state/reducer/MapViewChangeReducer` -> `src/state/mapView`
+    - `src/state/reducers/MapViewChangeReducer` -> `src/state/mapView`
+    - `src/state/actions/RemoteFeatureAction` -> `src/state/remoteFeatures/actions`
+    - `src/state/reducers/RemoteFeatureReducer` -> `src/state/remoteFeatures/reducer`
   - 🚨 All state constants in `src/state/contants` have been removed.
   - 🚨 The `appContextLoading` state key has been removed.
 
