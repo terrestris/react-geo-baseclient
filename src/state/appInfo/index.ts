@@ -18,7 +18,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     addAppInfo(state, action: PayloadAction<AppInfo>) {
-      state = action.payload;
+      return action.payload;
     }
   }
 });
