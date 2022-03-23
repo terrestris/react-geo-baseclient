@@ -117,18 +117,8 @@ const commonWebpackConfig = {
         }
       ],
     }, {
-      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'url-loader',
-      options: {
-        limit: 10000,
-        mimetype: 'application/font-woff'
-      }
-    }, {
-      test: /\.(pdf|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'file-loader'
-    }, {
-      test: /\.(jpe?g|png|gif|ico)$/i,
-      loader: 'file-loader'
+      test: /\.(jpe?g|png|gif|ico|pdf|eot|svg|ttf|woff(2)?)$/,
+      type: 'asset/resource',
     }]
   },
 
