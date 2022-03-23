@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update terrestris vectortiles lib ([#840](https://github.com/terrestris/react-geo-baseclient/pull/840))
 - Add tablet support for mobile device detection ([#848](https://github.com/terrestris/react-geo-baseclient/pull/848))
 - Reorganize CSS ([946](https://github.com/terrestris/react-geo-baseclient/pull/946))
+- Uses webpack 5 asset management [955](https://github.com/terrestris/react-geo-baseclient/pull/955)
 
 ## [2.0.1] - 2021-07-21
 
