@@ -118,7 +118,7 @@ const commonWebpackConfig = {
       ],
     }, {
       test: /\.(jpe?g|png|gif|ico|pdf|eot|svg|ttf|woff(2)?)$/,
-      type: 'asset/resource',
+      type: 'asset/resource'
     }]
   },
 
