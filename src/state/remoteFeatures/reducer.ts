@@ -5,7 +5,7 @@ import {
   CLEAR_FEATURES,
   ADD_FEATURES,
   ABORT_FETCHING_FEATURES
-} from '../actions/RemoteFeatureAction';
+} from './actions';
 const unionWith = require('lodash/unionWith');
 const initialState: any = {
   isFetching: false,

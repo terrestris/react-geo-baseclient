@@ -14,10 +14,10 @@ import { getWidth } from 'ol/extent';
 
 import * as moment from 'moment';
 
-const union = require('lodash/union');
-const isEmpty = require('lodash/isEmpty');
-const isNumber = require('lodash/isNumber');
-const reverse = require('lodash/reverse');
+import union from 'lodash/union';
+import isEmpty from 'lodash/isEmpty';
+import isNumber from 'lodash/isNumber';
+import reverse from 'lodash/reverse';
 
 import isMobile from 'is-mobile';
 
@@ -31,6 +31,7 @@ import ObjectUtil from '@terrestris/base-util/dist/ObjectUtil/ObjectUtil';
 import terrestrisVectorTiles from '@terrestris/vectortiles';
 
 import initialState from '../../state/initialState';
+import { BaseClientState } from '../../state/reducer';
 
 import PrintButton from '../../component/button/PrintButton/PrintButton';
 import MeasureMenuButton from '../../component/button/MeasureMenuButton/MeasureMenuButton';
@@ -57,9 +58,9 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
    * @param {Object} appContext The appContext.
    * @return {Object} The initialState used by the store.
    */
-  async appContextToState(appContext: any) {
+  async appContextToState(appContext: any): Promise<BaseClientState> {
 
-    const state: any = initialState;
+    const state: BaseClientState = initialState;
 
     if (appContext) {
       const mapConfig = ObjectUtil.getValue('mapConfig', appContext);
@@ -77,19 +78,19 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
       state.appInfo.name = appContext.name || state.appInfo.name;
 
       // mapView
-      state.mapView.present.center = [
+      state.mapView.center = [
         mapConfig.center.x,
         mapConfig.center.y
       ];
-      state.mapView.present.mapExtent = [
+      state.mapView.mapExtent = [
         mapConfig.extent.lowerLeft.x,
         mapConfig.extent.lowerLeft.y,
         mapConfig.extent.upperRight.x,
         mapConfig.extent.upperRight.y
       ];
-      state.mapView.present.projection = projection;
-      state.mapView.present.resolutions = mapConfig.resolutions;
-      state.mapView.present.zoom = mapConfig.zoom;
+      state.mapView.projection = projection;
+      state.mapView.resolutions = mapConfig.resolutions;
+      state.mapView.zoom = mapConfig.zoom;
 
       // mapLayers
       state.mapLayers = await this.parseLayertree(layerTree, mapLayers);

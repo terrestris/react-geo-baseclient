@@ -2,12 +2,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import MapComponent, { MapComponentProps } from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent';
+
 import OlMap from 'ol/Map';
+import OlLayerGroup from 'ol/layer/Group';
 
-const isEqual = require('lodash/isEqual');
-const debounce = require('lodash/debounce');
+import isEqual from 'lodash/isEqual';
+import debounce from 'lodash/debounce';
 
-import { setZoom, setCenter, setProjection } from '../../state/actions/MapViewChangeAction';
+import { setZoom, setCenter, setProjection } from '../../state/mapView';
+import { BaseClientState } from '../../state/reducer';
 
 /**
  * mapStateToProps - mapping state to props of Map Component.
@@ -15,9 +18,9 @@ import { setZoom, setCenter, setProjection } from '../../state/actions/MapViewCh
  * @param {Object} state current state
  * @return {Object} mapped props
  */
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: BaseClientState) => {
 
-  const presentMapView = state.mapView.present;
+  const presentMapView = state.mapView;
 
   return {
     center: presentMapView.center,
@@ -38,9 +41,9 @@ interface OwnMapProps extends Partial<DefaultMapProps> {
   dispatch: (arg: any) => void;
   center: number[];
   zoom: number;
-  mapLayers: any[];
+  mapLayers: OlLayerGroup;
   projection: string;
-  children?: any;
+  children?: React.ReactChildren;
 }
 
 declare type MapProps =  DefaultMapProps & OwnMapProps;
@@ -71,7 +74,7 @@ export class Map extends React.Component<MapProps, MapState> {
   /**
    *
    */
-  private debouncedCheckPointerRest: () => void;
+  private debouncedCheckPointerRest: (olEvt: any) => void;
 
   /**
    * Create a map.
@@ -167,7 +170,7 @@ export class Map extends React.Component<MapProps, MapState> {
    *
    * @param {interval} interval The debounce interval to use.
    */
-  initDebouncedCheckPointerRest(interval: any) {
+  initDebouncedCheckPointerRest(interval: number) {
     if (!this.debouncedCheckPointerRest) {
       this.debouncedCheckPointerRest = debounce(
         this.checkPointerRest,

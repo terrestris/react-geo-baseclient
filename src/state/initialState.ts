@@ -1,16 +1,14 @@
 import moment from 'moment';
 
+import { BaseClientState } from './reducer';
+
 export default {
   mapView: {
-    present: {
-      center: [0, 0],
-      zoom: 0,
-      projection: 'EPSG:3857',
-      resolutions: [],
-      mapExtent: []
-    },
-    past: [],
-    future: []
+    center: [0, 0],
+    zoom: 0,
+    projection: 'EPSG:3857',
+    resolutions: [],
+    mapExtent: null
   },
   mapScales: [],
   appInfo: {
@@ -22,20 +20,23 @@ export default {
     queue: [],
     loading: false
   },
-  mapLayers: [],
+  mapLayers: null,
   activeModules: [],
   appContext: {},
   hoverFeatures: {
     isFetching: false,
-    features: {}
+    features: {},
+    error: null,
+    lastUpdated: null
   },
   appState: {
-    addLayerWindowVisible: false,
-    helpModalVisible: false,
-    layerTreeVisible: false
+    addLayerWindow: false,
+    helpModal: false,
+    layerTree: false
   },
   dataRange: {
     startDate: moment().subtract(1, 'days'),
     endDate: moment().add(1, 'days')
-  }
-};
+  },
+  userInfo: null
+} as BaseClientState;

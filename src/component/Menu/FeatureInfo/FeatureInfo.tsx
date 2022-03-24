@@ -27,8 +27,8 @@ const isEmpty = require('lodash/isEmpty');
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import FeatureInfoGrid from '../../FeatureInfoGrid/FeatureInfoGrid';
-import { clearFeatures } from '../../../state/actions/RemoteFeatureAction';
 import './FeatureInfo.css';
+import { clearFeatures } from '../../../state/remoteFeatures/actions';
 
 interface DefaultFeatureInfoProps {
   /**
@@ -123,7 +123,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     const hoverFeatures: OlFeature<OlGeometry>[] = [];
     const featureTypes: string[] = Object.keys(features);
     featureTypes.slice(0, maxMenuItems).forEach((featTypeName: string) => {
-      features[featTypeName].forEach((feat: any) => {
+      features[featTypeName].forEach((feat) => {
         hoverFeatures.push(feat);
       });
     });

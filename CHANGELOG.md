@@ -18,6 +18,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add tablet support for mobile device detection ([#848](https://github.com/terrestris/react-geo-baseclient/pull/848))
 - Reorganize CSS ([946](https://github.com/terrestris/react-geo-baseclient/pull/946))
 - Uses webpack 5 asset management [955](https://github.com/terrestris/react-geo-baseclient/pull/955)
+- Reorganize CSS ([#946](https://github.com/terrestris/react-geo-baseclient/pull/946))
+- Introduce redux toolkit ([#845](https://github.com/terrestris/react-geo-baseclient/pull/845))
+  - 🚨 Several paths of the actions and reducers have been changed and might be updated in project clients:
+    - `src/state/actions/ActiveModulesAction` -> `src/state/activeModules`
+    - `src/state/reducers/ActiveModulesReducer` -> `src/state/activeModules`
+    - `src/state/actions/ApplicationInfoAction` -> `src/state/appInfo`
+    - `src/state/reducers/ApplicationInfoReducer` -> `src/state/appInfo`
+    - `src/state/actions/AppStateAction` -> `src/state/appState`
+    - `src/state/reducers/AppStateReducer` -> `src/state/appState`
+    - `src/state/actions/DataRangeAction` -> `src/state/dataRange`
+    - `src/state/reducers/DataRangeReducer` -> `src/state/dataRange`
+    - `src/state/actions/LoadingAction` -> `src/state/loadingQueue`
+    - `src/state/reducers/LoadingReducer` -> `src/state/loadingQueue`
+    - `src/state/actions/MapLayerChangeAction` -> `src/state/mapLayers`
+    - `src/state/reducers/MapLayerChangeReducer` -> `src/state/mapLayers`
+    - `src/state/actions/MapViewChangeAction` -> `src/state/mapView`
+    - `src/state/reducers/MapViewChangeReducer` -> `src/state/mapView`
+    - `src/state/actions/RemoteFeatureAction` -> `src/state/remoteFeatures/actions`
+    - `src/state/reducers/RemoteFeatureReducer` -> `src/state/remoteFeatures/reducer`
+  - 🚨 All state constants in `src/state/contants` have been removed.
+  - 🚨 The `appContextLoading` state key has been removed.
+  - 🚨 The state key `mapView` doesn't wrap its keys in `past`, `present` and `future` anymore.
+  - 🚨 Removed actions `setLayers`, `addLayers`, `removeLayers`, `updateLayerOrder`, `changeLayerVisibility`.
 
 ## [2.0.1] - 2021-07-21
 

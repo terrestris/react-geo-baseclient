@@ -14,7 +14,11 @@ import { getAppContextUtil } from './util/getAppContextUtil';
 import SiderMenu from './component/SiderMenu/SiderMenu';
 import Footer from './component/container/Footer/Footer';
 import AddLayerPanel from './component/AddLayerPanel/AddLayerPanel';
-import { hideAddLayerWindow } from './state/actions/AppStateAction';
+
+import OlMap from 'ol/Map';
+
+import { hideAddLayerWindow } from './state/appState';
+import { BaseClientState } from './state/reducer';
 
 import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil';
 
@@ -25,15 +29,14 @@ import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil'
  *
  * @return {Object} mapped props
  */
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: BaseClientState) => {
   return {
     activeModules: state.activeModules,
-    appContextLoading: state.asyncInitialState.loading,
     loading: state.loadingQueue.loading,
     appContext: state.appContext,
     mapScales: state.mapScales,
-    addLayerWindowVisible: state.appState.addLayerWindowVisible,
-    projection: state.mapView.present.projection
+    addLayerWindowVisible: state.appState.addLayerWindow,
+    projection: state.mapView.projection
   };
 };
 
@@ -45,9 +48,8 @@ export interface DefaultMainProps {
 export interface MainProps extends Partial<DefaultMainProps> {
   dispatch: (arg: any) => void;
   loading: boolean;
-  map: any;
+  map: OlMap;
   appContext: any;
-  appContextLoading: boolean;
   addLayerWindowVisible: boolean;
   activeModules: object[];
   mapScales: number[];
@@ -175,7 +177,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
                 tools={[
                   <SimpleButton
                     key="closeButton"
-                    iconName={['fas', 'close']}
+                    iconName={['fas', 'times']}
                     size="small"
                     tooltip={t('General.close')}
                     onClick={this.closeAddLayerWindow}

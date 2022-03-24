@@ -6,6 +6,7 @@ import Toolbar from '@terrestris/react-geo/dist/Toolbar/Toolbar';
 import ToggleGroup from '@terrestris/react-geo/dist/Button/ToggleGroup/ToggleGroup';
 
 import OlInteractionDraw from 'ol/interaction/Draw';
+import OlMap from 'ol/Map';
 
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
@@ -16,7 +17,7 @@ interface DefaultMeasureMenuButtonProps extends MeasureButtonProps {
 }
 
 interface MeasureMenuButtonProps extends Partial<DefaultMeasureMenuButtonProps> {
-  map: any;
+  map: OlMap;
   tooltip: string;
   measureTypes: string [];
   key: string;

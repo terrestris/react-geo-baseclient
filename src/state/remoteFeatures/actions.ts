@@ -17,7 +17,6 @@ export const ABORT_FETCHING_FEATURES = 'ABORT_FETCHING_FEATURES';
 /**
  * @param {String} type The type. e.g. 'HOVER'
  * @param {AbortController} abortController The abort controller
- * @param {Array} features An array of ol.feature.
  * @param {Object} passThroughOpts
  *
  * @return {Object} The FETCHING_FEATURES action conditional to the type.
@@ -131,7 +130,7 @@ export function fetchFeatures(type: string, urls: string[], passThroughOpts: any
     fetchOpts = Object.assign({}, defaultFetchOpts, fetchOpts);
     format = format || new OlFormatGeoJson();
     const defaultReaderOpts = {
-      featureProjection: getState().mapView.present.projection
+      featureProjection: getState().mapView.projection
     };
     readerOpts = Object.assign({}, defaultReaderOpts, readerOpts);
 

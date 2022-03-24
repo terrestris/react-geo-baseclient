@@ -1,38 +1,22 @@
 import {
-  createStore,
-  applyMiddleware,
-  compose
-} from 'redux';
+  configureStore,
+  MiddlewareArray
+} from '@reduxjs/toolkit';
 
 import thunkMiddleware from 'redux-thunk';
 
 import { createLogger } from 'redux-logger';
 
-import { middleware } from 'redux-async-initial-state';
-
 import Logger from '@terrestris/base-util/dist/Logger';
 
-import rootReducer from './reducers/Reducer';
+import rootReducer, { BaseClientState } from './reducer';
 import { getAppContextUtil } from '../util/getAppContextUtil';
 
 import config from '../config/config';
 
 const env = process.env.NODE_ENV;
 
-const loggerMiddleware = env === 'development' ? createLogger({
-  collapsed: true,
-  predicate: (getState, action) => !['ENABLE_LOADING', 'DISABLE_LOADING'].includes(action.type)
-}) : middleware();
-
-// eslint-disable-next-line no-underscore-dangle
-const composeEnhancers = (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
-
-/**
- * Load loadAppContextStore function
- * Should return promise that resolves application state
- * @return {Promise} A promise
- */
-const loadAppContextStore = async () => {
+export const loadAppContextStore = async (): Promise<BaseClientState> => {
   const url = new URL(window.location.href);
   const appId = url.searchParams.get('applicationId');
 
@@ -83,18 +67,41 @@ const loadAppContextStore = async () => {
   return state;
 };
 
-const store = createStore(
-  rootReducer,
-  composeEnhancers(
-    applyMiddleware(middleware(loadAppContextStore)),
-    applyMiddleware(thunkMiddleware, loggerMiddleware)
-  )
-);
+let projectReducer = {};
+if (process.env.PROJECT_REDUCER_PATH) {
+  try {
+    const context = require('../' + process.env.PROJECT_MAIN_PATH + process.env.PROJECT_REDUCER_PATH);
+    if (context.default) {
+      projectReducer = context.default;
+    }
+  } catch (error) {
+    Logger.info('Could not load the specified project reducer. ' +
+      'Please check if the path in the .env is set correctly: ', error
+    );
+  }
+}
 
-// An initial dispatch to trigger the execution of all middlewares. This is
-// needed to fetch the application context via loadAppContextStore().
-store.dispatch({
-  type: 'INIT_APPLICATION'
-});
+export const setupStore = (preloadedState?: BaseClientState) => {
+  const middleware: any[] = new MiddlewareArray().concat(thunkMiddleware);
 
-export default store;
+  if (env === 'development') {
+    const loggerMiddleware = createLogger({
+      collapsed: true,
+      predicate: (getState, action) => !action.type.endsWith('_LOADING'),
+    });
+
+    middleware.push(loggerMiddleware);
+  }
+
+  const store = configureStore({
+    reducer: {
+      ...rootReducer,
+      ...projectReducer
+    },
+    middleware,
+    devTools: env !== 'production',
+    preloadedState: preloadedState ? preloadedState : {}
+  });
+
+  return store;
+};

@@ -1,6 +1,10 @@
 import * as React from 'react';
 import OlLayerGroup from 'ol/layer/Group';
-import OlLayer from 'ol/layer/Base';
+import OlLayerBase from 'ol/layer/Base';
+import OlLayer from 'ol/layer/Layer';
+import OlSourceWMTS from 'ol/source/WMTS';
+import OlSourceTileWMS from 'ol/source/TileWMS';
+import OlMap from 'ol/Map';
 import Carousel from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
@@ -9,12 +13,12 @@ import LayerCarouselSlide from '../LayerCarouselSlide/LayerCarouselSlide';
 import './LayerCarousel.css';
 
 interface DefaultLayerCarouselProps {
-  map: any;
+  map: OlMap;
   className: string;
 }
 
 interface LayerCarouselProps extends Partial<DefaultLayerCarouselProps> {
-  layers: any[];
+  layers: OlLayer[];
   onLayerSelected: (olUid: string) => void;
 }
 
@@ -112,7 +116,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    *
    * @param evt
    */
-  onSlideClick(layer: any) {
+  onSlideClick(layer: OlLayerBase) {
     const {
       map
     } = this.props;
@@ -121,7 +125,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       return;
     }
 
-    map.getLayers().getArray().forEach((l: any) => l.set('visible', false));
+    map.getLayers().getArray().forEach((l) => l.set('visible', false));
     layer.set('visible', true);
   }
 
@@ -159,11 +163,17 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     }
     const currentlyVisibleLayer = this.props.layers.find(l => l.getVisible());
     this.setState({
+      // TODO Don't access private property ol_uid
+      // @ts-ignore
       originalBaseLayerOlUid: currentlyVisibleLayer ? currentlyVisibleLayer.ol_uid : undefined
     });
     // change visibility
+    // TODO Don't access private property ol_uid
+    // @ts-ignore
     this.setLayersVisible([layer.ol_uid]);
     if (callback) {
+      // TODO Don't access private property ol_uid
+      // @ts-ignore
       callback(layer.ol_uid);
     }
   }
@@ -194,11 +204,13 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       layers
     } = this.props;
 
-    layers.forEach((l: any) => {
+    layers.forEach((l) => {
+      // TODO Don't access private property ol_uid
+      // @ts-ignore
       const visibility = olUidsToSetVisible.includes(l.ol_uid);
       l.setVisible(visibility);
       if (l instanceof OlLayerGroup) {
-        l.getLayers().forEach((ll: OlLayer) => ll.setVisible(visibility));
+        l.getLayers().forEach((ll: OlLayerBase) => ll.setVisible(visibility));
       }
     });
   }
@@ -238,7 +250,9 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       layers
     } = this.props;
 
-    return layers.find((l: any) => l.ol_uid === id);
+    // TODO Don't access private property ol_uid
+    // @ts-ignore
+    return layers.find((l) => l.ol_uid === id);
   }
 
   getRatio() {
@@ -273,28 +287,32 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
 
     const extent = map.getView().calculateExtent();
     const mapProjection = map.getView().getProjection().getCode();
-    return this.props.layers.map((layer: any) => {
+    return this.props.layers.map((layer) => {
       const staticImageUrl = layer.get('staticImageUrl');
       const previewImageRequestUrl = layer.get('previewImageRequestUrl');
       let layerFt, requestUrl;
       if (!staticImageUrl) {
         if (layer.get('type') === 'WMTS' && previewImageRequestUrl) {
           requestUrl = previewImageRequestUrl;
-          layerFt = layer.getSource().getLayer();
+          layerFt = (layer.getSource() as OlSourceWMTS).getLayer();
         } else {
-          const source = layer.getSource();
+          const source = layer.getSource() as OlSourceTileWMS;
           const params = source.getParams();
           const layersKey = Object.keys(params).find(p => p.toLowerCase() === 'layers');
           layerFt = source.getParams()[layersKey];
           if (source.getUrls) {
             requestUrl = source.getUrls()[0];
           } else {
+            // TODO Check why we need to get the source of a source?
+            // @ts-ignore
             requestUrl = source.getSource().getUrl();
           }
         }
       }
       const layerName = layer.get('name');
       const isVisible = layer.getVisible();
+      // TODO Don't access private property ol_uid
+      // @ts-ignore
       const olUid = layer.ol_uid;
       return <LayerCarouselSlide
         onClick={this.onCarouselItemClick}
@@ -322,7 +340,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
    */
   render() {
     const carouselClassName = `${this.props.className} carousel-wrapper`.trim();
-    const layerSlides: any[] = this.getLayerSlides();
+    const layerSlides = this.getLayerSlides();
 
     return (
       <Carousel

@@ -5,7 +5,7 @@ import './Help.css';
 
 interface HelpProps {
   helpPdf: string;
-  onCancel: (arg: any) => void;
+  onCancel: (arg: React.MouseEvent) => void;
   t: (arg: string) => {};
 }
 

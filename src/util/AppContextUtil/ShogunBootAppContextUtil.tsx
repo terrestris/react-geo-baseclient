@@ -31,6 +31,7 @@ import { UrlUtil } from '@terrestris/base-util/dist/UrlUtil/UrlUtil';
 import ProjectionUtil from '@terrestris/ol-util/dist/ProjectionUtil/ProjectionUtil';
 
 import initialState from '../../state/initialState';
+import { BaseClientState } from '../../state/reducer';
 
 import PrintButton from '../../component/button/PrintButton/PrintButton';
 import MeasureMenuButton from '../../component/button/MeasureMenuButton/MeasureMenuButton';
@@ -66,56 +67,64 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
    * @param {Object} appContext The appContext.
    * @return {Object} The initialState used by the store.
    */
-  async appContextToState(appContext: Application) {
+  async appContextToState(appContext: Application): Promise<BaseClientState> {
 
     // TODO Define proj defintions in appContext and remove
     // duplicated call from setupMap()
     ProjectionUtil.initProj4Definitions();
 
-    const state: any = initialState;
+    const state: BaseClientState = initialState;
 
     // appInfo
-    state.appInfo = await appInfoService.getAppInfo();
+    const appInfo = await appInfoService.getAppInfo();
+    state.appInfo = {
+      name: appInfo.appName,
+      versionNumber: appInfo.version
+    };
 
     // userInfo
-    state.userInfo = await userService.findOne(state.appInfo.userId);
+    if (appInfo?.userId) {
+      state.userInfo = await userService.findOne(appInfo.userId);
+    }
 
     if (appContext) {
-      const mapConfig = appContext.clientConfig.mapView;
+      const mapConfig = appContext.clientConfig?.mapView;
       const activeModules = appContext.toolConfig;
       const defaultTopic = '';
       const layerTree = appContext.layerTree;
 
-      // mapView
-      const projection = mapConfig.projection.indexOf('EPSG:') < 0 ?
-        'EPSG:' + mapConfig.projection :
-        mapConfig.projection;
+      if (mapConfig) {
+        // mapView
+        const projection = mapConfig.projection.indexOf('EPSG:') < 0 ?
+          'EPSG:' + mapConfig.projection :
+          mapConfig.projection;
 
-      state.mapView.present.projection = projection;
+        state.mapView.projection = projection;
 
-      state.mapView.present.center = fromLonLat([mapConfig.center[0], mapConfig.center[1]], projection);
+        state.mapView.center = fromLonLat([mapConfig.center[0], mapConfig.center[1]], projection);
+        state.mapView.zoom = mapConfig.zoom;
 
-      const ll = fromLonLat([mapConfig.extent[0], mapConfig.extent[1]], projection);
-      const ur = fromLonLat([mapConfig.extent[2], mapConfig.extent[3]], projection);
+        const ll = fromLonLat([mapConfig.extent[0], mapConfig.extent[1]], projection);
+        const ur = fromLonLat([mapConfig.extent[2], mapConfig.extent[3]], projection);
 
-      state.mapView.present.mapExtent = [ll[0], ll[1], ur[0], ur[1]];
+        state.mapView.mapExtent = [ll[0], ll[1], ur[0], ur[1]];
 
-      state.mapView.present.resolutions = mapConfig.resolutions;
-      state.mapView.present.zoom = mapConfig.zoom;
+        state.mapView.resolutions = mapConfig.resolutions;
 
-      // mapLayers
-      state.mapLayers = await this.parseLayerTree(layerTree, projection);
+        // mapLayers
+        state.mapLayers = await this.parseLayerTree(layerTree, projection);
 
-      // activeModules
-      state.activeModules = union(state.activeModules, activeModules);
+        // activeModules
+        state.activeModules = union(state.activeModules, activeModules);
 
-      // defaultTopic
-      state.defaultTopic = defaultTopic;
+        // defaultTopic
+        state.defaultTopic = defaultTopic;
 
-      // mapScales
-      state.mapScales = this.getMapScales(mapConfig.resolutions);
+        // mapScales
+        state.mapScales = this.getMapScales(mapConfig.resolutions);
+      }
 
-      state.appInfo.appName = appContext.name;
+      state.appInfo.name = appContext.name;
 
       state.appContext = appContext;
     }

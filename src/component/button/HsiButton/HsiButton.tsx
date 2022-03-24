@@ -13,17 +13,17 @@ import OlFeature from 'ol/Feature';
 import OlMapBrowserEvent from 'ol/MapBrowserEvent';
 import OlGeometry from 'ol/geom/Geometry';
 
-import {
-  abortFetchingFeatures,
-  fetchFeatures,
-  clearFeatures
-} from '../../../state/actions/RemoteFeatureAction';
-
-import { BaseClientState } from '../../../state/reducers/Reducer';
 import { LayerType } from '../../../util/types';
+import { BaseClientState } from '../../../state/reducer';
+import { DataRange } from '../../../state/dataRange';
+import {
+  clearFeatures,
+  abortFetchingFeatures,
+  fetchFeatures
+} from '../../../state/remoteFeatures/actions';
 
 interface DefaultHsiButtonProps extends ToggleButtonProps {
-  dataRange?: any;
+  dataRange?: DataRange;
   /**
   * Whether the GFI control should requests all layers at a given coordinate
   * or just the uppermost one.
@@ -141,7 +141,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
     dispatch(abortFetchingFeatures('HOVER'));
 
     map.forEachLayerAtPixel(pixel, (layer: LayerType) => {
-      const layerSource: any = layer.getSource();
+      const layerSource = layer.getSource();
       const coordinate: number[] = map.getCoordinateFromPixel(pixel);
 
       if (layer.getSource() instanceof OlSourceVector) {
@@ -160,13 +160,14 @@ export const HsiButton: React.FC<ComponentProps> = ({
         featureInfoUrls.push(`internal://${layer.get('name')}`);
         return;
       }
-
+      // @ts-ignore
       if (!layerSource.getFeatureInfoUrl) {
         return;
       }
 
       let featureInfoUrl: string;
       if (layer.get('type') === 'WMSTime') {
+        // @ts-ignore
         featureInfoUrl = layerSource.getFeatureInfoUrl(
           coordinate,
           viewResolution,
@@ -185,6 +186,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
           )}&`
         );
       } else {
+        // @ts-ignore
         featureInfoUrl = layerSource.getFeatureInfoUrl(
           map.getCoordinateFromPixel(pixel),
           viewResolution,
@@ -218,7 +220,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
  * @return {Boolean} Whether the layer is hoverable or not.
  */
   const layerFilter = (layerCandidate: LayerType) => {
-    const source: any = layerCandidate.getSource();
+    const source = layerCandidate.getSource();
     const isHoverable: boolean = layerCandidate.get('hoverable');
     const isSupportedHoverSource: boolean = source instanceof OlSourceImageWMS ||
       source instanceof OlSourceTileWMS || source instanceof OlSourceVector;

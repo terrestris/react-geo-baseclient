@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import OlLayerBase from 'ol/layer/Base';
 import OlLayerGroup from 'ol/layer/Group';
+import OlLayer from 'ol/layer/Layer';
+import OlMap from 'ol/Map';
 
-const isEqual = require('lodash/isEqual');
-const groupBy = require('lodash/groupBy');
+import isEqual from 'lodash/isEqual';
+import groupBy from 'lodash/groupBy';
 
 import {
   Collapse
@@ -23,22 +26,22 @@ import {
 import './LayerLegendAccordion.css';
 
 import LayerLegendAccordionTreeNode from '../../LayerLegendAccordionTreeNode/LayerLegendAccordionTreeNode';
-import { toggleAddLayerWindow } from '../../../state/actions/AppStateAction';
+import { toggleAddLayerWindow } from '../../../state/appState';
 
 // default props
 interface DefaultLayerLegendAccordionProps {
   title: string;
   treeNodeFilter: (layer: any, index: number, array: any[]) => any;
   extraLegensParams: Object;
-  mapLayers: any[];
+  mapLayers: OlLayerBase[];
   externalLayerGroup: OlLayerGroup;
-  baseLayer: any;
+  baseLayer: OlLayerBase;
   revision: number;
   onTopicLayerDragEnd: () => void;
 }
 
 interface LayerLegendAccordionProps extends Partial<DefaultLayerLegendAccordionProps> {
-  map: any;
+  map: OlMap;
   dispatch: (arg: any) => void;
   t: (arg: string) => string;
 }
@@ -73,8 +76,8 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
     onTopicLayerDragEnd: () => { }
   };
 
-  private _mapLayerGroup: any;
-  private _baseLayerGroup: any;
+  private _mapLayerGroup: OlLayerGroup;
+  private _baseLayerGroup: OlLayerGroup;
 
   /**
    * Create the LayerLegendAccordion.
@@ -168,7 +171,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
    *
    * @param {OlLayer} layer The OpenLayers layer the tree node should be rendered for
    */
-  treeNodeTitleRenderer(layer: any) {
+  treeNodeTitleRenderer(layer: OlLayer) {
     const {
       t,
       map
@@ -206,12 +209,14 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
     const scale = MapUtil.getScaleForResolution(map.getView().getResolution(), unit);
 
     // clone the array, reverse will work in place
-    const reversed = mapLayers.slice(0).reverse().filter((l: any) => l && l.getVisible());
+    const reversed = mapLayers.slice(0).reverse().filter((l) => l && l.getVisible());
     if (baseLayer) {
       reversed.push(baseLayer);
     }
 
-    const legends = reversed.map((l: any) => {
+    const legends = reversed.map((l) => {
+      // TODO Don't access private property ol_uid
+      // @ts-ignore
       const panelKey = l.ol_uid;
       return (
         <Collapse
@@ -253,7 +258,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
    *
    * @param {OlLayer[]} layers The OpenLayers layers to get the class names for
    */
-  getLayerVisiblilityClassName(layers: any[] | undefined) {
+  getLayerVisiblilityClassName(layers: OlLayerBase[] | undefined) {
     const fallbackCls = 'fa fa-eye-slash all-layers-handle';
     if (!layers) {
       return fallbackCls;
@@ -281,7 +286,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
    *
    * @param {OlLayer[]} The OpenLayes layers to change visiblity for
    */
-  onAllLayersVisibleChange(mapLayers: any[] | undefined) {
+  onAllLayersVisibleChange(mapLayers: OlLayerBase[] | undefined) {
     if (!mapLayers) {
       return;
     }

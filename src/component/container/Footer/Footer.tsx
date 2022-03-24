@@ -10,6 +10,7 @@ import {
 import { applyTransform } from 'ol/extent.js';
 import { createStringXY } from 'ol/coordinate.js';
 import OlView from 'ol/View';
+import OlMap from 'ol/Map';
 import OlMousePositionControl from 'ol/control/MousePosition';
 // eslint-disable-next-line
 import CoordinateReferenceSystemCombo from '@terrestris/react-geo/dist/Field/CoordinateReferenceSystemCombo/CoordinateReferenceSystemCombo';
@@ -17,6 +18,7 @@ import ScaleCombo from '@terrestris/react-geo/dist/Field/ScaleCombo/ScaleCombo';
 
 import ProjectionUtil from '@terrestris/ol-util/dist/ProjectionUtil/ProjectionUtil';
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
+import { BaseClientState } from '../../../state/reducer';
 
 // default props
 interface DefaultFooterProps {
@@ -25,7 +27,7 @@ interface DefaultFooterProps {
 }
 
 interface FooterProps extends Partial<DefaultFooterProps> {
-  map: any;
+  map: OlMap;
   t: (arg: string) => {};
   mapScales: number[];
   projection: string;
@@ -40,9 +42,9 @@ interface FooterState {
  * @param {Object} state current state
  * @return {Object} mapped props
  */
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: BaseClientState) => {
   return {
-    projection: state.mapView.present.projection
+    projection: state.mapView.projection
   };
 };
 
@@ -108,14 +110,14 @@ export class Footer extends React.Component<FooterProps, FooterState> {
    *
    * @param {OlMap} The OpenLayers map
    */
-  createOlMousePositionControl = (map: any) => {
+  createOlMousePositionControl = (map: OlMap) => {
     const existingControls = map.getControls();
     const mousePositionControl = existingControls.getArray()
-      .find((c: any) => c instanceof OlMousePositionControl);
+      .find((c) => c instanceof OlMousePositionControl);
     const projection = map.getView().getProjection().getCode();
 
     if (!mousePositionControl) {
-      const options: any = {
+      const options = {
         name: this.footerMousePositionControlName,
         coordinateFormat: createStringXY(2),
         target: document.getElementById('mouse-position'),
@@ -132,16 +134,16 @@ export class Footer extends React.Component<FooterProps, FooterState> {
    *
    * @param {OlMap} The OpenLayers map
    */
-  removeOlMousePositionControl = (map: any) => {
+  removeOlMousePositionControl = (map: OlMap) => {
     if (!map) {
       return;
     }
     const mousePositionControls = map.getControls().getArray()
-      .filter((c: any) => c instanceof OlMousePositionControl);
+      .filter((c) => c instanceof OlMousePositionControl);
     if (!mousePositionControls) {
       return;
     }
-    const crtlToRemove = mousePositionControls.find((ctrl: any) =>
+    const crtlToRemove = mousePositionControls.find((ctrl) =>
       ctrl.get('name') === this.footerMousePositionControlName);
     if (crtlToRemove) {
       map.removeControl(crtlToRemove);
@@ -179,7 +181,8 @@ export class Footer extends React.Component<FooterProps, FooterState> {
     map.setView(newView);
     newView.fit(transformedExtent);
 
-    const mousePositionControl = map.getControls().getArray().find((c: any) => c instanceof OlMousePositionControl);
+    const mousePositionControl = (map.getControls().getArray()
+      .find((c) => c instanceof OlMousePositionControl)) as OlMousePositionControl;
 
     if (mousePositionControl) {
       const isWgs84 = map.getView().getProjection().getCode() === 'EPSG:4326';

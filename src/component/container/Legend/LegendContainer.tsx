@@ -12,8 +12,8 @@ interface DefaultLegendContainerProps {
   layers: [];
 }
 interface LegendContainerProps extends Partial<DefaultLegendContainerProps>{
-  layerGroup: any;
-  filterFn?: (l: any) => {};
+  layerGroup: OlLayerGroup;
+  filterFn?: (l: OlLayerBase) => {};
   t?: () => {};
   scale?: number;
 }
@@ -63,7 +63,7 @@ export default class LegendContainer extends React.Component<LegendContainerProp
       filterFn,
       scale
     } = this.props;
-    let layers = MapUtil.getAllLayers(layerGroup);
+    let layers: OlLayerBase[] = MapUtil.getAllLayers(layerGroup);
 
     layers = layers
       .filter((layer: OlLayerBase) => !(layer instanceof OlLayerGroup))
@@ -72,9 +72,11 @@ export default class LegendContainer extends React.Component<LegendContainerProp
     // clone the array, reverse will work in place
     const reversed = layers.slice(0).reverse();
 
-    const legends = reversed.map((l: any) =>
+    const legends = reversed.map((l) =>
       (
         <Legend
+          // TODO Don't access private property ol_uid
+          // @ts-ignore
           key={l.ol_uid}
           layer={l}
           scale={scale}

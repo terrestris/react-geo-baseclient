@@ -3,6 +3,8 @@ import { Layout, Menu } from 'antd';
 import { FileOutlined, DesktopOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
 import './SiderMenu.css';
 
+import OlMap from 'ol/Map';
+
 import MeasureButton from '@terrestris/react-geo/dist/Button/MeasureButton/MeasureButton';
 import ToggleGroup from '@terrestris/react-geo/dist/Button/ToggleGroup/ToggleGroup';
 import LayerTree from '@terrestris/react-geo/dist/LayerTree/LayerTree';
@@ -19,7 +21,7 @@ interface DefaultSiderProps {
 
 interface SiderProps extends Partial<DefaultSiderProps> {
   collapsed?: boolean;
-  map: any;
+  map: OlMap;
   t: (arg: string) => {};
   i18n: any;
   measureToolsEnabled: boolean;
@@ -104,7 +106,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
           >
             <LayerTree
               map={this.props.map}
-              filterFunction={(layer: any) => layer.get('name').indexOf('react-geo') < 0}
+              filterFunction={(layer) => layer.get('name').indexOf('react-geo') < 0}
             />
           </SubMenu>
           <SubMenu
@@ -119,7 +121,7 @@ export class SiderMenu extends React.Component<SiderProps, SiderState> {
             <LegendContainer
               layerGroup={this.props.map.getLayerGroup()}
               scale={MapUtil.getScaleForResolution(this.props.map.getView().getResolution(), 'm')}
-              filterFn={(l: any) => l.getVisible()}
+              filterFn={(l) => l.getVisible()}
             />
           </SubMenu>
           {measureToolsEnabled ?
