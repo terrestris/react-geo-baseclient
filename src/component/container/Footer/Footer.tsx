@@ -230,7 +230,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
           <div id="mouse-position"/>
         </div>
         <div className="version_number">
-          <span>{t('Version')}: {version}</span>
+         {version && <span>{t('Version')}: {version}</span>}
         </div>
         <div className="imprint footer-element">
           {imprint ?
