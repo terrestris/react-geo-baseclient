@@ -1,6 +1,6 @@
-var doCaching = true;
+let doCaching = true;
 
-self.addEventListener('message', (event) => {
+self.addEventListener('message', event => {
   if (event.data && event.data.type === 'STOP_CACHING') {
     doCaching = false;
   }
@@ -9,23 +9,24 @@ self.addEventListener('message', (event) => {
   }
 });
 
-self.addEventListener('fetch', function (event) {
-  event.respondWith(
-    caches.open('react-geo-baseclient').then(function (cache) {
-      if (!doCaching) {
-        return fetch(event.request);
-      }
-      return cache.match(event.request).then(function (response) {
-        return (
-          response ||
-          fetch(event.request).then(function (netResponse) {
-            if (!event.request.url.startsWith('chrome')) {
-              cache.put(event.request, netResponse.clone());
-            }
-            return netResponse;
-          })
-        );
-      });
-    }),
-  );
+const putInCache = async (request, response) => {
+  const cache = await caches.open('v1');
+  await cache.put(request, response);
+};
+
+const cacheFirst = async request => {
+  const cache = await caches.open('v1');
+  const responseFromCache = await cache.match(request);
+  if (responseFromCache) {
+    return responseFromCache;
+  }
+  const responseFromNetwork = await fetch(request);
+  if (doCaching) {
+    putInCache(request, responseFromNetwork.clone());
+  }
+  return responseFromNetwork;
+};
+
+self.addEventListener('fetch', event => {
+  event.respondWith(cacheFirst(event.request));
 });
