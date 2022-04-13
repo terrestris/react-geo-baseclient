@@ -167,5 +167,6 @@
   },
   "LayerTreeApplyTimeInterval": {
     "setTimeLineToLayerInterval": "Zeitraum des Layers anwenden"
-  }
+  },
+  "Version": "Version"
 }
