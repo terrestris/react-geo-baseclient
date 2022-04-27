@@ -118,8 +118,10 @@ const renderApp = async () => {
   }
 };
 
-if (!navigator.serviceWorker.controller) {
-  navigator.serviceWorker.register('/sw.js');
-}
+window.addEventListener('load', () => {
+  if (!navigator.serviceWorker.controller) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+});
 
 renderApp();

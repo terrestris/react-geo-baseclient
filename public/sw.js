@@ -1,4 +1,30 @@
 let doCaching = true;
+const urlsToPrefetch = [
+  '/index.html',
+  '/index.css',
+  '/logo_terrestris.png',
+  '/bundle.js',
+  '/manifest.json',
+  '/appContext.json',
+  '/en.json',
+  '/de.json',
+  '/favicon.ico',
+  '/logo.svg',
+  '/de.png',
+  '/en.png'
+];
+
+self.addEventListener('install', async event => {
+  const cache = await caches.open('v1');
+  const cachePromises = urlsToPrefetch.map(urlToPrefetch => {
+    const url = new URL(urlToPrefetch, location.href);
+    const request = new Request(url);
+    return fetch(request).then(response => {
+      return cache.put(urlToPrefetch, response);
+    });
+  });
+  await Promise.all(cachePromises);
+});
 
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'STOP_CACHING') {
