@@ -153,6 +153,7 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
             t={t}
             i18n={i18n}
             measureToolsEnabled={measureToolsEnabled}
+            cachingToolEnabled={true}
           />
           <Map
             map={map}

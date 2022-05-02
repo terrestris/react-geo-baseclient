@@ -134,6 +134,7 @@ const commonWebpackConfig = {
         './public/index.css',
         './public/manifest.json',
         './public/something-went-wrong.png',
+        './public/logo.svg',
         {
           from: RESOURCES_PATH + 'appContext.json',
           to: './resources/'

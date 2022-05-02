@@ -168,5 +168,9 @@
   "LayerTreeApplyTimeInterval": {
     "setTimeLineToLayerInterval": "Zeitraum des Layers anwenden"
   },
-  "Version": "Version"
+  "Version": "Version",
+  "SiderMenu": {
+    "enableCaching": "Caching aktivieren",
+    "disableCaching": "Caching deaktivieren"
+  }
 }
