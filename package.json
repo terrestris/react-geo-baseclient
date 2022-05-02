@@ -51,9 +51,9 @@
     "release": "np --no-yarn --no-publish"
   },
   "dependencies": {
-    "@ag-grid-community/client-side-row-model": "26.2.0",
+    "@ag-grid-community/client-side-row-model": "27.2.1",
     "@ag-grid-community/core": "26.2.1",
-    "@ag-grid-community/csv-export": "26.2.0",
+    "@ag-grid-community/csv-export": "27.2.1",
     "@ag-grid-community/react": "26.2.0",
     "@ant-design/icons": "4.7.0",
     "@brainhubeu/react-carousel": "1.19.26",
@@ -70,7 +70,7 @@
     "i18next-browser-languagedetector": "6.1.3",
     "i18next-xhr-backend": "3.2.2",
     "is-mobile": "3.1.1",
-    "moment": "2.29.2",
+    "moment": "2.29.3",
     "normalize.css": "^8.0.1",
     "object-fit-polyfill": "0.1.0",
     "ol": "6.14.1",

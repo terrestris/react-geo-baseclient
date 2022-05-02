@@ -75,7 +75,7 @@
 
 @media only screen and (min-width: 500px) {
   .footer .imprint {
-    width: 100%;
+    width: 300px;
     justify-content: flex-end;
     padding-right: 10px;
   }
@@ -85,5 +85,21 @@
   .footer .imprint {
     width: 100%;
     justify-content: center;
+  }
+}
+
+.version_number {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  padding-right: 100px;
+  width: 100%;
+  min-width: 250px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .version_number {
+    display: none;
   }
 }
