@@ -117,7 +117,7 @@
     "babel-plugin-istanbul": "6.1.1",
     "canvas": "2.9.0",
     "case-sensitive-paths-webpack-plugin": "2.4.0",
-    "chalk": "4.1.2",
+    "chalk": "5.0.1",
     "cheerio": "1.0.0-rc.10",
     "copy-webpack-plugin": "10.2.4",
     "css-loader": "6.7.1",
