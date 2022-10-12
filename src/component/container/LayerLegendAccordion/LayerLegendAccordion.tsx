@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import OlLayerBase from 'ol/layer/Base';
 import OlLayerGroup from 'ol/layer/Group';
 import OlLayer from 'ol/layer/Layer';
+import OlImageLayer from 'ol/layer/Image';
 import OlMap from 'ol/Map';
+import ImageWMS from 'ol/source/ImageWMS';
 
 import isEqual from 'lodash/isEqual';
 import groupBy from 'lodash/groupBy';
@@ -36,9 +38,9 @@ interface DefaultLayerLegendAccordionProps {
   title: string;
   treeNodeFilter: (layer: any, index: number, array: any[]) => any;
   extraLegensParams: Object;
-  mapLayers: OlLayerBase[];
+  mapLayers: OlImageLayer<ImageWMS>[];
   externalLayerGroup: OlLayerGroup;
-  baseLayer: OlLayerBase;
+  baseLayer: OlImageLayer<ImageWMS>;
   revision: number;
   onTopicLayerDragEnd: () => void;
 }

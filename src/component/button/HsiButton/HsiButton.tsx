@@ -25,7 +25,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 
-interface DefaultHsiButtonProps extends ToggleButtonProps {
+interface DefaultHsiButtonProps extends Partial<ToggleButtonProps> {
   dataRange?: DataRange;
   /**
   * Whether the GFI control should requests all layers at a given coordinate

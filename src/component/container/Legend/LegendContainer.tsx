@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import OlLayerGroup from 'ol/layer/Group';
 import OlLayerBase from 'ol/layer/Base';
+import OlImageLayer from 'ol/layer/Image';
+import ImageWMS from 'ol/source/ImageWMS';
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
@@ -63,10 +65,10 @@ export default class LegendContainer extends React.Component<LegendContainerProp
       filterFn,
       scale
     } = this.props;
-    let layers: OlLayerBase[] = MapUtil.getAllLayers(layerGroup);
+    let layers: OlImageLayer<ImageWMS>[] = MapUtil.getAllLayers(layerGroup);
 
     layers = layers
-      .filter((layer: OlLayerBase) => !(layer instanceof OlLayerGroup))
+      .filter((layer: OlImageLayer<ImageWMS>) => !(layer instanceof OlLayerGroup))
       .filter(filterFn);
 
     // clone the array, reverse will work in place

@@ -29,6 +29,7 @@ import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import FeatureInfoGrid from '../../FeatureInfoGrid/FeatureInfoGrid';
 import './FeatureInfo.css';
 import { clearFeatures } from '../../../state/remoteFeatures/actions';
+import { uniqueId } from 'lodash';
 
 interface DefaultFeatureInfoProps {
   /**
@@ -331,10 +332,17 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
       {
         !gridWinHidden && selectedFeatureType &&
         <Window
+          id={uniqueId('window-')}
+          parentId={'app'}
+          resizeOpts={{}}
+          draggable={true}
+          collapsed={false}
+          titleBarHeight={20}
           onEscape={hideFeatureInfoWindow}
           title={winTitle}
           minWidth={500}
           maxWidth={1000}
+          width='auto'
           height={windowHeight}
           maxHeight={1000}
           x={windowPosition[0]}

@@ -2,6 +2,7 @@ import React from 'react';
 
 import OlLayerGroup from 'ol/layer/Group';
 import OlLayer from 'ol/layer/Base';
+import OlImageLayer from 'ol/layer/Image';
 import OlMap from 'ol/Map';
 
 import LayerTree from '@terrestris/react-geo/dist/LayerTree/LayerTree';
@@ -22,6 +23,7 @@ import _isEmpty from 'lodash/isEmpty';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import ImageWMS from 'ol/source/ImageWMS';
 
 interface DefaultLayerTreeClassicProps {
   extraLegendParams?: {};
@@ -80,10 +82,10 @@ export const LayerTreeClassic: React.FC<ComponentProps> = ({
 
   /**
    * Custom tree node renderer function
-   * @param {OlLayer} layer The OpenLayers layer or LayerGroup the tree node
+   * @param {OlImageLayer} layer The OpenLayers layer or LayerGroup the tree node
    *   should be rendered for
    */
-  const treeNodeTitleRenderer = (layer: OlLayer) => {
+  const treeNodeTitleRenderer = (layer: OlImageLayer<ImageWMS>) => {
 
     const unit = map.getView().getProjection().getUnits();
     const scale = MapUtil.getScaleForResolution(map.getView().getResolution(), unit);
@@ -152,9 +154,9 @@ export const LayerTreeClassic: React.FC<ComponentProps> = ({
     <div className='layer-tree-classic'>
       <SimpleButton
         icon={
-            <FontAwesomeIcon
-              icon={faTimes}
-            />
+          <FontAwesomeIcon
+            icon={faTimes}
+          />
         }
         shape="circle"
         className="layer-tree-classic-close-button"

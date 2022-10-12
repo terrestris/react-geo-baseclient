@@ -11,6 +11,7 @@ import PrintPanelV3, { PrintConfig } from '../../PrintPanel/PrintPanelV3';
 import { TooltipPlacement } from 'antd/lib/tooltip';
 import { ButtonProps } from 'antd/lib/button';
 import OlMap from 'ol/Map';
+import { uniqueId } from 'lodash';
 
 interface DefaultPrintButtonProps {
   type: 'default' | 'primary' | 'ghost' | 'dashed' | 'danger' | 'link';
@@ -94,9 +95,9 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
           type={type}
           shape={shape}
           icon={
-              <FontAwesomeIcon
-                icon={iconName}
-              />
+            <FontAwesomeIcon
+              icon={iconName}
+            />
           }
           tooltip={tooltip}
           tooltipPlacement={tooltipPlacement}
@@ -104,9 +105,17 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
         />
         { winVisible &&
         <Window
+          id={uniqueId('window-')}
+          parentId={'app'}
+          resizeOpts={false}
+          collapsible={false}
+          draggable={true}
+          collapsed={false}
+          titleBarHeight={37.5}
           onEscape={this.changeFullPrintWindowVisibility}
           title={t('PrintPanel.windowTitle')}
           width={750}
+          height="auto"
           y={50}
           x={100}
           enableResizing={false}

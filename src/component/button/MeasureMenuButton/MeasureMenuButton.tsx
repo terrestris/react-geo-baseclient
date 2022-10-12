@@ -15,7 +15,7 @@ import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 import './MeasureMenuButton.css';
 
-interface DefaultMeasureMenuButtonProps extends MeasureButtonProps {
+interface DefaultMeasureMenuButtonProps extends Partial<MeasureButtonProps> {
   menuPlacement: 'left' | 'right';
 }
 
@@ -47,9 +47,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
     map: null,
     type: 'primary',
     shape: 'circle',
-    menuPlacement: 'left',
-    measureType: 'line',
-    geodesic: true
+    menuPlacement: 'right'
   };
 
   /**
