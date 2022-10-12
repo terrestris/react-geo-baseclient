@@ -1,6 +1,8 @@
 import * as React from 'react';
 
 import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList } from '@fortawesome/free-solid-svg-icons';
 
 interface DefaultLayerLegendAccordionToggleButtonProps extends ToggleButtonProps {
   icon: string;
@@ -33,7 +35,6 @@ class LayerLegendAccordionToggleButton extends
     onToggle: () => { },
     pressed: false,
     shape: 'circle',
-    iconName: ['fas', 'list'],
     tooltip: '',
     className: 'react-geo-baseclient-layer-toggle-btn'
   };
@@ -50,7 +51,6 @@ class LayerLegendAccordionToggleButton extends
   render() {
     const {
       shape,
-      iconName,
       className,
       onToggle,
       pressed,
@@ -60,7 +60,11 @@ class LayerLegendAccordionToggleButton extends
     return (
       <ToggleButton
         shape={shape}
-        iconName={iconName}
+        icon={
+          <FontAwesomeIcon
+            icon={faList}
+          />
+        }
         className={className}
         onToggle={onToggle}
         pressed={pressed}

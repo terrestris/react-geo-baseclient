@@ -40,6 +40,9 @@ import PermalinkButton from '../../component/button/PermalinkButton/PermalinkBut
 
 import BaseAppContextUtil, { AppContextUtil } from './BaseAppContextUtil';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExpand, faMinus, faPlus, faPrint } from '@fortawesome/free-solid-svg-icons';
+
 /**
  * This class provides some methods which can be used with the appContext of SHOGun2.
  */
@@ -506,7 +509,11 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
             key="1"
             type="primary"
             shape="circle"
-            iconName={['fas', 'plus']}
+            icon={
+              <FontAwesomeIcon
+                icon={faPlus}
+              />
+            }
             tooltip={t('ZoomIn.tooltip')}
             tooltipPlacement={'right'}
           />);
@@ -518,7 +525,11 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
             key="2"
             type="primary"
             shape="circle"
-            iconName={['fas', 'minus']}
+            icon={
+              <FontAwesomeIcon
+                icon={faMinus}
+              />
+            }
             tooltip={t('ZoomOut.tooltip')}
             tooltipPlacement={'right'}
           />);
@@ -531,7 +542,11 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
             key="3"
             type="primary"
             shape="circle"
-            iconName={['fas', 'expand']}
+            icon={
+              <FontAwesomeIcon
+                icon={faExpand}
+              />
+            }
             tooltip={t('ZoomToExtent.tooltip')}
             tooltipPlacement={'right'}
             constrainViewResolution={true}
@@ -543,7 +558,11 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
             key="4"
             type="primary"
             shape="circle"
-            iconName={['fas', 'print']}
+            icon={
+              <FontAwesomeIcon
+                icon={faPrint}
+              />
+            }
             config={config}
             tooltip={t('PrintPanel.windowTitle')}
             tooltipPlacement={'right'}

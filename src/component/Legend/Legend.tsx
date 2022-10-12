@@ -6,6 +6,9 @@ import RGLegend from '@terrestris/react-geo/dist/Legend/Legend';
 import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronCircleDown, faChevronCircleUp } from '@fortawesome/free-solid-svg-icons';
+
 // default props
 interface DefaultLegendProps {
   collapsed: boolean;
@@ -71,8 +74,16 @@ export default class Legend extends React.Component<LegendProps, LegendState> {
 
     const extraClassName = this.state.collapsed ? 'collapsed' : '';
     const collapseTool = <ToggleButton
-      iconName={['fas', 'chevron-circle-up']}
-      pressedIconName={['fas', 'chevron-circle-down']}
+      icon={
+        <FontAwesomeIcon
+          icon={faChevronCircleUp}
+        />
+      }
+      pressedIcon={
+        <FontAwesomeIcon
+          icon={faChevronCircleDown}
+        />
+      }
       // TODO Don't access private property ol_uid
       // @ts-ignore
       key={layer.ol_uid}

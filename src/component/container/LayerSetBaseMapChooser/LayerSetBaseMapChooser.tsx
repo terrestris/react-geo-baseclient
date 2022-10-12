@@ -19,6 +19,9 @@ const isEqual = require('lodash/isEqual');
 import './LayerSetBaseMapChooser.css';
 import LayerCarousel from '../../LayerCarousel/LayerCarousel';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDoubleDown, faAngleDoubleUp, faCompress } from '@fortawesome/free-solid-svg-icons';
+
 // default props
 interface DefaultLayerSetBaseMapChooserProps {
   loading: boolean;
@@ -237,11 +240,19 @@ class LayerSetBaseMapChooser extends React.Component<LayerSetBaseMapChooserProps
         <SimpleButton
           size="small"
           className="collapse-btn"
-          iconName={['fas', 'compress']}
+          icon={
+            <FontAwesomeIcon
+              icon={faCompress}
+            />
+          }
           onClick={this.onCollapseClick}
         />
         <ToggleButton
-          iconName={showTopicCarousel ? ['fas', 'angle-double-down'] :  ['fas', 'angle-double-up']}
+          icon={
+            <FontAwesomeIcon
+              icon={showTopicCarousel ? faAngleDoubleDown : faAngleDoubleUp}
+            />
+          }
           size="small"
           className="show-topic-carousel-toggle"
           pressed={showTopicCarousel}

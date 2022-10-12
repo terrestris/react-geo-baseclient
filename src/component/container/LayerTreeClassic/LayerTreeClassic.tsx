@@ -20,6 +20,9 @@ import { hideLayerTree } from '../../../state/appState';
 import _isBoolean from 'lodash/isBoolean';
 import _isEmpty from 'lodash/isEmpty';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 interface DefaultLayerTreeClassicProps {
   extraLegendParams?: {};
   dispatch?: (arg: any) => void;
@@ -148,7 +151,11 @@ export const LayerTreeClassic: React.FC<ComponentProps> = ({
   return (
     <div className='layer-tree-classic'>
       <SimpleButton
-        iconName={['fas', 'times']}
+        icon={
+            <FontAwesomeIcon
+              icon={faTimes}
+            />
+        }
         shape="circle"
         className="layer-tree-classic-close-button"
         size="small"

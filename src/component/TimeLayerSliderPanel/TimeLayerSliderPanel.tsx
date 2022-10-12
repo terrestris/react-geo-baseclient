@@ -35,6 +35,9 @@ import './TimeLayerSliderPanel.css';
 import { BaseClientState } from '../../state/reducer';
 import { TimeLayerAwareConfig } from '@terrestris/react-geo/dist/HigherOrderComponent/TimeLayerAware/TimeLayerAware';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar, faPauseCircle, faPlayCircle, faSync } from '@fortawesome/free-solid-svg-icons';
+
 type timeRange = [moment.Moment, moment.Moment];
 
 export interface DefaultTimeLayerSliderPanelProps {
@@ -422,14 +425,22 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
         >
           <SimpleButton
             className="change-datarange-button"
-            iconName={['fas', 'calendar']}
+            icon={
+              <FontAwesomeIcon
+                icon={faCalendar}
+              />
+            }
           />
         </Popover>
         {
           resetVisible ?
             <SimpleButton
               type="primary"
-              iconName={['fas', 'sync']}
+              icon={
+                <FontAwesomeIcon
+                  icon={faSync}
+                />
+              }
               onClick={this.setSliderToNow}
               tooltip={t('TimeLayerSliderPanel.setToNow')}
             /> : null
@@ -449,12 +460,20 @@ export class TimeLayerSliderPanel extends React.Component<TimeLayerSliderPanelPr
         </div>
         <ToggleButton
           type="primary"
-          iconName={['fas', 'play-circle']}
+          icon={
+            <FontAwesomeIcon
+              icon={faPlayCircle}
+            />
+          }
           className={extraCls + ' playback'}
           pressed={autoPlayActive}
           onToggle={this.autoPlay}
           tooltip={autoPlayActive ? 'Pause' : 'Autoplay'}
-          pressedIconName={['fas', 'pause-circle']}
+          pressedIcon={
+            <FontAwesomeIcon
+              icon={faPauseCircle}
+            />
+          }
         />
         <Select
           defaultValue={'1'}

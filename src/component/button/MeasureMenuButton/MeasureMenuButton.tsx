@@ -5,6 +5,9 @@ import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleB
 import Toolbar from '@terrestris/react-geo/dist/Toolbar/Toolbar';
 import ToggleGroup from '@terrestris/react-geo/dist/Button/ToggleGroup/ToggleGroup';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPrint } from '@fortawesome/free-solid-svg-icons';
+
 import OlInteractionDraw from 'ol/interaction/Draw';
 import OlMap from 'ol/Map';
 
@@ -161,7 +164,11 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
         <SimpleButton
           type={type}
           shape={shape}
-          iconName={['fas', 'print']}
+          icon={
+            <FontAwesomeIcon
+              icon={faPrint}
+            />
+          }
           onClick={this.onMenuButtonClick}
         />
         {

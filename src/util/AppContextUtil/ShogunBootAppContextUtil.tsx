@@ -46,6 +46,9 @@ import UserService from '../../service/UserService/UserService';
 
 import BaseAppContextUtil, { AppContextUtil } from './BaseAppContextUtil';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExpand, faMinus, faPlus, faPrint } from '@fortawesome/free-solid-svg-icons';
+
 const layerService = new LayerService();
 const appInfoService = new AppInfoService();
 const userService = new UserService();
@@ -460,7 +463,11 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="1"
             type="primary"
             shape="circle"
-            iconName={['fas', 'plus']}
+            icon={
+              <FontAwesomeIcon
+                icon={faPlus}
+              />
+            }
             tooltip={t('ZoomIn.tooltip')}
             tooltipPlacement={'right'}
           />);
@@ -472,7 +479,11 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="2"
             type="primary"
             shape="circle"
-            iconName={['fas', 'minus']}
+            icon={
+              <FontAwesomeIcon
+                icon={faMinus}
+              />
+            }
             tooltip={t('ZoomOut.tooltip')}
             tooltipPlacement={'right'}
           />);
@@ -488,7 +499,11 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="3"
             type="primary"
             shape="circle"
-            iconName={['fas', 'expand']}
+            icon={
+              <FontAwesomeIcon
+                icon={faExpand}
+              />
+            }
             tooltip={t('ZoomToExtent.tooltip')}
             tooltipPlacement={'right'}
             constrainViewResolution={true}
@@ -500,7 +515,11 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
             key="4"
             type="primary"
             shape="circle"
-            iconName={['fas', 'print']}
+            icon={
+              <FontAwesomeIcon
+                icon={faPrint}
+              />
+            }
             config={config}
             tooltip={t('PrintPanel.windowTitle')}
             tooltipPlacement={'right'}

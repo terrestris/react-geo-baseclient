@@ -1,6 +1,8 @@
 import * as React from 'react';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Window from '@terrestris/react-geo/dist/Window/Window';
@@ -91,7 +93,11 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
         <SimpleButton
           type={type}
           shape={shape}
-          iconName={iconName}
+          icon={
+              <FontAwesomeIcon
+                icon={iconName}
+              />
+          }
           tooltip={tooltip}
           tooltipPlacement={tooltipPlacement}
           onClick={this.changeFullPrintWindowVisibility}
@@ -108,7 +114,11 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
           bounds="#app"
           tools={[
             <SimpleButton
-              iconName={['fas', 'times']}
+              icon={
+                <FontAwesomeIcon
+                  icon={faTimes}
+                />
+              }
               key="close-tool"
               size="small"
               tooltip={t('General.close')}

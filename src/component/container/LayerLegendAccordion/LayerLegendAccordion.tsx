@@ -28,6 +28,9 @@ import './LayerLegendAccordion.css';
 import LayerLegendAccordionTreeNode from '../../LayerLegendAccordionTreeNode/LayerLegendAccordionTreeNode';
 import { toggleAddLayerWindow } from '../../../state/appState';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 // default props
 interface DefaultLayerLegendAccordionProps {
   title: string;
@@ -391,7 +394,11 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
               className="layer-legend-accordion-title"
               tools={[
                 <SimpleButton
-                  iconName={['fas', 'plus']}
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                    />
+                  }
                   tooltip={t('LayerLegendAccordion.addLayer') as string}
                   key="add-layer"
                   onClick={this.onAddLayerClick}

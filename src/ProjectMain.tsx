@@ -10,6 +10,10 @@ import Toolbar from '@terrestris/react-geo/dist/Toolbar/Toolbar';
 import Window from '@terrestris/react-geo/dist/Window/Window';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 import { getAppContextUtil } from './util/getAppContextUtil';
 import SiderMenu from './component/SiderMenu/SiderMenu';
 import Footer from './component/container/Footer/Footer';
@@ -177,10 +181,14 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
                 tools={[
                   <SimpleButton
                     key="closeButton"
-                    iconName={['fas', 'times']}
                     size="small"
                     tooltip={t('General.close')}
                     onClick={this.closeAddLayerWindow}
+                    icon={
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                      />
+                    }
                   />
                 ]}
               >
