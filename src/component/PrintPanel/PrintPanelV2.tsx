@@ -17,6 +17,7 @@ import { isFunction, isEmpty, isEqual } from 'lodash';
 
 import OlMap from 'ol/Map';
 import OlLayerBase from 'ol/layer/Base';
+import { getUid } from 'ol/util';
 
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
@@ -106,9 +107,8 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     url: this.props.config.printAction,
     map: this.props.map,
     headers: CsrfUtil.getHeaderObject(),
-    // TODO Don't access private property ol_uid
-    // @ts-ignore
-    legendFilter: (layer: OlLayerBase) => this.state.legendIds.includes(layer.ol_uid),
+    // TODO double check whether casting to Number is better than changing the type
+    legendFilter: (layer: OlLayerBase) => this.state.legendIds.includes(Number(getUid(layer))),
     layerFilter: (layer: OlLayerBase) => !this.props.printLayerBlackList.includes(layer.get('name'))
   });
 
@@ -181,9 +181,8 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
           scales: printManager.getScales(),
           dpis: printManager.getDpis(),
           outputFormats: printManager.getOutputFormats(),
-          // TODO Don't access private property ol_uid
-          // @ts-ignore
-          legendIds: this.getFilteredLegendLayers().map((layer) => layer.ol_uid)
+          // TODO double check whether casting to Number is better than changing the type
+          legendIds: this.getFilteredLegendLayers().map((layer) => Number(getUid(layer)))
         });
       })
       .catch((error: any) => {
@@ -424,12 +423,8 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     return this.getFilteredLegendLayers()
       .map((layer) =>
         <Option
-          // TODO Don't access private property ol_uid
-          // @ts-ignore
-          key={layer.ol_uid}
-          // TODO Don't access private property ol_uid
-          // @ts-ignore
-          value={layer.ol_uid}
+          key={getUid(layer)}
+          value={getUid(layer)}
         >
           {layer.get('name')}
         </Option>

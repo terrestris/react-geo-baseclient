@@ -7,6 +7,7 @@ import OlLayer from 'ol/layer/Layer';
 import OlImageLayer from 'ol/layer/Image';
 import OlMap from 'ol/Map';
 import ImageWMS from 'ol/source/ImageWMS';
+import { getUid } from 'ol/util';
 
 import isEqual from 'lodash/isEqual';
 import groupBy from 'lodash/groupBy';
@@ -220,9 +221,7 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
     }
 
     const legends = reversed.map((l) => {
-      // TODO Don't access private property ol_uid
-      // @ts-ignore
-      const panelKey = l.ol_uid;
+      const panelKey = getUid(l);
       return (
         <Collapse
           key={panelKey}

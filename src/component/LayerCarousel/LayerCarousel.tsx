@@ -5,6 +5,8 @@ import OlLayer from 'ol/layer/Layer';
 import OlSourceWMTS from 'ol/source/WMTS';
 import OlSourceTileWMS from 'ol/source/TileWMS';
 import OlMap from 'ol/Map';
+import { getUid } from 'ol/util';
+
 import Carousel from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
@@ -161,20 +163,15 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     if (!layer) {
       return;
     }
+    const layerUid = getUid(layer);
     const currentlyVisibleLayer = this.props.layers.find(l => l.getVisible());
     this.setState({
-      // TODO Don't access private property ol_uid
-      // @ts-ignore
-      originalBaseLayerOlUid: currentlyVisibleLayer ? currentlyVisibleLayer.ol_uid : undefined
+      originalBaseLayerOlUid: currentlyVisibleLayer ? getUid(currentlyVisibleLayer) : undefined
     });
     // change visibility
-    // TODO Don't access private property ol_uid
-    // @ts-ignore
-    this.setLayersVisible([layer.ol_uid]);
+    this.setLayersVisible([layerUid]);
     if (callback) {
-      // TODO Don't access private property ol_uid
-      // @ts-ignore
-      callback(layer.ol_uid);
+      callback(layerUid);
     }
   }
 
@@ -205,9 +202,8 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
     } = this.props;
 
     layers.forEach((l) => {
-      // TODO Don't access private property ol_uid
-      // @ts-ignore
-      const visibility = olUidsToSetVisible.includes(l.ol_uid);
+      const layerUid = getUid(l);
+      const visibility = olUidsToSetVisible.includes(layerUid);
       l.setVisible(visibility);
       if (l instanceof OlLayerGroup) {
         l.getLayers().forEach((ll: OlLayerBase) => ll.setVisible(visibility));
@@ -250,9 +246,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       layers
     } = this.props;
 
-    // TODO Don't access private property ol_uid
-    // @ts-ignore
-    return layers.find((l) => l.ol_uid === id);
+    return layers.find((l) => getUid(l) === id);
   }
 
   getRatio() {
@@ -311,9 +305,7 @@ export default class LayerCarousel extends React.Component<LayerCarouselProps, L
       }
       const layerName = layer.get('name');
       const isVisible = layer.getVisible();
-      // TODO Don't access private property ol_uid
-      // @ts-ignore
-      const olUid = layer.ol_uid;
+      const olUid = getUid(layer);
       return <LayerCarouselSlide
         onClick={this.onCarouselItemClick}
         onMouseEnter={this.onCarouselItemHover}
