@@ -7,6 +7,7 @@ import { transformExtent } from 'ol/proj';
 import OlFormatGeoJSON from 'ol/format/GeoJSON';
 import OlLayer from 'ol/layer/Base';
 import OlMap from 'ol/Map';
+import { getUid } from 'ol/util';
 
 import Logger from '@terrestris/base-util/dist/Logger';
 
@@ -331,10 +332,8 @@ export default class Multisearch extends
         PermalinkUtil.setParentsVisible(
           map,
           map.getLayerGroup().getLayers(),
-          // TODO Don't access private property ol_uid
-          // @ts-ignore
-          // eslint-disable-next-line no-underscore-dangle
-          layer._ol_uid);
+          getUid(layer)
+        );
       }
     }
   }

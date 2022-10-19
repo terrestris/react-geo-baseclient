@@ -4,6 +4,7 @@ import OlLayerGroup from 'ol/layer/Group';
 import OlLayerBase from 'ol/layer/Base';
 import OlImageLayer from 'ol/layer/Image';
 import ImageWMS from 'ol/source/ImageWMS';
+import { getUid } from 'ol/util';
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
@@ -77,9 +78,7 @@ export default class LegendContainer extends React.Component<LegendContainerProp
     const legends = reversed.map((l) =>
       (
         <Legend
-          // TODO Don't access private property ol_uid
-          // @ts-ignore
-          key={l.ol_uid}
+          key={getUid(l)}
           layer={l}
           scale={scale}
           collapsed={false}

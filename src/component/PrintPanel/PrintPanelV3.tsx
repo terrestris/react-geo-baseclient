@@ -22,6 +22,7 @@ import Titlebar from '@terrestris/react-geo/dist/Panel/Titlebar/Titlebar';
 
 import OlLayerGroup from 'ol/layer/Group';
 import OlMap from 'ol/Map';
+import { getUid } from 'ol/util';
 
 import { MapFishPrintV3Manager } from '@terrestris/mapfish-print-manager';
 
@@ -225,9 +226,8 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           scales: printManager.getScales(),
           dpis: printManager.getDpis(),
           outputFormats: printFormats,
-          // TODO Don't access private property ol_uid
-          // @ts-ignore
-          legendIds: this.getFilteredLegendLayers().map((layer) => layer.ol_uid)
+          // TODO double check whether casting to Number is better than changing the type
+          legendIds: this.getFilteredLegendLayers().map((layer) => Number(getUid(layer)))
         });
       })
       .catch((error: any) => {
@@ -517,9 +517,8 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       scale: defaultScale,
       dpi: this.printManager.getDpis()[0],
       outputFormat: config.getPrintFormats()[0],
-      // TODO Don't access private property ol_uid
-      // @ts-ignore
-      legendIds: this.getFilteredLegendLayers().map((layer) => layer.ol_uid),
+      // TODO double check whether casting to Number is better than changing the type
+      legendIds: this.getFilteredLegendLayers().map((layer) => Number(getUid(layer))),
       previewUrl: this.previewPlaceholder
     });
   };
@@ -534,12 +533,8 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       .map((layer) =>
         (
           <Option
-            // TODO Don't access private property ol_uid
-            // @ts-ignore
-            key={layer.ol_uid}
-            // TODO Don't access private property ol_uid
-            // @ts-ignore
-            value={layer.ol_uid}
+            key={getUid(layer)}
+            value={getUid(layer)}
           >
             {layer.get('name')}
           </Option>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import OlImageLayer from 'ol/layer/Image';
+import { getUid } from 'ol/util';
 
 import RGLegend from '@terrestris/react-geo/dist/Legend/Legend';
 import ToggleButton from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
@@ -85,9 +86,7 @@ export default class Legend extends React.Component<LegendProps, LegendState> {
           icon={faChevronCircleDown}
         />
       }
-      // TODO Don't access private property ol_uid
-      // @ts-ignore
-      key={layer.ol_uid}
+      key={getUid(layer)}
       onToggle={this.onToggleCollapse}
       pressed={this.state.collapsed}
       size="small"
@@ -116,9 +115,7 @@ export default class Legend extends React.Component<LegendProps, LegendState> {
     };
 
     return (
-      // TODO Don't access private property ol_uid
-      // @ts-ignore
-      <div key={layer.ol_uid}>
+      <div key={getUid(layer)}>
         <Titlebar
           tools={[collapseTool]}
         >
