@@ -29,7 +29,7 @@ export class PrintUtil {
         && layer.getVisible()
         && !(layer instanceof OlLayerGroup)
         && layer !== printLayer;
-    });
+    }) as LayerType[];
   };
 
   /**

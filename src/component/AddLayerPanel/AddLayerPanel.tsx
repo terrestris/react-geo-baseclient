@@ -120,7 +120,9 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
     }
 
     layers.forEach(layer => {
-      if (!targetGroup.getLayers().getArray().includes(layer) ) {
+      // @ts-ignore
+      if (layer instanceof OlLayerGroup && !targetGroup.getLayers().getArray().includes(layer) ) {
+        // @ts-ignore
         targetGroup.getLayers().push(layer);
       }
     });

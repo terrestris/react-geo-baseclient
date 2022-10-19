@@ -331,7 +331,10 @@ export default class Multisearch extends
         PermalinkUtil.setParentsVisible(
           map,
           map.getLayerGroup().getLayers(),
-          layer.ol_uid);
+          // TODO Don't access private property ol_uid
+          // @ts-ignore
+          // eslint-disable-next-line no-underscore-dangle
+          layer._ol_uid);
       }
     }
   }

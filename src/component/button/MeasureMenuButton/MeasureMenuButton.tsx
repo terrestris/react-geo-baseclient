@@ -10,6 +10,8 @@ import { faPrint } from '@fortawesome/free-solid-svg-icons';
 
 import OlInteractionDraw from 'ol/interaction/Draw';
 import OlMap from 'ol/Map';
+import OlVectorLayer from 'ol/layer/Vector';
+import OlVectorSource from 'ol/source/Vector';
 
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
@@ -75,8 +77,9 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
     const {
       map
     } = this.props;
+    // @ts-ignore
     const drawInteractions = MapUtil.getInteractionsByClass(map, OlInteractionDraw);
-    const measureLayer = MapUtil.getLayerByName(map, 'react-geo_measure');
+    const measureLayer = MapUtil.getLayerByName(map, 'react-geo_measure') as OlVectorLayer<OlVectorSource>;
     if (measureLayer) {
       measureLayer.getSource().clear();
     }

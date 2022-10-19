@@ -74,6 +74,7 @@ class ShogunBootAppContextUtil extends BaseAppContextUtil implements AppContextU
 
     // TODO Define proj defintions in appContext and remove
     // duplicated call from setupMap()
+    // @ts-ignore
     ProjectionUtil.initProj4Definitions();
 
     const state: BaseClientState = initialState;

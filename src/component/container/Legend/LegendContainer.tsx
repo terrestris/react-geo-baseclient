@@ -65,7 +65,7 @@ export default class LegendContainer extends React.Component<LegendContainerProp
       filterFn,
       scale
     } = this.props;
-    let layers: OlImageLayer<ImageWMS>[] = MapUtil.getAllLayers(layerGroup);
+    let layers: OlImageLayer<ImageWMS>[] = MapUtil.getAllLayers(layerGroup) as OlImageLayer<ImageWMS>[];
 
     layers = layers
       .filter((layer: OlImageLayer<ImageWMS>) => !(layer instanceof OlLayerGroup))
