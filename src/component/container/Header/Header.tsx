@@ -12,6 +12,9 @@ import { toggleHelpModal } from '../../../state/appState';
 import './Header.css';
 import Multisearch from '../../../component/Multisearch/Multisearch';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestion, faUser } from '@fortawesome/free-solid-svg-icons';
+
 type LogoConfig = {
   src: string;
   target?: string;
@@ -154,7 +157,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         {showHelpButton &&
         <SimpleButton
           name="helpButtonModule"
-          iconName={['fas', 'question']}
+          icon={
+            <FontAwesomeIcon
+              icon={faQuestion}
+            />
+          }
           shape="circle"
           tooltip={t('Header.helpButtonTooltip') as string}
           onClick={this.onHelpButtonClick}
@@ -171,7 +178,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         <div className="user-chip">
           <SimpleButton
             name="userChipButton"
-            iconName={['fas', 'user']}
+            icon={
+              <FontAwesomeIcon
+                icon={faUser}
+              />
+            }
             shape="circle"
             tooltip={t('Header.userChipButtonTooltip') as string}
             onClick={userChipHandler}

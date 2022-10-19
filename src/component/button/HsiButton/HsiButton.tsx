@@ -22,7 +22,10 @@ import {
   fetchFeatures
 } from '../../../state/remoteFeatures/actions';
 
-interface DefaultHsiButtonProps extends ToggleButtonProps {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfo } from '@fortawesome/free-solid-svg-icons';
+
+interface DefaultHsiButtonProps extends Partial<ToggleButtonProps> {
   dataRange?: DataRange;
   /**
   * Whether the GFI control should requests all layers at a given coordinate
@@ -70,7 +73,6 @@ export const HsiButton: React.FC<ComponentProps> = ({
   drillDown = true,
   type = 'primary',
   shape = 'circle',
-  iconName = ['fas', 'info'],
   tooltip = 'Feature Info',
   tooltipPlacement = 'right',
   getInfoByClick = false,
@@ -231,8 +233,16 @@ export const HsiButton: React.FC<ComponentProps> = ({
     <ToggleButton
       type={type}
       shape={shape}
-      iconName={iconName}
-      pressedIconName={iconName}
+      icon={
+        <FontAwesomeIcon
+          icon={faInfo}
+        />
+      }
+      pressedIcon={
+        <FontAwesomeIcon
+          icon={faInfo}
+        />
+      }
       tooltip={tooltip}
       tooltipPlacement={tooltipPlacement}
       onToggle={onHsiToggle}

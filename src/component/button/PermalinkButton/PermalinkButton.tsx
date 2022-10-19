@@ -5,11 +5,15 @@ import Window from '@terrestris/react-geo/dist/Window/Window';
 
 import { ButtonProps } from 'antd/lib/button';
 
+import { faLink, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil';
 
 import OlMap from 'ol/Map';
 
 import Permalink from '../../Permalink/Permalink';
+import { uniqueId } from 'lodash';
 
 interface DefaultPermalinkButtonProps extends SimpleButtonProps {
   shape: 'circle' | 'round';
@@ -33,7 +37,6 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
   t,
   type = 'primary',
   shape = 'circle',
-  iconName = ['fas', 'link'],
   map,
   tooltip,
   tooltipPlacement,
@@ -48,7 +51,11 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
       <SimpleButton
         type={type}
         shape={shape}
-        iconName={iconName}
+        icon={
+          <FontAwesomeIcon
+            icon={faLink}
+          />
+        }
         tooltip={tooltip}
         tooltipPlacement={tooltipPlacement}
         onClick={() => setWinVisible(!winVisible)}
@@ -56,9 +63,17 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
       {
         winVisible &&
         <Window
+          id={uniqueId('window-')}
+          parentId={'app'}
+          resizeOpts={false}
+          collapsible={false}
+          draggable={true}
+          collapsed={false}
+          titleBarHeight={37.5}
           onEscape={() => setWinVisible(!winVisible)}
           title={t('Permalink.windowTitle')}
           width={750}
+          height="auto"
           y={windowPosition && windowPosition[1] || 50}
           x={windowPosition && windowPosition[0] || 100}
           enableResizing={false}
@@ -66,7 +81,11 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
           bounds="#app"
           tools={[
             <SimpleButton
-              iconName={['fas', 'times']}
+              icon={
+                <FontAwesomeIcon
+                  icon={faTimes}
+                />
+              }
               key="close-tool"
               size="small"
               tooltip={t('General.close')}

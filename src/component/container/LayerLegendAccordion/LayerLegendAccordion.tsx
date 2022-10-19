@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import OlLayerBase from 'ol/layer/Base';
 import OlLayerGroup from 'ol/layer/Group';
 import OlLayer from 'ol/layer/Layer';
+import OlImageLayer from 'ol/layer/Image';
 import OlMap from 'ol/Map';
+import ImageWMS from 'ol/source/ImageWMS';
 
 import isEqual from 'lodash/isEqual';
 import groupBy from 'lodash/groupBy';
@@ -28,14 +30,17 @@ import './LayerLegendAccordion.css';
 import LayerLegendAccordionTreeNode from '../../LayerLegendAccordionTreeNode/LayerLegendAccordionTreeNode';
 import { toggleAddLayerWindow } from '../../../state/appState';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 // default props
 interface DefaultLayerLegendAccordionProps {
   title: string;
   treeNodeFilter: (layer: any, index: number, array: any[]) => any;
   extraLegensParams: Object;
-  mapLayers: OlLayerBase[];
+  mapLayers: OlImageLayer<ImageWMS>[];
   externalLayerGroup: OlLayerGroup;
-  baseLayer: OlLayerBase;
+  baseLayer: OlImageLayer<ImageWMS>;
   revision: number;
   onTopicLayerDragEnd: () => void;
 }
@@ -391,7 +396,11 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
               className="layer-legend-accordion-title"
               tools={[
                 <SimpleButton
-                  iconName={['fas', 'plus']}
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                    />
+                  }
                   tooltip={t('LayerLegendAccordion.addLayer') as string}
                   key="add-layer"
                   onClick={this.onAddLayerClick}

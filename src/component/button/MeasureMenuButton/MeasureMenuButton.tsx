@@ -5,14 +5,19 @@ import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleB
 import Toolbar from '@terrestris/react-geo/dist/Toolbar/Toolbar';
 import ToggleGroup from '@terrestris/react-geo/dist/Button/ToggleGroup/ToggleGroup';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPrint } from '@fortawesome/free-solid-svg-icons';
+
 import OlInteractionDraw from 'ol/interaction/Draw';
 import OlMap from 'ol/Map';
+import OlVectorLayer from 'ol/layer/Vector';
+import OlVectorSource from 'ol/source/Vector';
 
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 import './MeasureMenuButton.css';
 
-interface DefaultMeasureMenuButtonProps extends MeasureButtonProps {
+interface DefaultMeasureMenuButtonProps extends Partial<MeasureButtonProps> {
   menuPlacement: 'left' | 'right';
 }
 
@@ -44,9 +49,7 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
     map: null,
     type: 'primary',
     shape: 'circle',
-    menuPlacement: 'left',
-    measureType: 'line',
-    geodesic: true
+    menuPlacement: 'right'
   };
 
   /**
@@ -74,8 +77,9 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
     const {
       map
     } = this.props;
+    // @ts-ignore
     const drawInteractions = MapUtil.getInteractionsByClass(map, OlInteractionDraw);
-    const measureLayer = MapUtil.getLayerByName(map, 'react-geo_measure');
+    const measureLayer = MapUtil.getLayerByName(map, 'react-geo_measure') as OlVectorLayer<OlVectorSource>;
     if (measureLayer) {
       measureLayer.getSource().clear();
     }
@@ -161,7 +165,11 @@ export default class MeasureMenuButton extends React.Component<MeasureMenuButton
         <SimpleButton
           type={type}
           shape={shape}
-          iconName={['fas', 'print']}
+          icon={
+            <FontAwesomeIcon
+              icon={faPrint}
+            />
+          }
           onClick={this.onMenuButtonClick}
         />
         {

@@ -10,6 +10,9 @@ import Toolbar from '@terrestris/react-geo/dist/Toolbar/Toolbar';
 import Window from '@terrestris/react-geo/dist/Window/Window';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 import { getAppContextUtil } from './util/getAppContextUtil';
 import SiderMenu from './component/SiderMenu/SiderMenu';
 import Footer from './component/container/Footer/Footer';
@@ -21,6 +24,8 @@ import { hideAddLayerWindow } from './state/appState';
 import { BaseClientState } from './state/reducer';
 
 import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil';
+import { uniqueId } from 'lodash';
+
 
 /**
  * mapStateToProps - mapping state to props of Main Component
@@ -166,6 +171,14 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
           {
             addLayerWindowVisible ?
               <Window
+                id={uniqueId('window-')}
+                parentId={'app'}
+                resizeOpts={false}
+                collapsible={false}
+                draggable={true}
+                collapsed={false}
+                titleBarHeight={37.5}
+                collapseTooltip={t('General.collapse')}
                 title={t('AddLayerPanel.addWms')}
                 onClose={this.closeAddLayerWindow}
                 onEscape={this.closeAddLayerWindow}
@@ -177,10 +190,14 @@ export class ProjectMain extends React.Component<MainProps, MainState> {
                 tools={[
                   <SimpleButton
                     key="closeButton"
-                    iconName={['fas', 'times']}
                     size="small"
                     tooltip={t('General.close')}
                     onClick={this.closeAddLayerWindow}
+                    icon={
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                      />
+                    }
                   />
                 ]}
               >
