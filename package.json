@@ -133,7 +133,7 @@
     "eslint-plugin-react-hooks": "4.3.0",
     "expect": "27.5.1",
     "expect-puppeteer": "6.1.0",
-    "fork-ts-checker-webpack-plugin": "7.2.1",
+    "fork-ts-checker-webpack-plugin": "7.2.13",
     "fs-extra": "10.0.1",
     "html-webpack-plugin": "5.5.0",
     "http-server": "14.1.1",
