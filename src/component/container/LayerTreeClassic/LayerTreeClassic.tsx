@@ -24,6 +24,7 @@ import _isEmpty from 'lodash/isEmpty';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import ImageWMS from 'ol/source/ImageWMS';
+import { isWmsLayer } from '@terrestris/react-geo/dist/Util/typeUtils';
 
 interface DefaultLayerTreeClassicProps {
   extraLegendParams?: {};
@@ -52,7 +53,7 @@ export const LayerTreeClassic: React.FC<ComponentProps> = ({
     LEGEND_OPTIONS: 'fontAntiAliasing:true;forceLabels:on;fontName:DejaVu Sans Condensed',
     TRANSPARENT: true
   },
-  dispatch = () => {},
+  dispatch = () => { },
   showContextMenu,
   showApplyTimeInterval = false,
   showZoomToLayerExtent = false,
@@ -135,14 +136,16 @@ export const LayerTreeClassic: React.FC<ComponentProps> = ({
                   layer={layer}
                 />
               </div>
-              <Legend
-                layer={layer}
-                errorMsg={t('LayerTreeClassic.brokenLegendText')}
-                extraParams={{
-                  scale,
-                  ...extraLegendParams
-                }}
-              />
+              {isWmsLayer(layer) &&
+                <Legend
+                  layer={layer}
+                  errorMsg={t('LayerTreeClassic.brokenLegendText')}
+                  extraParams={{
+                    scale,
+                    ...extraLegendParams
+                  }}
+                />
+              }
             </>
           }
         </div>
