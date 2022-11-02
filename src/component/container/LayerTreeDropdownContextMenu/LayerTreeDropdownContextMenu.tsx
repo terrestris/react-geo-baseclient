@@ -29,6 +29,9 @@ import Logger from '@terrestris/base-util/dist/Logger';
 
 import Metadata from '../../Modal/Metadata/Metadata';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
+
 interface LayerTreeDropdownContextMenuDefaultProps {
   showZoomToLayerExtent?: boolean;
   showZoomToLayerResolution?: boolean;
@@ -216,8 +219,9 @@ export const LayerTreeDropdownContextMenu: React.FC<ComponentProps> = ({
         visible={!menuHidden}
         trigger={['click']}
       >
-        <span
-          className="fa fa-cog layer-tree-node-title-settings"
+        <FontAwesomeIcon
+          className='layer-tree-node-title-settings'
+          icon={faCog}
         />
       </Dropdown>
       {

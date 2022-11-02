@@ -17,6 +17,8 @@ import {
   DataRange
 } from '../../../state/dataRange';
 import { BaseClientState } from '../../../state/reducer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
 interface LayerTreeApplyTimeIntervalProps {
   layer: OlLayerBase;
@@ -26,7 +28,7 @@ interface LayerTreeApplyTimeIntervalProps {
   dataRange: DataRange;
 }
 
-interface LayerTreeApplyTimeIntervalState {}
+interface LayerTreeApplyTimeIntervalState { }
 
 /**
  * mapStateToProps - mapping state to props of HsiButton Component.
@@ -48,8 +50,8 @@ const mapStateToProps = (state: BaseClientState) => {
  */
 // eslint-disable-next-line
 export class LayerTreeApplyTimeInterval extends React.Component<
-LayerTreeApplyTimeIntervalProps,
-LayerTreeApplyTimeIntervalState
+  LayerTreeApplyTimeIntervalProps,
+  LayerTreeApplyTimeIntervalState
 > {
   /**
    * Creates the LayerTreeApplyTimeInterval.
@@ -109,12 +111,6 @@ LayerTreeApplyTimeIntervalState
   render() {
     const { t, layer, dataRange } = this.props;
 
-    const className = `fa fa-calendar-o layer-tree-node-title-settings ${
-      dataRange.timeLayer === layer
-        ? 'calendar-selected'
-        : 'calendar-unselected'
-    }`;
-
     return (
       <div>
         <Tooltip
@@ -122,8 +118,12 @@ LayerTreeApplyTimeIntervalState
           placement="right"
           {...config.tooltipProps}
         >
-          <span
-            className={className}
+          <FontAwesomeIcon
+            className={`layer-tree-node-title-settings ${dataRange.timeLayer === layer
+              ? 'calendar-selected'
+              : 'calendar-unselected'
+              }`}
+            icon={faCalendar}
             onClick={() => this.setTimeIntervalToTimeLine(layer)}
           />
         </Tooltip>
