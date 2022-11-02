@@ -25,7 +25,7 @@ const slice = createSlice({
       state.queue = union(state.queue, action.payload);
     },
     disableLoading(state, action: PayloadAction<string[]>) {
-      state.loading = (state.queue.length - 1) !== 0;
+      state.loading = state.queue.length !== 0;
       state.queue = without(state.queue, ...action.payload);
     }
   }
