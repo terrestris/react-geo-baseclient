@@ -76,6 +76,7 @@ div.imprint.footer-element {
  */
 button:hover, .react-geo-togglebutton.btn-pressed {
     filter: brightness(0.8);
+    background-color: var(--baseColor) !important;
 }
 
 @media only screen and (max-width: 768px) {
