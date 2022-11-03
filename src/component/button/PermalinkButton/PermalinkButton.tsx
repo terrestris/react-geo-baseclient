@@ -47,7 +47,7 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
   const [winVisible, setWinVisible] = useState(false);
 
   return (
-    <>
+    <div>
       <SimpleButton
         type={type}
         shape={shape}
@@ -99,7 +99,7 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
           />
         </Window>
       }
-    </>
+    </div>
   );
 };
 
