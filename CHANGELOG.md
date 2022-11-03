@@ -42,6 +42,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 🚨 The state key `mapView` doesn't wrap its keys in `past`, `present` and `future` anymore.
   - 🚨 Removed actions `setLayers`, `addLayers`, `removeLayers`, `updateLayerOrder`, `changeLayerVisibility`.
 - `LayertreeClassic`: Added check for layer source type before adding the `Legend` component to a layer. https://github.com/terrestris/react-geo-baseclient/pull/1039
+- 🚨 Several dependency updates and component fixes ([#1042](https://github.com/terrestris/react-geo-baseclient/pull/1042))
+  - Fix propagation of click events to children of the layer tree context menu
+  - Fix pressed icon color
+  - Fix icon for print button
+  - Fix feature info component after major ag-grid upgrade
+  - Make title of feature info grid window configurable and set default to 37.5px (react-rnd default)
+  - Fix webpack devserver config for shogun2 mode
+  - Drop support for node <14 and npm <7
 
 ## [2.0.1] - 2021-07-21
 

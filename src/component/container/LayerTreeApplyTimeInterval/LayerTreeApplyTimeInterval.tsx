@@ -122,7 +122,7 @@ export class LayerTreeApplyTimeInterval extends React.Component<
             className={`layer-tree-node-title-settings ${dataRange.timeLayer === layer
               ? 'calendar-selected'
               : 'calendar-unselected'
-              }`}
+            }`}
             icon={faCalendar}
             onClick={() => this.setTimeIntervalToTimeLine(layer)}
           />

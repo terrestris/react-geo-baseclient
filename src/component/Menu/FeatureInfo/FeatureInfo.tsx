@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import OlMap from 'ol/Map';
 import OlLayer from 'ol/layer/Base';
@@ -37,6 +38,8 @@ interface DefaultFeatureInfoProps {
    * @type {Number}
    */
   maxMenuItems?: number;
+
+  titleBarHeight?: number;
 }
 
 interface FeatureInfoProps {
@@ -58,11 +61,6 @@ interface FeatureInfoProps {
    * Translate function
    */
   t: (arg: string) => string;
-
-  /**
-   * Dispatch function
-   */
-  dispatch: (arg: any) => void;
 
   /**
    * The window position.
@@ -91,11 +89,11 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
   features,
   map,
   t,
-  dispatch,
   windowPosition = [50, 50],
   windowHeight = 300,
   windowCollapsible = true,
   maxMenuItems = 10,
+  titleBarHeight = 37.5,
   ...passThroughProps
 }): React.ReactElement => {
 
@@ -104,6 +102,8 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
   const [featuresToShow, setFeaturesToShow] = useState<OlFeature<OlGeometry>[]>([]);
   const [selectedFeatureType, setSelectedFeatureType] = useState<string>(null);
   const [downloadGridData, setDownloadGridData] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     initHoverVectorLayer();
@@ -337,7 +337,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
           resizeOpts={{}}
           draggable={true}
           collapsed={false}
-          titleBarHeight={20}
+          titleBarHeight={titleBarHeight}
           onEscape={hideFeatureInfoWindow}
           title={winTitle}
           minWidth={500}

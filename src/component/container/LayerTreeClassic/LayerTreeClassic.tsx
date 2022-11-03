@@ -110,7 +110,10 @@ export const LayerTreeClassic: React.FC<ComponentProps> = ({
                 layer.get('name')
               }
             </span>
-            <div className='classic-tree-node-header-buttons'>
+            <div
+              className='classic-tree-node-header-buttons'
+              onClick={e => e.stopPropagation()}
+            >
               {(contextMenuAvailable(layer) && layer instanceof OlLayer) &&
                 <LayerTreeDropdownContextMenu
                   map={map}

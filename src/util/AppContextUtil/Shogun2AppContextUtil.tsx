@@ -558,11 +558,7 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
             key="4"
             type="primary"
             shape="circle"
-            icon={
-              <FontAwesomeIcon
-                icon={faPrint}
-              />
-            }
+            iconName={faPrint}
             config={config}
             tooltip={t('PrintPanel.windowTitle')}
             tooltipPlacement={'right'}

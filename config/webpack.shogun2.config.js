@@ -153,12 +153,11 @@ const delayedConf =
               ];
 
               commonWebpackConfig.devServer = {
-                contentBase: path.join(__dirname, 'src'),
-                disableHostCheck: true,
+                allowedHosts: 'all',
                 host: '0.0.0.0',
-                https: true,
-                inline: true,
+                server: 'https',
                 port: 9090,
+                hot: true,
                 proxy: [{ // first we need to fixup hard coded pathes from and to shogun2-webapp
                   context: ['/shogun2-webapp'],
                   target: backendUrl.replace('/shogun2-webapp', '')
@@ -167,8 +166,10 @@ const delayedConf =
                     '/rest/**',
                     '/print/**',
                     '/locale/**',
-                    '/**/*.action',
-                    '/import/**'
+                    '/import/**',
+                    '/projectimage/**',
+                    '/metadata/**',
+                    '/*.action'
                   ],
                   headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -176,16 +177,15 @@ const delayedConf =
                     cookie: cookie
                   },
                   secure: false,
-                  target: backendUrl
-                }].concat(customAppConfig && customAppConfig.proxy ? customAppConfig.proxy : [{}]),
-                publicPath: 'https://localhost:9090/'
+                  target: backendUrl,
+                }].concat(customAppConfig && customAppConfig.proxy ? customAppConfig.proxy : [{}])
               };
               return commonWebpackConfig;
             });
-          })
-          .catch((error) => {
-            Logger.log('error', `Error while trying to login: ${error.message}`);
-          });
+        })
+        .catch((error) => {
+          Logger.log('error', `Error while trying to login: ${error.message}`);
+        });
     });
   });
 

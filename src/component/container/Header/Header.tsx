@@ -37,7 +37,7 @@ interface DefaultHeaderProps {
 
 interface HeaderProps extends Partial<DefaultHeaderProps> {
   dispatchFn: (arg: any) => void;
-  topic: string;
+  topic?: string;
   map: OlMap;
   i18n: any;
   t: (arg: string) => {};
