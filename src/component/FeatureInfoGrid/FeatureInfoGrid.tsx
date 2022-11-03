@@ -12,10 +12,8 @@ import {
 } from 'antd';
 
 import AgFeatureGrid, { AgFeatureGridProps } from '@terrestris/react-geo/dist/Grid/AgFeatureGrid/AgFeatureGrid';
-import { GridApi } from '@ag-grid-community/core';
+import { GridApi, CsvExportModule } from 'ag-grid-community';
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
-import { CsvExportModule } from '@ag-grid-community/csv-export';
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 
 import './FeatureInfoGrid.css';
 
@@ -300,7 +298,8 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
 
     return (
       <AgFeatureGrid
-        map={null}
+        map={map}
+        onRowClick={() => undefined as any}
         width={'auto'}
         className="grid-content"
         height={'auto'}
@@ -314,7 +313,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
         localeText={{
           noRowsToShow: t('FeatureInfoGrid.noDataFoundText')
         }}
-        modules={[ClientSideRowModelModule as any, CsvExportModule]}
+        modules={[CsvExportModule]}
       />
     );
   };
@@ -324,7 +323,8 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
    */
   const onGridIsReady = (featureGrid: AgFeatureGridProps): void => {
     updateSize(featureGrid);
-    gridApi = featureGrid.api;
+
+    gridApi = featureGrid.api as GridApi;
   };
 
   /**
