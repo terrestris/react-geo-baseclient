@@ -509,4 +509,4 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
   }
 }
 
-export default connect()(LayerLegendAccordion);
+export default connect(null)(LayerLegendAccordion);

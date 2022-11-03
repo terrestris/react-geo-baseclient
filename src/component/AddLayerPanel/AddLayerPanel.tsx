@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import OlMap from 'ol/Map';
 import OlLayerGroup from 'ol/layer/Group';
@@ -29,7 +28,6 @@ interface DefaultAddLayerPanelProps {
 
 interface AddLayerPanelProps extends Partial<DefaultAddLayerPanelProps> {
   map: OlMap;
-  dispatch: (arg: any) => void;
 }
 
 interface AddLayerPanelState {
@@ -202,4 +200,4 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
   }
 }
 
-export default connect()(AddLayerPanel);
+export default AddLayerPanel;
