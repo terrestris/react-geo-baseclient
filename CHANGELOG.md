@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Add option to use filter on columns in featuregrid ([#1044](https://github.com/terrestris/react-geo-baseclient/pull/1044))
 - Added CORS Header to dev server config ([#1043](https://github.com/terrestris/react-geo-baseclient/pull/1043))
 - Configurable backend and client paths ([#861](https://github.com/terrestris/react-geo-baseclient/pull/861))
 - Don't apply global text color for column sorter icons ([#855](https://github.com/terrestris/react-geo-baseclient/pull/855))
