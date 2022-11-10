@@ -33,12 +33,14 @@ interface FeatureInfoGridProps {
   downloadGridData: boolean;
   onPaginationChange?: (idx: number) => void;
   t: (arg: any) => string;
+  enableColumnFilter?: boolean;
 }
 
 interface ColumnDef {
   headerName: string;
   field: string;
   minWidth: number;
+  filter?: boolean;
   cellRenderer?: (text: string) => string | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
 }
 
@@ -65,7 +67,8 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
   isTimeLayer = false,
   map,
   onPaginationChange,
-  t
+  t,
+  enableColumnFilter
 }): React.ReactElement => {
 
   const [selectedFeat, setSelectedFeat] = useState<OlFeature<OlGeomGeometry>>(features[0]);
@@ -146,12 +149,14 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
     return [{
       headerName: t('FeatureInfoGrid.gfiAttributeNameColumnText'),
       field: 'attr',
-      minWidth: 100
+      minWidth: 100,
+      filter: enableColumnFilter === true ? true : false
     }, {
       headerName: t('FeatureInfoGrid.gfiAttributeValueColumnText'),
       field: 'val',
       minWidth: 200,
-      cellRenderer: (text: string) => getColumnText(text)
+      cellRenderer: (text: string) => getColumnText(text),
+      filter: enableColumnFilter === true ? true : false
     }];
   };
 
@@ -160,7 +165,6 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
    * features.
    */
   const getTimeFeatureColumnDefs = (): ColumnDef[] => {
-
     const columnDefs: ColumnDef[] = [];
 
     Object.keys(selectedFeat.getProperties()).forEach(featureColumnKey => {
@@ -177,6 +181,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
       columnDefs.push({
         headerName: featureColumnKey,
         field: featureColumnKey,
+        filter: enableColumnFilter === true ? true : false,
         minWidth: 100
       });
     });
