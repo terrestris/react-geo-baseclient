@@ -158,6 +158,9 @@ const delayedConf =
                 server: 'https',
                 port: 9090,
                 hot: true,
+                headers: {
+                  'Access-Control-Allow-Origin': '*'
+                },
                 proxy: [{ // first we need to fixup hard coded pathes from and to shogun2-webapp
                   context: ['/shogun2-webapp'],
                   target: backendUrl.replace('/shogun2-webapp', '')

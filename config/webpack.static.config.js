@@ -54,6 +54,9 @@ const delayedConf = new Promise(function(resolve) {
     historyApiFallback: true,
     host: '0.0.0.0',
     port: 9090,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
     proxy: [].concat(customAppConfig && customAppConfig.proxy ? customAppConfig.proxy : [{}])
   };
   resolve(commonWebpackConfig);
