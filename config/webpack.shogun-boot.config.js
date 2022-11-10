@@ -138,6 +138,9 @@ const delayedConf =
         contentBase: path.join(__dirname, 'src'),
         disableHostCheck: true,
         host: '0.0.0.0',
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
         https: true,
         inline: true,
         port: 9091,
