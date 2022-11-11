@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Enhance typings of `PrintPanelV3` component ([#1052](https://github.com/terrestris/react-geo-baseclient/pull/1052))
 - Add callback prop for gridIsReady event ([#1050](https://github.com/terrestris/react-geo-baseclient/pull/1050))
 - Add option to use filter on columns in featuregrid ([#1044](https://github.com/terrestris/react-geo-baseclient/pull/1044))
 - Added CORS Header to dev server config ([#1043](https://github.com/terrestris/react-geo-baseclient/pull/1043))
