@@ -34,6 +34,7 @@ interface FeatureInfoGridProps {
   onPaginationChange?: (idx: number) => void;
   t: (arg: any) => string;
   enableColumnFilter?: boolean;
+  onGridIsReadyCallback?: (arg: AgFeatureGridProps) => void;
 }
 
 interface ColumnDef {
@@ -68,7 +69,8 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
   map,
   onPaginationChange,
   t,
-  enableColumnFilter
+  enableColumnFilter,
+  onGridIsReadyCallback
 }): React.ReactElement => {
 
   const [selectedFeat, setSelectedFeat] = useState<OlFeature<OlGeomGeometry>>(features[0]);
@@ -330,6 +332,10 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
     updateSize(featureGrid);
 
     gridApi = featureGrid.api as GridApi;
+
+    if (onGridIsReadyCallback) {
+      onGridIsReadyCallback(featureGrid);
+    }
   };
 
   /**
