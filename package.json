@@ -144,7 +144,7 @@
     "jest-puppeteer": "6.1.0",
     "jest-snapshot": "27.5.1",
     "less": "4.1.2",
-    "less-loader": "10.2.0",
+    "less-loader": "11.1.0",
     "np": "7.6.1",
     "object-assign": "4.1.1",
     "postcss-loader": "7.0.1",
