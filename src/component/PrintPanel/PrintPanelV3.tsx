@@ -24,7 +24,7 @@ import OlLayerGroup from 'ol/layer/Group';
 import OlMap from 'ol/Map';
 import { getUid } from 'ol/util';
 
-import { MapFishPrintV3Manager } from '@terrestris/mapfish-print-manager';
+import MapFishPrintV3Manager from '@terrestris/mapfish-print-manager/dist/manager/MapFishPrintV3Manager';
 
 import PrintUtil from '../../util/PrintUtil/PrintUtil';
 import { MapUtil } from '@terrestris/ol-util';
@@ -107,18 +107,18 @@ interface PrintPanelV3State {
   legendTitle: string;
   printDescription: string;
   layout: string;
-  scale: number | undefined;
-  dpi: number | undefined;
+  scale: number;
+  dpi: string;
   outputFormat: string;
-  layouts: [];
+  layouts: any[];
   scales: number[];
-  dpis: number[];
+  dpis: string[];
   outputFormats: string[];
   previewUrl: string;
   loadingDownload: boolean;
   loadingPreview: boolean;
   printLegend: boolean;
-  legendIds: number[];
+  legendIds: string[];
 }
 
 /**
@@ -135,7 +135,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
   /**
    * Instance of MapFishPrintV3Manager to operate on.
    */
-  private printManager: any;
+  private printManager: MapFishPrintV3Manager;
 
   /**
    * Base64 image used as placeholder if no preview is shown.
@@ -226,8 +226,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           scales: printManager.getScales(),
           dpis: printManager.getDpis(),
           outputFormats: printFormats,
-          // TODO double check whether casting to Number is better than changing the type
-          legendIds: this.getFilteredLegendLayers().map((layer) => Number(getUid(layer)))
+          legendIds: this.getFilteredLegendLayers().map(layer => getUid(layer))
         });
       })
       .catch((error: any) => {
@@ -314,9 +313,9 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
    * Called if print dpi value was changed.
    * Updates state value for dpi.
    *
-   * @param {Number} dpi Dpi resolution value to set.
+   * @param {String} dpi Dpi resolution value to set.
    */
-  onPrintResolutionChange = (dpi: number) => {
+  onPrintResolutionChange = (dpi: string) => {
     this.setState({ dpi }, () => {
       this.printManager.setDpi(dpi);
     });
@@ -351,84 +350,62 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
   /**
    * OnChange handler for the printLegends selectfield.
    *
-   * @param {Array} legendIds Array of currently set legendIds
+   * @param {String[]} legendIds Array of currently set legendIds
    */
-  onPrintLegendsChange = (legendIds: number[]) => {
+  onPrintLegendsChange = (legendIds: string[]) => {
     this.setState({ legendIds });
   };
 
   /**
    * Click handler for print button.
    */
-  onPrintBtnClick = () => {
+  onPrintBtnClick = (preview: boolean = false) => {
     const {
       t
     } = this.props;
 
-    this.setState({
-      loadingDownload: true
-    });
+    if (preview) {
+      this.setState({
+        loadingPreview: true
+      });
+      this.printManager.setOutputFormat('png');
+      this.printManager.setDpi('72');
+    } else {
+      this.setState({
+        loadingDownload: true
+      });
+      this.printManager.setOutputFormat(this.state.outputFormat);
+      this.printManager.setDpi(this.state.dpi);
+    }
 
-    this.setCustomPrintParams();
+    this.setCustomPrintParams(preview);
     this.setCustomMapParams();
 
-    this.printManager.print(true)
-      // eslint-disable-next-line
+    this.printManager.print(!preview)
       .then((downloadUrl: string) => {
-        this.setState({
-          loadingDownload: false
-        });
-      })
-      .catch(() => {
-        this.setState({
-          loadingDownload: false
-        });
-        message.error(t('PrintPanel.printErrorMsg'));
-      });
-  };
-
-  /**
-   * Click handler for print preview button.
-   */
-  onPreviewBtnClick = () => {
-    const {
-      t
-    } = this.props;
-
-    const {
-      outputFormat,
-      dpi
-    } = this.state;
-
-    this.setState({
-      loadingPreview: true
-    });
-
-    this.printManager.setOutputFormat('png');
-    this.printManager.setDpi('72');
-    this.setCustomPrintParams(true);
-
-    this.printManager.print()
-      .then((downloadUrl: string) => {
-        this.setState({
-          previewUrl: downloadUrl ? downloadUrl : this.previewPlaceholder,
-          loadingPreview: false
-        });
-        if (!downloadUrl) {
-          message.error(t('PrintPanel.printErrorMsg'));
+        if (preview) {
+          this.setState({
+            previewUrl: downloadUrl ? downloadUrl : this.previewPlaceholder
+          });
+          if (!downloadUrl) {
+            message.error(t('PrintPanel.printErrorMsg'));
+          }
         }
       })
-      // eslint-disable-next-line
-      .catch((error: any) => {
-        this.setState({
-          previewUrl: this.previewPlaceholder,
-          loadingPreview: false
-        });
+      .catch(() => {
         message.error(t('PrintPanel.printErrorMsg'));
+      })
+      .finally(() => {
+        if (preview) {
+          this.setState({
+            loadingPreview: false
+          });
+        } else {
+          this.setState({
+            loadingDownload: false
+          });
+        }
       });
-
-    this.printManager.setOutputFormat(outputFormat);
-    this.printManager.setDpi(dpi);
   };
 
   /**
@@ -436,7 +413,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
    *
    * @param {Boolean} preview Whether to set preview params or not.
    */
-  setCustomPrintParams = (preview?: boolean) => {
+  setCustomPrintParams = (preview: boolean) => {
 
     const {
       t,
@@ -517,8 +494,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
       scale: defaultScale,
       dpi: this.printManager.getDpis()[0],
       outputFormat: config.getPrintFormats()[0],
-      // TODO double check whether casting to Number is better than changing the type
-      legendIds: this.getFilteredLegendLayers().map((layer) => Number(getUid(layer))),
+      legendIds: this.getFilteredLegendLayers().map(layer => getUid(layer)),
       previewUrl: this.previewPlaceholder
     });
   };
@@ -620,10 +596,10 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
   /**
    * Renders select options for the dpi combo box of the print form.
    *
-   * @param {Number} dpi Dpi value to be rendered as option.
+   * @param {String} dpi Dpi value to be rendered as option.
    * @return {React.ReactElement} Option element.
    */
-  renderDpiSelectOptions = (dpi: number): React.ReactElement<OptionProps> => {
+  renderDpiSelectOptions = (dpi: string): React.ReactElement<OptionProps> => {
     return (
       <Option
         key={dpi.toString()}
@@ -670,23 +646,25 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         >
           {/* preview column */}
           <Col
-            flex={1}
+            span={12}
             className={'preview-card-col'}
           >
             <Card className='preview-card'>
               <span>{t('PrintPanel.previewCardTitle')}</span>
               {
                 loadingPreview ? <Skeleton active={true} /> :
-                  <img
-                    alt="preview"
-                    src={previewUrl}
-                  />
+                  <div className="preview-img">
+                    <img
+                      alt="preview"
+                      src={previewUrl}
+                    />
+                  </div>
               }
             </Card>
           </Col>
           {/* settings column */}
           <Col
-            flex={1}
+            span={12}
           >
             {/* title and description */}
             <div className="wrapper-settings-col">
@@ -789,7 +767,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
             type="primary"
             loading={loadingPreview}
             disabled={printDisabled}
-            onClick={this.onPreviewBtnClick}
+            onClick={() => this.onPrintBtnClick(true)}
           >
             {t('PrintPanel.previewCardTitle')}
           </SimpleButton>,
@@ -807,7 +785,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
             type="primary"
             disabled={printDisabled}
             loading={loadingDownload}
-            onClick={this.onPrintBtnClick}
+            onClick={() => this.onPrintBtnClick()}
           >
             {t('PrintPanel.printBtnText')}
           </SimpleButton>

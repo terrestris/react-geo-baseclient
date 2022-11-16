@@ -317,7 +317,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
 
     this.setCustomPrintParams();
 
-    this.printManager.print()
+    this.printManager.print(true)
       .then((downloadUrl: string) => {
         this.setState({
           loadingDownload: false
@@ -354,7 +354,7 @@ export class PrintPanelV2 extends React.Component<PrintPanelProps, PrintPanelSta
     this.printManager.setDpi('72');
     this.setCustomPrintParams(true);
 
-    this.printManager.print()
+    this.printManager.print(false)
       .then((downloadUrl: string) => {
         this.setState({
           previewUrl: `${config.printGetResultAction}?${downloadUrl.split('?')[1]}`,
