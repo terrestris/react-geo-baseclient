@@ -56,7 +56,7 @@ export const loadAppContextStore = async (): Promise<BaseClientState> => {
     // Set the favicon.
     if (appContext.favicon) {
       const faviconEl = document.querySelector('link[rel~="icon"]');
-      faviconEl.setAttribute('href', `${config.getClientPath()}${appContext.favicon}`);
+      faviconEl.setAttribute('href', `${config.getBackendPath()}${appContext.favicon}`);
     }
   } else {
     Logger.info('No application ID given, the default app context will be be applied.');
