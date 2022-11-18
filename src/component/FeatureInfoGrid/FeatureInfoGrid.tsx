@@ -12,7 +12,7 @@ import {
 } from 'antd';
 
 import AgFeatureGrid, { AgFeatureGridProps } from '@terrestris/react-geo/dist/Grid/AgFeatureGrid/AgFeatureGrid';
-import { GridApi, CsvExportModule } from 'ag-grid-community';
+import { GridApi, CsvExportModule, DetailGridInfo } from 'ag-grid-community';
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 import './FeatureInfoGrid.css';
@@ -284,7 +284,11 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
    */
   const downloadData = () => {
     if (Object.keys(gridApi).length) {
-      gridApi.exportDataAsCsv();
+      const detailedGrids: DetailGridInfo[] = [];
+      gridApi.forEachDetailGridInfo(grid => detailedGrids.push(grid));
+      if (detailedGrids.length) {
+        detailedGrids.forEach(grid => grid.api.exportDataAsCsv());
+      }
     }
   };
 
@@ -329,9 +333,20 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
    * Will be executed, when the grid is ready.
    */
   const onGridIsReady = (featureGrid: AgFeatureGridProps): void => {
+    const id = _uniqueId();
+    const gridInfo = {
+      id: id,
+      api: featureGrid.api,
+      columnApi: featureGrid.columnApi,
+    };
+
     updateSize(featureGrid);
 
-    gridApi = featureGrid.api as GridApi;
+    if (!gridApi) {
+      gridApi = featureGrid.api;
+    }
+
+    gridApi.addDetailGridInfo(id, gridInfo);
 
     if (onGridIsReadyCallback) {
       onGridIsReadyCallback(featureGrid);
