@@ -285,7 +285,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
   const downloadData = () => {
     if (Object.keys(gridApi).length) {
       const detailedGrids: DetailGridInfo[] = [];
-      gridApi.forEachDetailGridInfo(grid => detailedGrids.push(grid));
+      gridApi.forEachDetailGridInfo((grid: DetailGridInfo) => detailedGrids.push(grid));
       if (detailedGrids.length) {
         detailedGrids.forEach(grid => grid.api.exportDataAsCsv());
       }
