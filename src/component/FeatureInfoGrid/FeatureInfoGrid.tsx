@@ -137,7 +137,7 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
   const getColumnText = (text: any): string | React.ReactElement => {
     const colText: string = text.value;
     if (colText && colText.toString().toLowerCase().indexOf('http') > -1) {
-      return `<a class="link" href=${colText} target='_blank'>Link</a>`;
+      return <a className="link" href={colText} target='_blank'>Link</a>;
     }
     return colText;
   };
