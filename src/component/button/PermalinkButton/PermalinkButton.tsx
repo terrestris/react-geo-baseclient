@@ -8,6 +8,8 @@ import { ButtonProps } from 'antd/lib/button';
 import { faLink, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import isMobile from 'is-mobile';
+
 import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil';
 
 import OlMap from 'ol/Map';
@@ -46,6 +48,8 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
 
   const [winVisible, setWinVisible] = useState(false);
 
+  const isMobileClient = isMobile({ tablet: true });
+
   return (
     <div>
       <SimpleButton
@@ -66,16 +70,16 @@ export const PermalinkButton: React.FC<PermalinkButtonProps> = ({
           id={uniqueId('window-')}
           parentId={'app'}
           resizeOpts={false}
-          collapsible={false}
+          collapsible={true}
           draggable={true}
           collapsed={false}
           titleBarHeight={37.5}
           onEscape={() => setWinVisible(!winVisible)}
           title={t('Permalink.windowTitle')}
-          width={750}
+          width={isMobileClient ? window.innerWidth : 750}
           height="auto"
           y={windowPosition && windowPosition[1] || 50}
-          x={windowPosition && windowPosition[0] || 100}
+          x={isMobileClient? 0 : windowPosition && windowPosition[0] || 100}
           enableResizing={false}
           collapseTooltip={t('General.collapse')}
           bounds="#app"

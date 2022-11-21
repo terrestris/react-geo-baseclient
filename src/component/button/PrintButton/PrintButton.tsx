@@ -4,6 +4,8 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
+import isMobile from 'is-mobile';
+
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Window from '@terrestris/react-geo/dist/Window/Window';
 
@@ -89,6 +91,8 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
       return <div />;
     }
 
+    const isMobileClient = isMobile({ tablet: true });
+
     return (
       <div>
         <SimpleButton
@@ -103,56 +107,57 @@ export default class PrintButton extends React.Component<PrintButtonProps, Print
           tooltipPlacement={tooltipPlacement}
           onClick={this.changeFullPrintWindowVisibility}
         />
-        { winVisible &&
-        <Window
-          id={uniqueId('window-')}
-          parentId={'app'}
-          resizeOpts={false}
-          collapsible={false}
-          draggable={true}
-          collapsed={false}
-          titleBarHeight={37.5}
-          onEscape={this.changeFullPrintWindowVisibility}
-          title={t('PrintPanel.windowTitle')}
-          width={750}
-          height="auto"
-          y={50}
-          x={100}
-          enableResizing={false}
-          collapseTooltip={t('General.collapse')}
-          bounds="#app"
-          tools={[
-            <SimpleButton
-              icon={
-                <FontAwesomeIcon
-                  icon={faTimes}
-                />
-              }
-              key="close-tool"
-              size="small"
-              tooltip={t('General.close')}
-              onClick={this.changeFullPrintWindowVisibility}
+        {
+          winVisible &&
+          <Window
+            id={uniqueId('window-')}
+            parentId={'app'}
+            resizeOpts={false}
+            collapsible={true}
+            draggable={true}
+            collapsed={false}
+            titleBarHeight={37.5}
+            onEscape={this.changeFullPrintWindowVisibility}
+            title={t('PrintPanel.windowTitle')}
+            width={isMobileClient ? window.innerWidth: 750}
+            height="auto"
+            y={50}
+            x={isMobileClient ? 0 : 100}
+            enableResizing={false}
+            collapseTooltip={t('General.collapse')}
+            bounds="#app"
+            tools={[
+              <SimpleButton
+                icon={
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                  />
+                }
+                key="close-tool"
+                size="small"
+                tooltip={t('General.close')}
+                onClick={this.changeFullPrintWindowVisibility}
+              />
+            ]}
+          >
+            <PrintPanelV3
+              map={map}
+              key="5"
+              t={t}
+              config={config}
+              printTitle={printTitle}
+              legendBlackList={[
+                'react-geo_measure',
+                'hoverVectorLayer'
+              ]}
+              printLayerBlackList={[
+                'react-geo_measure',
+                'hoverVectorLayer',
+                'react-geo_geolocationlayer'
+              ]}
+              printScales={printScales}
             />
-          ]}
-        >
-          <PrintPanelV3
-            map={map}
-            key="5"
-            t={t}
-            config={config}
-            printTitle={printTitle}
-            legendBlackList={[
-              'react-geo_measure',
-              'hoverVectorLayer'
-            ]}
-            printLayerBlackList={[
-              'react-geo_measure',
-              'hoverVectorLayer',
-              'react-geo_geolocationlayer'
-            ]}
-            printScales={printScales}
-          />
-        </Window>
+          </Window>
         }
       </div>
     );
