@@ -13,7 +13,6 @@
 
 .layer-tree-classic .react-geo-layertree {
   top: var(--header-height);
-  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -36,6 +35,12 @@
   }
   .layer-tree-classic .ant-tree-title {
     font-size: 20px;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  .layer-tree-classic {
+    min-width: 400px;
   }
 }
 
@@ -81,7 +86,7 @@
   margin-left: 5px;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 769px) {
   .layer-tree-classic-close-button {
     display: none;
   }
