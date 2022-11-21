@@ -108,7 +108,7 @@
     "@types/react-dom": "^18.0.2",
     "@types/react-redux": "7.1.23",
     "@types/redux-logger": "3.0.9",
-    "@types/validator": "13.7.1",
+    "@types/validator": "13.7.10",
     "@types/webpack": "5.28.0",
     "@typescript-eslint/eslint-plugin": "5.40.0",
     "@typescript-eslint/parser": "5.40.0",
