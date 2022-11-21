@@ -28,6 +28,7 @@ import MapFishPrintV3Manager from '@terrestris/mapfish-print-manager/dist/manage
 
 import PrintUtil from '../../util/PrintUtil/PrintUtil';
 import { MapUtil } from '@terrestris/ol-util';
+import isMobile from 'is-mobile';
 
 import './PrintPanelV3.css';
 
@@ -646,7 +647,8 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
         >
           {/* preview column */}
           <Col
-            span={12}
+            xl={12}
+            xs={0}
             className={'preview-card-col'}
           >
             <Card className='preview-card'>
@@ -664,7 +666,8 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
           </Col>
           {/* settings column */}
           <Col
-            span={12}
+            xl={12}
+            xs={24}
           >
             {/* title and description */}
             <div className="wrapper-settings-col">
@@ -767,6 +770,7 @@ export class PrintPanelV3 extends React.Component<PrintPanelV3Props, PrintPanelV
             type="primary"
             loading={loadingPreview}
             disabled={printDisabled}
+            hidden={isMobile({ tablet: true })}
             onClick={() => this.onPrintBtnClick(true)}
           >
             {t('PrintPanel.previewCardTitle')}
