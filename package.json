@@ -128,7 +128,7 @@
     "env-cmd": "10.1.0",
     "enzyme": "3.11.0",
     "eslint": "8.28.0",
-    "eslint-plugin-react": "7.29.4",
+    "eslint-plugin-react": "7.31.11",
     "eslint-plugin-react-hooks": "4.3.0",
     "expect": "27.5.1",
     "expect-puppeteer": "6.1.0",
