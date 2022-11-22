@@ -24,7 +24,9 @@ import { MenuInfo } from 'rc-menu/lib/interface';
 import SimpleButton from '@terrestris/react-geo/dist/Button/SimpleButton/SimpleButton';
 import Window from '@terrestris/react-geo/dist/Window/Window';
 
-const isEmpty = require('lodash/isEmpty');
+import isMobile from 'is-mobile';
+
+import _isEmpty from 'lodash/isEmpty';
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import FeatureInfoGrid from '../../FeatureInfoGrid/FeatureInfoGrid';
@@ -131,7 +133,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     const hoverVectorSource: OlSourceVector<OlGeometry> = hoverVectorLayer.getSource();
     clearHoverLayerSource();
     hoverVectorSource.addFeatures(hoverFeatures);
-    setMenuHidden(isEmpty(features));
+    setMenuHidden(_isEmpty(features));
   }, [features]);
 
   /**
@@ -318,7 +320,6 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     return tools;
   };
 
-
   let winTitle;
   let layerToShow;
 
@@ -327,6 +328,8 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     winTitle = layerToShow.get('name') || selectedFeatureType;
   }
 
+  const isMobileClient = isMobile({ tablet: true });
+
   return (
     <div>
       {
@@ -334,18 +337,18 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
         <Window
           id={uniqueId('window-')}
           parentId={'app'}
-          resizeOpts={{}}
+          resizeOpts={true}
           draggable={true}
           collapsed={false}
           titleBarHeight={titleBarHeight}
           onEscape={hideFeatureInfoWindow}
           title={winTitle}
-          minWidth={500}
+          minWidth={isMobileClient? window.innerWidth : 500}
           maxWidth={1000}
-          width='auto'
+          width={isMobileClient ? window.innerWidth : 'auto'}
           height={windowHeight}
           maxHeight={1000}
-          x={windowPosition[0]}
+          x={isMobileClient ? 0 : windowPosition[0]}
           y={windowPosition[1]}
           collapseTooltip={t('General.collapse')}
           collapsible={windowCollapsible}
