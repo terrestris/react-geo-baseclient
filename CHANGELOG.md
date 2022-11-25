@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Enable download of multiple `FeatureInfoGrids`
 - Downgrade openlayers to keep build working ([#1061](https://github.com/terrestris/react-geo-baseclient/pull/1061))
 - Enhance typings of `PrintPanelV3` component ([#1052](https://github.com/terrestris/react-geo-baseclient/pull/1052))
 - Add callback prop for gridIsReady event ([#1050](https://github.com/terrestris/react-geo-baseclient/pull/1050))
