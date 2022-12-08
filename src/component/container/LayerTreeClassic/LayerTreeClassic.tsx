@@ -24,6 +24,7 @@ import _isEmpty from 'lodash/isEmpty';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import ImageWMS from 'ol/source/ImageWMS';
+import TileWMS from 'ol/source/TileWMS';
 import { isWmsLayer } from '@terrestris/react-geo/dist/Util/typeUtils';
 
 interface DefaultLayerTreeClassicProps {
@@ -131,7 +132,9 @@ export const LayerTreeClassic: React.FC<ComponentProps> = ({
               }
             </div>
           </div>
-          {(layer.get('visible') && isInResolutionRange) &&
+          {(layer.get('visible') && isInResolutionRange) && (
+            layer.getSource() instanceof TileWMS ||
+            layer.getSource() instanceof ImageWMS) &&
             <>
               <div className='layer-transparency'>
                 {t('LayerTreeClassic.transparency')}

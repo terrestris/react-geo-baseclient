@@ -4,6 +4,7 @@ import OlLayerGroup from 'ol/layer/Group';
 import OlLayerBase from 'ol/layer/Base';
 import OlImageLayer from 'ol/layer/Image';
 import ImageWMS from 'ol/source/ImageWMS';
+import TileWMS from 'ol/source/TileWMS';
 import { getUid } from 'ol/util';
 
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
@@ -69,7 +70,9 @@ export default class LegendContainer extends React.Component<LegendContainerProp
     let layers: OlImageLayer<ImageWMS>[] = MapUtil.getAllLayers(layerGroup) as OlImageLayer<ImageWMS>[];
 
     layers = layers
-      .filter((layer: OlImageLayer<ImageWMS>) => !(layer instanceof OlLayerGroup))
+      .filter((layer: OlImageLayer<ImageWMS>) =>
+        (layer.getSource && layer.getSource() instanceof TileWMS) ||
+        layer.getSource && layer.getSource() instanceof ImageWMS)
       .filter(filterFn);
 
     // clone the array, reverse will work in place

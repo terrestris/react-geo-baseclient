@@ -224,11 +224,12 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
       positioning,
       stopEvent,
       insertFirst,
-      autoPan,
-      autoPanAnimation: {
-        duration: autoPanAnimationDuration
+      autoPan: {
+        animation: {
+          duration: autoPanAnimationDuration
+        },
+        margin: autoPanMargin
       },
-      autoPanMargin
     });
 
     // If the pointer is over the popup, no pointermove should be fired.

@@ -6,9 +6,6 @@ import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Butt
 import OlMap from 'ol/Map';
 import OlView from 'ol/View';
 import OlProjection from 'ol/proj/Projection';
-import OlSourceImageWMS from 'ol/source/ImageWMS';
-import OlSourceTileWMS from 'ol/source/TileWMS';
-import OlSourceVector from 'ol/source/Vector';
 import OlFeature from 'ol/Feature';
 import OlMapBrowserEvent from 'ol/MapBrowserEvent';
 import OlGeometry from 'ol/geom/Geometry';
@@ -21,6 +18,8 @@ import {
   abortFetchingFeatures,
   fetchFeatures
 } from '../../../state/remoteFeatures/actions';
+
+import { WmsLayer } from '@terrestris/react-geo/dist/Util/typeUtils';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
@@ -142,11 +141,17 @@ export const HsiButton: React.FC<ComponentProps> = ({
     // dispatch that any running HOVER process should be canceled
     dispatch(abortFetchingFeatures('HOVER'));
 
-    map.forEachLayerAtPixel(pixel, (layer: LayerType) => {
-      const layerSource = layer.getSource();
+    const mapLayers =
+      map.getAllLayers()
+        .filter(layerFilter);
+    mapLayers.forEach(layer => {
+      const layerSource = (layer as WmsLayer).getSource();
+      if (!layerSource) {
+        return;
+      }
       const coordinate: number[] = map.getCoordinateFromPixel(pixel);
 
-      if (layer.getSource() instanceof OlSourceVector) {
+      if (layer.getSource().constructor.name === 'VectorSource') {
         internalVectorFeatures[layer.get('name')] = [];
         const internalFeatures = olEvt.map.getFeaturesAtPixel(pixel, {
           layerFilter: (layerCandidate: LayerType) => {
@@ -224,8 +229,8 @@ export const HsiButton: React.FC<ComponentProps> = ({
   const layerFilter = (layerCandidate: LayerType) => {
     const source = layerCandidate.getSource();
     const isHoverable: boolean = layerCandidate.get('hoverable');
-    const isSupportedHoverSource: boolean = source instanceof OlSourceImageWMS ||
-      source instanceof OlSourceTileWMS || source instanceof OlSourceVector;
+    const isSupportedHoverSource: boolean = source.constructor.name === 'ImageWMS' ||
+      source.constructor.name === 'TileWMS' || source.constructor.name === 'VectorSource';
     return isHoverable && isSupportedHoverSource;
   };
 

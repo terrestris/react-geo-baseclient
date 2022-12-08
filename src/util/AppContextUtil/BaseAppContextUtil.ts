@@ -4,6 +4,7 @@ import { ProjectionLike } from 'ol/proj';
 import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 import { BaseClientState } from '../../state/reducer';
+import { Units } from 'ol/proj/Units';
 
 export interface AppContextUtil {
   canReadCurrentAppContext: () => boolean;
@@ -32,7 +33,7 @@ class BaseAppContextUtil {
    * @param {string} projUnit Projection unit. Default to 'm'
    * @return {Array} Array of computed map scales.
    */
-  getMapScales(resolutions: number[], projUnit: string = 'm'): number[] {
+  getMapScales(resolutions: number[], projUnit: Units = 'm'): number[] {
     if (!resolutions) {
       return;
     }

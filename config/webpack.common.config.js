@@ -185,8 +185,7 @@ const commonWebpackConfig = {
       'react-redux': path.join(__dirname + '/../', 'node_modules', 'react-redux'),
       'react-i18next': path.join(__dirname + '/../', 'node_modules', 'react-i18next'),
       '@ant-design/icons': path.join(__dirname + '/../', 'node_modules', '@ant-design/icons'),
-      'moment': path.join(__dirname + '/../', 'node_modules', 'moment'),
-      'ol': path.join(__dirname + '/../', 'node_modules', 'ol')
+      'moment': path.join(__dirname + '/../', 'node_modules', 'moment')
     }
   }
 };
