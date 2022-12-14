@@ -10,7 +10,7 @@ import ToggleGroup from '@terrestris/react-geo/dist/Button/ToggleGroup/ToggleGro
 import LayerTree from '@terrestris/react-geo/dist/LayerTree/LayerTree';
 
 import LegendContainer from '../container/Legend/LegendContainer';
-import MapUtil from '@terrestris/ol-util/src/MapUtil/MapUtil';
+import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 const { Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 

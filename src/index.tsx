@@ -16,7 +16,7 @@ import { get as OlGetProjection } from 'ol/proj';
 import OlView from 'ol/View';
 import OlScaleLine from 'ol/control/ScaleLine';
 
-import ProjectionUtil from '@terrestris/ol-util/src/ProjectionUtil/ProjectionUtil';
+import ProjectionUtil from '@terrestris/ol-util/dist/ProjectionUtil/ProjectionUtil';
 
 import MapProvider from '@terrestris/react-geo/dist/Provider/MapProvider/MapProvider';
 import { mappify } from '@terrestris/react-geo/dist/HigherOrderComponent/MappifiedComponent/MappifiedComponent';
@@ -42,7 +42,7 @@ const MappifiedMain = mappify(Main);
  */
 const setupMap = (state: BaseClientState) => {
   ProjectionUtil.initProj4Definitions();
-  ProjectionUtil.initProj4DefinitionMappings();
+  ProjectionUtil.initProj4DefinitionMappings([]);
   const mapViewConfig = state.mapView;
   const mapLayers = state.mapLayers;
   const {

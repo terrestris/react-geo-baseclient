@@ -7,6 +7,7 @@ import OlLayer from 'ol/layer/Layer';
 import OlImageLayer from 'ol/layer/Image';
 import OlMap from 'ol/Map';
 import ImageWMS from 'ol/source/ImageWMS';
+import TileWMS from 'ol/source/TileWMS';
 import { getUid } from 'ol/util';
 
 import isEqual from 'lodash/isEqual';
@@ -215,7 +216,10 @@ export class LayerLegendAccordion extends React.Component<LayerLegendAccordionPr
     const scale = MapUtil.getScaleForResolution(map.getView().getResolution(), unit);
 
     // clone the array, reverse will work in place
-    const reversed = mapLayers.slice(0).reverse().filter((l) => l && l.getVisible());
+    const reversed = mapLayers.slice(0).reverse().filter(
+      (l) => l && l.getVisible() && (
+        l.getSource() instanceof TileWMS) ||
+        l.getSource() instanceof ImageWMS);
     if (baseLayer) {
       reversed.push(baseLayer);
     }

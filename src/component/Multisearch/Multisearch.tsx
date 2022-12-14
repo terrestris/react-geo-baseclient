@@ -397,7 +397,7 @@ export default class Multisearch extends
             featureTypes={Object.keys(searchConfig)}
             onFetchSuccess={this.wfsSearchSuccess.bind(this)}
             onFetchError={this.onFetchError.bind(this)}
-            searchAttributes={searchAttributes}
+            attributeDetails={searchAttributes}
             visible={false}
             searchTerm={searchTerm}
             additionalFetchOptions={{

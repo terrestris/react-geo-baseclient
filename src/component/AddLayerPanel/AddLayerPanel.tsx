@@ -64,7 +64,7 @@ class AddLayerPanel extends React.Component<AddLayerPanelProps, AddLayerPanelSta
    */
   getCapabilities = (url: string) => {
     this.setState({fetching: true});
-    CapabilitiesUtil.parseWmsCapabilities(url)
+    CapabilitiesUtil.getWmsCapabilities(url)
       .then((capabilities: any) => CapabilitiesUtil.getLayersFromWmsCapabilities(capabilities, 'Title'))
       .then((layers: WmsLayer[]) => {this.setState({layers});})
       .finally(() => {this.setState({fetching: false});});

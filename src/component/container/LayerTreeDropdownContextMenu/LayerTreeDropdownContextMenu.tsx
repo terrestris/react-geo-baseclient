@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { MenuInfo } from 'rc-menu/lib/interface';
 
 import OlLayerBase from 'ol/layer/Base';
-import OlLayerLayer from 'ol/layer/Layer';
+import OlLayerTile from 'ol/layer/Tile';
 import OlMap from 'ol/Map';
 import { transformExtent } from 'ol/proj';
 import {Extent as OlExtent} from 'ol/extent';
-import TileWMS from 'ol/source/TileWMS';
-import ImageWMS from 'ol/source/ImageWMS';
-import LayerRenderer from 'ol/renderer/Layer';
+import OlSourceImageWMS from 'ol/source/ImageWMS';
+import OlLayerImage from 'ol/layer/Image';
+import OlSourceTileWMS from 'ol/source/TileWMS';
 
 import {
   Menu,
@@ -121,8 +121,8 @@ export const LayerTreeDropdownContextMenu: React.FC<ComponentProps> = ({
     setExtentLoading(true);
 
     try {
-      let extent: OlExtent = await LayerUtil.getExtentForLayer(layer as OlLayerLayer<TileWMS | ImageWMS,
-        LayerRenderer<any>>);
+      let extent: OlExtent = await LayerUtil.getExtentForLayer(
+        layer as OlLayerTile<OlSourceTileWMS> | OlLayerImage<OlSourceImageWMS>);
       extent = transformExtent(extent, 'EPSG:4326', map.getView().getProjection());
       map.getView().fit(extent);
     } catch (error) {

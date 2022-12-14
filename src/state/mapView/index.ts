@@ -5,7 +5,7 @@ import {
 
 import { Coordinate } from 'ol/coordinate';
 
-import { MapUtil } from '@terrestris/ol-util/src/MapUtil/MapUtil';
+import { MapUtil } from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 
 export interface MapView {
   center: Coordinate;
