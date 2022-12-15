@@ -236,11 +236,12 @@ export const HsiButton: React.FC<ComponentProps> = ({
     }
     const source = layerCandidate.getSource() as UnknownOlSource;
     const isHoverable: boolean = layerCandidate.get('hoverable');
+    const isVisible: boolean = layerCandidate.getVisible();
     const isSupportedHoverSource: boolean =
       source.getImageLoadFunction || // 'ImageWMS'
       source.getTileGrid && !source.getMatrixSet || // 'TileWMS'
       source.getFeatures; // 'VectorSource'
-    return isHoverable && isSupportedHoverSource;
+    return isHoverable && isVisible && isSupportedHoverSource;
   };
 
   return (
