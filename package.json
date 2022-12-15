@@ -60,7 +60,7 @@
     "@reduxjs/toolkit": "^1.9.0",
     "@terrestris/base-util": "1.0.1",
     "@terrestris/mapfish-print-manager": "^7.0.2",
-    "@terrestris/ol-util": "^10.1.2",
+    "@terrestris/ol-util": "^10.1.3",
     "@terrestris/react-geo": "^22.0.0",
     "@terrestris/vectortiles": "0.4.0",
     "antd": "4.18.9",

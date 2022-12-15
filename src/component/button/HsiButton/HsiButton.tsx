@@ -151,7 +151,8 @@ export const HsiButton: React.FC<ComponentProps> = ({
       }
       const coordinate: number[] = map.getCoordinateFromPixel(pixel);
 
-      if (layer.getSource().constructor.name === 'VectorSource') {
+      // @ts-ignore
+      if (layer.getSource().getFeatures) {
         internalVectorFeatures[layer.get('name')] = [];
         const internalFeatures = olEvt.map.getFeaturesAtPixel(pixel, {
           layerFilter: (layerCandidate: LayerType) => {
@@ -227,10 +228,18 @@ export const HsiButton: React.FC<ComponentProps> = ({
  * @return {Boolean} Whether the layer is hoverable or not.
  */
   const layerFilter = (layerCandidate: LayerType) => {
-    const source = layerCandidate.getSource();
+    interface UnknownOlSource {
+      getImageLoadFunction?: any;
+      getTileGrid?: any;
+      getFeatures?: any;
+      getMatrixSet?: any;
+    }
+    const source = layerCandidate.getSource() as UnknownOlSource;
     const isHoverable: boolean = layerCandidate.get('hoverable');
-    const isSupportedHoverSource: boolean = source.constructor.name === 'ImageWMS' ||
-      source.constructor.name === 'TileWMS' || source.constructor.name === 'VectorSource';
+    const isSupportedHoverSource: boolean =
+      source.getImageLoadFunction || // 'ImageWMS'
+      source.getTileGrid && !source.getMatrixSet || // 'TileWMS'
+      source.getFeatures; // 'VectorSource'
     return isHoverable && isSupportedHoverSource;
   };
 
