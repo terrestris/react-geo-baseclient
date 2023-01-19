@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Update [https://ant.design/](antd) to `4.24.7`
 - fix: add check to hover only visible layers ([#1084](https://github.com/terrestris/react-geo-baseclient/pull/1084))
 - fix: layerfilter now correctly detects source type again ([#1083](https://github.com/terrestris/react-geo-baseclient/pull/1083))
 
