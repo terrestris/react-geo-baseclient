@@ -61,7 +61,7 @@
     "@terrestris/base-util": "1.0.1",
     "@terrestris/mapfish-print-manager": "^7.0.2",
     "@terrestris/ol-util": "^10.2.0",
-    "@terrestris/react-geo": "^22.0.0",
+    "@terrestris/react-geo": "^22.2.1",
     "@terrestris/vectortiles": "0.4.0",
     "antd": "4.24.7",
     "copy-to-clipboard": "3.3.2",
