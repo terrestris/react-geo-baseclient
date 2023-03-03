@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import OlMap from 'ol/Map';
@@ -107,6 +107,22 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
 
   const dispatch = useDispatch();
 
+  /**
+  * Initializes the vector layer that will be used to handle the hover
+  * features on the map.
+  */
+  const initHoverVectorLayer = useCallback(() => {
+    if (!hoverVectorLayer) {
+      const layer = new OlLayerVector({
+        source: new OlSourceVector(),
+        style: hoverStyleFunction
+      });
+      layer.set('name', 'hoverVectorLayer');
+      hoverVectorLayer = layer;
+      map.addLayer(hoverVectorLayer);
+    }
+  }, [map]);
+
   useEffect(() => {
     initHoverVectorLayer();
     return () => {
@@ -115,7 +131,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
         hoverVectorLayer.dispose();
       }
     };
-  }, []);
+  }, [initHoverVectorLayer, map]);
 
   useEffect(() => {
 
@@ -134,7 +150,7 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
     clearHoverLayerSource();
     hoverVectorSource.addFeatures(hoverFeatures);
     setMenuHidden(_isEmpty(features));
-  }, [features]);
+  }, [features, maxMenuItems]);
 
   /**
    * Style function for hover vector layer.
@@ -166,22 +182,6 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
         })
       })
     });
-  };
-
-  /**
-  * Initializes the vector layer that will be used to handle the hover
-  * features on the map.
-  */
-  const initHoverVectorLayer = (): void => {
-    if (!hoverVectorLayer) {
-      const layer = new OlLayerVector({
-        source: new OlSourceVector(),
-        style: hoverStyleFunction
-      });
-      layer.set('name', 'hoverVectorLayer');
-      hoverVectorLayer = layer;
-      map.addLayer(hoverVectorLayer);
-    }
   };
 
   /**

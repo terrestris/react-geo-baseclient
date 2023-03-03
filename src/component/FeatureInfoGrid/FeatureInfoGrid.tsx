@@ -88,11 +88,22 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
   }, [features]);
 
   useEffect(() => {
+    /**
+     * Updates hover vector layer with currently shown feature in grid.
+     *
+     * @param {OlFeature} newFeat Feature to update.
+     */
+    const updateVectorLayer = (newFeat: OlFeature<OlGeomGeometry>): void => {
+      const source = hoverVectorLayer.getSource();
+      // Reset style for all (previous selected) features cf. hoverStyleFunction
+      source.getFeatures().forEach((f: OlFeature) => f.set('selectedFeat', false));
+      // Set selected feature style
+      source.getFeatureById(newFeat.getId())?.set('selectedFeat', true);
+    };
     if (!isTimeLayer) {
       updateVectorLayer(selectedFeat);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedFeat]);
+  }, [selectedFeat, isTimeLayer, hoverVectorLayer]);
 
   useEffect(() => {
     if (downloadGridData) {
@@ -100,18 +111,6 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
     }
   }, [downloadGridData]);
 
-  /**
-   * Updates hover vector layer with currently shown feature in grid.
-   *
-   * @param {OlFeature} newFeat Feature to update.
-   */
-  const updateVectorLayer = (newFeat: OlFeature<OlGeomGeometry>): void => {
-    const source = hoverVectorLayer.getSource();
-    // Reset style for all (previous selected) features cf. hoverStyleFunction
-    source.getFeatures().forEach((f: OlFeature) => f.set('selectedFeat', false));
-    // Set selected feature style
-    source.getFeatureById(newFeat.getId())?.set('selectedFeat', true);
-  };
 
   /**
    * Updates feature grid on pagination change.
