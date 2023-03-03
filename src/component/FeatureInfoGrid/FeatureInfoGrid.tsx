@@ -88,7 +88,10 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
   }, [features]);
 
   useEffect(() => {
-    updateVectorLayer(selectedFeat);
+    if (!isTimeLayer) {
+      updateVectorLayer(selectedFeat);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFeat]);
 
   useEffect(() => {
@@ -104,12 +107,10 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
    */
   const updateVectorLayer = (newFeat: OlFeature<OlGeomGeometry>): void => {
     const source = hoverVectorLayer.getSource();
-    const oldRenderFeat: OlFeature<OlGeomGeometry> = source.getFeatures().find(
-      (f: OlFeature<OlGeomGeometry>) => f.get('selectedFeat') === true);
-    if (oldRenderFeat) {
-      source.removeFeature(oldRenderFeat);
-    }
-    source.addFeature(newFeat.clone());
+    // Reset style for all (previous selected) features cf. hoverStyleFunction
+    source.getFeatures().forEach((f: OlFeature) => f.set('selectedFeat', false));
+    // Set selected feature style
+    source.getFeatureById(newFeat.getId())?.set('selectedFeat', true);
   };
 
   /**
