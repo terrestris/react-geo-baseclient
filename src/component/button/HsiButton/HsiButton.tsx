@@ -222,7 +222,6 @@ export const HsiButton: React.FC<ComponentProps> = ({
     setPressed(toggled);
   };
 
-
   /**
  * Checks if a given layer is hoverable or not.
  *
