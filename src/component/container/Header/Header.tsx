@@ -10,7 +10,7 @@ import OlMap from 'ol/Map';
 import { toggleHelpModal } from '../../../state/appState';
 
 import './Header.css';
-import Multisearch from '../../../component/Multisearch/Multisearch';
+import Multisearch, { MultisearchProps } from '../../../component/Multisearch/Multisearch';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestion, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -42,6 +42,7 @@ interface HeaderProps extends Partial<DefaultHeaderProps> {
   i18n: any;
   t: (arg: string) => {};
   wfsSearchBaseUrl?: string;
+  nominatimProps: MultisearchProps['nominatimProps'];
 }
 
 interface HeaderState {

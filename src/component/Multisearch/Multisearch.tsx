@@ -12,7 +12,7 @@ import { getUid } from 'ol/util';
 import Logger from '@terrestris/base-util/dist/Logger';
 
 import WfsSearchInput from '@terrestris/react-geo/dist/Field/WfsSearchInput/WfsSearchInput';
-import NominatimSearch from '@terrestris/react-geo/dist/Field/NominatimSearch/NominatimSearch';
+import NominatimSearch, { NominatimSearchProps } from '@terrestris/react-geo/dist/Field/NominatimSearch/NominatimSearch';
 
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil';
 import PermalinkUtil from '@terrestris/ol-util/dist/PermalinkUtil/PermalinkUtil';
@@ -32,9 +32,10 @@ interface DefaultMultisearchProps {
   placeHolder: string;
 }
 
-interface MultisearchProps extends Partial<DefaultMultisearchProps> {
+export interface MultisearchProps extends Partial<DefaultMultisearchProps> {
   map: OlMap;
   wfsSearchBaseUrl?: string;
+  nominatimProps?: Partial<NominatimSearchProps>;
 }
 
 interface MultisearchState {
@@ -343,6 +344,7 @@ export default class Multisearch extends
    */
   render() {
     const {
+      nominatimProps,
       map,
       className,
       useNominatim,
@@ -380,6 +382,7 @@ export default class Multisearch extends
         </div>
         {useNominatim &&
           <NominatimSearch
+            {...nominatimProps}
             countryCodes={''}
             map={map}
             minChars={minChars}
