@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
@@ -9,6 +9,7 @@ import OlProjection from 'ol/proj/Projection';
 import OlFeature from 'ol/Feature';
 import OlMapBrowserEvent from 'ol/MapBrowserEvent';
 import OlGeometry from 'ol/geom/Geometry';
+import OlLayer from 'ol/layer/Layer';
 
 import { LayerType } from '../../../util/types';
 import { BaseClientState } from '../../../state/reducer';
@@ -85,39 +86,6 @@ export const HsiButton: React.FC<ComponentProps> = ({
 
   const [pressed, setPressed] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (pressed) {
-      if (getInfoByClick) {
-        map.on('click', getInfo);
-      } else {
-        // @ts-ignore
-        map.on('pointerrest', getInfo);
-      }
-      if (onToggleCb) {
-        onToggleCb();
-      }
-      // remove possible hover artifacts
-      dispatch(clearFeatures('HOVER'));
-    }
-    return () => {
-      if (getInfoByClick) {
-        map.un('click', getInfo);
-      } else {
-        // @ts-ignore
-        map.un('pointerrest', getInfo);
-      }
-      // remove possible hover artifacts
-      dispatch(clearFeatures('HOVER'));
-    };
-  }, [pressed]);
-
-  /**
-   * Manage toggled state.
-   */
-  const onHsiToggle = (toggled: boolean) => {
-    setPressed(toggled);
-  };
-
   /**
    * Calls a GFI request to all hoverable (or the uppermost only, if `drillDown`
    * is set to false property) layer(s).
@@ -125,7 +93,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
    * @param {ol.MapEvent} olEvt The `pointerrest` event.
    */
   // TODO Add type for pointerrest
-  const getInfo = (olEvt: OlMapBrowserEvent<any>) => {
+  const getInfo = useCallback((olEvt: OlMapBrowserEvent<any>) => {
     const mapView: OlView = map.getView();
     const viewResolution: number = mapView.getResolution();
     const viewProjection: OlProjection = mapView.getProjection();
@@ -144,7 +112,7 @@ export const HsiButton: React.FC<ComponentProps> = ({
     const mapLayers =
       map.getAllLayers()
         .filter(layerFilter);
-    mapLayers.forEach(layer => {
+    mapLayers.forEach((layer: OlLayer) => {
       const layerSource = (layer as WmsLayer).getSource();
       if (!layerSource) {
         return;
@@ -219,6 +187,39 @@ export const HsiButton: React.FC<ComponentProps> = ({
       'HOVER', featureInfoUrls,
       { olEvt, internalVectorFeatures }
     ));
+  }, [dataRange.endDate, dataRange.startDate, dispatch, drillDown, featureCount, getInfoByClick, map]);
+
+  useEffect(() => {
+    if (pressed) {
+      if (getInfoByClick) {
+        map.on('click', getInfo);
+      } else {
+        // @ts-ignore
+        map.on('pointerrest', getInfo);
+      }
+      if (onToggleCb) {
+        onToggleCb();
+      }
+      // remove possible hover artifacts
+      dispatch(clearFeatures('HOVER'));
+    }
+    return () => {
+      if (getInfoByClick) {
+        map.un('click', getInfo);
+      } else {
+        // @ts-ignore
+        map.un('pointerrest', getInfo);
+      }
+      // remove possible hover artifacts
+      dispatch(clearFeatures('HOVER'));
+    };
+  }, [dispatch, getInfo, getInfoByClick, map, onToggleCb, pressed]);
+
+  /**
+   * Manage toggled state.
+   */
+  const onHsiToggle = (toggled: boolean) => {
+    setPressed(toggled);
   };
 
   /**

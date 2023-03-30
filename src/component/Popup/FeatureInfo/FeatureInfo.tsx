@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import OlMap from 'ol/Map';
 import OlOverlay from 'ol/Overlay';
 
@@ -133,6 +133,70 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
    */
   const featureInfoPopup: React.RefObject<HTMLDivElement> = React.createRef();
 
+  /**
+   * Creates the overlay that wraps the current component.
+   */
+  const createOverlay = useCallback(() => {
+    const overlay = new OlOverlay({
+      element: overlayElement,
+      offset,
+      positioning,
+      stopEvent,
+      insertFirst,
+      autoPan: {
+        animation: {
+          duration: autoPanAnimationDuration
+        },
+        margin: autoPanMargin
+      },
+    });
+
+    // If the pointer is over the popup, no pointermove should be fired.
+    // Onpointerdown covers the mobile mode event propagation.
+    if (overlayElement) {
+      overlayElement.onpointermove = (evt: Event) => evt.stopPropagation();
+      overlayElement.onpointerdown = (evt: Event) => evt.stopPropagation();
+    }
+
+    featureInfoOverlay = overlay;
+    map.addOverlay(featureInfoOverlay);
+  }, [autoPanAnimationDuration, autoPanMargin, insertFirst, map, offset, positioning, stopEvent]);
+
+  /**
+   * Hides the overlay.
+   */
+  const onMapClick = useCallback(() => {
+    setOverlayPosition(undefined);
+  }, []);
+
+  /**
+  * Updates the position of the popup as soon as the child elements are ready
+  * (ready = child elements are ready and their height is known).
+  */
+  const updatePopupPosition = useCallback(() => {
+    // Only proceed if the helper element (see #mountOverlayHelperElement) and
+    // the feature-info-popup element are available.
+    if (overlayHelperElement && overlayElement) {
+      // Empty the helper element, but normally it should be empty anyways.
+      while (overlayHelperElement.firstChild) {
+        overlayHelperElement.removeChild(overlayHelperElement.firstChild);
+      }
+      // Create a clone of the feature-info-popup element to prevent any side
+      // effects with react or the ol overlay.
+      const overlayElementClone: HTMLElement = overlayElement.cloneNode(true) as HTMLElement;
+      // Append the cloned element to the helper elemend, this way it will be
+      // mounted and size attributes are available.
+      const mount: HTMLElement = overlayHelperElement.appendChild(overlayElementClone);
+      // We assume, taht as soon as the element has a `clientHeight` set, it
+      // is ready and the overlay position can be updated (safely).
+      if (mount.clientHeight) {
+        setOverlayPosition(position);
+      }
+      // Remove the cloned element every time, even if it's not fully rendered.
+      overlayHelperElement.removeChild(overlayHelperElement.firstChild);
+    }
+  }, [position]);
+
   useEffect(() => {
     mountOverlayHelperElement();
     setOverlayElement(featureInfoPopup.current);
@@ -144,7 +208,23 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
       unmountOverlayHelperElement();
 
     };
-  }, []);
+  }, [createOverlay, featureInfoPopup, map, onMapClick, updatePopupPosition]);
+
+  /**
+   * Calculates the positioning of the overlay relative to the olEvt position
+   * inside the map.
+   *
+   * @param {Number[]} pos The click coordinate.
+   * @return {String} positioning
+   */
+  const getAutoPositioning = useCallback((pos: [number, number]): any => {
+    const mapSize = map.getSize();
+    const horizontalPositioning = (mapSize[1] / 2) < pos[1] ? 'bottom' : 'top';
+    const verticalPositioning = (mapSize[0] / 2) < pos[0] ? 'right' : 'left';
+    const autoPositioning = `${horizontalPositioning}-${verticalPositioning}`;
+
+    return autoPositioning;
+  }, [map]);
 
   useEffect(() => {
     if (!featureInfoOverlay) {
@@ -156,29 +236,13 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
       const optFit = getAutoPositioning(position as [number, number]);
       featureInfoOverlay.setPositioning(optFit);
     }
-  }, [position, positioning]);
+  }, [position, positioning, getAutoPositioning]);
 
   useEffect(() => {
     if (map && map.getTargetElement()) {
       map.getTargetElement().style.cursor = isLoading ? 'progress' : '';
     }
   }, [map, isLoading]);
-
-  /**
- * Calculates the positioning of the overlay relative to the olEvt position
- * inside the map.
- *
- * @param {Number[]} pos The click coordinate.
- * @return {String} positioning
- */
-  const getAutoPositioning = (pos: [number, number]): any => {
-    const mapSize = map.getSize();
-    const horizontalPositioning = (mapSize[1] / 2) < pos[1] ? 'bottom' : 'top';
-    const verticalPositioning = (mapSize[0] / 2) < pos[0] ? 'right' : 'left';
-    const autoPositioning = `${horizontalPositioning}-${verticalPositioning}`;
-
-    return autoPositioning;
-  };
 
   /**
    * Mounts a invisible, non-disruptive element inside the body of the
@@ -215,42 +279,6 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
   };
 
   /**
-   * Creates the overlay that wraps the current component.
-   */
-  const createOverlay = (): void => {
-    const overlay = new OlOverlay({
-      element: overlayElement,
-      offset,
-      positioning,
-      stopEvent,
-      insertFirst,
-      autoPan: {
-        animation: {
-          duration: autoPanAnimationDuration
-        },
-        margin: autoPanMargin
-      },
-    });
-
-    // If the pointer is over the popup, no pointermove should be fired.
-    // Onpointerdown covers the mobile mode event propagation.
-    if (overlayElement) {
-      overlayElement.onpointermove = (evt: Event) => evt.stopPropagation();
-      overlayElement.onpointerdown = (evt: Event) => evt.stopPropagation();
-    }
-
-    featureInfoOverlay = overlay;
-    map.addOverlay(featureInfoOverlay);
-  };
-
-  /**
-   * Hides the overlay.
-   */
-  const onMapClick = () => {
-    setOverlayPosition(undefined);
-  };
-
-  /**
    * Sets the position of the overlay (if any).
    *
    * @param {Array} pos The position to set.
@@ -268,34 +296,6 @@ export const FeatureInfo: React.FC<ComponentProps> = ({
   */
   const setOverlayElement = (element: HTMLElement) => {
     overlayElement = element;
-  };
-
-  /**
-  * Updates the position of the popup as soon as the child elements are ready
-  * (ready = child elements are ready and their height is known).
-  */
-  const updatePopupPosition = (): void => {
-    // Only proceed if the helper element (see #mountOverlayHelperElement) and
-    // the feature-info-popup element are available.
-    if (overlayHelperElement && overlayElement) {
-      // Empty the helper element, but normally it should be empty anyways.
-      while (overlayHelperElement.firstChild) {
-        overlayHelperElement.removeChild(overlayHelperElement.firstChild);
-      }
-      // Create a clone of the feature-info-popup element to prevent any side
-      // effects with react or the ol overlay.
-      const overlayElementClone: HTMLElement = overlayElement.cloneNode(true) as HTMLElement;
-      // Append the cloned element to the helper elemend, this way it will be
-      // mounted and size attributes are available.
-      const mount: HTMLElement = overlayHelperElement.appendChild(overlayElementClone);
-      // We assume, taht as soon as the element has a `clientHeight` set, it
-      // is ready and the overlay position can be updated (safely).
-      if (mount.clientHeight) {
-        setOverlayPosition(position);
-      }
-      // Remove the cloned element every time, even if it's not fully rendered.
-      overlayHelperElement.removeChild(overlayHelperElement.firstChild);
-    }
   };
 
   return (
