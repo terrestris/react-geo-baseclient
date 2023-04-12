@@ -109,7 +109,9 @@ export const FeatureInfoGrid: React.FC<ComponentProps> = ({
     // Reset style for all (previous selected) features cf. hoverStyleFunction
     source.getFeatures().forEach((f: OlFeature) => f.set('selectedFeat', false));
     // Set selected feature style
-    source.getFeatureById(newFeat.getId())?.set('selectedFeat', true);
+    if (newFeat && newFeat.getId()) {
+      source.getFeatureById(newFeat.getId())?.set('selectedFeat', true);
+    }
   };
 
   /**
