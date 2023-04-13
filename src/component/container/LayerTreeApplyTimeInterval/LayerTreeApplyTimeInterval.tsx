@@ -66,43 +66,40 @@ export class LayerTreeApplyTimeInterval extends React.Component<
   }
 
   /**
-   * Parses the time interval out of the layer description field
-   * @param layer
+   * Parses time information out of layer description field.
+   * Dispatches startDate, endDate and time timeDimension.
+   * @param {OlLayerBase} layer The layer containing the time information
    */
   setTimeIntervalToTimeLine(layer: OlLayerBase) {
     const { dispatch } = this.props;
     const layerTimeDimension = layer.get('timeDimension') || undefined;
-    let timeDimension: string[] = [];
-    if (layerTimeDimension) {
-      timeDimension = layerTimeDimension.match(
-        new RegExp(/([^\s]*)[/]([^\s]*)[/]([^\s]*)/)
-      );
 
-      // check if timeDimension may be a list
-      if (!timeDimension) {
-        timeDimension = [];
-        const dimensionListText = layerTimeDimension.match(
-          new RegExp(/([^\s]*[,])([^\s]*)/)
-        );
-
-        if (dimensionListText) {
-          const dimensionList = dimensionListText[0].split(',');
-
-          timeDimension[1] = dimensionList[0];
-          timeDimension[2] = dimensionList.slice(-1)[0];
-          timeDimension[3] = dimensionList;
-        }
-      }
-
-      // dispatch start and end date only if values are set via interval or list
-      if (timeDimension && timeDimension.length >= 2) {
-        dispatch(setStartDate(moment(timeDimension[1])));
-        dispatch(setEndDate(moment(timeDimension[2])));
-        dispatch(setTimeInterval(timeDimension[3]));
-
-        dispatch(setSelectedTimeLayer(layer));
-      }
+    if (!layerTimeDimension) {
+      return;
     }
+
+    let timeDimension: string[] = [];
+
+    if (layerTimeDimension.indexOf('/P') > -1) {
+      // Case: Time dimension is a range
+      timeDimension = layerTimeDimension.split('/');
+
+      dispatch(setStartDate(moment(timeDimension[0])));
+      dispatch(setEndDate(moment(timeDimension[1])));
+      dispatch(setTimeInterval(timeDimension[2]));
+    }
+    else {
+      // Case: Time dimension is a list
+      const dimensionList = layerTimeDimension.split(',');
+      timeDimension[0] = dimensionList[0];
+      timeDimension[1] = dimensionList.slice(-1)[0];
+      timeDimension[2] = dimensionList;
+
+      dispatch(setStartDate(moment(timeDimension[0])));
+      dispatch(setEndDate(moment(timeDimension[1])));
+      dispatch(setTimeInterval(timeDimension[2]));
+    }
+    dispatch(setSelectedTimeLayer(layer));
   }
 
   /**
