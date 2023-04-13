@@ -66,7 +66,7 @@ export class LayerTreeApplyTimeInterval extends React.Component<
   }
 
   /**
-   * Parses time information out of layer description field.
+   * Parses time dimension information from layer description field.
    * Dispatches startDate, endDate and time timeDimension.
    * @param {OlLayerBase} layer The layer containing the time information
    */
