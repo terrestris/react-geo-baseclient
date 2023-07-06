@@ -196,7 +196,9 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
         projection = getProjection('EPSG:3857');
       };
 
-      if (layer.source.tileGrid.origin && layer.source.tileGrid.resolutions && layer.source.tileGrid.matrixIds) {
+      if (layer.source.tileGrid.origin &&
+        layer.source.tileGrid.resolutions &&
+        layer.source.tileGrid.matrixIds) {
         wmtsTileGrid = new OlTileGridWMTS({
           origin: layer.source.tileGrid.origin,
           resolutions: layer.source.tileGrid.resolutions,
