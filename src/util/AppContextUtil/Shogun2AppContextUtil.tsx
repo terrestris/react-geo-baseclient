@@ -10,7 +10,7 @@ import OlTileGrid from 'ol/tilegrid/TileGrid';
 import OlLayer from 'ol/layer/Base';
 import OlLayerGroup from 'ol/layer/Group';
 import {get as getProjection, transformExtent, transform} from 'ol/proj';
-import { getWidth } from 'ol/extent';
+import { getTopLeft, getWidth } from 'ol/extent';
 
 import * as moment from 'moment';
 
@@ -186,23 +186,60 @@ class Shogun2AppContextUtil extends BaseAppContextUtil implements AppContextUtil
         legendUrl
       } = layer.appearance;
 
-      const wmtsTileGrid = new OlTileGridWMTS({
-        origin: layer.source.tileGrid.origin,
-        resolutions: layer.source.tileGrid.resolutions,
-        matrixIds: layer.source.tileGrid.matrixIds
-      });
+      let projection;
+      let wmtsTileGrid;
+      let style;
+
+      if (layer.source.projection) {
+        projection = layer.source.projection;
+      } else {
+        projection = getProjection('EPSG:3857');
+      };
+
+      if (layer.source.tileGrid.origin &&
+        layer.source.tileGrid.resolutions &&
+        layer.source.tileGrid.matrixIds) {
+        wmtsTileGrid = new OlTileGridWMTS({
+          origin: layer.source.tileGrid.origin,
+          resolutions: layer.source.tileGrid.resolutions,
+          matrixIds: layer.source.tileGrid.matrixIds
+        });
+      } else {
+
+        const projectionExtent = projection.getExtent();
+        const size = getWidth(projectionExtent) / 256;
+        const resolutions = new Array(19);
+        const matrixIds = new Array(19);
+        for (let z = 0; z < 19; ++z) {
+          resolutions[z] = size / Math.pow(2, z);
+          matrixIds[z] = z;
+        }
+
+        wmtsTileGrid = new OlTileGridWMTS({
+          origin: getTopLeft(projectionExtent),
+          resolutions: resolutions,
+          matrixIds: matrixIds,
+        });
+      };
+
+      if (layer.source.style) {
+        style = layer.source.style;
+      } else {
+        style = 'default';
+      }
 
       const wmtsSource = new OlSourceWMTS({
-        projection: layer.source.projection,
         urls: [
           layer.source.url
         ],
         layer: layer.source.layerNames,
         format: layer.source.format,
-        matrixSet: layer.source.tileMatrixSet,
         attributions: [attribution],
+        matrixSet: layer.source.matrixSet,
+        projection: projection,
         tileGrid: wmtsTileGrid,
-        style: layer.source.style,
+        style: style,
+        wrapX: true,
         requestEncoding: layer.source.requestEncoding
       });
 
