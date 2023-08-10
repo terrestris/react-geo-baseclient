@@ -30,6 +30,7 @@ interface DefaultHeaderProps {
   showLanguageSelection: boolean;
   showMultiSearch: boolean;
   showNominatimSearch: boolean;
+  showResultsOnMap: boolean;
   showUserChip: boolean;
   userChipHandler: () => void;
   userName: string;
@@ -64,6 +65,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     showLanguageSelection: true,
     showMultiSearch: true,
     showNominatimSearch: true,
+    showResultsOnMap: false,
     showUserChip: false,
     userChipHandler: undefined,
     userName: undefined
@@ -112,6 +114,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       showLanguageSelection,
       showMultiSearch,
       showNominatimSearch,
+      showResultsOnMap,
       showUserChip,
       userChipHandler,
       userName,
@@ -151,6 +154,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             wfsSearchBaseUrl={wfsSearchBaseUrl}
             nominatimSearchTitle={t('Multisearch.nominatimSearchTitle') as string}
             placeHolder={t('Multisearch.placeHolder') as string}
+            showResultsOnMap={showResultsOnMap}
           />
         }
         <span className="app-title">{titleString}</span>

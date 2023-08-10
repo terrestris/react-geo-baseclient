@@ -6,7 +6,13 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { transformExtent } from 'ol/proj';
 import OlFormatGeoJSON from 'ol/format/GeoJSON';
 import OlLayer from 'ol/layer/Base';
+import OlSourceVector from 'ol/source/Vector';
+import OlLayerVector from 'ol/layer/Vector';
 import OlMap from 'ol/Map';
+import OlStyle from 'ol/style/Style';
+import OlStyleFill from 'ol/style/Fill';
+import OlStyleStroke from 'ol/style/Stroke';
+import OlStyleCircle from 'ol/style/Circle';
 import { getUid } from 'ol/util';
 
 import Logger from '@terrestris/base-util/dist/Logger';
@@ -21,6 +27,7 @@ import CsrfUtil from '@terrestris/base-util/dist/CsrfUtil/CsrfUtil';
 
 import './Multisearch.css';
 import { Extent } from 'ol/extent';
+import { isEqual } from 'lodash';
 
 // default props
 interface DefaultMultisearchProps {
@@ -30,6 +37,9 @@ interface DefaultMultisearchProps {
   minChars: number;
   nominatimSearchTitle: string;
   placeHolder: string;
+  showResultsOnMap?: boolean;
+  resultstyle?: OlStyle;
+  hoverstyle?: OlStyle;
 }
 
 interface MultisearchProps extends Partial<DefaultMultisearchProps> {
@@ -66,7 +76,46 @@ export default class Multisearch extends
     useWfs: true,
     minChars: 3,
     nominatimSearchTitle: 'Nominatim',
-    placeHolder: 'search location or data'
+    placeHolder: 'search location or data',
+    showResultsOnMap: false,
+    resultstyle: new OlStyle({
+      fill: new OlStyleFill({
+        color: 'rgba(255,255,255,0.5)'
+      }),
+      stroke: new OlStyleStroke({
+        color: 'blue',
+        width: 4
+      }),
+      image: new OlStyleCircle({
+        radius: 10,
+        fill: new OlStyleFill({
+          color: 'blue'
+        }),
+        stroke: new OlStyleStroke({
+          color: 'black',
+          width: 3
+        })
+      })
+    }),
+    hoverstyle: new OlStyle({
+      fill: new OlStyleFill({
+        color: 'rgba(255,255,255,0.5)'
+      }),
+      stroke: new OlStyleStroke({
+        color: 'red',
+        width: 7
+      }),
+      image: new OlStyleCircle({
+        radius: 10,
+        fill: new OlStyleFill({
+          color: 'red'
+        }),
+        stroke: new OlStyleStroke({
+          color: 'black',
+          width: 5
+        })
+      })
+    })
   };
 
   /**
@@ -90,9 +139,17 @@ export default class Multisearch extends
       if (conf) {
         searchConfig[conf.featureTypeName] = conf;
         searchAttributes[conf.featureTypeName] = conf.attributes;
+        // searchAttributes[conf.featureTypeName] = {};
+        // conf.attributes.forEach((attr: string) => {
+        //   searchAttributes[conf.featureTypeName][attr] = {
+        //     matchCase: false,
+        //     type: 'text',
+        //     exactSearch: false
+        //   };
+        // });
+        // searchAttributes[conf.featureTypeName]['the_geom'] = {};
       }
     });
-
     this.state = {
       searchTerm: '',
       wfsResults: [],
@@ -106,6 +163,92 @@ export default class Multisearch extends
       wfsSearchPending: false,
       nominatimSearchPending: false
     };
+  }
+
+  componentDidUpdate(prevProps: any, prevState: any) {
+    if (!isEqual(this.state.wfsFeatures, prevState.wfsFeatures)) {
+      this.removeHoverFeatures();
+      if (this.props.showResultsOnMap) {
+        this.showSearchResultsOnMap();
+      }
+    }
+  }
+
+  removeHoverFeatures() {
+    let layer = MapUtil.getLayersByProperty(
+      this.props.map, 'name', 'multisearchhoverresults')[0] as OlLayerVector<OlSourceVector>;
+    if (layer) {
+      layer.getSource().clear();
+    }
+  }
+
+  showSearchResultsOnMap() {
+    const {
+      map,
+      resultstyle
+    } = this.props;
+    const {
+      wfsFeatures
+    } = this.state;
+    let layer = MapUtil.getLayersByProperty(
+      map, 'name', 'multisearchresults')[0] as OlLayerVector<OlSourceVector>;
+    if (!layer) {
+      layer = new OlLayerVector({
+        source: new OlSourceVector(),
+        style: resultstyle
+      });
+      layer.set('name', 'multisearchresults');
+      map.addLayer(layer);
+    }
+    const source = layer.getSource();
+    source.clear();
+    const geoJsonFormat = new OlFormatGeoJSON();
+    const olFeatures = geoJsonFormat.readFeatures({
+      type: 'FeatureCollection',
+      features: wfsFeatures},
+    {
+      dataProjection: 'EPSG:3857',
+      featureProjection: map.getView().getProjection()
+    });
+    source.addFeatures(olFeatures);
+  }
+
+  hoverFeature(evt: any) {
+    const {
+      map,
+      hoverstyle
+    } = this.props;
+    const {
+      wfsFeatures
+    } = this.state;
+
+    const feature = wfsFeatures.find(
+      el => el.id === evt.target.getAttribute('wfsfeatureid'));
+
+    if (!feature) {
+      return;
+    }
+
+    let layer = MapUtil.getLayersByProperty(
+      map, 'name', 'multisearchhoverresults')[0] as OlLayerVector<OlSourceVector>;
+    if (!layer) {
+      layer = new OlLayerVector({
+        source: new OlSourceVector(),
+        style: hoverstyle
+      });
+      layer.set('name', 'multisearchhoverresults');
+      map.addLayer(layer);
+    }
+    const source = layer.getSource();
+    source.clear();
+    const geoJsonFormat = new OlFormatGeoJSON();
+    const olFeature = geoJsonFormat.readFeature(
+      feature,
+      {
+        dataProjection: 'EPSG:3857',
+        featureProjection: map.getView().getProjection()
+      });
+    source.addFeature(olFeature);
   }
 
   renderTitle(title: string, count: number) {
@@ -125,6 +268,7 @@ export default class Multisearch extends
       key: Math.random(),
       nominatimfeatureid: nominatimFeature ? nominatimFeature.osm_id : null,
       wfsfeatureid: wfsFeature ? wfsFeature.id : null,
+      onMouseEnter: this.hoverFeature.bind(this),
       label: (
         <div className='multi-search-result-entry'>
           {title}
